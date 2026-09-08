@@ -1,0 +1,102 @@
+export type PhotoId =
+  | "crew"
+  | "naming"
+  | "london"
+  | "watts"
+  | "gazette"
+  | "birth"
+  | "wallet"
+  | "jacket"
+  | "patch"
+  | "nose"
+  | "hamburg"
+  | "chart7"
+  | "form5"
+  | "letter"
+  | "snorter"
+  | "ticket"
+  | "quals"
+  | "airfield"
+  | "shop"
+  | "biro"
+  | "brown"
+  | "barnes"
+  | "titus"
+  | "bogacki"
+  | "crew2"
+  | "will"
+  | "brothers"
+  | "jimmy"
+  | "pair"
+  | "joyce";
+
+export type Block =
+  | { type: "p"; text: string }
+  | { type: "quote"; text: string; cite?: string }
+  | { type: "note"; text: string }
+  | { type: "artifact"; title: string; body: string }
+  | { type: "figure"; id: PhotoId; caption?: string };
+
+export type Section = {
+  id: string;
+  title: string;
+  place?: string;
+  blocks: Block[];
+};
+
+export type Chapter = {
+  number: number;
+  slug: string;
+  title: string;
+  kicker: string;
+  years: string;
+  image: string;
+  imageAlt: string;
+  imagePosition?: "top" | "center";
+  dek: string;
+  sections: Section[];
+};
+
+export type MissionKind = "combat" | "humanitarian";
+
+export type Mission = {
+  number: number;
+  date: string;
+  dateLabel: string;
+  target: string;
+  kind: MissionKind;
+  aircraft: string;
+  notes: string;
+  clipping?: string;
+};
+
+export type CrewMember = {
+  id: string;
+  name: string;
+  role: string;
+  hometown: string;
+  wartime: string;
+  after: string;
+  photo?: PhotoId;
+};
+
+export type TimelineEvent = {
+  id: string;
+  date: string;
+  year: number;
+  title: string;
+  body: string;
+  href?: string;
+  era: "before" | "training" | "combat" | "after";
+};
+
+export type CountQuestion = {
+  figure: string;
+  label: string;
+  body: string;
+};
+
+export type OpenQuestion = {
+  title: string;
+  body: string;
+};
