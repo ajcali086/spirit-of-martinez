@@ -6,6 +6,7 @@ import { PhotoPlate } from "@/components/PhotoPlate";
 import { chapters } from "@/data/chapters";
 import { crew } from "@/data/crew";
 import { missions } from "@/data/missions";
+import { timelineEras } from "@/data/timeline";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({ component: Home });
@@ -71,6 +72,46 @@ function Home() {
               </p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section aria-labelledby="era-rail-heading" className="border-b border-rule">
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14">
+          <div className="flex items-baseline justify-between gap-4">
+            <p id="era-rail-heading" className="kicker">
+              1902–1959
+            </p>
+            <Link
+              to="/timeline"
+              className="min-h-11 inline-flex items-center text-[0.72rem] tracking-[0.16em] text-brass uppercase"
+            >
+              Full chronology
+            </Link>
+          </div>
+          <ol className="mt-8 grid gap-px border-t border-rule bg-rule sm:grid-cols-2 lg:grid-cols-4">
+            {timelineEras.map((era) => (
+              <li key={era.id} className="bg-ink">
+                <Link
+                  to="/timeline"
+                  hash={era.id}
+                  className="group flex min-h-28 flex-col px-4 py-6 transition-colors hover:bg-ink-soft sm:min-h-32 sm:px-5"
+                >
+                  <span className="flex items-center gap-2">
+                    <span className="size-2 rounded-full bg-brass" aria-hidden />
+                    <span className="text-[0.68rem] tracking-[0.18em] text-brass uppercase">
+                      {era.label}
+                    </span>
+                  </span>
+                  <span className="mt-3 font-display text-2xl leading-none text-paper group-hover:text-brass">
+                    {era.span}
+                  </span>
+                  <span className="mt-3 text-sm leading-relaxed text-muted">
+                    {era.line}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 

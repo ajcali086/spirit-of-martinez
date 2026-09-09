@@ -1,5 +1,32 @@
 import type { TimelineEvent } from "./types";
 
+export const timelineEras = [
+  {
+    id: "before",
+    label: "Before the war",
+    span: "1902–1941",
+    line: "Mellus Street, the strip, a coast that stayed grounded.",
+  },
+  {
+    id: "training",
+    label: "Training",
+    span: "1942–1944",
+    line: "Cadets, a cartoon woodpecker, a son he had not yet seen.",
+  },
+  {
+    id: "combat",
+    label: "Combat",
+    span: "1945",
+    line: "Chemnitz to Oranienburg, then Utrecht with flour.",
+  },
+  {
+    id: "after",
+    label: "What came back",
+    span: "1945–1959",
+    line: "They towed the ship away. The claim came back denied.",
+  },
+] as const;
+
 export const timeline: TimelineEvent[] = [
   {
     id: "ellis",

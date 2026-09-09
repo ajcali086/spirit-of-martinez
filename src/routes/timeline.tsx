@@ -1,18 +1,20 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { useLayoutEffect } from "react";
+import { createFileRoute, Link, useRouterState } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
-import { timeline } from "@/data/timeline";
+import { timeline, timelineEras } from "@/data/timeline";
 
 export const Route = createFileRoute("/timeline")({ component: TimelinePage });
 
-const eras = [
-  { id: "before", label: "Before the war" },
-  { id: "training", label: "Training" },
-  { id: "combat", label: "Combat" },
-  { id: "after", label: "What came back" },
-] as const;
-
 function TimelinePage() {
+  const hash = useRouterState({ select: (s) => s.location.hash });
+
+  useLayoutEffect(() => {
+    const id = hash.replace(/^#/, "");
+    if (!id) return;
+    document.getElementById(id)?.scrollIntoView({ block: "start" });
+  }, [hash]);
+
   return (
     <SiteShell>
       <PageHero
@@ -24,10 +26,10 @@ function TimelinePage() {
         compact
       />
       <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
-        {eras.map((era) => {
+        {timelineEras.map((era) => {
           const events = timeline.filter((e) => e.era === era.id);
           return (
-            <section key={era.id} className="mb-14">
+            <section key={era.id} id={era.id} className="mb-14 scroll-mt-24">
               <h2 className="kicker mb-6">{era.label}</h2>
               <ol className="relative border-l border-rule pl-6 sm:pl-8">
                 {events.map((ev) => (
