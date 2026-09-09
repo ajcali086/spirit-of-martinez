@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
 import { PhotoPlate } from "@/components/PhotoPlate";
-import { bgdbPersonUrl, crew } from "@/data/crew";
+import { CrewRecords } from "@/components/CrewRecords";
+import { crew } from "@/data/crew";
 import { BGDB_CREW_URL } from "@/data/missions";
 
 export const Route = createFileRoute("/crew/")({ component: CrewPage });
@@ -34,7 +35,7 @@ function CrewPage() {
           >
             F.J. Calicura, 31
           </a>
-          .
+          . Where a later notice is on the open web, it sits under his name.
         </p>
         {crew.map((m, i) => (
           <article
@@ -59,14 +60,7 @@ function CrewPage() {
             {m.photo ? <PhotoPlate id={m.photo} className="mt-6 mb-0" /> : null}
             <p className="mt-5 font-display text-lg leading-relaxed text-fog">{m.wartime}</p>
             <p className="mt-4 text-sm leading-relaxed text-muted">{m.after}</p>
-            <a
-              href={bgdbPersonUrl(m.person)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-3 inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
-            >
-              95th BG database
-            </a>
+            <CrewRecords member={m} compact />
           </article>
         ))}
       </div>

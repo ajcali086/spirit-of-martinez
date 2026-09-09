@@ -2,7 +2,8 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PhotoPlate } from "@/components/PhotoPlate";
-import { adjacentCrew, bgdbPersonUrl, crewById } from "@/data/crew";
+import { CrewRecords } from "@/components/CrewRecords";
+import { adjacentCrew, crewById } from "@/data/crew";
 
 export const Route = createFileRoute("/crew/$id")({
   component: CrewMemberPage,
@@ -59,14 +60,7 @@ function CrewMemberPage() {
             {member.wartime}
           </p>
           <p className="mt-5 text-sm leading-relaxed text-muted">{member.after}</p>
-          <a
-            href={bgdbPersonUrl(member.person)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
-          >
-            95th BG database
-          </a>
+          <CrewRecords member={member} />
 
           <section className="mt-12 border-t border-rule pt-8">
             <h2 className="font-sans text-[0.68rem] tracking-[0.22em] text-brass uppercase">

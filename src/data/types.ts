@@ -88,6 +88,12 @@ export type Mission = {
   eighthSlug?: string;
 };
 
+export type RecordLink = {
+  href: string;
+  label: string;
+  note: string;
+};
+
 export type CrewMember = {
   id: string;
   name: string;
@@ -98,6 +104,8 @@ export type CrewMember = {
   photo?: PhotoId;
   /** 95th Bomb Group database person id. Modern compilation, not a paper issued at Horham. */
   person: number;
+  /** Later notices and other public records, distinct from the group database. */
+  records?: RecordLink[];
 };
 
 export type TimelineEvent = {

@@ -64,7 +64,7 @@ export const sourceClasses: SourceClass[] = [
       },
       {
         type: "p",
-        text: "The same archive holds a person page for John R. Barnes that identifies him as navigator of the Spirit of Martinez. It is a modern compilation, not a paper issued at Horham. The biography on that page was supplied in part by his son.",
+        text: "The same archive holds a person page for John R. Barnes at americanarchive.iwm.org.uk/archive/person/john-r-barnes — the other copy is americanairmuseum.com/person/127516 — that identifies him as navigator of the Spirit of Martinez. It is a modern compilation, not a paper issued at Horham. The biography on that page was supplied in part by his son.",
       },
       {
         type: "p",
@@ -90,7 +90,7 @@ export const sourceClasses: SourceClass[] = [
       },
       {
         type: "p",
-        text: "Later obituaries are a different thing from the wartime clippings. Marvin L. Markus’s 2015 notice in the Bartlesville Examiner-Enterprise, and Emily “Lu” Bogacki’s in 2020, are what those families told a paper after the men were gone. They are cited as such.",
+        text: "Later obituaries are a different thing from the wartime clippings. Marvin L. Markus’s 2015 notice in the Bartlesville Examiner-Enterprise is kept at okcemeteries.net/kingfisher/kingfisher/m/markusmlobit.htm, with a shorter funeral-home listing at stumpff.org. Emily “Lu” Bogacki’s 2020 notice is at wkbn.com/my-valley-tributes/emily-lu-bogacki-greenville-pa/. They are what those families told a paper after the men were gone. They are cited as such.",
       },
     ],
   },

@@ -1,7 +1,18 @@
-import type { CrewMember } from "./types";
+import type { CrewMember, RecordLink } from "./types";
 
 export function bgdbPersonUrl(id: number) {
   return `https://95thbgdb.com/person/${id}`;
+}
+
+export function crewRecordLinks(member: CrewMember): RecordLink[] {
+  return [
+    {
+      href: bgdbPersonUrl(member.person),
+      label: "95th BG database",
+      note: "Modern compilation of the group’s crew record. Not a paper issued at Horham.",
+    },
+    ...(member.records ?? []),
+  ];
 }
 
 export const crew: CrewMember[] = [
@@ -38,6 +49,18 @@ export const crew: CrewMember[] = [
     after:
       "Earned a doctorate at Penn State. Spent much of his career as Director of Pathology at DuPont’s Haskell Laboratory, retiring in 1982. Died 2 June 2011 in Wellsboro, Pennsylvania, age eighty-nine.",
     photo: "barnes",
+    records: [
+      {
+        href: "https://americanarchive.iwm.org.uk/archive/person/john-r-barnes",
+        label: "IWM American Archive",
+        note: "Identifies him as navigator of the Spirit of Martinez. Drawn from the National Museum of the Mighty Eighth Air Force. A modern compilation, not a paper issued at Horham. The biography was supplied in part by his son.",
+      },
+      {
+        href: "https://americanairmuseum.com/person/127516",
+        label: "American Air Museum",
+        note: "The other copy of that same entry.",
+      },
+    ],
   },
   {
     id: "markus",
@@ -50,6 +73,18 @@ export const crew: CrewMember[] = [
     after:
       "Married Dorothy Ellen O’Niel in July 1945 — sixty-nine years. Built an automotive-electric business across several towns and retired in 2003. His 2015 obituary remembered his war in a single number: twenty-eight full bombing runs. Died 30 March 2015, age eighty-nine, and was buried at Kingfisher County Memorial Cemetery with full military rites.",
     photo: "pair",
+    records: [
+      {
+        href: "https://okcemeteries.net/kingfisher/kingfisher/m/markusmlobit.htm",
+        label: "Bartlesville Examiner-Enterprise",
+        note: "The 2015 obituary, as reprinted. The source of the twenty-eight full bombing runs. What that family told a paper after he was gone.",
+      },
+      {
+        href: "https://www.stumpff.org/obituaries/Marvin-Markus-22556/",
+        label: "Stumpff Funeral Home",
+        note: "The funeral-home listing. Same death, a shorter notice.",
+      },
+    ],
   },
   {
     id: "bogacki",
@@ -62,6 +97,13 @@ export const crew: CrewMember[] = [
     after:
       "Stayed in uniform thirty-one years, rising to Chief Master Sergeant through Korea and Vietnam. Married Emily “Lu” McGrath on 3 May 1952. Died 14 February 2011 at ninety, buried with full military honors.",
     photo: "bogacki",
+    records: [
+      {
+        href: "https://www.wkbn.com/my-valley-tributes/emily-lu-bogacki-greenville-pa/",
+        label: "Emily “Lu” Bogacki",
+        note: "Her 2020 obituary. Names him, and the rank. Not his own page.",
+      },
+    ],
   },
   {
     id: "brown",
