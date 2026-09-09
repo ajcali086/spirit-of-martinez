@@ -44,6 +44,10 @@ export const artifacts = [
     body: "Treasure Island. Gas Model Hydroplane Meet. Outstanding junior citizen. Two signatures, one of them Leland W. Cutler’s.",
   },
   {
+    title: "Certificate of Promotion, 1935",
+    body: "Martinez Junior High to senior high, Alhambra Union High School District. Frank J. Calicura. Given at Martinez, June 21, 1935.",
+  },
+  {
     title: "Woody Woodpecker solo card",
     body: "19 October 1943, Canal Field, Ocala. Signed Ellis G. Ort. The Army let the occasion be what it was.",
   },
@@ -82,6 +86,14 @@ export const artifacts = [
   {
     title: "VA letter, 30 October 1959",
     body: "Claim C-1,302,621. Compensation denied. The condition was found either not service-connected, or service-connected but rated below ten percent. Both readings were available in the same sentence.",
+  },
+  {
+    title: "Airman Rating Record no. 107645",
+    body: "4 August 1947. Commercial pilot, single- and multi-engine land. Flight instructor, 30 September 1947. 731 Mellus Street.",
+  },
+  {
+    title: "CAA medical, 7 July 1948",
+    body: "Second Class Airmen. 731 Mellus Street. Limitations: none. His signature.",
   },
 ];
 

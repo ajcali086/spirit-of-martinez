@@ -32,7 +32,11 @@ export type PhotoId =
   | "redbar"
   | "beatie"
   | "richard"
-  | "jimmy1";
+  | "jimmy1"
+  | "merit"
+  | "promotion"
+  | "medical"
+  | "rating";
 
 export type Block =
   | { type: "p"; text: string }

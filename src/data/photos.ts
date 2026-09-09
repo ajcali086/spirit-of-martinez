@@ -395,6 +395,54 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
     credit: "Family collection",
     kind: "photograph",
   },
+  merit: {
+    id: "merit",
+    src: "/images/archive/merit",
+    width: 1800,
+    height: 1361,
+    alt: "Award of Merit certificate from the 1939 Golden Gate International Exposition, presented to Frank Calicura for a gas model hydroplane meet, signed Leland W. Cutler",
+    caption:
+      "Award of Merit, 1939. Golden Gate International Exposition, Treasure Island. Presented to Frank Calicura. The event, in his own hand: Gas Model Hydroplane Meet. Signed Leland W. Cutler, president of the exposition. Outstanding junior citizen.",
+    credit: "Family collection",
+    kind: "object",
+    maxWidth: "xl",
+  },
+  promotion: {
+    id: "promotion",
+    src: "/images/archive/promotion",
+    width: 1800,
+    height: 1507,
+    alt: "Certificate of Promotion sending Frank J. Calicura from Martinez Junior High to senior high school, dated June 21, 1935",
+    caption:
+      "Certificate of Promotion to senior high, Alhambra Union High School District. Frank J. Calicura. Given at Martinez, June 21, 1935. Three years before the yearbook.",
+    credit: "Family collection",
+    kind: "object",
+    maxWidth: "xl",
+  },
+  rating: {
+    id: "rating",
+    src: "/images/archive/rating",
+    width: 1800,
+    height: 1327,
+    alt: "Civil Aeronautics Administration Airman Rating Record no. 107645 for Frank James Calicura, commercial pilot and flight instructor, issued August 4, 1947",
+    caption:
+      "Airman Rating Record no. 107645, 4 August 1947. Commercial pilot — airplane, single- and multi-engine land. Flight instructor, 30 September 1947. 731 Mellus Street. The Army was finished with him. The CAA was not.",
+    credit: "Family collection",
+    kind: "object",
+    maxWidth: "xl",
+  },
+  medical: {
+    id: "medical",
+    src: "/images/archive/medical",
+    width: 1800,
+    height: 1189,
+    alt: "CAA medical certificate for commercial airmen, Second Class, Frank James Calicura of 731 Mellus Street, examined July 7, 1948, limitations none",
+    caption:
+      "CAA Form ACA 1004. Second Class Airmen, examined 7 July 1948. 731 Mellus Street. Date of birth 4/4/21. 148½ pounds, 70 inches. Limitations: none. His signature.",
+    credit: "Family collection",
+    kind: "object",
+    maxWidth: "xl",
+  },
 };
 
 export const photoList: ArchivePhoto[] = [
@@ -421,6 +469,8 @@ export const photoList: ArchivePhoto[] = [
   photos.hamburg,
   photos.shop,
   photos.biro,
+  photos.promotion,
+  photos.merit,
   photos.quals,
   photos.birth,
   photos.will,
@@ -431,6 +481,8 @@ export const photoList: ArchivePhoto[] = [
   photos.patch,
   photos.form5,
   photos.letter,
+  photos.rating,
+  photos.medical,
   photos.chart7,
 ];
 
