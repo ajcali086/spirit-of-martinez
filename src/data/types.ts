@@ -28,7 +28,11 @@ export type PhotoId =
   | "brothers"
   | "jimmy"
   | "pair"
-  | "joyce";
+  | "joyce"
+  | "redbar"
+  | "beatie"
+  | "richard"
+  | "jimmy1";
 
 export type Block =
   | { type: "p"; text: string }

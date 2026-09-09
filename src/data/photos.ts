@@ -350,10 +350,57 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
     credit: "Family collection",
     kind: "photograph",
   },
+  richard: {
+    id: "richard",
+    src: "/images/archive/richard",
+    width: 1024,
+    height: 767,
+    alt: "Sam Calicura Jr. in a suit and tie with his young son Richard, also in a suit, early 1940s",
+    caption:
+      "Sam Calicura Jr. and his son Richard, born 1934. Suits and ties, early 1940s. He appears in the family’s photographs the way he appears in its history — present, central, and rarely the subject.",
+    credit: "Family collection",
+    kind: "photograph",
+  },
+  beatie: {
+    id: "beatie",
+    src: "/images/archive/beatie",
+    width: 688,
+    height: 510,
+    alt: "Newspaper photograph of Charles Beatie and Sam Calicura standing beside a Curtiss Robin biplane",
+    caption:
+      "Charles Beatie (left) and Sam Calicura Jr. beside their Curtiss Robin. Caption as printed: flight chairman and vice president of the Metropolitan Oakland AOPA unit. Flying, July 1942. The same two men who had dragged a runway into the Martinez fill.",
+    credit: "Family collection",
+    kind: "photograph",
+  },
+  redbar: {
+    id: "redbar",
+    src: "/images/archive/redbar",
+    width: 1488,
+    height: 908,
+    alt: "Worn paper membership card for The Red Bar, 8 Green’s Court off Brewer Street, Soho, London W.1",
+    caption:
+      "The Red Bar, 8 Green’s Court, off Brewer Street, Soho. Open 2.30 to 10. THIS CARD CANNOT BE SOLD. Carried back from a London pass and kept in a uniform pocket. The mission reports document nothing about it.",
+    credit: "Family collection",
+    kind: "object",
+    maxWidth: "lg",
+  },
+  jimmy1: {
+    id: "jimmy1",
+    src: "/images/archive/jimmy1",
+    width: 1044,
+    height: 1500,
+    alt: "A toddler in a yellow romper on a sunny sidewalk, holding a red flower in one fist",
+    caption:
+      "Frank James Calicura Jr. — Jimmy — about a year old, which would be the summer his father came home. Color slide. The collection does not label the street.",
+    credit: "Family collection",
+    kind: "photograph",
+  },
 };
 
 export const photoList: ArchivePhoto[] = [
   photos.airfield,
+  photos.richard,
+  photos.beatie,
   photos.crew,
   photos.crew2,
   photos.naming,
@@ -366,7 +413,9 @@ export const photoList: ArchivePhoto[] = [
   photos.brothers,
   photos.joyce,
   photos.jimmy,
+  photos.jimmy1,
   photos.london,
+  photos.redbar,
   photos.gazette,
   photos.watts,
   photos.hamburg,

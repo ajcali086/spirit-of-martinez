@@ -64,6 +64,10 @@ export const artifacts = [
     body: "Martinez Kiwanis Club, stamped SPIRIT OF MARTINEZ, ordered for a war in the Pacific that never came.",
   },
   {
+    title: "The Red Bar card",
+    body: "8 Green’s Court, off Brewer Street, Soho. Open 2.30 to 10. THIS CARD CANNOT BE SOLD. Carried back from a London pass. The mission reports do not mention it.",
+  },
+  {
     title: "Joyce’s scrapbook",
     body: "Clippings glued to black pages in a wooden cover, numbered in pencil from Mission #1 to Mission #28 after he came home. The only object that was made rather than kept.",
   },
