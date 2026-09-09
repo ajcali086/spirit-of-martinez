@@ -58,6 +58,10 @@ export const sourceClasses: SourceClass[] = [
         type: "p",
         text: "The 95th Bomb Group’s compiled crew record for this crew is published at 95thbgdb.com/crew/59. It is a modern database, not a paper issued at Horham. Each sortie on the mission board links to that compilation’s corresponding mission page.",
       },
+      {
+        type: "p",
+        text: "The Eighth Air Force daily mission record is compiled at americanarchive.iwm.org.uk. It is a modern finding aid, not a paper issued at Horham. Combat sorties on the mission board link to that compilation’s corresponding day page. The three food drops do not: Chowhound is not in the combat-mission series, and the archive’s Chowhound page is dated 2 May, not the days this crew flew.",
+      },
     ],
   },
   {

@@ -82,6 +82,10 @@ export type Mission = {
   aircraft: string;
   notes: string;
   clipping?: string;
+  /** Eighth Air Force mission number. Combat only. */
+  eighth?: number;
+  /** IWM American Archive URL slug. Combat only. */
+  eighthSlug?: string;
 };
 
 export type CrewMember = {

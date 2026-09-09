@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
 import { PhotoPlate } from "@/components/PhotoPlate";
-import { BGDB_CREW_URL, bgdbMissionUrl, missions } from "@/data/missions";
+import { BGDB_CREW_URL, bgdbMissionUrl, eighthMissionUrl, missions } from "@/data/missions";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/missions")({ component: MissionsPage });
@@ -51,9 +51,11 @@ function MissionsPage() {
         </div>
 
         <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted">
-          Each sortie links to the 95th Bomb Group database, a modern compilation
-          of the group’s crew record. It is not a wartime paper. The crew listing
-          there is titled{" "}
+          Each combat sortie links to two modern compilations: the 95th Bomb
+          Group database, and the Eighth Air Force day page in the Imperial War
+          Museums American Archive. Neither is a wartime paper issued at Horham.
+          The three food drops have no matching 8th AF day page. The crew listing
+          in the group database is titled{" "}
           <a
             href={BGDB_CREW_URL}
             target="_blank"
@@ -91,14 +93,26 @@ function MissionsPage() {
                     “{m.clipping}”
                   </p>
                 ) : null}
-                <a
-                  href={bgdbMissionUrl(m.record)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
-                >
-                  95th BG database
-                </a>
+                <div className="mt-3 flex flex-wrap items-center gap-x-5">
+                  <a
+                    href={bgdbMissionUrl(m.record)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
+                  >
+                    95th BG database
+                  </a>
+                  {m.eighth && m.eighthSlug ? (
+                    <a
+                      href={eighthMissionUrl(m.eighthSlug)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
+                    >
+                      8th AF {m.eighth}
+                    </a>
+                  ) : null}
+                </div>
               </div>
               <p className="text-sm leading-snug text-muted sm:text-right">{m.aircraft}</p>
             </li>

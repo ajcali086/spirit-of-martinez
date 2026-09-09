@@ -6,11 +6,17 @@ export function bgdbMissionUrl(id: number) {
   return `https://95thbgdb.com/mission/${id}`;
 }
 
+export function eighthMissionUrl(slug: string) {
+  return `https://americanarchive.iwm.org.uk/archive/mission/${slug}`;
+}
+
 
 export const missions: Mission[] = [
   {
     number: 1,
     record: 274,
+    eighth: 830,
+    eighthSlug: "8af-830",
     date: "1945-02-14",
     dateLabel: "14 February 1945",
     target: "Chemnitz",
@@ -23,6 +29,8 @@ export const missions: Mission[] = [
   {
     number: 2,
     record: 275,
+    eighth: 832,
+    eighthSlug: "832",
     date: "1945-02-15",
     dateLabel: "15 February 1945",
     target: "Cottbus",
@@ -34,6 +42,8 @@ export const missions: Mission[] = [
   {
     number: 3,
     record: 277,
+    eighth: 835,
+    eighthSlug: "835",
     date: "1945-02-19",
     dateLabel: "19 February 1945",
     target: "Osnabrück",
@@ -45,6 +55,8 @@ export const missions: Mission[] = [
   {
     number: 4,
     record: 278,
+    eighth: 836,
+    eighthSlug: "836",
     date: "1945-02-20",
     dateLabel: "20 February 1945",
     target: "Nuremberg",
@@ -55,6 +67,8 @@ export const missions: Mission[] = [
   {
     number: 5,
     record: 279,
+    eighth: 839,
+    eighthSlug: "839",
     date: "1945-02-21",
     dateLabel: "21 February 1945",
     target: "Nuremberg",
@@ -65,6 +79,8 @@ export const missions: Mission[] = [
   {
     number: 6,
     record: 280,
+    eighth: 841,
+    eighthSlug: "841",
     date: "1945-02-22",
     dateLabel: "22 February 1945",
     target: "Bamberg",
@@ -76,6 +92,8 @@ export const missions: Mission[] = [
   {
     number: 7,
     record: 281,
+    eighth: 845,
+    eighthSlug: "845",
     date: "1945-02-24",
     dateLabel: "24 February 1945",
     target: "Bremen",
@@ -86,6 +104,8 @@ export const missions: Mission[] = [
   {
     number: 8,
     record: 282,
+    eighth: 847,
+    eighthSlug: "847",
     date: "1945-02-25",
     dateLabel: "25 February 1945",
     target: "Munich",
@@ -98,6 +118,8 @@ export const missions: Mission[] = [
   {
     number: 9,
     record: 284,
+    eighth: 851,
+    eighthSlug: "8th-air-force-851",
     date: "1945-02-27",
     dateLabel: "27 February 1945",
     target: "Leipzig",
@@ -108,6 +130,8 @@ export const missions: Mission[] = [
   {
     number: 10,
     record: 287,
+    eighth: 861,
+    eighthSlug: "861",
     date: "1945-03-03",
     dateLabel: "3 March 1945",
     target: "Brunswick",
@@ -119,6 +143,8 @@ export const missions: Mission[] = [
   {
     number: 11,
     record: 288,
+    eighth: 863,
+    eighthSlug: "863",
     date: "1945-03-04",
     dateLabel: "4 March 1945",
     target: "Ulm / Baumenheim",
@@ -130,6 +156,8 @@ export const missions: Mission[] = [
   {
     number: 12,
     record: 292,
+    eighth: 877,
+    eighthSlug: "877",
     date: "1945-03-10",
     dateLabel: "10 March 1945",
     target: "Dortmunderfeld",
@@ -140,6 +168,8 @@ export const missions: Mission[] = [
   {
     number: 13,
     record: 293,
+    eighth: 883,
+    eighthSlug: "883",
     date: "1945-03-12",
     dateLabel: "12 March 1945",
     target: "Swinemünde",
@@ -152,6 +182,8 @@ export const missions: Mission[] = [
   {
     number: 14,
     record: 294,
+    eighth: 886,
+    eighthSlug: "886",
     date: "1945-03-14",
     dateLabel: "14 March 1945",
     target: "Seelze",
@@ -163,6 +195,8 @@ export const missions: Mission[] = [
   {
     number: 15,
     record: 298,
+    eighth: 896,
+    eighthSlug: "896",
     date: "1945-03-19",
     dateLabel: "19 March 1945",
     target: "Jena",
@@ -175,6 +209,8 @@ export const missions: Mission[] = [
   {
     number: 16,
     record: 299,
+    eighth: 898,
+    eighthSlug: "898",
     date: "1945-03-20",
     dateLabel: "20 March 1945",
     target: "Hamburg",
@@ -186,6 +222,8 @@ export const missions: Mission[] = [
   {
     number: 17,
     record: 301,
+    eighth: 906,
+    eighthSlug: "8th-air-force-906",
     date: "1945-03-22",
     dateLabel: "22 March 1945",
     target: "Ahlhorn",
@@ -198,6 +236,8 @@ export const missions: Mission[] = [
   {
     number: 18,
     record: 302,
+    eighth: 908,
+    eighthSlug: "8th-air-force-908",
     date: "1945-03-23",
     dateLabel: "23 March 1945",
     target: "Unna",
@@ -208,6 +248,8 @@ export const missions: Mission[] = [
   {
     number: 19,
     record: 304,
+    eighth: 911,
+    eighthSlug: "8th-air-force-911",
     date: "1945-03-24",
     dateLabel: "24 March 1945",
     target: "Ziegenhain",
@@ -218,6 +260,8 @@ export const missions: Mission[] = [
   {
     number: 20,
     record: 305,
+    eighth: 917,
+    eighthSlug: "8th-air-force-917",
     date: "1945-03-28",
     dateLabel: "28 March 1945",
     target: "Hannover",
@@ -229,6 +273,8 @@ export const missions: Mission[] = [
   {
     number: 21,
     record: 307,
+    eighth: 920,
+    eighthSlug: "8th-air-force-920",
     date: "1945-03-31",
     dateLabel: "31 March 1945",
     target: "Zeitz",
@@ -239,6 +285,8 @@ export const missions: Mission[] = [
   {
     number: 22,
     record: 308,
+    eighth: 924,
+    eighthSlug: "8th-air-force-924",
     date: "1945-04-03",
     dateLabel: "3 April 1945",
     target: "Kiel",
@@ -249,6 +297,8 @@ export const missions: Mission[] = [
   {
     number: 23,
     record: 309,
+    eighth: 926,
+    eighthSlug: "8th-air-force-926",
     date: "1945-04-04",
     dateLabel: "4 April 1945",
     target: "Kiel",
@@ -261,6 +311,8 @@ export const missions: Mission[] = [
   {
     number: 24,
     record: 310,
+    eighth: 928,
+    eighthSlug: "8th-air-force-928",
     date: "1945-04-05",
     dateLabel: "5 April 1945",
     target: "Nuremberg",
@@ -272,6 +324,8 @@ export const missions: Mission[] = [
   {
     number: 25,
     record: 312,
+    eighth: 931,
+    eighthSlug: "8th-air-force-931",
     date: "1945-04-07",
     dateLabel: "7 April 1945",
     target: "Kaltenkirchen",
@@ -282,6 +336,8 @@ export const missions: Mission[] = [
   {
     number: 26,
     record: 314,
+    eighth: 935,
+    eighthSlug: "8th-air-force-935",
     date: "1945-04-09",
     dateLabel: "9 April 1945",
     target: "München-Riem",
@@ -294,6 +350,8 @@ export const missions: Mission[] = [
   {
     number: 27,
     record: 315,
+    eighth: 938,
+    eighthSlug: "8th-air-force-938",
     date: "1945-04-10",
     dateLabel: "10 April 1945",
     target: "Burg",
@@ -304,6 +362,8 @@ export const missions: Mission[] = [
   {
     number: 28,
     record: 321,
+    eighth: 962,
+    eighthSlug: "8th-air-force-962",
     date: "1945-04-20",
     dateLabel: "20 April 1945",
     target: "Oranienburg",
