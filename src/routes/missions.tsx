@@ -3,17 +3,18 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
 import { PhotoPlate } from "@/components/PhotoPlate";
-import { BGDB_CREW_URL, bgdbMissionUrl, eighthMissionUrl, missions } from "@/data/missions";
+import { BGDB_CREW_URL, bgdbMissionUrl, eighthMissionUrl, hasCaptainsChart, missions } from "@/data/missions";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/missions")({ component: MissionsPage });
 
 function MissionsPage() {
-  const [filter, setFilter] = useState<"all" | "combat" | "humanitarian">("all");
-  const list = useMemo(
-    () => (filter === "all" ? missions : missions.filter((m) => m.kind === filter)),
-    [filter],
-  );
+  const [filter, setFilter] = useState<"charts" | "all" | "combat" | "humanitarian">("charts");
+  const list = useMemo(() => {
+    if (filter === "charts") return missions.filter(hasCaptainsChart);
+    if (filter === "all") return missions;
+    return missions.filter((m) => m.kind === filter);
+  }, [filter]);
 
   return (
     <SiteShell>
@@ -29,7 +30,8 @@ function MissionsPage() {
         <div className="flex flex-wrap gap-2">
           {(
             [
-              ["all", "All"],
+              ["charts", "Fourteen"],
+              ["all", "See all"],
               ["combat", "Combat"],
               ["humanitarian", "Chowhound"],
             ] as const
@@ -51,11 +53,13 @@ function MissionsPage() {
         </div>
 
         <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted">
-          Each combat sortie links to two modern compilations: the 95th Bomb
-          Group database, and the Eighth Air Force day page in the Imperial War
-          Museums American Archive. Neither is a wartime paper issued at Horham.
-          The three food drops have no matching 8th AF day page. The crew listing
-          in the group database is titled{" "}
+          Fourteen captains’ charts survive in the locker, missions one through
+          fourteen without a gap. The list opens on those. The rest of the tour
+          is in the crew record. Each combat sortie links to two modern
+          compilations: the 95th Bomb Group database, and the Eighth Air Force
+          day page in the Imperial War Museums American Archive. Neither is a
+          wartime paper issued at Horham. The three food drops have no matching
+          8th AF day page. The crew listing in the group database is titled{" "}
           <a
             href={BGDB_CREW_URL}
             target="_blank"

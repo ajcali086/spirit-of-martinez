@@ -10,6 +10,11 @@ export function eighthMissionUrl(slug: string) {
   return `https://americanarchive.iwm.org.uk/archive/mission/${slug}`;
 }
 
+/** A captains' chart survives in the locker for missions one through fourteen, without a gap. */
+export function hasCaptainsChart(m: Mission) {
+  return m.kind === "combat" && m.number <= 14;
+}
+
 
 export const missions: Mission[] = [
   {

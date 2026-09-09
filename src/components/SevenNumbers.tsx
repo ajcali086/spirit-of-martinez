@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { counts } from "@/data/archive";
-import { missions } from "@/data/missions";
+import { hasCaptainsChart, missions } from "@/data/missions";
 import type { Mission } from "@/data/types";
 import { cn } from "@/lib/utils";
 
@@ -26,16 +26,22 @@ function predicate(figure: string): ((m: Mission) => boolean) | null {
 
 export function SevenNumbers() {
   const [active, setActive] = useState("28");
+  const [showAll, setShowAll] = useState(false);
   const selected = counts.find((c) => c.figure === active) ?? counts[1];
   const pred = predicate(active);
 
   const hits = useMemo(() => (pred ? missions.filter(pred) : []), [pred]);
+  const list = showAll ? missions : missions.filter(hasCaptainsChart);
 
   const tally =
     active === "30"
-      ? "29 of 30 symbols accounted for — one is not"
+      ? showAll
+        ? "29 of 30 symbols accounted for — one is not"
+        : "The jacket count runs past the charts. See all."
       : pred
-        ? `${hits.length} of 31 missions highlighted`
+        ? showAll
+          ? `${hits.length} of 31 missions highlighted`
+          : `${hits.filter(hasCaptainsChart).length} of ${hits.length} on a chart in the locker`
         : "This figure is not a count of the missions below.";
 
   return (
@@ -46,7 +52,8 @@ export function SevenNumbers() {
       </h2>
       <p className="mt-4 max-w-2xl text-sm leading-relaxed text-fog">
         Every figure below is documented. No two of them count the same thing.
-        Choose one and the mission record answers — or declines to.
+        Choose one and the mission record answers — or declines to. Fourteen
+        captains’ charts survive in the locker; the list opens on those.
       </p>
 
       <div
@@ -80,8 +87,33 @@ export function SevenNumbers() {
         <p className="mt-3 text-[0.72rem] tracking-[0.12em] text-muted uppercase">{tally}</p>
       </div>
 
-      <ol className="mt-8 border-y border-rule">
-        {missions.map((m) => {
+      <div className="mt-8 flex flex-wrap gap-2">
+        <button
+          type="button"
+          aria-pressed={!showAll}
+          onClick={() => setShowAll(false)}
+          className={cn(
+            "min-h-11 px-4 text-[0.72rem] tracking-[0.16em] uppercase transition-colors",
+            !showAll ? "bg-brass text-ink" : "border border-rule text-fog hover:text-paper",
+          )}
+        >
+          Fourteen
+        </button>
+        <button
+          type="button"
+          aria-pressed={showAll}
+          onClick={() => setShowAll(true)}
+          className={cn(
+            "min-h-11 px-4 text-[0.72rem] tracking-[0.16em] uppercase transition-colors",
+            showAll ? "bg-brass text-ink" : "border border-rule text-fog hover:text-paper",
+          )}
+        >
+          See all
+        </button>
+      </div>
+
+      <ol className="mt-4 border-y border-rule">
+        {list.map((m) => {
           const on = pred ? pred(m) : false;
           return (
             <li
@@ -114,7 +146,7 @@ export function SevenNumbers() {
             </li>
           );
         })}
-        {active === "30" ? (
+        {active === "30" && showAll ? (
           <li className="grid grid-cols-[2.6rem_1fr] gap-x-3 border-t border-feather/40 bg-[repeating-linear-gradient(45deg,transparent,transparent_7px,rgba(142,58,50,0.12)_7px,rgba(142,58,50,0.12)_14px)] px-2 py-3 sm:grid-cols-[2.6rem_9rem_1fr_12rem] sm:items-baseline sm:px-3">
             <span className="font-display text-xl text-feather">30</span>
             <span className="text-[0.72rem] text-muted max-sm:col-start-2">—</span>
