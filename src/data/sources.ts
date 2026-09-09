@@ -62,6 +62,14 @@ export const sourceClasses: SourceClass[] = [
         type: "p",
         text: "The Eighth Air Force daily mission record is compiled at americanarchive.iwm.org.uk. It is a modern finding aid, not a paper issued at Horham. Combat sorties on the mission board link to that compilation’s corresponding day page. The three food drops do not: Chowhound is not in the combat-mission series, and the archive’s Chowhound page is dated 2 May, not the days this crew flew.",
       },
+      {
+        type: "p",
+        text: "The same archive holds a person page for John R. Barnes that identifies him as navigator of the Spirit of Martinez. It is a modern compilation, not a paper issued at Horham. The biography on that page was supplied in part by his son.",
+      },
+      {
+        type: "p",
+        text: "Dave Osborne’s B-17 Fortress Master Log, which that archive also draws on, lists 44-6838 as CAL'S RASCALS aka THE SPIRIT OF MARTINEZ. That is the log’s other name for the serial, not a second christening.",
+      },
     ],
   },
   {
@@ -79,6 +87,10 @@ export const sourceClasses: SourceClass[] = [
       {
         type: "p",
         text: "The war coverage reproduced here is not a neutral sample of what the papers printed. It is what one woman in Martinez chose to cut out and keep while her husband was flying, arranged afterward in the order the missions were flown. Newspaper content is referenced by headline, publication, and date, paraphrased rather than reproduced, and treated throughout as what it is: a first draft written under deadline by people who did not have access to the records now available.",
+      },
+      {
+        type: "p",
+        text: "Later obituaries are a different thing from the wartime clippings. Marvin L. Markus’s 2015 notice in the Bartlesville Examiner-Enterprise, and Emily “Lu” Bogacki’s in 2020, are what those families told a paper after the men were gone. They are cited as such.",
       },
     ],
   },

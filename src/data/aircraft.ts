@@ -16,6 +16,10 @@ export const aircraft = {
       body: "Martinez put up $855,000 toward its Sixth War Loan quota and doubled it. The surplus was meant to buy a B-29. The War Finance Committee, chaired by Ray S. Taylor, learned a newly commissioned local pilot was forming a crew and wrote to him instead. Frank agreed. The crew chose the name themselves; the Army’s ceremony came after they had already flown her nine times under it.",
     },
     {
+      label: "The log’s other name",
+      body: "Dave Osborne’s B-17 Fortress Master Log lists the serial as CAL'S RASCALS aka THE SPIRIT OF MARTINEZ. The Imperial War Museums’ American Archive repeats it. Neither is a paper issued at Horham. The name on the nose, on the wallets, and in Frank’s letter to Ray Taylor is Spirit of Martinez. Cal’s Rascals is the log’s other name for the same tail number, not a second christening.",
+    },
+    {
       label: "The plaque and the paint",
       body: "The committee was disappointed to learn the “name” was a small plaque under the instrument panel, not nose art “big enough for enemies to read without their glasses.” A surviving photograph shows the name painted across the nose in script a good deal larger than a plaque. Both may be true in sequence. Nothing dates the painting.",
     },

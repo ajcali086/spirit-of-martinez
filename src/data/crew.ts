@@ -34,9 +34,9 @@ export const crew: CrewMember[] = [
     hometown: "Emporium, Pennsylvania",
     person: 314,
     wartime:
-      "Born Philadelphia, January 1922, son of Leonard and Gertrude Barnes. Added to the crew at Avon Park on 6 November 1944; he is the ninth name, the one missing from the Tampa order.",
+      "Born Philadelphia, 31 January 1922, son of Leonard and Gertrude Barnes. Added to the crew at Avon Park on 6 November 1944; he is the ninth name, the one missing from the Tampa order.",
     after:
-      "Earned a doctorate at Penn State. Spent much of his career as Director of Pathology at DuPont’s Haskell Laboratory, retiring in 1982.",
+      "Earned a doctorate at Penn State. Spent much of his career as Director of Pathology at DuPont’s Haskell Laboratory, retiring in 1982. Died 2 June 2011 in Wellsboro, Pennsylvania, age eighty-nine.",
     photo: "barnes",
   },
   {
@@ -48,7 +48,7 @@ export const crew: CrewMember[] = [
     wartime:
       "The town already named on the wallet that would later be stamped for the crew. Flew the nose of the Spirit of Martinez.",
     after:
-      "Married Dorothy Ellen O’Niel in July 1945 — sixty-nine years. Built an automotive-electric business across several towns and retired in 2003. His family remembered his war in a single number: twenty-eight full bombing runs.",
+      "Married Dorothy Ellen O’Niel in July 1945 — sixty-nine years. Built an automotive-electric business across several towns and retired in 2003. His 2015 obituary remembered his war in a single number: twenty-eight full bombing runs. Died 30 March 2015, age eighty-nine, and was buried at Kingfisher County Memorial Cemetery with full military rites.",
     photo: "pair",
   },
   {
@@ -60,7 +60,7 @@ export const crew: CrewMember[] = [
     wartime:
       "Born 1920 to Frank and Stella Bojack, a surname later changed to Bogacki — which is very likely why a contemporary wallet clipping printed “Nogacki” and still got the city right.",
     after:
-      "Stayed in uniform thirty-one years, rising to Chief Master Sergeant through Korea and Vietnam. Married Emily “Lu” McGrath in 1952. Died in 2011 at ninety, buried with full military honors.",
+      "Stayed in uniform thirty-one years, rising to Chief Master Sergeant through Korea and Vietnam. Married Emily “Lu” McGrath on 3 May 1952. Died 14 February 2011 at ninety, buried with full military honors.",
     photo: "bogacki",
   },
   {
