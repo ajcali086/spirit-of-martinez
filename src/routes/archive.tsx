@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
 import { PhotoPlate } from "@/components/PhotoPlate";
-import { artifacts, counts, decorations, openQuestions } from "@/data/archive";
+import { SevenNumbers } from "@/components/SevenNumbers";
+import { artifacts, decorations, openQuestions } from "@/data/archive";
 import { objects, photographs } from "@/data/photos";
 
 export const Route = createFileRoute("/archive")({ component: ArchivePage });
@@ -18,18 +19,7 @@ function ArchivePage() {
         imageAlt="A still life of wartime objects"
       />
 
-      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-        <h2 className="kicker">Seven numbers</h2>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {counts.map((c) => (
-            <article key={c.figure} className="border border-rule bg-ink-soft p-5">
-              <p className="font-display text-5xl text-brass">{c.figure}</p>
-              <h3 className="mt-3 font-display text-xl text-paper">{c.label}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{c.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+      <SevenNumbers />
 
       <section className="border-y border-rule bg-ink-soft">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
