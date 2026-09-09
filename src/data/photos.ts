@@ -215,7 +215,7 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
     alt: "Aerial view of Martinez Airport: a dirt strip on filled ground beside railroad tracks, a hangar lettered MARTINEZ AIRPORT, light aircraft and cars",
     caption:
       "The strip by the tracks. Filled ground along the Southern Pacific, a hangar lettered MARTINEZ AIRPORT, the wires Sam Calicura Jr. spent years trying to get moved. Two men dragged this runway into city fill. One of them taught his brothers to fly on it.",
-    credit: "Family collection",
+    credit: "Beatie family collection",
     kind: "photograph",
   },
   shop: {
