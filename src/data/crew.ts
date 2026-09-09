@@ -97,3 +97,17 @@ export const crew: CrewMember[] = [
     photo: "titus",
   },
 ];
+
+export function crewById(id: string) {
+  return crew.find((m) => m.id === id);
+}
+
+export function adjacentCrew(id: string) {
+  const i = crew.findIndex((m) => m.id === id);
+  return {
+    prev: i > 0 ? crew[i - 1] : undefined,
+    next: i >= 0 && i < crew.length - 1 ? crew[i + 1] : undefined,
+    index: i,
+    total: crew.length,
+  };
+}

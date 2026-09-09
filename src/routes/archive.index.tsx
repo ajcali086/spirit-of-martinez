@@ -1,12 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
-import { PhotoPlate } from "@/components/PhotoPlate";
+import { ObjectCatalog } from "@/components/ObjectCatalog";
 import { SevenNumbers } from "@/components/SevenNumbers";
 import { artifacts, decorations, openQuestions } from "@/data/archive";
-import { objects, photographs } from "@/data/photos";
 
-export const Route = createFileRoute("/archive")({ component: ArchivePage });
+export const Route = createFileRoute("/archive/")({ component: ArchivePage });
 
 function ArchivePage() {
   return (
@@ -51,45 +50,19 @@ function ArchivePage() {
       </section>
 
       <section className="border-t border-rule bg-paper text-ink">
-        <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6">
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
           <h2 className="font-sans text-[0.72rem] tracking-[0.22em] text-feather uppercase">
-            Photographs
+            The plates
           </h2>
           <p className="mt-3 max-w-2xl font-display text-2xl text-ink">
-            Plates the family kept. The mission reports document targets, tonnage,
-            losses, and times. These document a dirt strip by the tracks, a wet
-            street, a handshake, a name on the nose, smoke over a yard, a
-            newsroom, a cutting block, and a sidewalk in Watts.
+            Photographs and objects the family kept. Each one has its own address.
+            The mission reports document targets, tonnage, losses, and times.
+            These document a dirt strip, a wet street, a handshake, a name on the
+            nose, and the papers that would not agree.
           </p>
-          {photographs.map((p, i) => (
-            <PhotoPlate
-              key={p.id}
-              id={p.id}
-              tone="paper"
-              className={i === 0 ? "mt-10" : undefined}
-            />
-          ))}
-        </div>
-      </section>
-
-      <section className="border-t border-paper-deep bg-paper text-ink">
-        <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6">
-          <h2 className="font-sans text-[0.72rem] tracking-[0.22em] text-feather uppercase">
-            What a family kept
-          </h2>
-          <p className="mt-3 max-w-2xl font-display text-2xl text-ink">
-            A card, a bill, a ticket, a wallet, a jacket, a patch, a form, a
-            letter, a chart. None of them agrees with all the others about
-            exactly how many times it happened.
-          </p>
-          {objects.map((p, i) => (
-            <PhotoPlate
-              key={p.id}
-              id={p.id}
-              tone="paper"
-              className={i === 0 ? "mt-10" : i === objects.length - 1 ? "mb-0" : undefined}
-            />
-          ))}
+          <div className="mt-10">
+            <ObjectCatalog />
+          </div>
         </div>
       </section>
 

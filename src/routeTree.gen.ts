@@ -11,13 +11,15 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AircraftRouteImport } from './routes/aircraft'
-import { Route as ArchiveRouteImport } from './routes/archive'
-import { Route as CrewRouteImport } from './routes/crew'
 import { Route as MissionsRouteImport } from './routes/missions'
 import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as TimelineRouteImport } from './routes/timeline'
+import { Route as ArchiveIndexRouteImport } from './routes/archive.index'
+import { Route as ArchiveIdRouteImport } from './routes/archive.$id'
 import { Route as ChaptersIndexRouteImport } from './routes/chapters.index'
 import { Route as ChaptersSlugRouteImport } from './routes/chapters.$slug'
+import { Route as CrewIndexRouteImport } from './routes/crew.index'
+import { Route as CrewIdRouteImport } from './routes/crew.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -27,16 +29,6 @@ const IndexRoute = IndexRouteImport.update({
 const AircraftRoute = AircraftRouteImport.update({
   id: '/aircraft',
   path: '/aircraft',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ArchiveRoute = ArchiveRouteImport.update({
-  id: '/archive',
-  path: '/archive',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CrewRoute = CrewRouteImport.update({
-  id: '/crew',
-  path: '/crew',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MissionsRoute = MissionsRouteImport.update({
@@ -54,6 +46,16 @@ const TimelineRoute = TimelineRouteImport.update({
   path: '/timeline',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArchiveIndexRoute = ArchiveIndexRouteImport.update({
+  id: '/archive/',
+  path: '/archive/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArchiveIdRoute = ArchiveIdRouteImport.update({
+  id: '/archive/$id',
+  path: '/archive/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ChaptersIndexRoute = ChaptersIndexRouteImport.update({
   id: '/chapters/',
   path: '/chapters/',
@@ -64,87 +66,111 @@ const ChaptersSlugRoute = ChaptersSlugRouteImport.update({
   path: '/chapters/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CrewIndexRoute = CrewIndexRouteImport.update({
+  id: '/crew/',
+  path: '/crew/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CrewIdRoute = CrewIdRouteImport.update({
+  id: '/crew/$id',
+  path: '/crew/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/aircraft': typeof AircraftRoute
-  '/archive': typeof ArchiveRoute
-  '/crew': typeof CrewRoute
   '/missions': typeof MissionsRoute
   '/sources': typeof SourcesRoute
   '/timeline': typeof TimelineRoute
+  '/archive/$id': typeof ArchiveIdRoute
   '/chapters/$slug': typeof ChaptersSlugRoute
+  '/crew/$id': typeof CrewIdRoute
+  '/archive/': typeof ArchiveIndexRoute
   '/chapters/': typeof ChaptersIndexRoute
+  '/crew/': typeof CrewIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/aircraft': typeof AircraftRoute
-  '/archive': typeof ArchiveRoute
-  '/crew': typeof CrewRoute
   '/missions': typeof MissionsRoute
   '/sources': typeof SourcesRoute
   '/timeline': typeof TimelineRoute
+  '/archive/$id': typeof ArchiveIdRoute
   '/chapters/$slug': typeof ChaptersSlugRoute
+  '/crew/$id': typeof CrewIdRoute
+  '/archive': typeof ArchiveIndexRoute
   '/chapters': typeof ChaptersIndexRoute
+  '/crew': typeof CrewIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/aircraft': typeof AircraftRoute
-  '/archive': typeof ArchiveRoute
-  '/crew': typeof CrewRoute
   '/missions': typeof MissionsRoute
   '/sources': typeof SourcesRoute
   '/timeline': typeof TimelineRoute
+  '/archive/$id': typeof ArchiveIdRoute
   '/chapters/$slug': typeof ChaptersSlugRoute
+  '/crew/$id': typeof CrewIdRoute
+  '/archive/': typeof ArchiveIndexRoute
   '/chapters/': typeof ChaptersIndexRoute
+  '/crew/': typeof CrewIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/aircraft'
-    | '/archive'
-    | '/crew'
     | '/missions'
     | '/sources'
     | '/timeline'
+    | '/archive/$id'
     | '/chapters/$slug'
+    | '/crew/$id'
+    | '/archive/'
     | '/chapters/'
+    | '/crew/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/aircraft'
-    | '/archive'
-    | '/crew'
     | '/missions'
     | '/sources'
     | '/timeline'
+    | '/archive/$id'
     | '/chapters/$slug'
+    | '/crew/$id'
+    | '/archive'
     | '/chapters'
+    | '/crew'
   id:
     | '__root__'
     | '/'
     | '/aircraft'
-    | '/archive'
-    | '/crew'
     | '/missions'
     | '/sources'
     | '/timeline'
+    | '/archive/$id'
     | '/chapters/$slug'
+    | '/crew/$id'
+    | '/archive/'
     | '/chapters/'
+    | '/crew/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AircraftRoute: typeof AircraftRoute
-  ArchiveRoute: typeof ArchiveRoute
-  CrewRoute: typeof CrewRoute
   MissionsRoute: typeof MissionsRoute
   SourcesRoute: typeof SourcesRoute
   TimelineRoute: typeof TimelineRoute
+  ArchiveIdRoute: typeof ArchiveIdRoute
   ChaptersSlugRoute: typeof ChaptersSlugRoute
+  CrewIdRoute: typeof CrewIdRoute
+  ArchiveIndexRoute: typeof ArchiveIndexRoute
   ChaptersIndexRoute: typeof ChaptersIndexRoute
+  CrewIndexRoute: typeof CrewIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -161,20 +187,6 @@ declare module '@tanstack/react-router' {
       path: '/aircraft'
       fullPath: '/aircraft'
       preLoaderRoute: typeof AircraftRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/archive': {
-      id: '/archive'
-      path: '/archive'
-      fullPath: '/archive'
-      preLoaderRoute: typeof ArchiveRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/crew': {
-      id: '/crew'
-      path: '/crew'
-      fullPath: '/crew'
-      preLoaderRoute: typeof CrewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/missions': {
@@ -198,6 +210,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TimelineRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/archive/': {
+      id: '/archive/'
+      path: '/archive'
+      fullPath: '/archive/'
+      preLoaderRoute: typeof ArchiveIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/archive/$id': {
+      id: '/archive/$id'
+      path: '/archive/$id'
+      fullPath: '/archive/$id'
+      preLoaderRoute: typeof ArchiveIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/chapters/': {
       id: '/chapters/'
       path: '/chapters'
@@ -212,19 +238,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChaptersSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/crew/': {
+      id: '/crew/'
+      path: '/crew'
+      fullPath: '/crew/'
+      preLoaderRoute: typeof CrewIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crew/$id': {
+      id: '/crew/$id'
+      path: '/crew/$id'
+      fullPath: '/crew/$id'
+      preLoaderRoute: typeof CrewIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AircraftRoute: AircraftRoute,
-  ArchiveRoute: ArchiveRoute,
-  CrewRoute: CrewRoute,
   MissionsRoute: MissionsRoute,
   SourcesRoute: SourcesRoute,
   TimelineRoute: TimelineRoute,
+  ArchiveIdRoute: ArchiveIdRoute,
   ChaptersSlugRoute: ChaptersSlugRoute,
+  CrewIdRoute: CrewIdRoute,
+  ArchiveIndexRoute: ArchiveIndexRoute,
   ChaptersIndexRoute: ChaptersIndexRoute,
+  CrewIndexRoute: CrewIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,10 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
 import { PhotoPlate } from "@/components/PhotoPlate";
 import { crew } from "@/data/crew";
 
-export const Route = createFileRoute("/crew")({ component: CrewPage });
+export const Route = createFileRoute("/crew/")({ component: CrewPage });
 
 function CrewPage() {
   return (
@@ -29,7 +29,15 @@ function CrewPage() {
             <p className="text-[0.68rem] tracking-[0.2em] text-brass uppercase">
               {String(i + 1).padStart(2, "0")} · {m.role}
             </p>
-            <h2 className="mt-2 font-display text-3xl text-paper">{m.name}</h2>
+            <h2 className="mt-2 font-display text-3xl text-paper">
+              <Link
+                to="/crew/$id"
+                params={{ id: m.id }}
+                className="hover:text-brass"
+              >
+                {m.name}
+              </Link>
+            </h2>
             <p className="mt-1 text-sm tracking-[0.08em] text-muted uppercase">
               {m.hometown}
             </p>

@@ -4,6 +4,8 @@ export type PhotoKind = "photograph" | "object";
 
 export type ArchivePhoto = {
   id: PhotoId;
+  title: string;
+  date?: string;
   src: string;
   width: number;
   height: number;
@@ -17,6 +19,8 @@ export type ArchivePhoto = {
 export const photos: Record<PhotoId, ArchivePhoto> = {
   crew: {
     id: "crew",
+    title: "The crew of 44-6838",
+    date: "1945",
     src: "/images/archive/crew",
     width: 1500,
     height: 1189,
@@ -28,6 +32,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   naming: {
     id: "naming",
+    title: "Under the nose",
+    date: "1945",
     src: "/images/archive/naming",
     width: 1100,
     height: 1394,
@@ -39,6 +45,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   nose: {
     id: "nose",
+    title: "Frank at the nose",
+    date: "14 February 1945",
     src: "/images/archive/nose",
     width: 1500,
     height: 1166,
@@ -50,6 +58,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   london: {
     id: "london",
+    title: "A London pass",
+    date: "1945",
     src: "/images/archive/london",
     width: 1500,
     height: 932,
@@ -61,6 +71,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   watts: {
     id: "watts",
+    title: "Watts Towers",
+    date: "c. 1958",
     src: "/images/archive/watts",
     width: 1000,
     height: 1472,
@@ -72,6 +84,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   gazette: {
     id: "gazette",
+    title: "At the Gazette",
+    date: "summer 1945",
     src: "/images/archive/gazette",
     width: 1198,
     height: 1200,
@@ -84,6 +98,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   hamburg: {
     id: "hamburg",
+    title: "Hamburg",
+    date: "20 March 1945",
     src: "/images/archive/hamburg",
     width: 1500,
     height: 1020,
@@ -95,6 +111,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   birth: {
     id: "birth",
+    title: "Birth announcement",
+    date: "20 June 1944",
     src: "/images/archive/birth",
     width: 1400,
     height: 788,
@@ -106,6 +124,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   wallet: {
     id: "wallet",
+    title: "The Kiwanis wallet",
+    date: "1945",
     src: "/images/archive/wallet",
     width: 450,
     height: 800,
@@ -118,6 +138,7 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   jacket: {
     id: "jacket",
+    title: "The B-15",
     src: "/images/archive/jacket",
     width: 1400,
     height: 1294,
@@ -129,6 +150,7 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   patch: {
     id: "patch",
+    title: "Eighth Air Force patch",
     src: "/images/archive/patch",
     width: 727,
     height: 900,
@@ -141,6 +163,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   form5: {
     id: "form5",
+    title: "Individual Flight Record",
+    date: "February 1945",
     src: "/images/archive/form5",
     width: 1093,
     height: 1400,
@@ -153,6 +177,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   letter: {
     id: "letter",
+    title: "If the People at Home Only Knew",
+    date: "21 April 1945",
     src: "/images/archive/letter",
     width: 1200,
     height: 1002,
@@ -164,6 +190,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   chart7: {
     id: "chart7",
+    title: "Mission #7 map",
+    date: "23 February 1945",
     src: "/images/archive/chart7",
     width: 1200,
     height: 1416,
@@ -176,6 +204,7 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   snorter: {
     id: "snorter",
+    title: "The short snorter",
     src: "/images/archive/snorter",
     width: 1500,
     height: 642,
@@ -187,6 +216,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   ticket: {
     id: "ticket",
+    title: "Shipping ticket",
+    date: "13 December 1944",
     src: "/images/archive/ticket",
     width: 1500,
     height: 1030,
@@ -198,6 +229,7 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   quals: {
     id: "quals",
+    title: "Qualification record",
     src: "/images/archive/quals",
     width: 1500,
     height: 614,
@@ -209,6 +241,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   airfield: {
     id: "airfield",
+    title: "Martinez Airport from the air",
+    date: "c. 1940",
     src: "/images/archive/airfield",
     width: 1500,
     height: 1074,
@@ -220,6 +254,7 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   shop: {
     id: "shop",
+    title: "At the block",
     src: "/images/archive/shop",
     width: 1500,
     height: 1169,
@@ -231,6 +266,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   biro: {
     id: "biro",
+    title: "Billy at the Biro",
+    date: "August 1955",
     src: "/images/archive/biro",
     width: 1500,
     height: 958,
@@ -242,6 +279,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   brown: {
     id: "brown",
+    title: "Robert J. Brown",
+    date: "1945",
     src: "/images/archive/brown",
     width: 1048,
     height: 1346,
@@ -253,6 +292,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   barnes: {
     id: "barnes",
+    title: "John R. Barnes",
+    date: "1945",
     src: "/images/archive/barnes",
     width: 1110,
     height: 1500,
@@ -264,6 +305,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   titus: {
     id: "titus",
+    title: "James A. Titus",
+    date: "1945",
     src: "/images/archive/titus",
     width: 1163,
     height: 1331,
@@ -275,6 +318,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   bogacki: {
     id: "bogacki",
+    title: "Earle F. Bogacki",
+    date: "1945",
     src: "/images/archive/bogacki",
     width: 1140,
     height: 1493,
@@ -286,6 +331,7 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   crew2: {
     id: "crew2",
+    title: "Seven of the nine",
     src: "/images/archive/crew2",
     width: 1353,
     height: 1048,
@@ -297,6 +343,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   will: {
     id: "will",
+    title: "Last will and testament",
+    date: "7 September 1944",
     src: "/images/archive/will",
     width: 843,
     height: 1500,
@@ -308,6 +356,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   brothers: {
     id: "brothers",
+    title: "Frank and Dominic",
+    date: "c. 1944",
     src: "/images/archive/brothers",
     width: 1500,
     height: 928,
@@ -319,6 +369,7 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   jimmy: {
     id: "jimmy",
+    title: "Frank and Jimmy",
     src: "/images/archive/jimmy",
     width: 1058,
     height: 1500,
@@ -330,6 +381,7 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   pair: {
     id: "pair",
+    title: "Collins and Markus",
     src: "/images/archive/pair",
     width: 900,
     height: 1316,
@@ -341,6 +393,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   joyce: {
     id: "joyce",
+    title: "Joyce and Frank, Maxwell Field",
+    date: "1943",
     src: "/images/archive/joyce",
     width: 1212,
     height: 1500,
@@ -352,6 +406,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   richard: {
     id: "richard",
+    title: "Sam and Richard",
+    date: "early 1940s",
     src: "/images/archive/richard",
     width: 1024,
     height: 767,
@@ -363,6 +419,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   beatie: {
     id: "beatie",
+    title: "Beatie and Sam, Curtiss Robin",
+    date: "July 1942",
     src: "/images/archive/beatie",
     width: 688,
     height: 510,
@@ -374,6 +432,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   redbar: {
     id: "redbar",
+    title: "The Red Bar",
+    date: "1945",
     src: "/images/archive/redbar",
     width: 1488,
     height: 908,
@@ -386,6 +446,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   jimmy1: {
     id: "jimmy1",
+    title: "Jimmy, about one year",
+    date: "c. 1945",
     src: "/images/archive/jimmy1",
     width: 1044,
     height: 1500,
@@ -397,6 +459,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   merit: {
     id: "merit",
+    title: "Award of Merit",
+    date: "1939",
     src: "/images/archive/merit",
     width: 1800,
     height: 1361,
@@ -409,6 +473,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   promotion: {
     id: "promotion",
+    title: "Certificate of Promotion",
+    date: "21 June 1935",
     src: "/images/archive/promotion",
     width: 1800,
     height: 1507,
@@ -421,6 +487,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   rating: {
     id: "rating",
+    title: "Airman Rating Record",
+    date: "4 August 1947",
     src: "/images/archive/rating",
     width: 1800,
     height: 1327,
@@ -433,6 +501,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   medical: {
     id: "medical",
+    title: "CAA medical certificate",
+    date: "7 July 1948",
     src: "/images/archive/medical",
     width: 1800,
     height: 1189,
@@ -445,6 +515,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   greenville: {
     id: "greenville",
+    title: "Greenville Aviation School",
+    date: "1943",
     src: "/images/archive/greenville",
     width: 1800,
     height: 1430,
@@ -457,6 +529,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   instrument: {
     id: "instrument",
+    title: "Instrument flight test",
+    date: "15 April 1944",
     src: "/images/archive/instrument",
     width: 1180,
     height: 1800,
@@ -469,6 +543,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   idcard: {
     id: "idcard",
+    title: "Identity card",
+    date: "15 April 1944",
     src: "/images/archive/idcard",
     width: 1800,
     height: 1473,
@@ -481,6 +557,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   stuart: {
     id: "stuart",
+    title: "Stuart’s memorandum",
+    date: "8 May 1945",
     src: "/images/archive/stuart",
     width: 1800,
     height: 1617,
@@ -493,6 +571,8 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
   },
   go289: {
     id: "go289",
+    title: "General Orders 289",
+    date: "27 February 1945",
     src: "/images/archive/go289",
     width: 1493,
     height: 1800,
@@ -553,3 +633,34 @@ export const photoList: ArchivePhoto[] = [
 
 export const photographs = photoList.filter((p) => p.kind === "photograph");
 export const objects = photoList.filter((p) => p.kind === "object");
+
+export function isPhotoId(id: string): id is PhotoId {
+  return Object.prototype.hasOwnProperty.call(photos, id);
+}
+
+
+export function displayCredit(credit: string) {
+  return credit.replace(/\b([a-z])/g, (ch) => ch.toUpperCase());
+}
+
+export function citePhoto(photo: ArchivePhoto) {
+  const url = `https://spiritofmartinez.com/archive/${photo.id}`;
+  const dated = photo.date ? `, ${photo.date}` : "";
+  return {
+    credit: displayCredit(photo.credit),
+    title: photo.title,
+    dated,
+    work: "The Spirit of Martinez",
+    url,
+  };
+}
+
+export function adjacentPhotos(id: PhotoId) {
+  const i = photoList.findIndex((p) => p.id === id);
+  return {
+    prev: i > 0 ? photoList[i - 1] : undefined,
+    next: i >= 0 && i < photoList.length - 1 ? photoList[i + 1] : undefined,
+    index: i,
+    total: photoList.length,
+  };
+}
