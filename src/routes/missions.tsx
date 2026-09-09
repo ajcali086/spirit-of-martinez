@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
 import { PhotoPlate } from "@/components/PhotoPlate";
@@ -64,6 +64,14 @@ function MissionsPage() {
           >
             F.J. Calicura, 31
           </a>
+          . That figure belongs among the{" "}
+          <Link
+            to="/archive"
+            hash="seven-numbers"
+            className="text-brass underline-offset-4 hover:text-paper hover:underline"
+          >
+            seven counts
+          </Link>
           .
         </p>
 

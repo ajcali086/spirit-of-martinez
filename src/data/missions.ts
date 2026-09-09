@@ -87,7 +87,7 @@ export const missions: Mission[] = [
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
-      "Stars and Stripes of 23 February reported six thousand aircraft against the German rail network. Joyce wrote the specific target into the scrapbook margin by hand: Bamberg.",
+      "Stars and Stripes of 23 February reported six thousand aircraft against the German rail network. Bamberg is not in the story. Frank wrote it in the white margin in block capitals."
   },
   {
     number: 7,
@@ -230,7 +230,7 @@ export const missions: Mission[] = [
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
-      "Luftwaffe airfield beginning to host Me 262s and Arado 234s. Little aerial opposition.",
+      "Luftwaffe airfield beginning to host Me 262s and Arado 234s. The crew record puts him here. The clipping kept against this page names Ingolstadt, Fürth and Grafenwöhr, not Ahlhorn.",
     clipping: "Few Enemy Planes Up, 22 KO’d",
   },
   {

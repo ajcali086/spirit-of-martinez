@@ -19,7 +19,7 @@ export const counts: CountQuestion[] = [
   {
     figure: "31",
     label: "Combat plus Chowhound",
-    body: "Twenty-eight operational missions plus three humanitarian sorties over Utrecht. Stuart’s memorandum, concerned only with combat performance, does not count the food. Add them together and the total is thirty-one.",
+    body: "Twenty-eight operational missions plus three humanitarian sorties over Utrecht. Stuart’s memorandum, concerned only with combat performance, does not count the food. Add them together and the total is thirty-one. The 95th Bomb Group’s compiled crew record titles the listing F.J. Calicura, 31 — independently the same figure, and not a paper issued at Horham.",
   },
   {
     figure: "48",

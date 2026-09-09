@@ -39,7 +39,7 @@ export function SevenNumbers() {
         : "This figure is not a count of the missions below.";
 
   return (
-    <section id="seven-numbers" className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+    <section id="seven-numbers" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-14 sm:px-6">
       <p className="kicker">Seven numbers</p>
       <h2 className="mt-3 max-w-3xl font-display text-3xl text-paper sm:text-4xl">
         And what each one counts

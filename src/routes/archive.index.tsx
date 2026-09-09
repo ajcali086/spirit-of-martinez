@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { useLayoutEffect } from "react";
+import { createFileRoute, useRouterState } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
 import { ObjectCatalog } from "@/components/ObjectCatalog";
@@ -8,6 +9,14 @@ import { artifacts, decorations, openQuestions } from "@/data/archive";
 export const Route = createFileRoute("/archive/")({ component: ArchivePage });
 
 function ArchivePage() {
+  const hash = useRouterState({ select: (s) => s.location.hash });
+
+  useLayoutEffect(() => {
+    const id = hash.replace(/^#/, "");
+    if (!id) return;
+    document.getElementById(id)?.scrollIntoView({ block: "start" });
+  }, [hash]);
+
   return (
     <SiteShell>
       <PageHero
