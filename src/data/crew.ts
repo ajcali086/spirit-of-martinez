@@ -1,11 +1,16 @@
 import type { CrewMember } from "./types";
 
+export function bgdbPersonUrl(id: number) {
+  return `https://95thbgdb.com/person/${id}`;
+}
+
 export const crew: CrewMember[] = [
   {
     id: "calicura",
     name: "Frank J. Calicura",
     role: "Pilot",
     hometown: "Martinez, California",
+    person: 964,
     wartime:
       "Born 1921, son of Saverio and Angelina, one of seventeen. Learned to fly on the waterfront strip his eldest brother built. Commissioned 15 April 1944 at Turner Field. First lieutenant, serial O-828662, 335th Bomb Squadron, 95th Bomb Group. Twenty-eight combat missions, three humanitarian drops, 208 combat hours.",
     after:
@@ -16,6 +21,7 @@ export const crew: CrewMember[] = [
     name: "Victor G. Probst",
     role: "Copilot",
     hometown: "Yoakum, Texas",
+    person: 5405,
     wartime:
       "Right-hand seat for the tour, except the first morning — traded into The Red Fox so a veteran copilot could take a new crew over Germany. Later studied architecture.",
     after:
@@ -26,6 +32,7 @@ export const crew: CrewMember[] = [
     name: "John R. Barnes",
     role: "Navigator",
     hometown: "Emporium, Pennsylvania",
+    person: 314,
     wartime:
       "Born Philadelphia, January 1922, son of Leonard and Gertrude Barnes. Added to the crew at Avon Park on 6 November 1944; he is the ninth name, the one missing from the Tampa order.",
     after:
@@ -37,6 +44,7 @@ export const crew: CrewMember[] = [
     name: "Marvin L. Markus",
     role: "Togglier",
     hometown: "Kingfisher, Oklahoma",
+    person: 4208,
     wartime:
       "The town already named on the wallet that would later be stamped for the crew. Flew the nose of the Spirit of Martinez.",
     after:
@@ -48,6 +56,7 @@ export const crew: CrewMember[] = [
     name: "Earle F. Bogacki",
     role: "Flight engineer / top turret",
     hometown: "Cleveland, Ohio",
+    person: 575,
     wartime:
       "Born 1920 to Frank and Stella Bojack, a surname later changed to Bogacki — which is very likely why a contemporary wallet clipping printed “Nogacki” and still got the city right.",
     after:
@@ -59,6 +68,7 @@ export const crew: CrewMember[] = [
     name: "Robert J. Brown",
     role: "Radio operator",
     hometown: "Corning, New York",
+    person: 779,
     wartime:
       "Born 1 May 1924 to a Polish immigrant father. Radio on the Spirit from the first morning at Chemnitz.",
     after:
@@ -70,6 +80,7 @@ export const crew: CrewMember[] = [
     name: "Robert E. Collins",
     role: "Ball turret",
     hometown: "Hutchinson, Kansas",
+    person: 1249,
     wartime:
       "Born 5 October 1923. Draft card lists the Coca-Cola Bottling Company and a boss named Lewis Scruggs. Not yet twenty when he registered. The ball turret of a B-17 became his job instead.",
     after:
@@ -80,6 +91,7 @@ export const crew: CrewMember[] = [
     name: "Dale S. Ernest",
     role: "Waist gunner",
     hometown: "West Virginia",
+    person: 1935,
     wartime:
       "Present with the crew at Avon Park in the autumn of 1944 — the same window a later VA statement describes as the onset of Frank’s back injury.",
     after:
@@ -90,6 +102,7 @@ export const crew: CrewMember[] = [
     name: "James A. Titus",
     role: "Tail gunner",
     hometown: "Lincoln, Nebraska",
+    person: 6711,
     wartime:
       "Gunnery school at Las Vegas, June 1944. Contemporary clippings from a Lincoln paper state plainly that he served in England as tail gunner on a B-17.",
     after:

@@ -96,6 +96,8 @@ export type CrewMember = {
   wartime: string;
   after: string;
   photo?: PhotoId;
+  /** 95th Bomb Group database person id. Modern compilation, not a paper issued at Horham. */
+  person: number;
 };
 
 export type TimelineEvent = {

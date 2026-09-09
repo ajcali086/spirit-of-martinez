@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
 import { PhotoPlate } from "@/components/PhotoPlate";
-import { crew } from "@/data/crew";
+import { bgdbPersonUrl, crew } from "@/data/crew";
+import { BGDB_CREW_URL } from "@/data/missions";
 
 export const Route = createFileRoute("/crew/")({ component: CrewPage });
 
@@ -20,7 +21,21 @@ function CrewPage() {
       <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
         <PhotoPlate id="crew" className="mt-0 mb-8" />
         <PhotoPlate id="crew2" />
-        <PhotoPlate id="ticket" className="mb-12" />
+        <PhotoPlate id="ticket" className="mb-8" />
+        <p className="mb-12 max-w-2xl text-sm leading-relaxed text-muted">
+          Each man links to the 95th Bomb Group database, a modern compilation
+          of the group’s crew record. It is not a wartime paper. The listing
+          there is titled{" "}
+          <a
+            href={BGDB_CREW_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-brass underline-offset-4 hover:text-paper hover:underline"
+          >
+            F.J. Calicura, 31
+          </a>
+          .
+        </p>
         {crew.map((m, i) => (
           <article
             key={m.id}
@@ -44,6 +59,14 @@ function CrewPage() {
             {m.photo ? <PhotoPlate id={m.photo} className="mt-6 mb-0" /> : null}
             <p className="mt-5 font-display text-lg leading-relaxed text-fog">{m.wartime}</p>
             <p className="mt-4 text-sm leading-relaxed text-muted">{m.after}</p>
+            <a
+              href={bgdbPersonUrl(m.person)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
+            >
+              95th BG database
+            </a>
           </article>
         ))}
       </div>

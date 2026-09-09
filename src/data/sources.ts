@@ -56,7 +56,7 @@ export const sourceClasses: SourceClass[] = [
       },
       {
         type: "p",
-        text: "The 95th Bomb Group’s compiled crew record for this crew is published at 95thbgdb.com/crew/59. It is a modern database, not a paper issued at Horham. Each sortie on the mission board links to that compilation’s corresponding mission page.",
+        text: "The 95th Bomb Group’s compiled crew record for this crew is published at 95thbgdb.com/crew/59. It is a modern database, not a paper issued at Horham. Each sortie on the mission board links to that compilation’s corresponding mission page. Each man on the roster links to its corresponding person page.",
       },
       {
         type: "p",
