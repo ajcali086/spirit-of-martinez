@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
 import { PhotoPlate } from "@/components/PhotoPlate";
-import { missions } from "@/data/missions";
+import { BGDB_CREW_URL, bgdbMissionUrl, missions } from "@/data/missions";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/missions")({ component: MissionsPage });
@@ -50,6 +50,21 @@ function MissionsPage() {
           ))}
         </div>
 
+        <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted">
+          Each sortie links to the 95th Bomb Group database, a modern compilation
+          of the group’s crew record. It is not a wartime paper. The crew listing
+          there is titled{" "}
+          <a
+            href={BGDB_CREW_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-brass underline-offset-4 hover:text-paper hover:underline"
+          >
+            F.J. Calicura, 31
+          </a>
+          .
+        </p>
+
         <PhotoPlate id="chart7" className="mt-10" />
 
         <ol className="mt-8 divide-y divide-rule border-y border-rule">
@@ -76,6 +91,14 @@ function MissionsPage() {
                     “{m.clipping}”
                   </p>
                 ) : null}
+                <a
+                  href={bgdbMissionUrl(m.record)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
+                >
+                  95th BG database
+                </a>
               </div>
               <p className="text-sm leading-snug text-muted sm:text-right">{m.aircraft}</p>
             </li>

@@ -74,6 +74,7 @@ export type MissionKind = "combat" | "humanitarian";
 
 export type Mission = {
   number: number;
+  record: number;
   date: string;
   dateLabel: string;
   target: string;

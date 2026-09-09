@@ -54,6 +54,10 @@ export const sourceClasses: SourceClass[] = [
         type: "note",
         text: "A great deal of it burned in St. Louis in 1973.",
       },
+      {
+        type: "p",
+        text: "The 95th Bomb Group’s compiled crew record for this crew is published at 95thbgdb.com/crew/59. It is a modern database, not a paper issued at Horham. Each sortie on the mission board links to that compilation’s corresponding mission page.",
+      },
     ],
   },
   {

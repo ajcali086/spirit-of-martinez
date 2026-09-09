@@ -1,8 +1,16 @@
 import type { Mission } from "./types";
 
+export const BGDB_CREW_URL = "https://95thbgdb.com/crew/59";
+
+export function bgdbMissionUrl(id: number) {
+  return `https://95thbgdb.com/mission/${id}`;
+}
+
+
 export const missions: Mission[] = [
   {
     number: 1,
+    record: 274,
     date: "1945-02-14",
     dateLabel: "14 February 1945",
     target: "Chemnitz",
@@ -14,6 +22,7 @@ export const missions: Mission[] = [
   },
   {
     number: 2,
+    record: 275,
     date: "1945-02-15",
     dateLabel: "15 February 1945",
     target: "Cottbus",
@@ -24,6 +33,7 @@ export const missions: Mission[] = [
   },
   {
     number: 3,
+    record: 277,
     date: "1945-02-19",
     dateLabel: "19 February 1945",
     target: "Osnabrück",
@@ -34,6 +44,7 @@ export const missions: Mission[] = [
   },
   {
     number: 4,
+    record: 278,
     date: "1945-02-20",
     dateLabel: "20 February 1945",
     target: "Nuremberg",
@@ -43,6 +54,7 @@ export const missions: Mission[] = [
   },
   {
     number: 5,
+    record: 279,
     date: "1945-02-21",
     dateLabel: "21 February 1945",
     target: "Nuremberg",
@@ -52,6 +64,7 @@ export const missions: Mission[] = [
   },
   {
     number: 6,
+    record: 280,
     date: "1945-02-22",
     dateLabel: "22 February 1945",
     target: "Bamberg",
@@ -62,6 +75,7 @@ export const missions: Mission[] = [
   },
   {
     number: 7,
+    record: 281,
     date: "1945-02-24",
     dateLabel: "24 February 1945",
     target: "Bremen",
@@ -71,6 +85,7 @@ export const missions: Mission[] = [
   },
   {
     number: 8,
+    record: 282,
     date: "1945-02-25",
     dateLabel: "25 February 1945",
     target: "Munich",
@@ -82,6 +97,7 @@ export const missions: Mission[] = [
   },
   {
     number: 9,
+    record: 284,
     date: "1945-02-27",
     dateLabel: "27 February 1945",
     target: "Leipzig",
@@ -91,6 +107,7 @@ export const missions: Mission[] = [
   },
   {
     number: 10,
+    record: 287,
     date: "1945-03-03",
     dateLabel: "3 March 1945",
     target: "Brunswick",
@@ -101,6 +118,7 @@ export const missions: Mission[] = [
   },
   {
     number: 11,
+    record: 288,
     date: "1945-03-04",
     dateLabel: "4 March 1945",
     target: "Ulm / Baumenheim",
@@ -111,6 +129,7 @@ export const missions: Mission[] = [
   },
   {
     number: 12,
+    record: 292,
     date: "1945-03-10",
     dateLabel: "10 March 1945",
     target: "Dortmunderfeld",
@@ -120,6 +139,7 @@ export const missions: Mission[] = [
   },
   {
     number: 13,
+    record: 293,
     date: "1945-03-12",
     dateLabel: "12 March 1945",
     target: "Swinemünde",
@@ -131,6 +151,7 @@ export const missions: Mission[] = [
   },
   {
     number: 14,
+    record: 294,
     date: "1945-03-14",
     dateLabel: "14 March 1945",
     target: "Seelze",
@@ -141,6 +162,7 @@ export const missions: Mission[] = [
   },
   {
     number: 15,
+    record: 298,
     date: "1945-03-19",
     dateLabel: "19 March 1945",
     target: "Jena",
@@ -152,6 +174,7 @@ export const missions: Mission[] = [
   },
   {
     number: 16,
+    record: 299,
     date: "1945-03-20",
     dateLabel: "20 March 1945",
     target: "Hamburg",
@@ -162,6 +185,7 @@ export const missions: Mission[] = [
   },
   {
     number: 17,
+    record: 301,
     date: "1945-03-22",
     dateLabel: "22 March 1945",
     target: "Ahlhorn",
@@ -173,6 +197,7 @@ export const missions: Mission[] = [
   },
   {
     number: 18,
+    record: 302,
     date: "1945-03-23",
     dateLabel: "23 March 1945",
     target: "Unna",
@@ -182,6 +207,7 @@ export const missions: Mission[] = [
   },
   {
     number: 19,
+    record: 304,
     date: "1945-03-24",
     dateLabel: "24 March 1945",
     target: "Ziegenhain",
@@ -191,6 +217,7 @@ export const missions: Mission[] = [
   },
   {
     number: 20,
+    record: 305,
     date: "1945-03-28",
     dateLabel: "28 March 1945",
     target: "Hannover",
@@ -201,6 +228,7 @@ export const missions: Mission[] = [
   },
   {
     number: 21,
+    record: 307,
     date: "1945-03-31",
     dateLabel: "31 March 1945",
     target: "Zeitz",
@@ -210,6 +238,7 @@ export const missions: Mission[] = [
   },
   {
     number: 22,
+    record: 308,
     date: "1945-04-03",
     dateLabel: "3 April 1945",
     target: "Kiel",
@@ -219,6 +248,7 @@ export const missions: Mission[] = [
   },
   {
     number: 23,
+    record: 309,
     date: "1945-04-04",
     dateLabel: "4 April 1945",
     target: "Kiel",
@@ -230,6 +260,7 @@ export const missions: Mission[] = [
   },
   {
     number: 24,
+    record: 310,
     date: "1945-04-05",
     dateLabel: "5 April 1945",
     target: "Nuremberg",
@@ -240,6 +271,7 @@ export const missions: Mission[] = [
   },
   {
     number: 25,
+    record: 312,
     date: "1945-04-07",
     dateLabel: "7 April 1945",
     target: "Kaltenkirchen",
@@ -249,6 +281,7 @@ export const missions: Mission[] = [
   },
   {
     number: 26,
+    record: 314,
     date: "1945-04-09",
     dateLabel: "9 April 1945",
     target: "München-Riem",
@@ -260,6 +293,7 @@ export const missions: Mission[] = [
   },
   {
     number: 27,
+    record: 315,
     date: "1945-04-10",
     dateLabel: "10 April 1945",
     target: "Burg",
@@ -269,6 +303,7 @@ export const missions: Mission[] = [
   },
   {
     number: 28,
+    record: 321,
     date: "1945-04-20",
     dateLabel: "20 April 1945",
     target: "Oranienburg",
@@ -279,6 +314,7 @@ export const missions: Mission[] = [
   },
   {
     number: 29,
+    record: 324,
     date: "1945-05-03",
     dateLabel: "3 May 1945",
     target: "Utrecht — Lage Weide",
@@ -289,6 +325,7 @@ export const missions: Mission[] = [
   },
   {
     number: 30,
+    record: 325,
     date: "1945-05-05",
     dateLabel: "5 May 1945",
     target: "Utrecht — Lage Weide",
@@ -298,6 +335,7 @@ export const missions: Mission[] = [
   },
   {
     number: 31,
+    record: 326,
     date: "1945-05-06",
     dateLabel: "6 May 1945",
     target: "Utrecht — Lage Weide",
