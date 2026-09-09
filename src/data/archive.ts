@@ -52,6 +52,18 @@ export const artifacts = [
     body: "19 October 1943, Canal Field, Ocala. Signed Ellis G. Ort. The Army let the occasion be what it was.",
   },
   {
+    title: "Greenville Aviation School",
+    body: "Ocala. Primary Training Course. Aviation Cadet Frank James Calicura. Cooper, Hanley, Cummins. The paper that names the school.",
+  },
+  {
+    title: "Instrument ticket, 15 April 1944",
+    body: "Turner Field. A.A.F. Form No. 8. Same day as the commission.",
+  },
+  {
+    title: "Identity card, 15 April 1944",
+    body: "2nd Lt. Frank J. Calicura. 5 ft. 9 in., 155 lbs. Right-hand fingerprints. The silvering is the photograph.",
+  },
+  {
     title: "The PILOT ring",
     body: "Dark oval stone, eagle and shield, a banner with one word. The paper from that April is all addressed to somebody. The ring is not addressed to anyone.",
   },
@@ -82,6 +94,14 @@ export const artifacts = [
   {
     title: "The ribbon bar",
     body: "Distinguished Flying Cross, Air Medal with three oak leaf clusters, EAME campaign medal. The DFC citation has not been located. In July 1973 a fire in St. Louis destroyed most of the files.",
+  },
+  {
+    title: "Stuart’s memorandum, 8 May 1945",
+    body: "Twenty-eight operational missions. Two hundred eight combat hours. Recommended instructor. It does not count the food.",
+  },
+  {
+    title: "GO 289, 27 February 1945",
+    body: "Air Medal. A mark beside the name. Second Lieutenant still. The rest of the crew on the same page.",
   },
   {
     title: "VA letter, 30 October 1959",

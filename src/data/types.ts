@@ -36,7 +36,12 @@ export type PhotoId =
   | "merit"
   | "promotion"
   | "medical"
-  | "rating";
+  | "rating"
+  | "greenville"
+  | "instrument"
+  | "idcard"
+  | "stuart"
+  | "go289";
 
 export type Block =
   | { type: "p"; text: string }
