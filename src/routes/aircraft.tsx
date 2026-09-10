@@ -35,6 +35,9 @@ function AircraftPage() {
           <PhotoPlate id="crew" />
           <PhotoPlate id="cockpit" />
           <PhotoPlate id="jacket" />
+          <PhotoPlate id="noses" />
+          <PhotoPlate id="belligerent" />
+          <PhotoPlate id="spiritart" />
         </div>
 
         <div className="mt-8 grid gap-10 md:grid-cols-2">

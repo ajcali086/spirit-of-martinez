@@ -672,6 +672,66 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
     credit: "Family collection",
     kind: "photograph",
   },
+  noses: {
+    id: "noses",
+    title: "Among the others",
+    src: "/images/archive/noses",
+    width: 1125,
+    height: 1500,
+    alt: "A printed montage of B-17 nose art, Spirit of Martinez among many other names",
+    caption:
+      "A later montage of nose art, not a photograph of the hardstand. Spirit of Martinez sits lower right. Belligerent Beauty is on the same sheet, upper right — the ship of April 7. Fire Ball Red and Picasso are details from this page.",
+    credit: "Family collection",
+    kind: "photograph",
+  },
+  fireball: {
+    id: "fireball",
+    title: "Fire Ball Red",
+    src: "/images/archive/fireball",
+    width: 510,
+    height: 380,
+    alt: "Detail from a nose-art montage: Fire Ball Red",
+    caption:
+      "Fire Ball Red. A detail from the montage. Another nose on the same sheet. Not a ship this crew borrowed.",
+    credit: "Family collection",
+    kind: "photograph",
+  },
+  picasso: {
+    id: "picasso",
+    title: "Picasso",
+    src: "/images/archive/picasso",
+    width: 500,
+    height: 370,
+    alt: "Detail from a nose-art montage: Picasso",
+    caption:
+      "Picasso. A detail from the montage. The guitar, the name. Same sheet as the Spirit.",
+    credit: "Family collection",
+    kind: "photograph",
+  },
+  spiritart: {
+    id: "spiritart",
+    title: "The name among the others",
+    src: "/images/archive/spiritart",
+    width: 565,
+    height: 380,
+    alt: "Detail from a nose-art montage: Spirit of Martinez painted on a B-17 nose",
+    caption:
+      "Spirit of Martinez, from the montage. The name in paint, among the others.",
+    credit: "Family collection",
+    kind: "photograph",
+  },
+  belligerent: {
+    id: "belligerent",
+    title: "Belligerent Beauty",
+    src: "/images/archive/belligerent",
+    width: 475,
+    height: 380,
+    alt: "Detail from a nose-art montage: Belligerent Beauty, upper right of the sheet",
+    caption:
+      "Belligerent Beauty, from the montage. Upper right of the sheet. 43-38942. The ship of April 7 — Kaltenkirchen, the second borrowed morning.",
+    credit: "Family collection",
+    kind: "photograph",
+  },
 };
 
 export const photoList: ArchivePhoto[] = [
@@ -688,6 +748,11 @@ export const photoList: ArchivePhoto[] = [
   photos.probst,
   photos.naming,
   photos.nose,
+  photos.noses,
+  photos.belligerent,
+  photos.spiritart,
+  photos.fireball,
+  photos.picasso,
   photos.brown,
   photos.barnes,
   photos.bogacki,

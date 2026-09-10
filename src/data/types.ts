@@ -48,7 +48,12 @@ export type PhotoId =
   | "probst"
   | "signatures"
   | "pregnant"
-  | "rodia";
+  | "rodia"
+  | "noses"
+  | "fireball"
+  | "picasso"
+  | "spiritart"
+  | "belligerent";
 
 export type Block =
   | { type: "p"; text: string }
