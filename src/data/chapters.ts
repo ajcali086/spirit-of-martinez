@@ -357,7 +357,7 @@ export const chapters: Chapter[] = [
         blocks: [
           { type: "p", text: "Frank Calicura left Hendricks Field in the summer of 1944 rated to fly the airplane. He still could not have named the man who would sit beside him in the right-hand seat, or the six who would work the positions behind him." },
           { type: "p", text: "That would happen next, at a different field, built for the purpose Hendricks had been narrowed to exclude: putting a trained pilot together with the rest of a crew for the first time. Frank knew, by the time he left Florida that summer, how to hold a B-17 level, how to manage four engines as a single problem instead of four, and how much weight he was now qualified to be responsible for in the air. He did not yet know who, specifically, he would be responsible for. That gap — a man who could fly the airplane, and a crew that did not exist yet — is where the next stage of his training began." },
-          { type: "p", text: "A birth came first. Before the announcement card, a color plate of Joyce: 1943, after Maxwell, already carrying the son the Gazette would name." },
+          { type: "p", text: "A birth came first. Before the announcement card, a color plate of Joyce: 1943, the front of 731 Mellus Street, already carrying the son the Gazette would name." },
           { type: "figure", id: "pregnant" },
           { type: "p", text: "Frank James Calicura Jr. was born June 20, 1944, at 3:15 p.m., at Community Hospital in Martinez — seven pounds seven ounces, named for the father who had not yet seen him. The Gazette ran the news the next day under the headline \"New ‘General’ at Lieut. Calicura Home,\" reporting that Frank, still training in Florida, had a new member of his family he had never seen, and that Joyce was reported \"doing nicely\" by hospital authorities. A handmade announcement card survives alongside the clipping, addressed in the family's own hand along a drawn clothesline: born 6/20/44, 3:15 P.M., named Frank James Calicura Jr., weighed 7 lbs. 7 oz., signed \"Proud Mama and Papa, Joyce & Frank Calicura\" (family collection). The envelope carrying the news to Frank is postmarked Martinez, June 21, 1944, addressed to Officer Student's Section, Class 44-D, Hendricks Field, Sebring, Florida (family collection) — reaching him roughly a month before his mother's death, and identifying the infant son shown with him in the undated family photograph cited below as this same child." },
           { type: "figure", id: "birth" },
@@ -373,7 +373,7 @@ export const chapters: Chapter[] = [
     number: 6,
     slug: "nine-strangers",
     title: "Nine Strangers",
-    kicker: "Tampa & Avon Park, Florida — August–September 1944",
+    kicker: "Tampa & Avon Park, Florida — August–November 1944",
     years: "1944",
     image: "/images/hero-fortress.jpg",
     imageAlt: "The B-15 jacket and the Horham crew photograph on a table",

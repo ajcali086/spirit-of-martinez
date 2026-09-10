@@ -12,9 +12,9 @@ function CrewPage() {
   return (
     <SiteShell>
       <PageHero
-        kicker="Avon Park, September 1944"
+        kicker="Tampa & Avon Park, 1944"
         title="Nine strangers"
-        dek="No one at the Replacement Training Unit asked whether they would get along. The job was to teach them to work, not to like each other — though most crews managed both before it was over."
+        dek="Eight names on a Tampa order in August. A ninth at Avon Park on the sixth of November. No one at the Replacement Training Unit asked whether they would get along."
         image="/images/horham.jpg"
         imageAlt="Horham airfield"
         compact
