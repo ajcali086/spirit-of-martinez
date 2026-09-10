@@ -26,7 +26,7 @@ function Home() {
       <section className="relative flex min-h-[calc(100dvh-4rem)] flex-col justify-end overflow-hidden">
         <img
           src="/images/hero-fortress.jpg"
-          alt="A B-17 Flying Fortress over East Anglia at dawn"
+          alt="The B-15 jacket of the Spirit of Martinez on a table, the Horham crew photograph beside it"
           className="absolute inset-0 size-full object-cover"
         />
         <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/70 to-ink/25" />

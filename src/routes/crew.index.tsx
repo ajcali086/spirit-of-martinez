@@ -22,7 +22,9 @@ function CrewPage() {
       <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
         <PhotoPlate id="crew" className="mt-0 mb-8" />
         <PhotoPlate id="crew2" />
+        <PhotoPlate id="cockpit" />
         <PhotoPlate id="ticket" className="mb-8" />
+        <PhotoPlate id="signatures" className="mb-8" />
         <p className="mb-12 max-w-2xl text-sm leading-relaxed text-muted">
           Each man links to the 95th Bomb Group database, a modern compilation
           of the group’s crew record. It is not a wartime paper. The listing

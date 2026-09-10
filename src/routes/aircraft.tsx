@@ -33,6 +33,7 @@ function AircraftPage() {
           <PhotoPlate id="nose" className="mt-0" />
           <PhotoPlate id="naming" />
           <PhotoPlate id="crew" />
+          <PhotoPlate id="cockpit" />
           <PhotoPlate id="jacket" />
         </div>
 

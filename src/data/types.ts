@@ -41,7 +41,14 @@ export type PhotoId =
   | "instrument"
   | "idcard"
   | "stuart"
-  | "go289";
+  | "go289"
+  | "maxwell"
+  | "cockpit"
+  | "calicura"
+  | "probst"
+  | "signatures"
+  | "pregnant"
+  | "rodia";
 
 export type Block =
   | { type: "p"; text: string }
