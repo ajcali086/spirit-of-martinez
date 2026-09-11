@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AircraftRouteImport } from './routes/aircraft'
+import { Route as BookRouteImport } from './routes/book'
 import { Route as MissionsRouteImport } from './routes/missions'
 import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as TimelineRouteImport } from './routes/timeline'
@@ -29,6 +30,11 @@ const IndexRoute = IndexRouteImport.update({
 const AircraftRoute = AircraftRouteImport.update({
   id: '/aircraft',
   path: '/aircraft',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookRoute = BookRouteImport.update({
+  id: '/book',
+  path: '/book',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MissionsRoute = MissionsRouteImport.update({
@@ -80,6 +86,7 @@ const CrewIdRoute = CrewIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/aircraft': typeof AircraftRoute
+  '/book': typeof BookRoute
   '/missions': typeof MissionsRoute
   '/sources': typeof SourcesRoute
   '/timeline': typeof TimelineRoute
@@ -93,6 +100,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/aircraft': typeof AircraftRoute
+  '/book': typeof BookRoute
   '/missions': typeof MissionsRoute
   '/sources': typeof SourcesRoute
   '/timeline': typeof TimelineRoute
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/aircraft': typeof AircraftRoute
+  '/book': typeof BookRoute
   '/missions': typeof MissionsRoute
   '/sources': typeof SourcesRoute
   '/timeline': typeof TimelineRoute
@@ -122,6 +131,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/aircraft'
+    | '/book'
     | '/missions'
     | '/sources'
     | '/timeline'
@@ -135,6 +145,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/aircraft'
+    | '/book'
     | '/missions'
     | '/sources'
     | '/timeline'
@@ -148,6 +159,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/aircraft'
+    | '/book'
     | '/missions'
     | '/sources'
     | '/timeline'
@@ -162,6 +174,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AircraftRoute: typeof AircraftRoute
+  BookRoute: typeof BookRoute
   MissionsRoute: typeof MissionsRoute
   SourcesRoute: typeof SourcesRoute
   TimelineRoute: typeof TimelineRoute
@@ -187,6 +200,13 @@ declare module '@tanstack/react-router' {
       path: '/aircraft'
       fullPath: '/aircraft'
       preLoaderRoute: typeof AircraftRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book': {
+      id: '/book'
+      path: '/book'
+      fullPath: '/book'
+      preLoaderRoute: typeof BookRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/missions': {
@@ -258,6 +278,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AircraftRoute: AircraftRoute,
+  BookRoute: BookRoute,
   MissionsRoute: MissionsRoute,
   SourcesRoute: SourcesRoute,
   TimelineRoute: TimelineRoute,

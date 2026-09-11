@@ -128,7 +128,13 @@ export function SevenNumbers() {
               </span>
               <span className="text-[0.72rem] text-muted max-sm:col-start-2">{m.dateLabel}</span>
               <span className="font-display text-lg text-paper max-sm:col-span-2 max-sm:col-start-2">
-                {m.target}
+                <Link
+                  to="/missions"
+                  hash={`m-${m.number}`}
+                  className="hover:text-brass"
+                >
+                  {m.target}
+                </Link>
                 {m.kind === "humanitarian" ? (
                   <span className="ml-2 align-middle text-[0.62rem] tracking-[0.14em] text-brass uppercase">
                     Food drop

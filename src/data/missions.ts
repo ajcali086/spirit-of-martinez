@@ -15,6 +15,23 @@ export function hasCaptainsChart(m: Mission) {
   return m.kind === "combat" && m.number <= 14;
 }
 
+/** The chapter that already tells this morning. The board is the ledger. */
+export function missionChapter(m: Mission): { slug: string; label: string } {
+  if (m.kind === "humanitarian") return { slug: "utrecht", label: "Utrecht" };
+  if (m.number <= 2) return { slug: "mission-one", label: "Mission One" };
+  if (m.number === 12 || m.number >= 16) {
+    return { slug: "borrowed-aircraft", label: "Borrowed Aircraft" };
+  }
+  return { slug: "ninety-four-hours", label: "Ninety-Four Hours" };
+}
+
+/** Men named in the note who have a page of their own. Austin, Greear, Bradley, Crawford do not. */
+export function missionPeople(m: Mission): { id: string; name: string }[] {
+  if (m.number === 1 || m.number === 12) {
+    return [{ id: "probst", name: "Victor G. Probst" }];
+  }
+  return [];
+}
 
 export const missions: Mission[] = [
   {

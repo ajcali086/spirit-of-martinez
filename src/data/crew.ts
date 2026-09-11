@@ -39,6 +39,23 @@ export const crew: CrewMember[] = [
     after:
       "Returned to England to study architecture at the University of London, then co-founded a Texas firm that designed hospitals, including Houston’s St. Luke’s and Texas Children’s.",
     photo: "probst",
+    records: [
+      {
+        href: "/missions#m-1",
+        label: "Chemnitz, 14 February",
+        note: "The first morning. Austin in the Spirit. Probst in The Red Fox.",
+      },
+      {
+        href: "/missions#m-12",
+        label: "Dortmunderfeld, 10 March",
+        note: "The reverse. Greear in the Spirit. Probst in Poof Proof.",
+      },
+      {
+        href: "/chapters/borrowed-aircraft",
+        label: "The other airplane",
+        note: "Getchius on March 2. The thirty-two. Neither count is wrong.",
+      },
+    ],
   },
   {
     id: "barnes",

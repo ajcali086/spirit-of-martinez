@@ -1,20 +1,39 @@
-import { useMemo, useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useMemo, useState } from "react";
+import { createFileRoute, Link, useRouterState } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
 import { PhotoPlate } from "@/components/PhotoPlate";
-import { BGDB_CREW_URL, bgdbMissionUrl, eighthMissionUrl, hasCaptainsChart, missions } from "@/data/missions";
+import {
+  BGDB_CREW_URL,
+  bgdbMissionUrl,
+  eighthMissionUrl,
+  hasCaptainsChart,
+  missionChapter,
+  missionPeople,
+  missions,
+} from "@/data/missions";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/missions")({ component: MissionsPage });
 
 function MissionsPage() {
+  const hash = useRouterState({ select: (s) => s.location.hash });
   const [filter, setFilter] = useState<"charts" | "all" | "combat" | "humanitarian">("charts");
   const list = useMemo(() => {
     if (filter === "charts") return missions.filter(hasCaptainsChart);
     if (filter === "all") return missions;
     return missions.filter((m) => m.kind === filter);
   }, [filter]);
+
+  useEffect(() => {
+    const n = Number(String(hash).replace(/^#?m-/, ""));
+    if (!Number.isFinite(n) || n < 1) return;
+    if (n >= 29) setFilter("humanitarian");
+    else if (n > 14) setFilter("all");
+    requestAnimationFrame(() => {
+      document.getElementById(`m-${n}`)?.scrollIntoView({ block: "center" });
+    });
+  }, [hash]);
 
   return (
     <SiteShell>
@@ -76,59 +95,97 @@ function MissionsPage() {
           >
             seven counts
           </Link>
-          .
+          . Each morning also opens the chapter that already tells it.
         </p>
 
         <PhotoPlate id="chart7" className="mt-10" />
 
         <ol className="mt-8 divide-y divide-rule border-y border-rule">
-          {list.map((m) => (
-            <li key={`${m.number}-${m.date}`} className="grid gap-3 py-6 sm:grid-cols-[4.5rem_1fr_11rem] sm:gap-6">
-              <p
-                className={
-                  m.kind === "humanitarian"
-                    ? "font-display text-lg tracking-widest text-brass uppercase"
-                    : "font-display text-3xl text-brass"
-                }
+          {list.map((m) => {
+            const chapter = missionChapter(m);
+            const people = missionPeople(m);
+            return (
+              <li
+                key={`${m.number}-${m.date}`}
+                id={`m-${m.number}`}
+                className="grid scroll-mt-28 gap-3 py-6 sm:grid-cols-[4.5rem_1fr_11rem] sm:gap-6"
               >
-                {m.kind === "humanitarian" ? "Food" : String(m.number).padStart(2, "0")}
-              </p>
-              <div>
-                <h2 className="font-display text-2xl text-paper">{m.target}</h2>
-                <p className="mt-1 text-[0.72rem] tracking-[0.12em] text-muted uppercase">
-                  {m.dateLabel}
-                  {m.kind === "humanitarian" ? " · Humanitarian" : ""}
+                <p
+                  className={
+                    m.kind === "humanitarian"
+                      ? "font-display text-lg tracking-widest text-brass uppercase"
+                      : "font-display text-3xl text-brass"
+                  }
+                >
+                  {m.kind === "humanitarian" ? "Food" : String(m.number).padStart(2, "0")}
                 </p>
-                <p className="mt-3 text-sm leading-relaxed text-fog">{m.notes}</p>
-                {m.clipping ? (
-                  <p className="mt-2 font-display text-sm text-brass italic">
-                    “{m.clipping}”
+                <div>
+                  <h2 className="font-display text-2xl text-paper">{m.target}</h2>
+                  <p className="mt-1 text-[0.72rem] tracking-[0.12em] text-muted uppercase">
+                    {m.dateLabel}
+                    {m.kind === "humanitarian" ? " · Humanitarian" : ""}
                   </p>
-                ) : null}
-                <div className="mt-3 flex flex-wrap items-center gap-x-5">
-                  <a
-                    href={bgdbMissionUrl(m.record)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
-                  >
-                    95th BG database
-                  </a>
-                  {m.eighth && m.eighthSlug ? (
+                  <p className="mt-3 text-sm leading-relaxed text-fog">{m.notes}</p>
+                  {m.clipping ? (
+                    <p className="mt-2 font-display text-sm text-brass italic">
+                      “{m.clipping}”
+                    </p>
+                  ) : null}
+                  <div className="mt-3 flex flex-wrap items-center gap-x-5">
+                    <Link
+                      to="/chapters/$slug"
+                      params={{ slug: chapter.slug }}
+                      className="inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
+                    >
+                      {chapter.label}
+                    </Link>
+                    <Link
+                      to="/aircraft"
+                      className="inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
+                    >
+                      The aircraft
+                    </Link>
+                    {people.map((p) => (
+                      <Link
+                        key={p.id}
+                        to="/crew/$id"
+                        params={{ id: p.id }}
+                        className="inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
+                      >
+                        {p.name}
+                      </Link>
+                    ))}
                     <a
-                      href={eighthMissionUrl(m.eighthSlug)}
+                      href={bgdbMissionUrl(m.record)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
                     >
-                      8th AF {m.eighth}
+                      95th BG database
                     </a>
-                  ) : null}
+                    {m.eighth && m.eighthSlug ? (
+                      <a
+                        href={eighthMissionUrl(m.eighthSlug)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
+                      >
+                        8th AF {m.eighth}
+                      </a>
+                    ) : null}
+                  </div>
                 </div>
-              </div>
-              <p className="text-sm leading-snug text-muted sm:text-right">{m.aircraft}</p>
-            </li>
-          ))}
+                <p className="text-sm leading-snug text-muted sm:text-right">
+                  <Link
+                    to="/aircraft"
+                    className="hover:text-brass"
+                  >
+                    {m.aircraft}
+                  </Link>
+                </p>
+              </li>
+            );
+          })}
         </ol>
       </div>
     </SiteShell>
