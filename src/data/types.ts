@@ -61,7 +61,7 @@ export type PhotoId =
   | "coat";
 
 export type Block =
-  | { type: "p"; text: string }
+  | { type: "p"; text: string; id?: string }
   | { type: "quote"; text: string; cite?: string }
   | { type: "note"; text: string }
   | { type: "artifact"; title: string; body: string }

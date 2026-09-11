@@ -135,6 +135,7 @@ function MissionsPage() {
                     <Link
                       to="/chapters/$slug"
                       params={{ slug: chapter.slug }}
+                      hash={chapter.hash}
                       className="inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
                     >
                       {chapter.label}

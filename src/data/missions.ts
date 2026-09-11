@@ -15,14 +15,18 @@ export function hasCaptainsChart(m: Mission) {
   return m.kind === "combat" && m.number <= 14;
 }
 
-/** The chapter that already tells this morning. The board is the ledger. */
-export function missionChapter(m: Mission): { slug: string; label: string } {
-  if (m.kind === "humanitarian") return { slug: "utrecht", label: "Utrecht" };
-  if (m.number <= 2) return { slug: "mission-one", label: "Mission One" };
-  if (m.number === 12 || m.number >= 16) {
-    return { slug: "borrowed-aircraft", label: "Borrowed Aircraft" };
+/** The chapter that already tells this morning, and the heading it opens on. */
+export function missionChapter(m: Mission): { slug: string; label: string; hash: string } {
+  if (m.kind === "humanitarian") {
+    return { slug: "utrecht", label: "Utrecht", hash: "12.4" };
   }
-  return { slug: "ninety-four-hours", label: "Ninety-Four Hours" };
+  if (m.number <= 2) {
+    return { slug: "mission-one", label: "Mission One", hash: `m-${m.number}` };
+  }
+  if (m.number === 12 || m.number >= 16) {
+    return { slug: "borrowed-aircraft", label: "Borrowed Aircraft", hash: `m-${m.number}` };
+  }
+  return { slug: "ninety-four-hours", label: "Ninety-Four Hours", hash: `m-${m.number}` };
 }
 
 /** Men named in the note who have a page of their own. Austin, Greear, Bradley, Crawford do not. */

@@ -74,7 +74,11 @@ function ChapterPage() {
               {chapter.dek}
             </p>
             {chapter.sections.map((section) => (
-              <section key={section.id} className="mb-14">
+              <section
+                key={section.id}
+                id={section.id}
+                className="mb-14 scroll-mt-28"
+              >
                 {section.title ? (
                   <header className="mb-6">
                     <p className="font-sans text-[0.68rem] tracking-[0.22em] text-feather uppercase">
@@ -166,5 +170,12 @@ function renderBlock(block: Block, dropCap: boolean) {
   if (block.type === "figure") {
     return <PhotoPlate id={block.id} caption={block.caption} tone="paper" />;
   }
-  return <p className={dropCap ? "drop-cap" : undefined}>{block.text}</p>;
+  return (
+    <p
+      id={block.id}
+      className={cn(dropCap && "drop-cap", block.id && "scroll-mt-28")}
+    >
+      {block.text}
+    </p>
+  );
 }
