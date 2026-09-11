@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { SpiritMark } from "@/components/SpiritMark";
+import { nav } from "@/data/nav";
 
 export function SiteFooter() {
   return (
@@ -17,24 +18,15 @@ export function SiteFooter() {
           </p>
         </div>
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-[0.72rem] tracking-[0.16em] text-fog uppercase">
-          <Link to="/chapters" className="min-h-11 py-3 hover:text-brass">
-            The Book
-          </Link>
-          <Link to="/missions" className="min-h-11 py-3 hover:text-brass">
-            Missions
-          </Link>
-          <Link to="/crew" className="min-h-11 py-3 hover:text-brass">
-            Crew
-          </Link>
-          <Link to="/aircraft" className="min-h-11 py-3 hover:text-brass">
-            Aircraft
-          </Link>
-          <Link to="/archive" className="min-h-11 py-3 hover:text-brass">
-            Archive
-          </Link>
-          <Link to="/sources" className="min-h-11 py-3 hover:text-brass">
-            Sources
-          </Link>
+          {nav.map((item) => (
+            <Link
+              key={item.href}
+              to={item.href}
+              className="min-h-11 py-3 hover:text-brass"
+            >
+              {item.label}
+            </Link>
+          ))}
         </div>
       </div>
       <div className="border-t border-rule/70">

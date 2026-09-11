@@ -53,7 +53,12 @@ export type PhotoId =
   | "fireball"
   | "paisano"
   | "spiritart"
-  | "belligerent";
+  | "belligerent"
+  | "locker"
+  | "stations"
+  | "ring"
+  | "woodpecker"
+  | "coat";
 
 export type Block =
   | { type: "p"; text: string }

@@ -168,7 +168,8 @@ export const missions: Mission[] = [
     target: "Dortmunderfeld",
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
-    notes: "Industrial corridor the Eighth had been working since Chemnitz. No clipping in the scrapbook.",
+    notes:
+      "Industrial corridor the Eighth had been working since Chemnitz. Copilot for the day was Claude C. Greear, on loan from C.D. Crawford’s crew — the reverse of the February trade. Victor Probst flew the same morning in Poof Proof. No clipping in the scrapbook.",
   },
   {
     number: 13,

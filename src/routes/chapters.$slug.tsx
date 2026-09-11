@@ -59,7 +59,7 @@ function ChapterPage() {
                       : "text-ink-soft/60 hover:text-ink"
                   }`}
                   aria-current={c.slug === slug ? "page" : undefined}
-                  aria-label={`Chapter ${c.number}`}
+                  aria-label={`Chapter ${c.number}: ${c.title}`}
                 >
                   {c.number}
                 </Link>

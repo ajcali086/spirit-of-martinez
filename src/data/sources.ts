@@ -38,7 +38,7 @@ export const sourceClasses: SourceClass[] = [
       },
       {
         type: "p",
-        text: "It is not catalogued, not complete, and not neutral. It preserves what a family chose to keep, which is a different thing from what happened.",
+        text: "It is not catalogued, not complete, and not neutral. It preserves what a family chose to keep, which is a different thing from what happened. One of those objects is a copy of Contrails, the 95th Bomb Group yearbook of 1945, from which the nose-art montage in the archive is taken.",
       },
     ],
   },
@@ -56,7 +56,7 @@ export const sourceClasses: SourceClass[] = [
       },
       {
         type: "p",
-        text: "The 95th Bomb Group’s compiled crew record for this crew is published at 95thbgdb.com/crew/59. It is a modern database, not a paper issued at Horham. Each sortie on the mission board links to that compilation’s corresponding mission page. Each man on the roster links to its corresponding person page.",
+        text: "The 95th Bomb Group’s compiled crew record for this crew is published at 95thbgdb.com/crew/59. It is a modern database, not a paper issued at Horham. Each sortie on the mission board links to that compilation’s corresponding mission page. Each man on the roster links to its corresponding person page. The same compilation credits Victor G. Probst with thirty-two sorties — twenty-nine with this crew, three on loan. That figure appears on his person page and in no wartime document held by this family.",
       },
       {
         type: "p",

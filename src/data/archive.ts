@@ -48,6 +48,10 @@ export const artifacts = [
     body: "Martinez Junior High to senior high, Alhambra Union High School District. Frank J. Calicura. Given at Martinez, June 21, 1935.",
   },
   {
+    title: "At their stations",
+    body: "Seven in-aircraft prints on a paper page, labeled in a family hand. Markus and Ernest are not on the sheet.",
+  },
+  {
     title: "Woody Woodpecker solo card",
     body: "19 October 1943, Canal Field, Ocala. Signed Ellis G. Ort. The Army let the occasion be what it was.",
   },

@@ -35,7 +35,7 @@ export const crew: CrewMember[] = [
     hometown: "Yoakum, Texas",
     person: 5405,
     wartime:
-      "Right-hand seat for the tour, except the first morning — traded into The Red Fox so a veteran copilot could take a new crew over Germany. Later studied architecture.",
+      "Right-hand seat for the tour, except three mornings: Chemnitz in The Red Fox, Ruhland in the Spirit with Getchius, Dortmunderfeld in Poof Proof. Twenty-nine with this crew. Thirty-two in the group’s compilation — a modern count, not a paper issued at Horham.",
     after:
       "Returned to England to study architecture at the University of London, then co-founded a Texas firm that designed hospitals, including Houston’s St. Luke’s and Texas Children’s.",
     photo: "probst",

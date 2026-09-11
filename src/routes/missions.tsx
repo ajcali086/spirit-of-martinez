@@ -23,7 +23,7 @@ function MissionsPage() {
         title="Thirty-one sorties"
         dek="Twenty-eight combat missions, three humanitarian drops. Joyce numbered the scrapbook to twenty-eight. The food carries no number at all."
         image="/images/hero-fortress.jpg"
-        imageAlt="The B-15 jacket painted with the Spirit of Martinez and thirty bomb symbols"
+        imageAlt="The locker arranged: B-15 jacket, crew plate, wallet, and gloves"
         compact
       />
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">

@@ -24,7 +24,7 @@ function ArchivePage() {
         title="What the paperwork says, and what it cannot settle"
         dek="None of these documents agrees with all the others about exactly what happened, or exactly how many times it happened. Fourteen chapters into trying, the book stopped trying to resolve that. A family kept everything anyway."
         image="/images/footlocker.jpg"
-        imageAlt="A still life of wartime objects"
+        imageAlt="The locker arranged: B-15 jacket, crew plate, wallet, and gloves"
       />
 
       <SevenNumbers />

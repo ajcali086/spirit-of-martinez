@@ -29,7 +29,7 @@ export const aircraft = {
     },
     {
       label: "Borrowed mornings",
-      body: "On 17 March 1945 she flew to Ruhland with John Bradley’s crew while Frank’s men stood down. On 5 April and 7 April, while she sat with her cowlings off for a third engine change, Frank’s crew flew The Red Fox and Belligerent Beauty. By 9 April they were back in her.",
+      body: "On 2 March 1945 she flew to Ruhland with J.J. Getchius in the left seat and Victor Probst still in the right — Frank did not fly. On 10 March Probst flew Poof Proof with C.D. Crawford while Claude C. Greear sat right-hand in her, the reverse of the February trade. On 17 March she flew to Ruhland with John Bradley’s crew while Frank’s men stood down. On 5 April and 7 April, while she sat with her cowlings off for a third engine change, Frank’s crew flew The Red Fox and Belligerent Beauty. By 9 April they were back in her.",
     },
     {
       label: "The ferry ship that was not her",

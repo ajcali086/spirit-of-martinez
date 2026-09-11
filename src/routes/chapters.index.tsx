@@ -13,7 +13,7 @@ function ChaptersIndex() {
         title="Fifteen chapters"
         dek="Read in order, or open any chapter the way a family opens a box — wherever the hand lands."
         image="/images/footlocker.jpg"
-        imageAlt="Wartime objects from a footlocker"
+        imageAlt="The locker arranged: B-15 jacket, crew plate, wallet, and gloves"
         compact
       />
       <ol className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
