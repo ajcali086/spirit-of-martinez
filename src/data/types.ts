@@ -51,7 +51,7 @@ export type PhotoId =
   | "rodia"
   | "noses"
   | "fireball"
-  | "picasso"
+  | "paisano"
   | "spiritart"
   | "belligerent";
 
