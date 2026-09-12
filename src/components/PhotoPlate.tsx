@@ -1,5 +1,6 @@
+import { useRef, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { photos } from "@/data/photos";
+import { photos, type ArchivePhoto } from "@/data/photos";
 import type { PhotoId } from "@/data/types";
 import { cn } from "@/lib/utils";
 
@@ -21,8 +22,11 @@ export function PhotoPlate({
   const photo = photos[id];
   const text = caption ?? photo.caption;
   const portrait = photo.height > photo.width;
-  const widthClass =
-    photo.maxWidth === "sm"
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const onCard = pathname === `/archive/${id}`;
+  const widthClass = onCard
+    ? "w-full"
+    : photo.maxWidth === "sm"
       ? "mx-auto w-full max-w-sm"
       : photo.maxWidth === "lg"
         ? "mx-auto w-full max-w-lg"
@@ -31,8 +35,6 @@ export function PhotoPlate({
           : constrain && portrait
             ? "mx-auto w-full max-w-lg"
             : undefined;
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const onCard = pathname === `/archive/${id}`;
 
   const image = (
     <picture>
@@ -46,13 +48,15 @@ export function PhotoPlate({
         fetchPriority={priority ? "high" : undefined}
         decoding="async"
         sizes={
-          photo.maxWidth === "sm"
-            ? "(min-width: 640px) 24rem, 100vw"
-            : photo.maxWidth === "xl"
-              ? "(min-width: 1024px) 56rem, 100vw"
-              : widthClass
-                ? "(min-width: 640px) 32rem, 100vw"
-                : "(min-width: 1024px) 56rem, 100vw"
+          onCard
+            ? "(min-width: 768px) 48rem, 100vw"
+            : photo.maxWidth === "sm"
+              ? "(min-width: 640px) 24rem, 100vw"
+              : photo.maxWidth === "xl"
+                ? "(min-width: 1024px) 56rem, 100vw"
+                : widthClass
+                  ? "(min-width: 640px) 32rem, 100vw"
+                  : "(min-width: 1024px) 56rem, 100vw"
         }
         className="h-auto w-full bg-ink-mid"
       />
@@ -62,7 +66,7 @@ export function PhotoPlate({
   return (
     <figure className={cn("my-8", widthClass, className)}>
       {onCard ? (
-        image
+        <PlateZoom photo={photo}>{image}</PlateZoom>
       ) : (
         <Link
           to="/archive/$id"
@@ -82,7 +86,7 @@ export function PhotoPlate({
         {text}
         <span
           className={cn(
-            "mt-1 block text-xs tracking-widest uppercase",
+            "relative z-10 mt-1 block text-xs tracking-widest uppercase",
             tone === "paper" ? "text-brass-dim" : "text-brass",
           )}
         >
@@ -94,13 +98,18 @@ export function PhotoPlate({
                 href={photo.source.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="tracking-[0.16em] underline-offset-4 hover:underline"
+                className="inline-flex min-h-11 items-center tracking-[0.16em] underline-offset-4 hover:underline"
               >
                 {photo.source.label}
               </a>
             </>
           ) : null}
-          {onCard ? null : (
+          {onCard ? (
+            <>
+              {" · "}
+              Zoom to read the hand
+            </>
+          ) : (
             <>
               {" · "}
               <Link
@@ -115,5 +124,58 @@ export function PhotoPlate({
         </span>
       </figcaption>
     </figure>
+  );
+}
+
+function PlateZoom({
+  photo,
+  children,
+}: {
+  photo: ArchivePhoto;
+  children: ReactNode;
+}) {
+  const dialog = useRef<HTMLDialogElement>(null);
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => dialog.current?.showModal()}
+        aria-label={`Zoom. ${photo.title}.`}
+        className="block w-full cursor-zoom-in outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass"
+      >
+        {children}
+      </button>
+      <dialog
+        ref={dialog}
+        aria-label={photo.title}
+        className="m-0 h-full max-h-none w-full max-w-none bg-ink p-0 text-paper open:flex open:flex-col [&::backdrop]:bg-ink/95"
+      >
+        <form
+          method="dialog"
+          className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-rule bg-ink/90 px-4 py-3"
+        >
+          <p className="truncate font-sans text-[0.68rem] tracking-[0.16em] text-brass uppercase">
+            {photo.title}
+          </p>
+          <button
+            type="submit"
+            className="inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-paper uppercase hover:text-brass"
+          >
+            Close
+          </button>
+        </form>
+        <div className="min-h-0 flex-1 overflow-auto">
+          <img
+            src={`${photo.src}.jpg`}
+            alt={photo.alt}
+            width={photo.width}
+            height={photo.height}
+            className="mx-auto block h-auto max-w-none bg-ink-mid"
+            style={{ width: photo.width }}
+          />
+        </div>
+      </dialog>
+    </>
   );
 }

@@ -79,7 +79,10 @@ export type PhotoId =
   | "chowhoundwing"
   | "hangar"
   | "tribune1939"
-  | "firstmeeting";
+  | "firstmeeting"
+  | "shaw"
+  | "dillon"
+  | "brunswick";
 
 export type Block =
   | { type: "p"; text: string; id?: string }
@@ -142,6 +145,12 @@ export type CrewMember = {
   photo?: PhotoId;
   /** 95th Bomb Group database person id. Modern compilation, not a paper issued at Horham. */
   person: number;
+  /** Army serial as the compilation and the papers have it. */
+  serial: string;
+  /** Mission count in the 95th Bomb Group database. Modern compilation, not a paper issued at Horham. */
+  dbCount: number;
+  /** Why this man's count is not 31, in the compilation's own terms. */
+  divergence?: string;
   /** Later notices and other public records, distinct from the group database. */
   records?: RecordLink[];
 };

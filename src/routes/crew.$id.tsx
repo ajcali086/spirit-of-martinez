@@ -49,6 +49,10 @@ function CrewMemberPage() {
             <p className="mt-2 text-sm tracking-[0.08em] text-muted uppercase">
               {member.hometown}
             </p>
+            <p className="mt-3 font-sans text-[0.68rem] tracking-[0.14em] text-brass uppercase">
+              Serial {member.serial} · {member.dbCount} in the compilation
+              {member.divergence ? ` · ${member.divergence}` : ""}
+            </p>
           </div>
         </header>
 
@@ -60,6 +64,12 @@ function CrewMemberPage() {
             {member.wartime}
           </p>
           <p className="mt-5 text-sm leading-relaxed text-muted">{member.after}</p>
+          <p className="mt-6 text-sm leading-relaxed text-muted">
+            <Link to="/crew" hash="nine-counts" className="text-brass underline-offset-4 hover:underline">
+              Nine men, four totals
+            </Link>
+            . The compilation’s count, beside the other eight.
+          </p>
           <CrewRecords member={member} />
 
           <section className="mt-12 border-t border-rule pt-8">
