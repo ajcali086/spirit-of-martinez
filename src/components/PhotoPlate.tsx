@@ -87,6 +87,19 @@ export function PhotoPlate({
           )}
         >
           {photo.credit}
+          {photo.source ? (
+            <>
+              {" · "}
+              <a
+                href={photo.source.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="tracking-[0.16em] underline-offset-4 hover:underline"
+              >
+                {photo.source.label}
+              </a>
+            </>
+          ) : null}
           {onCard ? null : (
             <>
               {" · "}

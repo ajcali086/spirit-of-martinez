@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link, useRouterState } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
-import { PageHero } from "@/components/PageHero";
 import { PhotoPlate } from "@/components/PhotoPlate";
 import {
   BGDB_CREW_URL,
@@ -37,14 +36,29 @@ function MissionsPage() {
 
   return (
     <SiteShell>
-      <PageHero
-        kicker="The board"
-        title="Thirty-one sorties"
-        dek="Twenty-eight combat missions, three humanitarian drops. Joyce numbered the scrapbook to twenty-eight. The food carries no number at all."
-        image="/images/hero-fortress.jpg"
-        imageAlt="The locker arranged: B-15 jacket, crew plate, wallet, and gloves"
-        compact
-      />
+      <section className="relative overflow-hidden border-b border-rule">
+        <picture>
+          <source srcSet="/images/missions-banner.webp" type="image/webp" />
+          <img
+            src="/images/missions-banner.jpg"
+            alt="A modern composite of the tour: pay card, evasion pamphlet, a captains’ chart to Bamberg, a B-17, a Reichsbank note, the Lucky Bastard Club cartoon"
+            width={1500}
+            height={599}
+            className="h-72 w-full bg-ink-mid object-cover object-center sm:h-auto sm:object-contain"
+          />
+        </picture>
+        <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/50 to-ink/15" />
+        <div className="absolute inset-x-0 bottom-0 mx-auto max-w-5xl px-4 pb-6 pt-16 sm:px-6 sm:pb-10">
+          <p className="kicker">The board</p>
+          <h1 className="mt-2 font-display text-3xl leading-[1.05] font-semibold text-paper sm:mt-3 sm:text-5xl md:text-6xl">
+            Thirty-one sorties
+          </h1>
+          <p className="mt-3 max-w-2xl font-display text-base leading-relaxed text-fog sm:mt-4 sm:text-xl">
+            Twenty-eight combat missions, three humanitarian drops. Joyce numbered
+            the scrapbook to twenty-eight. The food carries no number at all.
+          </p>
+        </div>
+      </section>
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
         <div className="flex flex-wrap gap-2">
           {(

@@ -89,6 +89,7 @@ export const missions: Mission[] = [
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes: "First of two consecutive mornings over Nuremberg.",
+    clipping: "900 Fortresses Rain Bombs, Incendiaries on Rail Center",
   },
   {
     number: 5,
@@ -101,6 +102,7 @@ export const missions: Mission[] = [
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes: "Second consecutive day at Nuremberg.",
+    clipping: "P47s Blast Yards Near Hitler’s Den",
   },
   {
     number: 6,
@@ -113,7 +115,8 @@ export const missions: Mission[] = [
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
-      "Stars and Stripes of 23 February reported six thousand aircraft against the German rail network. Bamberg is not in the story. Frank wrote it in the white margin in block capitals."
+      "Stars and Stripes of 23 February reported six thousand aircraft against the German rail network. Bamberg is not in the story. Frank wrote it in the white margin in block capitals.",
+    clipping: "Biggest Blitz Hits Nazis",
   },
   {
     number: 7,

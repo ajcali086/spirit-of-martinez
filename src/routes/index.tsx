@@ -224,8 +224,8 @@ function Home() {
 
       <section className="relative overflow-hidden border-t border-rule">
         <img
-          src="/images/chowhound.jpg"
-          alt="A B-17 flying low over Dutch farmland on a food drop"
+          src="/images/archive/utrechtapproach.jpg"
+          alt="Approach to the Utrecht drop zone, May 3, 1945: a mill on a canal, fields beyond"
           className="absolute inset-0 size-full object-cover"
         />
         <div className="absolute inset-0 bg-ink/75" />

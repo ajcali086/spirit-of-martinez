@@ -29,6 +29,21 @@ function AircraftPage() {
           ))}
         </dl>
 
+        <p className="mt-8 max-w-3xl text-sm leading-relaxed text-muted">
+          The 95th Bomb Group database keeps an aircraft page for 44-6838 —
+          fifty-three sorties under every pilot who sat left seat. It is a modern
+          compilation, not a paper issued at Horham.{" "}
+          <a
+            href="https://95thbgdb.com/aircraft/314"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-brass underline-offset-4 hover:text-paper hover:underline"
+          >
+            44-6838 — Spirit of Martinez
+          </a>
+          .
+        </p>
+
         <div className="mx-auto mt-16 max-w-4xl">
           <PhotoPlate id="nose" className="mt-0" />
           <PhotoPlate id="naming" />

@@ -63,7 +63,23 @@ export type PhotoId =
   | "commissionclip"
   | "fourbrothers"
   | "eastcoast"
-  | "britishbase";
+  | "britishbase"
+  | "taylorletter"
+  | "nameonplane"
+  | "osnabruckclip"
+  | "nuremberg4"
+  | "nuremberg5"
+  | "stripes"
+  | "stripesspread"
+  | "chemnitzmap"
+  | "namespread"
+  | "utrechtapproach"
+  | "utrechtdrop"
+  | "chowhoundriver"
+  | "chowhoundwing"
+  | "hangar"
+  | "tribune1939"
+  | "firstmeeting";
 
 export type Block =
   | { type: "p"; text: string; id?: string }

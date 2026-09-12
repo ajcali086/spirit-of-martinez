@@ -65,6 +65,22 @@ function ArchiveObjectPage() {
             </p>
           </section>
 
+          {photo.source ? (
+            <section className="mt-10 border-t border-paper-deep pt-8">
+              <h2 className="font-sans text-[0.68rem] tracking-[0.22em] text-feather uppercase">
+                In the record
+              </h2>
+              <a
+                href={photo.source.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex min-h-11 items-center font-sans text-[0.68rem] tracking-[0.16em] text-brass-dim uppercase hover:text-ink"
+              >
+                {photo.source.label}
+              </a>
+            </section>
+          ) : null}
+
           <section className="mt-10 border-t border-paper-deep pt-8">
             <h2 className="font-sans text-[0.68rem] tracking-[0.22em] text-feather uppercase">
               Cite this
