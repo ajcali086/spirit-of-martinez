@@ -143,9 +143,16 @@ export const crew: CrewMember[] = [
     hometown: "Hutchinson, Kansas",
     person: 1249,
     wartime:
-      "Born 5 October 1923. Draft card lists the Coca-Cola Bottling Company and a boss named Lewis Scruggs. Not yet twenty when he registered. The ball turret of a B-17 became his job instead.",
+      "Born 5 October 1923. Draft card lists the Coca-Cola Bottling Company and a boss named Lewis Scruggs. Not yet twenty when he registered. The ball turret of a B-17 became his job instead. The group’s compilation puts him in that seat from Chemnitz on, except three mornings in April: Kaltenkirchen, München-Riem, and Burg. Donald J. Wilcox flew the ball those days. Collins is back on the roster for Oranienburg, and for the food. The names are in the record. The reason is not.",
     after:
       "Signed the Hunter Field shipping ticket of 13 December 1944 in a hand consistent with the draft card. Later life is otherwise thin in the record.",
+    records: [
+      {
+        href: "/chapters/borrowed-aircraft#m-25",
+        label: "Three mornings in April",
+        note: "Wilcox in the ball. Mathis observing, then Gearn. The compilation names the seats. It does not say why.",
+      },
+    ],
   },
   {
     id: "ernest",

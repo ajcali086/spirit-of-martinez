@@ -63,7 +63,7 @@ export const missions: Mission[] = [
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
-      "Second day of the war, flown before the crew had been in combat forty-eight hours. The group lost two aircraft, including Big Casino of the 335th Squadron, MACR 12378.",
+      "Second day of the war, flown before the crew had been in combat forty-eight hours. The group lost two aircraft: Big Casino of the 335th, MACR 12378, and Easy Going of the 336th.",
   },
   {
     number: 3,
@@ -358,7 +358,8 @@ export const missions: Mission[] = [
     target: "Kaltenkirchen",
     kind: "combat",
     aircraft: "43-38942 Belligerent Beauty",
-    notes: "Second borrowed-aircraft mission. Third oak leaf cluster awarded this date, GO 720.",
+    notes:
+      "Second borrowed-aircraft mission. Third oak leaf cluster awarded this date, GO 720. Wilcox in the ball; Collins not aboard. Mathis as observer.",
   },
   {
     number: 26,
@@ -371,7 +372,7 @@ export const missions: Mission[] = [
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
-      "Back in the Spirit. Airfields around Munich believed to be bases for jet fighters. Third straight day the Eighth put more than a thousand bombers in the air.",
+      "Back in the Spirit. Airfields around Munich believed to be bases for jet fighters. Third straight day the Eighth put more than a thousand bombers in the air. Wilcox still in the ball; Mathis still observing. Collins not on this roster.",
     clipping: "1,250 Heavies Strike Munich",
   },
   {
@@ -384,7 +385,8 @@ export const missions: Mission[] = [
     target: "Burg",
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
-    notes: "Jet airfields in the arc around Berlin. The scrapbook names Burg among seven fields struck.",
+    notes:
+      "Jet airfields in the arc around Berlin. The scrapbook names Burg among seven fields struck. Wilcox in the ball; Gearn observing. Collins not aboard.",
   },
   {
     number: 28,

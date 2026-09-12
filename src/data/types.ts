@@ -58,7 +58,12 @@ export type PhotoId =
   | "stations"
   | "ring"
   | "woodpecker"
-  | "coat";
+  | "coat"
+  | "cadets"
+  | "commissionclip"
+  | "fourbrothers"
+  | "eastcoast"
+  | "britishbase";
 
 export type Block =
   | { type: "p"; text: string; id?: string }
