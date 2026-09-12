@@ -224,8 +224,8 @@ function Home() {
 
       <section className="relative overflow-hidden border-t border-rule">
         <img
-          src="/images/archive/utrechtapproach.jpg"
-          alt="Approach to the Utrecht drop zone, May 3, 1945: a mill on a canal, fields beyond"
+          src="/images/chowhound-banner.jpg"
+          alt="A modern composite of the food drops: the mill at Utrecht, bomb bay doors open, a ration crate, food for liberated peoples"
           className="absolute inset-0 size-full object-cover"
         />
         <div className="absolute inset-0 bg-ink/75" />

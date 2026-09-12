@@ -38,10 +38,25 @@ function MissionsPage() {
     <SiteShell>
       <section className="relative overflow-hidden border-b border-rule">
         <picture>
-          <source srcSet="/images/missions-banner.webp" type="image/webp" />
+          <source
+            srcSet={
+              filter === "humanitarian"
+                ? "/images/chowhound-banner.webp"
+                : "/images/missions-banner.webp"
+            }
+            type="image/webp"
+          />
           <img
-            src="/images/missions-banner.jpg"
-            alt="A modern composite of the tour: pay card, evasion pamphlet, a captains’ chart to Bamberg, a B-17, a Reichsbank note, the Lucky Bastard Club cartoon"
+            src={
+              filter === "humanitarian"
+                ? "/images/chowhound-banner.jpg"
+                : "/images/missions-banner.jpg"
+            }
+            alt={
+              filter === "humanitarian"
+                ? "A modern composite of the food drops: the mill at Utrecht, bomb bay doors open, a ration crate, food for liberated peoples"
+                : "A modern composite of the tour: pay card, evasion pamphlet, a captains’ chart to Bamberg, a B-17, a Reichsbank note, the Lucky Bastard Club cartoon"
+            }
             width={1500}
             height={599}
             className="h-72 w-full bg-ink-mid object-cover object-center sm:h-auto sm:object-contain"

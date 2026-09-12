@@ -829,8 +829,8 @@ export const chapters: Chapter[] = [
     title: "Utrecht",
     kicker: "May 1945",
     years: "May 1945",
-    image: "/images/archive/utrechtapproach.jpg",
-    imageAlt: "Approach to the Utrecht drop zone, May 3, 1945: a mill on a canal, fields beyond",
+    image: "/images/chowhound-banner.jpg",
+    imageAlt: "A modern composite of the food drops: the mill at Utrecht, bomb bay doors open, a ration crate, food for liberated peoples",
     dek: "Nine wallets stamped for a war in the Pacific. Three mornings over Utrecht instead, at four hundred feet, with flour in the bomb bay.",
     sections: [
       {
