@@ -82,7 +82,10 @@ export type PhotoId =
   | "firstmeeting"
   | "shaw"
   | "dillon"
-  | "brunswick";
+  | "brunswick"
+  | "crusher"
+  | "spiritpage"
+  | "maxwellpair";
 
 export type Block =
   | { type: "p"; text: string; id?: string }

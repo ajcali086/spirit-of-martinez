@@ -166,7 +166,8 @@ function Home() {
                 >
                   Start with Chapter 9
                 </Link>
-                . Chemnitz. The first morning.
+                . Chemnitz. The first morning. Chapters 1–3 have a reading that
+                stays with you as you move.
               </p>
             </div>
             <Link
@@ -197,6 +198,7 @@ function Home() {
                 <div className="p-5">
                   <p className="text-[0.68rem] tracking-[0.2em] text-brass uppercase">
                     Chapter {String(ch.number).padStart(2, "0")} · {ch.years}
+                    {ch.audio ? " · Listen" : ""}
                   </p>
                   <h3 className="mt-2 font-display text-2xl text-paper group-hover:text-brass">
                     {ch.title}

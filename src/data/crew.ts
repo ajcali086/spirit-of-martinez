@@ -28,7 +28,7 @@ export const crew: CrewMember[] = [
       "Born 1921, son of Saverio and Angelina, one of seventeen. Learned to fly on the waterfront strip his eldest brother built. Commissioned 15 April 1944 at Turner Field. First lieutenant, serial O-828662, 335th Bomb Squadron, 95th Bomb Group. Twenty-eight combat missions, three humanitarian drops, 208 combat hours. The compilation lists thirty-one — the twenty-eight plus the food. Lt. Col. Stuart’s memorandum of 8 May 1945 certified the twenty-eight and left the drops unnumbered.",
     after:
       "Came home a first lieutenant with a commercial ticket and an instructor’s endorsement. Cut meat with his brother Bill on Main Street. Died in 1962.",
-    photo: "calicura",
+    photo: "crusher",
   },
   {
     id: "probst",

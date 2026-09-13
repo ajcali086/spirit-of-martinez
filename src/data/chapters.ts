@@ -153,6 +153,7 @@ export const chapters: Chapter[] = [
     image: "/images/houghton.jpg",
     imageAlt: "Winter on the Keweenaw Peninsula, Houghton, Michigan",
     dek: "The Army sends him to a mining college a thousand miles from any ocean, to sit a filter with a syllabus. Houghton can clear a man. It cannot tell him what he has been cleared for.",
+    audio: "/audio/the-locked-door.mp3",
     sections: [
       {
         id: "3.1",
@@ -232,7 +233,7 @@ export const chapters: Chapter[] = [
           { type: "p", text: "It was at some point in this stretch — the collection dates it only to 1943, Montgomery, Alabama — that Joyce crossed the country to see him. A ten-week course fixed to one post made the visit possible in a way a moving assignment would not have; there was an address to write to and a reasonable chance he would still be at it by the time a train got her there. Wartime rail travel for a civilian visiting a serviceman was not a simple undertaking — connections, cost, and a weekend’s leave on his end were all that could be counted on, and none of it was guaranteed in advance." },
           { type: "p", text: "A letter survives from the same visit, written in Frank’s own hand on a blank page inside the 44-D yearbook. “Darling,” it begins. “This will remind you of the most wonderful time we had together while you were here. I’m on my way to those wings and nothing can stop me now. My love for you increases each day and I’ll look forward ’till we meet again. All my love, Frankie.” (family collection). It is the first piece of Frank Calicura’s own private voice this book has been able to quote directly." },
           { type: "p", text: "A Kodachrome slide survives from the visit — color film, 1943, a small and by then increasingly rare extravagance. The collection’s own note ties it to what came nine months later: a son. It is worth stating once, plainly, and leaving there. The photograph is already doing what it needs to do." },
-          { type: "figure", id: "joyce" },
+          { type: "figure", id: "maxwellpair" },
         ],
       },
       {
@@ -371,8 +372,9 @@ export const chapters: Chapter[] = [
         blocks: [
           { type: "p", text: "Frank Calicura left Hendricks Field in the summer of 1944 rated to fly the airplane. He still could not have named the man who would sit beside him in the right-hand seat, or the six who would work the positions behind him." },
           { type: "p", text: "That would happen next, at a different field, built for the purpose Hendricks had been narrowed to exclude: putting a trained pilot together with the rest of a crew for the first time. Frank knew, by the time he left Florida that summer, how to hold a B-17 level, how to manage four engines as a single problem instead of four, and how much weight he was now qualified to be responsible for in the air. He did not yet know who, specifically, he would be responsible for. That gap — a man who could fly the airplane, and a crew that did not exist yet — is where the next stage of his training began." },
-          { type: "p", text: "A birth came first. Before the announcement card, a color plate of Joyce: 1943, the front of 731 Mellus Street, already carrying the son the Gazette would name." },
+          { type: "p", text: "A birth came first. Before the announcement card, a color plate of Joyce: 1943, the front of 731 Mellus Street, already carrying the son the Gazette would name. Another plate, standing, the same suit, another woman the family file names Marie." },
           { type: "figure", id: "pregnant" },
+          { type: "figure", id: "joyce" },
           { type: "p", text: "Frank James Calicura Jr. was born June 20, 1944, at 3:15 p.m., at Community Hospital in Martinez — seven pounds seven ounces, named for the father who had not yet seen him. The Gazette ran the news the next day under the headline \"New ‘General’ at Lieut. Calicura Home,\" reporting that Frank, still training in Florida, had a new member of his family he had never seen, and that Joyce was reported \"doing nicely\" by hospital authorities. A handmade announcement card survives alongside the clipping, addressed in the family's own hand along a drawn clothesline: born 6/20/44, 3:15 P.M., named Frank James Calicura Jr., weighed 7 lbs. 7 oz., signed \"Proud Mama and Papa, Joyce & Frank Calicura\" (family collection). The envelope carrying the news to Frank is postmarked Martinez, June 21, 1944, addressed to Officer Student's Section, Class 44-D, Hendricks Field, Sebring, Florida (family collection) — reaching him roughly a month before his mother's death, and identifying the infant son shown with him in the undated family photograph cited below as this same child." },
           { type: "figure", id: "birth" },
           { type: "p", text: "Something else happened in that gap, and the collection records it in a newspaper rather than in any document the Army produced. On the night of Friday, July 21, 1944, after an illness of two days, Angelina Calicura died at Community Hospital in Martinez. She was fifty-eight. She had lived in the town thirty-seven years, kept the house at 515 Mellus Street, and was a native of Italy. The Martinez News-Gazette carried the notice the following morning under the heading Pioneer Mother Dies, and listed what she left behind: her husband Saverio, five sons, eight daughters, seven grandchildren, and two brothers — A. Rodia of Martinez and Sam Rodia of Los Angeles." },
@@ -768,6 +770,8 @@ export const chapters: Chapter[] = [
           { type: "figure", id: "taylorletter" },
           { type: "p", text: "One detail in that account sits oddly against the photograph. The committee, the article reports, was disappointed to learn that the “name” consisted not of nose art “big enough for enemies to read without their glasses” but merely a small plaque mounted under the instrument panel. The surviving photograph of Frank beside the aircraft shows the name painted across the nose in script a good deal larger than a plaque. Both may be true in sequence — a plaque first, paint later, once the crew had adopted the name in earnest — but no document in the collection dates the painting, and the two accounts are not reconciled here." },
           { type: "figure", id: "nose" },
+          { type: "figure", id: "crusher" },
+          { type: "figure", id: "spiritpage" },
           { type: "figure", id: "crew" },
           { type: "figure", id: "namespread" },
           { type: "quote", text: "Joyce’s own description of her husband, given to the same reporter, is four words long and does not elaborate: “Frank was serious, steady.” She added what she took to be the consequence: “They take the serious, steady men for the bombers.”" },

@@ -46,6 +46,8 @@ function AircraftPage() {
 
         <div className="mx-auto mt-16 max-w-4xl">
           <PhotoPlate id="nose" className="mt-0" />
+          <PhotoPlate id="crusher" />
+          <PhotoPlate id="spiritpage" />
           <PhotoPlate id="naming" />
           <PhotoPlate id="crew" />
           <PhotoPlate id="cockpit" />
