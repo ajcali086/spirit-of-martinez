@@ -4,6 +4,26 @@ import { photoList } from "@/data/photos";
 import type { PhotoKind } from "@/data/photos";
 import { cn } from "@/lib/utils";
 
+function thumbBox(width: number, height: number) {
+  const r = width / height;
+  if (r < 0.72) return "aspect-[3/4]";
+  if (r < 1.12) return "aspect-square";
+  return "aspect-[4/3]";
+}
+
+function thumbFit(
+  width: number,
+  height: number,
+  kind: PhotoKind,
+) {
+  const r = width / height;
+  if (r < 0.72 && kind === "object") {
+    return "object-contain";
+  }
+  if (r < 0.72) return "object-cover object-top";
+  return "object-cover";
+}
+
 type Filter = "all" | PhotoKind;
 
 export function ObjectCatalog() {
@@ -71,7 +91,7 @@ export function ObjectCatalog() {
           chosen.
         </p>
       ) : (
-        <ul className="mt-10 grid gap-px border border-paper-deep bg-paper-deep sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-10 grid items-start gap-px border border-paper-deep bg-paper-deep sm:grid-cols-2 lg:grid-cols-3">
           {results.map((p) => (
             <li key={p.id} className="bg-paper">
               <Link
@@ -79,7 +99,12 @@ export function ObjectCatalog() {
                 params={{ id: p.id }}
                 className="group flex h-full flex-col"
               >
-                <div className="aspect-[4/3] overflow-hidden bg-ink-mid">
+                <div
+                  className={cn(
+                    "overflow-hidden bg-ink-mid",
+                    thumbBox(p.width, p.height),
+                  )}
+                >
                   <picture>
                     <source srcSet={`${p.src}.webp`} type="image/webp" />
                     <img
@@ -89,7 +114,10 @@ export function ObjectCatalog() {
                       height={p.height}
                       loading="lazy"
                       decoding="async"
-                      className="size-full object-cover outline-none transition-opacity group-hover:opacity-90"
+                      className={cn(
+                        "size-full outline-none transition-opacity group-hover:opacity-90",
+                        thumbFit(p.width, p.height, p.kind),
+                      )}
                     />
                   </picture>
                 </div>

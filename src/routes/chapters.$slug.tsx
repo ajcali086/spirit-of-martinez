@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Headphones } from "lucide-react";
 import { useEffect } from "react";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { useBookAudio } from "@/components/layout/BookAudio";
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/chapters/$slug")({
 
 function ChapterPage() {
   const { slug } = Route.useParams();
-  const { offer } = useBookAudio();
+  const { offer, play, track } = useBookAudio();
   const chapter = chapterBySlug(slug);
   if (!chapter) {
     throw notFound();
@@ -25,13 +25,14 @@ function ChapterPage() {
   useEffect(() => {
     if (chapter.audio) {
       offer({
+        kind: "chapter",
         src: chapter.audio,
         title: chapter.title,
         number: chapter.number,
         slug: chapter.slug,
       });
     }
-  }, [chapter, offer]);
+  }, [chapter, offer, track]);
 
   return (
     <SiteShell>
@@ -54,6 +55,24 @@ function ChapterPage() {
               {chapter.title}
             </h1>
             <p className="mt-4 font-display text-lg text-fog italic">{chapter.kicker}</p>
+            {chapter.audio && track?.kind === "music" ? (
+              <button
+                type="button"
+                onClick={() =>
+                  play({
+                    kind: "chapter",
+                    src: chapter.audio!,
+                    title: chapter.title,
+                    number: chapter.number,
+                    slug: chapter.slug,
+                  })
+                }
+                className="mt-6 inline-flex min-h-12 items-center gap-2 border border-fog/40 px-5 text-sm tracking-[0.12em] text-paper uppercase hover:border-brass hover:text-brass"
+              >
+                <Headphones className="size-4" aria-hidden />
+                Listen to this chapter
+              </button>
+            ) : null}
           </div>
         </header>
 

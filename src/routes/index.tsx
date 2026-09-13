@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { SpiritMark } from "@/components/SpiritMark";
 import { PhotoPlate } from "@/components/PhotoPlate";
+import { HomeMusic } from "@/components/HomeMusic";
 import { chapters } from "@/data/chapters";
 import { crew } from "@/data/crew";
 import { missions } from "@/data/missions";
@@ -59,6 +60,7 @@ function Home() {
             Utrecht with flour in the bomb bay, and a footlocker that never
             agreed with itself about the count.
           </p>
+          <HomeMusic />
         </div>
       </section>
 

@@ -1257,7 +1257,6 @@ export const photoList: ArchivePhoto[] = [
   photos.signatures,
   photos.stations,
   photos.jacket,
-  photos.locker,
   photos.ring,
   photos.coat,
   photos.patch,
