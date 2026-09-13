@@ -2,5 +2,17 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npm run build",
   "installCommand": "npm ci",
-  "framework": null
+  "framework": null,
+  "redirects": [
+    { "source": "/home", "destination": "/archive", "statusCode": 301 },
+    { "source": "/the-expanded-story", "destination": "/chapters", "statusCode": 301 },
+    { "source": "/the-story", "destination": "/chapters", "statusCode": 301 },
+    { "source": "/artifacts-1", "destination": "/archive", "statusCode": 301 },
+    { "source": "/artifacts-2", "destination": "/archive", "statusCode": 301 },
+    { "source": "/artifacts", "destination": "/archive", "statusCode": 301 },
+    { "source": "/martinezairport", "destination": "/chapters/the-strip-by-the-tracks", "statusCode": 301 },
+    { "source": "/martinez-airport", "destination": "/chapters/the-strip-by-the-tracks", "statusCode": 301 },
+    { "source": "/simon-rodia", "destination": "/chapters/uncle-sam", "statusCode": 301 },
+    { "source": "/contact", "destination": "/sources", "statusCode": 301 }
+  ]
 }
