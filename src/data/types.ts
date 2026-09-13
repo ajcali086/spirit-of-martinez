@@ -108,6 +108,8 @@ export type Chapter = {
   imageAlt: string;
   imagePosition?: "top" | "center";
   dek: string;
+  /** Optional reading of this chapter. The chapter text is the transcript. */
+  audio?: string;
   sections: Section[];
 };
 

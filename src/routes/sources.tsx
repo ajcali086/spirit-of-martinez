@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
 import { PhotoPlate } from "@/components/PhotoPlate";
@@ -56,6 +56,48 @@ function SourcesPage() {
       <section className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
         <h2 className="kicker">Provenance</h2>
         <Blocks blocks={provenance} />
+      </section>
+
+      <section className="mx-auto max-w-3xl px-4 pb-14 sm:px-6">
+        <h2 className="kicker">Start here</h2>
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-fog">
+          Two doors into chapters already written. The method is the same in
+          both: what the papers say, and what they cannot settle.
+        </p>
+        <ul className="mt-8 divide-y divide-rule border-y border-rule">
+          <li className="py-6">
+            <p className="font-sans text-[0.68rem] tracking-[0.22em] text-feather uppercase">
+              Chapter 14
+            </p>
+            <Link
+              to="/chapters/$slug"
+              params={{ slug: "the-number" }}
+              className="mt-2 block font-display text-2xl text-paper hover:text-brass"
+            >
+              The Number
+            </Link>
+            <p className="mt-2 text-sm leading-relaxed text-muted">
+              Why the records disagree. Seven counts attached to one man. Nine
+              attached to nine, on the crew page. None of them is a lie.
+            </p>
+          </li>
+          <li className="py-6">
+            <p className="font-sans text-[0.68rem] tracking-[0.22em] text-feather uppercase">
+              Chapter 12
+            </p>
+            <Link
+              to="/chapters/$slug"
+              params={{ slug: "utrecht" }}
+              className="mt-2 block font-display text-2xl text-paper hover:text-brass"
+            >
+              Utrecht
+            </Link>
+            <p className="mt-2 text-sm leading-relaxed text-muted">
+              Four hundred feet. Flour and chocolate. The war from the ground’s
+              view, as the bomb bay saw it.
+            </p>
+          </li>
+        </ul>
       </section>
 
       <section className="border-y border-rule bg-ink-soft">

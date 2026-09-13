@@ -1,6 +1,8 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useEffect } from "react";
 import { SiteShell } from "@/components/layout/SiteShell";
+import { useBookAudio } from "@/components/layout/BookAudio";
 import { PhotoPlate } from "@/components/PhotoPlate";
 import { adjacentChapters, chapterBySlug, chapters } from "@/data/chapters";
 import type { Block } from "@/data/types";
@@ -12,12 +14,24 @@ export const Route = createFileRoute("/chapters/$slug")({
 
 function ChapterPage() {
   const { slug } = Route.useParams();
+  const { offer } = useBookAudio();
   const chapter = chapterBySlug(slug);
   if (!chapter) {
     throw notFound();
   }
   const { prev, next } = adjacentChapters(slug);
   let firstPara = true;
+
+  useEffect(() => {
+    if (chapter.audio) {
+      offer({
+        src: chapter.audio,
+        title: chapter.title,
+        number: chapter.number,
+        slug: chapter.slug,
+      });
+    }
+  }, [chapter, offer]);
 
   return (
     <SiteShell>
@@ -45,7 +59,7 @@ function ChapterPage() {
 
         <nav
           aria-label="Chapters"
-          className="sticky top-16 z-30 overflow-x-auto border-b border-paper-deep/40 bg-paper"
+          className="sticky top-[calc(4rem+var(--player-h,0px))] z-30 overflow-x-auto border-b border-paper-deep/40 bg-paper"
         >
           <ol className="mx-auto flex max-w-3xl gap-1 px-3 py-2">
             {chapters.map((c) => (
@@ -73,6 +87,13 @@ function ChapterPage() {
             <p className="mb-10 font-sans text-[0.72rem] leading-relaxed tracking-[0.14em] text-brass-dim uppercase">
               {chapter.dek}
             </p>
+            {chapter.audio ? (
+              <p className="mb-10 font-sans text-sm leading-relaxed text-ink-soft/80">
+                A reading of this chapter is in the bar at the top. It will keep
+                playing while you move through the book. The text below is the
+                transcript.
+              </p>
+            ) : null}
             {chapter.sections.map((section) => (
               <section
                 key={section.id}

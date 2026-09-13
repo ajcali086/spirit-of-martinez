@@ -1,6 +1,7 @@
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
+import { BookAudioProvider } from "@/components/layout/BookAudio";
 import appCss from "../styles.css?url";
 
 const APP_NAME = "The Spirit of Martinez";
@@ -43,7 +44,9 @@ function RootDocument() {
       <body className="bg-ink text-paper font-sans">
         <PreviewHostBridge />
         <AuthProvider>
-          <Outlet />
+          <BookAudioProvider>
+            <Outlet />
+          </BookAudioProvider>
         </AuthProvider>
         <Scripts />
       </body>

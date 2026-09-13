@@ -427,7 +427,7 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
     height: 510,
     alt: "Newspaper photograph of Charles Beatie and Sam Calicura standing beside a Curtiss Robin biplane",
     caption:
-      "Charles Beatie (left) and Sam Calicura Jr. beside their Curtiss Robin. Caption as printed: flight chairman and vice president of the Metropolitan Oakland AOPA unit. Flying, July 1942. The same two men who had dragged a runway into the Martinez fill.",
+      "Charles Beatie (left) and Sam Calicura Jr. beside their Curtiss Robin. Caption as printed: flight chairman and vice president of the Metropolitan Oakland AOPA unit. Flying, July 1942. The same two men who had rebuilt a runway on the Martinez fill.",
     credit: "Family collection",
     kind: "photograph",
   },

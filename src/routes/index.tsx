@@ -157,6 +157,17 @@ function Home() {
               <h2 className="mt-3 font-display text-3xl text-paper sm:text-4xl">
                 Begin anywhere
               </h2>
+              <p className="mt-3 max-w-md text-sm leading-relaxed text-fog">
+                New here?{" "}
+                <Link
+                  to="/chapters/$slug"
+                  params={{ slug: "mission-one" }}
+                  className="text-brass underline-offset-4 hover:underline"
+                >
+                  Start with Chapter 9
+                </Link>
+                . Chemnitz. The first morning.
+              </p>
             </div>
             <Link
               to="/chapters"
