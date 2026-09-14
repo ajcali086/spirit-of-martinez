@@ -9,7 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { Pause, Play, X } from "lucide-react";
 
 export type ChapterTrack = {
@@ -72,6 +72,7 @@ function formatTime(seconds: number) {
 
 export function BookAudioProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const assignedSrc = useRef<string | null>(null);
   const pendingPlay = useRef(false);
   const [track, setTrack] = useState<AudioTrack | null>(null);
   const [playing, setPlaying] = useState(false);
@@ -91,7 +92,7 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
     pendingPlay.current = true;
     setTrack((prev) => (sameTrack(prev, next) ? prev : next));
     const el = audioRef.current;
-    if (el && el.getAttribute("src") === next.src) {
+    if (el && assignedSrc.current === next.src) {
       pendingPlay.current = false;
       el.volume = next.kind === "music" ? MUSIC_VOLUME : CHAPTER_VOLUME;
       el.loop = next.kind === "music";
@@ -113,6 +114,7 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
       el.removeAttribute("src");
       el.load();
     }
+    assignedSrc.current = null;
     pendingPlay.current = false;
     setTrack(null);
     setPlaying(false);
@@ -123,19 +125,25 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
   useLayoutEffect(() => {
     const el = audioRef.current;
     if (!el || !track) return;
-    if (el.getAttribute("src") !== track.src) {
+    if (assignedSrc.current !== track.src) {
+      assignedSrc.current = track.src;
       el.src = track.src;
       el.loop = track.kind === "music";
+      setTime(0);
+      setDuration(0);
       el.load();
     }
-    el.volume = volume;
     if (pendingPlay.current) {
       pendingPlay.current = false;
       void el.play().catch(() => {
         /* Autoplay blocked. The bar play button is the way in. */
       });
     }
-  }, [track, volume]);
+  }, [track]);
+
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.volume = volume;
+  }, [volume]);
 
   useEffect(() => {
     document.documentElement.style.setProperty(
@@ -159,8 +167,16 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
         preload="metadata"
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
-        onTimeUpdate={(e) => setTime(e.currentTarget.currentTime)}
-        onDurationChange={(e) => setDuration(e.currentTarget.duration)}
+        onTimeUpdate={(e) => {
+          const t = e.currentTarget.currentTime;
+          if (Number.isFinite(t) && t >= 0) setTime(t);
+        }}
+        onLoadedMetadata={(e) => {
+          const d = e.currentTarget.duration;
+          setDuration(Number.isFinite(d) && d > 0 ? d : 0);
+          const t = e.currentTarget.currentTime;
+          setTime(Number.isFinite(t) && t >= 0 ? t : 0);
+        }}
         onEnded={() => {
           if (track?.kind === "music") return;
           setPlaying(false);
@@ -175,7 +191,7 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
         volume={volume}
         onSeek={(value) => {
           const el = audioRef.current;
-          if (!el) return;
+          if (!el || !Number.isFinite(value)) return;
           el.currentTime = value;
           setTime(value);
         }}
@@ -211,6 +227,7 @@ function PlayerBar({
   onToggle: () => void;
   onStop: () => void;
 }) {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
   if (!track) return null;
 
   const music = track.kind === "music";
@@ -221,6 +238,9 @@ function PlayerBar({
     : playing
       ? "Pause reading"
       : `Play Chapter ${track.number}, ${track.title}`;
+  const elapsed = duration > 0 && time > duration + 0.25 ? 0 : time;
+  const titleClass =
+    "min-w-0 shrink truncate font-sans text-[0.68rem] tracking-[0.14em] text-fog uppercase";
 
   return (
     <div
@@ -243,17 +263,18 @@ function PlayerBar({
             )}
           </button>
           {music ? (
-            <Link
-              to="/"
-              className="min-w-0 shrink truncate font-sans text-[0.68rem] tracking-[0.14em] text-fog uppercase hover:text-paper"
-            >
-              {track.title}
-            </Link>
+            pathname === "/" ? (
+              <p className={titleClass}>{track.title}</p>
+            ) : (
+              <Link to="/" className={`${titleClass} hover:text-paper`}>
+                {track.title}
+              </Link>
+            )
           ) : (
             <Link
               to="/chapters/$slug"
               params={{ slug: track.slug }}
-              className="min-w-0 shrink truncate font-sans text-[0.68rem] tracking-[0.14em] text-fog uppercase hover:text-paper"
+              className={`${titleClass} hover:text-paper`}
             >
               Chapter {String(track.number).padStart(2, "0")} · {track.title}
             </Link>
@@ -271,20 +292,22 @@ function PlayerBar({
                 className="h-1 w-full cursor-pointer accent-brass"
               />
             </label>
-          ) : (
+          ) : duration > 0 ? (
             <input
               type="range"
               min={0}
-              max={duration || 0}
+              max={duration}
               step={0.1}
-              value={Number.isFinite(time) ? time : 0}
+              value={elapsed}
               onChange={(e) => onSeek(Number(e.target.value))}
               aria-label="Reading position"
               className="hidden h-1 min-w-0 flex-1 cursor-pointer accent-brass sm:block"
             />
+          ) : (
+            <span className="hidden flex-1 sm:block" />
           )}
           <p className="shrink-0 font-sans text-[0.68rem] tabular-nums tracking-wide text-muted">
-            {formatTime(time)}
+            {formatTime(elapsed)}
             {duration ? ` / ${formatTime(duration)}` : ""}
           </p>
           <button

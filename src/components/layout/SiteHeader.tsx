@@ -22,7 +22,7 @@ export function SiteHeader() {
             <span className="font-display text-[1.15rem] font-semibold tracking-tight">
               Spirit of Martinez
             </span>
-            <span className="mt-0.5 text-[0.62rem] tracking-[0.18em] text-muted uppercase">
+            <span className="mt-0.5 text-[0.62rem] tracking-[0.18em] text-fog uppercase">
               What a Family Kept
             </span>
           </span>

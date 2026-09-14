@@ -23,8 +23,12 @@ export function PageHero({
         <img
           src={image}
           alt={imageAlt ?? ""}
+          width={1600}
+          height={900}
+          fetchPriority="high"
+          decoding="async"
           className={cn(
-            "absolute inset-0 size-full object-cover",
+            "absolute inset-0 size-full bg-ink-mid object-cover",
             imagePosition === "top" && "object-top",
           )}
         />

@@ -41,6 +41,10 @@ function ChapterPage() {
           <img
             src={chapter.image}
             alt={chapter.imageAlt}
+            width={1600}
+            height={900}
+            fetchPriority="high"
+            decoding="async"
             className={cn(
               "absolute inset-0 size-full object-cover",
               chapter.imagePosition === "top" && "object-top",
@@ -89,7 +93,7 @@ function ChapterPage() {
                   className={`flex size-9 items-center justify-center font-display text-sm ${
                     c.slug === slug
                       ? "bg-ink text-paper"
-                      : "text-ink-soft/60 hover:text-ink"
+                      : "text-ink-soft hover:text-ink"
                   }`}
                   aria-current={c.slug === slug ? "page" : undefined}
                   aria-label={`Chapter ${c.number}: ${c.title}`}
@@ -106,6 +110,28 @@ function ChapterPage() {
             <p className="mb-10 font-sans text-[0.72rem] leading-relaxed tracking-[0.14em] text-brass-dim uppercase">
               {chapter.dek}
             </p>
+            {chapter.sections.some((s) => s.title) ? (
+              <nav aria-label="In this chapter" className="mb-10">
+                <p className="font-sans text-[0.62rem] tracking-[0.18em] text-muted uppercase">
+                  In this chapter
+                </p>
+                <ol className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+                  {chapter.sections
+                    .filter((s) => s.title)
+                    .map((s) => (
+                      <li key={s.id}>
+                        <a
+                          href={`#${s.id}`}
+                          className="inline-flex min-h-11 items-center font-sans text-[0.78rem] tracking-[0.12em] text-ink-soft underline-offset-4 hover:text-feather hover:underline"
+                        >
+                          {s.id}
+                          <span className="ml-1.5 text-ink">{s.title}</span>
+                        </a>
+                      </li>
+                    ))}
+                </ol>
+              </nav>
+            ) : null}
             {chapter.audio ? (
               <p className="mb-10 font-sans text-sm leading-relaxed text-ink-soft/80">
                 A reading of this chapter is in the bar at the top. It will keep
@@ -150,7 +176,7 @@ function ChapterPage() {
                 params={{ slug: prev.slug }}
                 className="flex min-h-24 flex-col justify-center gap-1 border-b border-rule px-6 py-6 sm:border-r sm:border-b-0"
               >
-                <span className="flex items-center gap-2 text-[0.68rem] tracking-[0.16em] text-muted uppercase">
+                <span className="flex items-center gap-2 text-[0.68rem] tracking-[0.16em] text-fog uppercase">
                   <ArrowLeft className="size-3.5" /> Previous
                 </span>
                 <span className="font-display text-xl text-paper">{prev.title}</span>
@@ -164,7 +190,7 @@ function ChapterPage() {
                 params={{ slug: next.slug }}
                 className="flex min-h-24 flex-col justify-center gap-1 px-6 py-6 text-right"
               >
-                <span className="flex items-center justify-end gap-2 text-[0.68rem] tracking-[0.16em] text-muted uppercase">
+                <span className="flex items-center justify-end gap-2 text-[0.68rem] tracking-[0.16em] text-fog uppercase">
                   Next <ArrowRight className="size-3.5" />
                 </span>
                 <span className="font-display text-xl text-paper">{next.title}</span>

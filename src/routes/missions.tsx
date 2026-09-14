@@ -59,6 +59,8 @@ function MissionsPage() {
             }
             width={1500}
             height={599}
+            fetchPriority="high"
+            decoding="async"
             className="h-72 w-full bg-ink-mid object-cover object-center sm:h-auto sm:object-contain"
           />
         </picture>
@@ -78,8 +80,8 @@ function MissionsPage() {
         <div className="flex flex-wrap gap-2">
           {(
             [
-              ["charts", "Fourteen"],
-              ["all", "See all"],
+              ["charts", "Captains’ charts"],
+              ["all", "All 31"],
               ["combat", "Combat"],
               ["humanitarian", "Chowhound"],
             ] as const

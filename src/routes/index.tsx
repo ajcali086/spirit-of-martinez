@@ -28,7 +28,11 @@ function Home() {
         <img
           src="/images/hero-fortress.jpg"
           alt="The locker arranged: B-15 jacket, Horham crew photograph, wallet, and gloves"
-          className="absolute inset-0 size-full object-cover"
+          width={1800}
+          height={1200}
+          fetchPriority="high"
+          decoding="async"
+          className="absolute inset-0 size-full bg-ink-mid object-cover"
         />
         <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/70 to-ink/25" />
         <div className="relative mx-auto w-full max-w-6xl px-4 pb-28 pt-12 sm:px-6 sm:pb-24">
@@ -168,7 +172,7 @@ function Home() {
                 >
                   Start with Chapter 9
                 </Link>
-                . Chemnitz. The first morning. Chapters 1–3 have a reading that
+                . Chemnitz. The first morning. Chapters 1–4 have a reading that
                 stays with you as you move.
               </p>
             </div>

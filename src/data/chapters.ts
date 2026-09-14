@@ -207,6 +207,7 @@ export const chapters: Chapter[] = [
     imageAlt: "Joyce and Frank Calicura standing together under trees at Maxwell Field, 1943",
     imagePosition: "top",
     dek: "Classification, preflight at Maxwell, a cartoon woodpecker for a first solo, gold bars and an instrument rating on the same day’s mail.",
+    audio: "/audio/nine-hundred-miles-south.mp3",
     sections: [
       {
         id: "4.1",

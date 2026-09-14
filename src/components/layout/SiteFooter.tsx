@@ -11,7 +11,7 @@ export function SiteFooter() {
             <SpiritMark className="size-6" />
             <p className="font-display text-xl text-paper">The Spirit of Martinez</p>
           </div>
-          <p className="mt-3 text-sm leading-relaxed text-muted">
+          <p className="mt-3 text-sm leading-relaxed text-fog">
             Assembled from a family’s collection, the 95th Bomb Group’s crew
             record, and the contemporary press. Where they disagree, the
             disagreement is stated. A descendant’s account of what a family kept.
@@ -30,7 +30,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-rule/70">
-        <p className="mx-auto max-w-6xl px-4 py-4 text-[0.7rem] tracking-wide text-muted sm:px-6">
+        <p className="mx-auto max-w-6xl px-4 py-4 text-[0.7rem] tracking-wide text-fog sm:px-6">
           Martinez, California · 335th Bomb Squadron, 95th Bomb Group · Station 119, Horham
         </p>
       </div>

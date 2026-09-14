@@ -37,30 +37,35 @@ export function PhotoPlate({
             : undefined;
 
   const image = (
-    <picture>
-      <source srcSet={`${photo.src}.webp`} type="image/webp" />
-      <img
-        src={`${photo.src}.jpg`}
-        alt={photo.alt}
-        width={photo.width}
-        height={photo.height}
-        loading={priority ? "eager" : "lazy"}
-        fetchPriority={priority ? "high" : undefined}
-        decoding="async"
-        sizes={
-          onCard
-            ? "(min-width: 768px) 48rem, 100vw"
-            : photo.maxWidth === "sm"
-              ? "(min-width: 640px) 24rem, 100vw"
-              : photo.maxWidth === "xl"
-                ? "(min-width: 1024px) 56rem, 100vw"
-                : widthClass
-                  ? "(min-width: 640px) 32rem, 100vw"
-                  : "(min-width: 1024px) 56rem, 100vw"
-        }
-        className="h-auto w-full bg-ink-mid"
-      />
-    </picture>
+    <div
+      className="overflow-hidden bg-ink-mid"
+      style={{ aspectRatio: `${photo.width} / ${photo.height}` }}
+    >
+      <picture>
+        <source srcSet={`${photo.src}.webp`} type="image/webp" />
+        <img
+          src={`${photo.src}.jpg`}
+          alt={photo.alt}
+          width={photo.width}
+          height={photo.height}
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : undefined}
+          decoding="async"
+          sizes={
+            onCard
+              ? "(min-width: 768px) 48rem, 100vw"
+              : photo.maxWidth === "sm"
+                ? "(min-width: 640px) 24rem, 100vw"
+                : photo.maxWidth === "xl"
+                  ? "(min-width: 1024px) 56rem, 100vw"
+                  : widthClass
+                    ? "(min-width: 640px) 32rem, 100vw"
+                    : "(min-width: 1024px) 56rem, 100vw"
+          }
+          className="size-full object-contain"
+        />
+      </picture>
+    </div>
   );
 
   return (
@@ -171,8 +176,8 @@ function PlateZoom({
             alt={photo.alt}
             width={photo.width}
             height={photo.height}
-            className="mx-auto block h-auto max-w-none bg-ink-mid"
-            style={{ width: photo.width }}
+            className="mx-auto block h-auto w-full max-w-none bg-ink-mid sm:w-auto"
+            style={{ maxWidth: "min(100%, 96rem)", width: "100%" }}
           />
         </div>
       </dialog>
