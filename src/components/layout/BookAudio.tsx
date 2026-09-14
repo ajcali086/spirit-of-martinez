@@ -40,6 +40,7 @@ const CHAPTER_VOLUME = 1;
 type BookAudioValue = {
   track: AudioTrack | null;
   playing: boolean;
+  ended: boolean;
   time: number;
   offer: (track: ChapterTrack) => void;
   play: (track: AudioTrack) => void;
@@ -71,41 +72,68 @@ function formatTime(seconds: number) {
   return `${m}:${s.toString().padStart(2, "0")}`;
 }
 
+function applyTime(el: HTMLAudioElement, seconds: number) {
+  if (!Number.isFinite(seconds) || seconds < 0) return;
+  try {
+    el.currentTime = seconds;
+  } catch {
+    /* readyState too low; onLoadedMetadata will retry from pendingSeek */
+  }
+}
+
 export function BookAudioProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const assignedSrc = useRef<string | null>(null);
   const pendingPlay = useRef(false);
+  const pendingSeek = useRef<number | null>(null);
   const [track, setTrack] = useState<AudioTrack | null>(null);
   const [playing, setPlaying] = useState(false);
+  const [ended, setEnded] = useState(false);
   const [time, setTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(CHAPTER_VOLUME);
 
   const offer = useCallback((next: ChapterTrack) => {
     setTrack((prev) => {
-      if (prev && audioRef.current && !audioRef.current.paused) return prev;
-      return sameTrack(prev, next) ? prev : next;
+      if (!prev) return next;
+      if (sameTrack(prev, next)) return prev;
+      const el = audioRef.current;
+      if (prev.kind === "chapter" && el && (!el.paused || el.currentTime > 0.4)) {
+        return prev;
+      }
+      if (el && !el.paused) return prev;
+      return next;
     });
   }, []);
 
   const play = useCallback((next: AudioTrack) => {
     setVolume(next.kind === "music" ? MUSIC_VOLUME : CHAPTER_VOLUME);
+    setEnded(false);
     pendingPlay.current = true;
-    setTrack((prev) => (sameTrack(prev, next) ? prev : next));
     const el = audioRef.current;
     if (el && assignedSrc.current === next.src) {
       pendingPlay.current = false;
       el.volume = next.kind === "music" ? MUSIC_VOLUME : CHAPTER_VOLUME;
       el.loop = next.kind === "music";
+      if (pendingSeek.current != null) {
+        applyTime(el, pendingSeek.current);
+      }
       void el.play().catch(() => {});
+      return;
     }
+    setTrack((prev) => (sameTrack(prev, next) ? prev : next));
   }, []);
 
   const toggle = useCallback(() => {
     const el = audioRef.current;
     if (!el) return;
-    if (el.paused) void el.play();
-    else el.pause();
+    if (pendingSeek.current != null) applyTime(el, pendingSeek.current);
+    if (el.paused) {
+      setEnded(false);
+      void el.play();
+    } else {
+      el.pause();
+    }
   }, []);
 
   const stop = useCallback(() => {
@@ -117,8 +145,10 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
     }
     assignedSrc.current = null;
     pendingPlay.current = false;
+    pendingSeek.current = null;
     setTrack(null);
     setPlaying(false);
+    setEnded(false);
     setTime(0);
     setDuration(0);
   }, []);
@@ -128,11 +158,12 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
     if (!el || !track) return;
     if (assignedSrc.current !== track.src) {
       assignedSrc.current = track.src;
+      pendingSeek.current = null;
       el.src = track.src;
       el.loop = track.kind === "music";
       setTime(0);
       setDuration(0);
-      el.load();
+      setEnded(false);
     }
     if (pendingPlay.current) {
       pendingPlay.current = false;
@@ -157,8 +188,8 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
   }, [track]);
 
   const value = useMemo(
-    () => ({ track, playing, time, offer, play, toggle, stop }),
-    [track, playing, time, offer, play, toggle, stop],
+    () => ({ track, playing, ended, time, offer, play, toggle, stop }),
+    [track, playing, ended, time, offer, play, toggle, stop],
   );
 
   return (
@@ -166,21 +197,47 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
       <audio
         ref={audioRef}
         preload="metadata"
-        onPlay={() => setPlaying(true)}
+        onPlay={() => {
+          setPlaying(true);
+          setEnded(false);
+        }}
         onPause={() => setPlaying(false)}
         onTimeUpdate={(e) => {
           const t = e.currentTarget.currentTime;
-          if (Number.isFinite(t) && t >= 0) setTime(t);
+          if (!Number.isFinite(t) || t < 0) return;
+          if (
+            pendingSeek.current != null &&
+            Math.abs(t - pendingSeek.current) > 0.35
+          ) {
+            return;
+          }
+          pendingSeek.current = null;
+          setTime(t);
         }}
         onLoadedMetadata={(e) => {
-          const d = e.currentTarget.duration;
+          const el = e.currentTarget;
+          const d = el.duration;
           setDuration(Number.isFinite(d) && d > 0 ? d : 0);
-          const t = e.currentTarget.currentTime;
+          if (pendingSeek.current != null) {
+            applyTime(el, pendingSeek.current);
+            setTime(pendingSeek.current);
+            return;
+          }
+          const t = el.currentTime;
           setTime(Number.isFinite(t) && t >= 0 ? t : 0);
         }}
-        onEnded={() => {
+        onSeeked={(e) => {
+          pendingSeek.current = null;
+          const t = e.currentTarget.currentTime;
+          if (Number.isFinite(t) && t >= 0) setTime(t);
+        }}
+        onEnded={(e) => {
           if (track?.kind === "music") return;
+          const d = e.currentTarget.duration;
+          pendingSeek.current = null;
           setPlaying(false);
+          setEnded(true);
+          setTime(Number.isFinite(d) && d > 0 ? d : time);
         }}
       />
       {children}
@@ -193,8 +250,10 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
         onSeek={(value) => {
           const el = audioRef.current;
           if (!el || !Number.isFinite(value)) return;
-          el.currentTime = value;
+          pendingSeek.current = value;
+          setEnded(false);
           setTime(value);
+          applyTime(el, value);
         }}
         onVolume={(value) => {
           setVolume(value);
@@ -239,7 +298,12 @@ function PlayerBar({
     : playing
       ? "Pause reading"
       : `Play Chapter ${track.number}, ${track.title}`;
-  const elapsed = duration > 0 && time > duration + 0.25 ? 0 : time;
+  const elapsed =
+    Number.isFinite(time) && time >= 0
+      ? duration > 0
+        ? Math.min(time, duration)
+        : time
+      : 0;
   const titleClass =
     "min-w-0 shrink truncate font-sans text-[0.68rem] tracking-[0.14em] text-fog uppercase";
 

@@ -1138,6 +1138,7 @@ export function chapterBySlug(slug: string) {
 /** Old chapter slugs. The book moved; the address still has to. */
 export const retiredChapterSlugs: Record<string, string> = {
   "mission-two": "ninety-four-hours",
+  "the-weight-of-small-machines": "weight-of-small-machines",
 };
 
 export function adjacentChapters(slug: string) {

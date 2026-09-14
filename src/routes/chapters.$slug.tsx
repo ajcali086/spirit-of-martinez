@@ -11,6 +11,7 @@ import {
   chapters,
   retiredChapterSlugs,
 } from "@/data/chapters";
+import { chapterCues } from "@/data/cues";
 import type { Block } from "@/data/types";
 import { cn } from "@/lib/utils";
 
@@ -31,13 +32,8 @@ function ChapterPage() {
   const { slug } = Route.useParams();
   const hash = useRouterState({ select: (s) => s.location.hash });
   const { offer, play, track } = useBookAudio();
-  const chapter = chapterBySlug(slug);
-  if (!chapter) {
-    throw notFound();
-  }
-  const { prev, next } = adjacentChapters(slug);
   const { activeId, listening, follow, resume } = useReadingFollow(slug);
-  let firstPara = true;
+  const chapter = chapterBySlug(slug);
 
   useLayoutEffect(() => {
     const id = hash.replace(/^#/, "");
@@ -49,16 +45,23 @@ function ChapterPage() {
   }, [hash, slug]);
 
   useEffect(() => {
-    if (chapter.audio) {
-      offer({
-        kind: "chapter",
-        src: chapter.audio,
-        title: chapter.title,
-        number: chapter.number,
-        slug: chapter.slug,
-      });
-    }
-  }, [chapter, offer, track]);
+    if (!chapter?.audio) return;
+    offer({
+      kind: "chapter",
+      src: chapter.audio,
+      title: chapter.title,
+      number: chapter.number,
+      slug: chapter.slug,
+    });
+  }, [chapter, offer]);
+
+  if (!chapter) {
+    throw notFound();
+  }
+  const { prev, next } = adjacentChapters(slug);
+  let firstPara = true;
+  const thisChapter =
+    track?.kind === "chapter" && track.slug === chapter.slug;
 
   return (
     <SiteShell>
@@ -85,7 +88,7 @@ function ChapterPage() {
               {chapter.title}
             </h1>
             <p className="mt-4 font-display text-lg text-fog italic">{chapter.kicker}</p>
-            {chapter.audio && track?.kind === "music" ? (
+            {chapter.audio && track && !thisChapter ? (
               <button
                 type="button"
                 onClick={() =>
@@ -169,7 +172,7 @@ function ChapterPage() {
                 A reading of this chapter is in the bar at the top. It will keep
                 playing while you move through the book. The text below is the
                 transcript.
-                {slug === "weight-of-small-machines"
+                {chapterCues[slug]
                   ? " The voice’s place on the page is marked as it reads."
                   : ""}
               </p>

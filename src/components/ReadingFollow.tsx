@@ -3,14 +3,11 @@ import { useBookAudio } from "@/components/layout/BookAudio";
 import { chapterCues, cueAt } from "@/data/cues";
 
 export function useReadingFollow(slug: string) {
-  const { track, playing, time } = useBookAudio();
+  const { track, playing, ended, time } = useBookAudio();
   const cues = chapterCues[slug];
-  const listening =
-    Boolean(cues) &&
-    playing &&
-    track?.kind === "chapter" &&
-    track.slug === slug;
-  const activeId = listening ? (cueAt(cues, time)?.id ?? null) : null;
+  const onThisChapter =
+    Boolean(cues) && track?.kind === "chapter" && track.slug === slug && !ended;
+  const activeId = onThisChapter ? (cueAt(cues, time)?.id ?? null) : null;
   const [follow, setFollow] = useState(true);
   const ignoreUntil = useRef(0);
 
@@ -43,7 +40,7 @@ export function useReadingFollow(slug: string) {
   }, []);
 
   useEffect(() => {
-    if (!listening || !follow || !activeId) return;
+    if (!playing || !follow || !activeId) return;
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -58,11 +55,11 @@ export function useReadingFollow(slug: string) {
       block: "center",
       behavior: reduce ? "auto" : "smooth",
     });
-  }, [activeId, follow, listening]);
+  }, [activeId, follow, playing]);
 
   return {
     activeId,
-    listening,
+    listening: onThisChapter && playing,
     follow,
     resume: () => setFollow(true),
   };
