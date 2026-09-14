@@ -77,7 +77,10 @@ function CrewMemberPage() {
               Cite this
             </h2>
             <p className="mt-3 font-display text-lg leading-relaxed text-fog">
-              {member.name}, {member.role}. <em>The Spirit of Martinez</em>. {citeUrl}
+              {member.name}, {member.role}. <em>The Spirit of Martinez</em>.
+            </p>
+            <p className="mt-2 break-all font-sans text-sm leading-relaxed text-muted">
+              {citeUrl}
             </p>
           </section>
         </div>

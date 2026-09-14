@@ -40,6 +40,7 @@ const CHAPTER_VOLUME = 1;
 type BookAudioValue = {
   track: AudioTrack | null;
   playing: boolean;
+  time: number;
   offer: (track: ChapterTrack) => void;
   play: (track: AudioTrack) => void;
   toggle: () => void;
@@ -156,8 +157,8 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
   }, [track]);
 
   const value = useMemo(
-    () => ({ track, playing, offer, play, toggle, stop }),
-    [track, playing, offer, play, toggle, stop],
+    () => ({ track, playing, time, offer, play, toggle, stop }),
+    [track, playing, time, offer, play, toggle, stop],
   );
 
   return (

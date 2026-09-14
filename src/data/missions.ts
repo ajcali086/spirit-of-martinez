@@ -20,8 +20,11 @@ export function missionChapter(m: Mission): { slug: string; label: string; hash:
   if (m.kind === "humanitarian") {
     return { slug: "utrecht", label: "Utrecht", hash: "12.4" };
   }
-  if (m.number <= 2) {
-    return { slug: "mission-one", label: "Mission One", hash: `m-${m.number}` };
+  if (m.number === 1) {
+    return { slug: "mission-one", label: "Mission One", hash: "m-1" };
+  }
+  if (m.number === 2) {
+    return { slug: "mission-one", label: "Mission two", hash: "m-2" };
   }
   if (m.number === 12 || m.number >= 16) {
     return { slug: "borrowed-aircraft", label: "Borrowed Aircraft", hash: `m-${m.number}` };

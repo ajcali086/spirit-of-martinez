@@ -86,7 +86,11 @@ function ArchiveObjectPage() {
               Cite this
             </h2>
             <p className="mt-3 font-display text-lg leading-relaxed text-ink-soft">
-              {cite.credit}. <em>{cite.title}</em>{cite.dated}. {cite.work}. {cite.url}
+              {cite.credit}. <em>{cite.title}</em>
+              {cite.dated}. {cite.work}.
+            </p>
+            <p className="mt-2 break-all font-sans text-sm leading-relaxed text-muted">
+              {cite.url}
             </p>
           </section>
         </div>

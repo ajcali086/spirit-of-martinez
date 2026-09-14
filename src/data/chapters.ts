@@ -1135,6 +1135,11 @@ export function chapterBySlug(slug: string) {
   return chapters.find((c) => c.slug === slug);
 }
 
+/** Old chapter slugs. The book moved; the address still has to. */
+export const retiredChapterSlugs: Record<string, string> = {
+  "mission-two": "ninety-four-hours",
+};
+
 export function adjacentChapters(slug: string) {
   const i = chapters.findIndex((c) => c.slug === slug);
   return {

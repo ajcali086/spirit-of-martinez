@@ -69,16 +69,21 @@ function Home() {
       </section>
 
       <section className="border-b border-rule bg-ink-soft">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-y divide-rule sm:grid-cols-4 sm:divide-y-0">
+        <dl className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-y divide-rule sm:grid-cols-4 sm:divide-y-0">
           {stats.map((s) => (
-            <div key={s.label} className="px-4 py-8 text-center sm:py-10">
-              <p className="font-display text-4xl text-brass sm:text-5xl">{s.value}</p>
-              <p className="mt-2 text-[0.68rem] tracking-[0.18em] text-muted uppercase">
+            <div
+              key={s.label}
+              className="flex flex-col px-4 py-8 text-center sm:py-10"
+            >
+              <dt className="order-2 mt-2 text-[0.68rem] tracking-[0.18em] text-fog uppercase">
                 {s.label}
-              </p>
+              </dt>
+              <dd className="order-1 font-display text-4xl text-brass sm:text-5xl">
+                {s.value}
+              </dd>
             </div>
           ))}
-        </div>
+        </dl>
       </section>
 
       <section aria-labelledby="era-rail-heading" className="border-b border-rule">
@@ -258,8 +263,8 @@ function Home() {
             Frank Calicura to Ray Taylor · April 1945
           </p>
           <p className="mx-auto mt-8 max-w-lg text-sm leading-relaxed text-fog">
-            {missions.filter((m) => m.kind === "humanitarian").length} mornings
-            over Utrecht at the end of a tour that began at Chemnitz. The
+            {missions.filter((m) => m.kind === "humanitarian").length}{" "}
+            mornings over Utrecht at the end of a tour that began at Chemnitz. The
             wallets had been stamped for the Pacific. The war these nine men
             had been fighting did not relocate.
           </p>

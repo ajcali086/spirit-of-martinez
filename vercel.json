@@ -13,6 +13,7 @@
     { "source": "/martinezairport", "destination": "/chapters/the-strip-by-the-tracks", "statusCode": 301 },
     { "source": "/martinez-airport", "destination": "/chapters/the-strip-by-the-tracks", "statusCode": 301 },
     { "source": "/simon-rodia", "destination": "/chapters/uncle-sam", "statusCode": 301 },
-    { "source": "/contact", "destination": "/sources", "statusCode": 301 }
+    { "source": "/contact", "destination": "/sources", "statusCode": 301 },
+    { "source": "/chapters/mission-two", "destination": "/chapters/ninety-four-hours", "statusCode": 301 }
   ]
 }

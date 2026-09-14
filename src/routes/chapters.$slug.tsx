@@ -1,26 +1,52 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, redirect, useRouterState } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Headphones } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { useBookAudio } from "@/components/layout/BookAudio";
 import { PhotoPlate } from "@/components/PhotoPlate";
-import { adjacentChapters, chapterBySlug, chapters } from "@/data/chapters";
+import { ResumeFollow, useReadingFollow } from "@/components/ReadingFollow";
+import {
+  adjacentChapters,
+  chapterBySlug,
+  chapters,
+  retiredChapterSlugs,
+} from "@/data/chapters";
 import type { Block } from "@/data/types";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/chapters/$slug")({
+  beforeLoad: ({ params }) => {
+    const dest = retiredChapterSlugs[params.slug];
+    if (dest) {
+      throw redirect({
+        to: "/chapters/$slug",
+        params: { slug: dest },
+      });
+    }
+  },
   component: ChapterPage,
 });
 
 function ChapterPage() {
   const { slug } = Route.useParams();
+  const hash = useRouterState({ select: (s) => s.location.hash });
   const { offer, play, track } = useBookAudio();
   const chapter = chapterBySlug(slug);
   if (!chapter) {
     throw notFound();
   }
   const { prev, next } = adjacentChapters(slug);
+  const { activeId, listening, follow, resume } = useReadingFollow(slug);
   let firstPara = true;
+
+  useLayoutEffect(() => {
+    const id = hash.replace(/^#/, "");
+    if (!id) return;
+    const go = () =>
+      document.getElementById(id)?.scrollIntoView({ block: "start" });
+    go();
+    requestAnimationFrame(go);
+  }, [hash, slug]);
 
   useEffect(() => {
     if (chapter.audio) {
@@ -53,7 +79,7 @@ function ChapterPage() {
           <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/80 to-ink/30" />
           <div className="relative mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20">
             <p className="kicker">
-              Chapter {String(chapter.number).padStart(2, "0")} · {chapter.years}
+              Chapter {chapter.number} · {chapter.years}
             </p>
             <h1 className="mt-4 font-display text-4xl leading-[1.05] font-semibold text-paper sm:text-6xl">
               {chapter.title}
@@ -82,27 +108,33 @@ function ChapterPage() {
 
         <nav
           aria-label="Chapters"
-          className="sticky top-[calc(4rem+var(--player-h,0px))] z-30 overflow-x-auto border-b border-paper-deep/40 bg-paper"
+          className="sticky top-[calc(4rem+var(--player-h,0px))] z-30 border-b border-paper-deep/40 bg-paper"
         >
-          <ol className="mx-auto flex max-w-3xl gap-1 px-3 py-2">
-            {chapters.map((c) => (
-              <li key={c.slug}>
-                <Link
-                  to="/chapters/$slug"
-                  params={{ slug: c.slug }}
-                  className={`flex size-9 items-center justify-center font-display text-sm ${
-                    c.slug === slug
-                      ? "bg-ink text-paper"
-                      : "text-ink-soft hover:text-ink"
-                  }`}
-                  aria-current={c.slug === slug ? "page" : undefined}
-                  aria-label={`Chapter ${c.number}: ${c.title}`}
-                >
-                  {c.number}
-                </Link>
-              </li>
-            ))}
-          </ol>
+          <div className="relative">
+            <ol className="mx-auto flex max-w-3xl gap-1 overflow-x-auto px-3 py-2">
+              {chapters.map((c) => (
+                <li key={c.slug}>
+                  <Link
+                    to="/chapters/$slug"
+                    params={{ slug: c.slug }}
+                    className={`flex size-11 items-center justify-center font-display text-sm ${
+                      c.slug === slug
+                        ? "bg-ink text-paper"
+                        : "text-ink-soft hover:text-ink"
+                    }`}
+                    aria-current={c.slug === slug ? "page" : undefined}
+                    aria-label={`Chapter ${c.number}: ${c.title}`}
+                  >
+                    {c.number}
+                  </Link>
+                </li>
+              ))}
+            </ol>
+            <div
+              className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-linear-to-l from-paper"
+              aria-hidden
+            />
+          </div>
         </nav>
 
         <div className="bg-paper">
@@ -137,9 +169,28 @@ function ChapterPage() {
                 A reading of this chapter is in the bar at the top. It will keep
                 playing while you move through the book. The text below is the
                 transcript.
+                {slug === "weight-of-small-machines"
+                  ? " The voice’s place on the page is marked as it reads."
+                  : ""}
               </p>
             ) : null}
-            {chapter.sections.map((section) => (
+            {["mission-one", "ninety-four-hours", "borrowed-aircraft", "utrecht"].includes(
+              slug,
+            ) ? (
+              <p className="mb-10 font-sans text-sm leading-relaxed text-ink-soft/80">
+                These mornings also sit on the{" "}
+                <Link
+                  to="/missions"
+                  className="text-feather underline-offset-4 hover:underline"
+                >
+                  mission board
+                </Link>
+                .
+              </p>
+            ) : null}
+            {chapter.sections.map((section) => {
+              let pIndex = 0;
+              return (
               <section
                 key={section.id}
                 id={section.id}
@@ -159,12 +210,20 @@ function ChapterPage() {
                   </header>
                 ) : null}
                 {section.blocks.map((block, i) => {
-                  const node = renderBlock(block, firstPara && block.type === "p");
+                  const cueId =
+                    block.type === "p" ? `${section.id}-p${pIndex++}` : undefined;
+                  const node = renderBlock(
+                    block,
+                    firstPara && block.type === "p",
+                    cueId,
+                    activeId,
+                  );
                   if (firstPara && block.type === "p") firstPara = false;
                   return <div key={`${section.id}-${i}`}>{node}</div>;
                 })}
               </section>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -199,11 +258,17 @@ function ChapterPage() {
           </div>
         </nav>
       </article>
+      <ResumeFollow show={listening && !follow} onResume={resume} />
     </SiteShell>
   );
 }
 
-function renderBlock(block: Block, dropCap: boolean) {
+function renderBlock(
+  block: Block,
+  dropCap: boolean,
+  cueId?: string,
+  activeId?: string | null,
+) {
   if (block.type === "quote") {
     return (
       <blockquote className="quote-pull">
@@ -239,7 +304,13 @@ function renderBlock(block: Block, dropCap: boolean) {
   return (
     <p
       id={block.id}
-      className={cn(dropCap && "drop-cap", block.id && "scroll-mt-28")}
+      data-cue={cueId}
+      className={cn(
+        dropCap && "drop-cap",
+        block.id && "scroll-mt-28",
+        cueId && "scroll-mt-28",
+        cueId && activeId === cueId && "is-reading",
+      )}
     >
       {block.text}
     </p>
