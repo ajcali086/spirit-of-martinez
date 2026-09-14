@@ -77,7 +77,7 @@ function applyTime(el: HTMLAudioElement, seconds: number) {
   try {
     el.currentTime = seconds;
   } catch {
-    /* readyState too low; onLoadedMetadata will retry from pendingSeek */
+    /* readyState too low; metadata/play will retry from intended */
   }
 }
 
@@ -85,7 +85,8 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const assignedSrc = useRef<string | null>(null);
   const pendingPlay = useRef(false);
-  const pendingSeek = useRef<number | null>(null);
+  const intended = useRef(0);
+  const holding = useRef(false);
   const [track, setTrack] = useState<AudioTrack | null>(null);
   const [playing, setPlaying] = useState(false);
   const [ended, setEnded] = useState(false);
@@ -93,12 +94,32 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(CHAPTER_VOLUME);
 
+  const lockSeek = useCallback((seconds: number) => {
+    intended.current = seconds;
+    holding.current = true;
+    setEnded(false);
+    setTime(seconds);
+    const el = audioRef.current;
+    if (el) applyTime(el, seconds);
+  }, []);
+
+  const resumeFromIntended = useCallback(() => {
+    const el = audioRef.current;
+    if (!el) return;
+    holding.current = true;
+    applyTime(el, intended.current);
+    setEnded(false);
+    void el.play().then(() => {
+      applyTime(el, intended.current);
+    }).catch(() => {});
+  }, []);
+
   const offer = useCallback((next: ChapterTrack) => {
     setTrack((prev) => {
       if (!prev) return next;
       if (sameTrack(prev, next)) return prev;
       const el = audioRef.current;
-      if (prev.kind === "chapter" && el && (!el.paused || el.currentTime > 0.4)) {
+      if (prev.kind === "chapter" && el && (!el.paused || intended.current > 0.4)) {
         return prev;
       }
       if (el && !el.paused) return prev;
@@ -109,32 +130,26 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
   const play = useCallback((next: AudioTrack) => {
     setVolume(next.kind === "music" ? MUSIC_VOLUME : CHAPTER_VOLUME);
     setEnded(false);
-    pendingPlay.current = true;
     const el = audioRef.current;
     if (el && assignedSrc.current === next.src) {
       pendingPlay.current = false;
       el.volume = next.kind === "music" ? MUSIC_VOLUME : CHAPTER_VOLUME;
       el.loop = next.kind === "music";
-      if (pendingSeek.current != null) {
-        applyTime(el, pendingSeek.current);
-      }
-      void el.play().catch(() => {});
+      resumeFromIntended();
       return;
     }
+    pendingPlay.current = true;
+    intended.current = 0;
+    holding.current = false;
     setTrack((prev) => (sameTrack(prev, next) ? prev : next));
-  }, []);
+  }, [resumeFromIntended]);
 
   const toggle = useCallback(() => {
     const el = audioRef.current;
     if (!el) return;
-    if (pendingSeek.current != null) applyTime(el, pendingSeek.current);
-    if (el.paused) {
-      setEnded(false);
-      void el.play();
-    } else {
-      el.pause();
-    }
-  }, []);
+    if (el.paused) resumeFromIntended();
+    else el.pause();
+  }, [resumeFromIntended]);
 
   const stop = useCallback(() => {
     const el = audioRef.current;
@@ -145,7 +160,8 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
     }
     assignedSrc.current = null;
     pendingPlay.current = false;
-    pendingSeek.current = null;
+    intended.current = 0;
+    holding.current = false;
     setTrack(null);
     setPlaying(false);
     setEnded(false);
@@ -158,7 +174,8 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
     if (!el || !track) return;
     if (assignedSrc.current !== track.src) {
       assignedSrc.current = track.src;
-      pendingSeek.current = null;
+      intended.current = 0;
+      holding.current = false;
       el.src = track.src;
       el.loop = track.kind === "music";
       setTime(0);
@@ -167,11 +184,9 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
     }
     if (pendingPlay.current) {
       pendingPlay.current = false;
-      void el.play().catch(() => {
-        /* Autoplay blocked. The bar play button is the way in. */
-      });
+      resumeFromIntended();
     }
-  }, [track]);
+  }, [track, resumeFromIntended]);
 
   useEffect(() => {
     if (audioRef.current) audioRef.current.volume = volume;
@@ -197,47 +212,55 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
       <audio
         ref={audioRef}
         preload="metadata"
-        onPlay={() => {
+        onPlay={(e) => {
           setPlaying(true);
           setEnded(false);
+          applyTime(e.currentTarget, intended.current);
         }}
         onPause={() => setPlaying(false)}
         onTimeUpdate={(e) => {
-          const t = e.currentTarget.currentTime;
+          const el = e.currentTarget;
+          const t = el.currentTime;
           if (!Number.isFinite(t) || t < 0) return;
-          if (
-            pendingSeek.current != null &&
-            Math.abs(t - pendingSeek.current) > 0.35
-          ) {
-            return;
+          if (holding.current) {
+            if (Math.abs(t - intended.current) > 0.5) {
+              applyTime(el, intended.current);
+              return;
+            }
+            holding.current = false;
           }
-          pendingSeek.current = null;
+          if (el.paused) return;
+          intended.current = t;
           setTime(t);
         }}
         onLoadedMetadata={(e) => {
           const el = e.currentTarget;
           const d = el.duration;
           setDuration(Number.isFinite(d) && d > 0 ? d : 0);
-          if (pendingSeek.current != null) {
-            applyTime(el, pendingSeek.current);
-            setTime(pendingSeek.current);
-            return;
-          }
-          const t = el.currentTime;
-          setTime(Number.isFinite(t) && t >= 0 ? t : 0);
+          applyTime(el, intended.current);
+          setTime(intended.current);
         }}
         onSeeked={(e) => {
-          pendingSeek.current = null;
-          const t = e.currentTarget.currentTime;
-          if (Number.isFinite(t) && t >= 0) setTime(t);
+          const el = e.currentTarget;
+          const t = el.currentTime;
+          if (!Number.isFinite(t) || t < 0) return;
+          if (holding.current) {
+            if (Math.abs(t - intended.current) > 0.5) {
+              applyTime(el, intended.current);
+              return;
+            }
+            holding.current = false;
+          }
         }}
         onEnded={(e) => {
           if (track?.kind === "music") return;
           const d = e.currentTarget.duration;
-          pendingSeek.current = null;
+          const at = Number.isFinite(d) && d > 0 ? d : intended.current;
+          holding.current = false;
+          intended.current = at;
           setPlaying(false);
           setEnded(true);
-          setTime(Number.isFinite(d) && d > 0 ? d : time);
+          setTime(at);
         }}
       />
       {children}
@@ -247,14 +270,7 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
         time={time}
         duration={duration}
         volume={volume}
-        onSeek={(value) => {
-          const el = audioRef.current;
-          if (!el || !Number.isFinite(value)) return;
-          pendingSeek.current = value;
-          setEnded(false);
-          setTime(value);
-          applyTime(el, value);
-        }}
+        onSeek={lockSeek}
         onVolume={(value) => {
           setVolume(value);
           if (audioRef.current) audioRef.current.volume = value;
@@ -364,7 +380,8 @@ function PlayerBar({
               max={duration}
               step={0.1}
               value={elapsed}
-              onChange={(e) => onSeek(Number(e.target.value))}
+              onInput={(e) => onSeek(Number(e.currentTarget.value))}
+              onChange={(e) => onSeek(Number(e.currentTarget.value))}
               aria-label="Reading position"
               className="hidden h-1 min-w-0 flex-1 cursor-pointer accent-brass sm:block"
             />
