@@ -481,6 +481,7 @@ export const chapters: Chapter[] = [
     image: "/images/horham.jpg",
     imageAlt: "Horham airfield, Station 119, Suffolk",
     dek: "A replacement crew inherits a reputation entire and instantly, having contributed nothing to it, and is expected to fly as though it had.",
+    audio: "/audio/station-119.mp3",
     sections: [
       {
         id: "7.1",
@@ -542,6 +543,7 @@ export const chapters: Chapter[] = [
     image: "/images/horham.jpg",
     imageAlt: "Dispersed bombers on an East Anglian field",
     dek: "On February 3, eight aircraft of the 95th do not come home. Frank Calicura has been at Horham a little under a month. He is not on the board. He is there.",
+    audio: "/audio/eight-empty-places.mp3",
     sections: [
       {
         id: "8.1",
@@ -585,6 +587,7 @@ export const chapters: Chapter[] = [
     image: "/images/hero-fortress.jpg",
     imageAlt: "The locker arranged: B-15 jacket, crew plate, wallet, and gloves",
     dek: "Chemnitz, not Dresden. The first entry. Twenty-eight to go, though he does not know the number will change twice more before the war lets him stop counting.",
+    audio: "/audio/mission-one.mp3",
     sections: [
       {
         id: "9.1",
@@ -634,6 +637,7 @@ export const chapters: Chapter[] = [
     image: "/images/missions-banner.jpg",
     imageAlt: "A modern composite: pay card, a captains’ chart to Bamberg, a B-17, the Lucky Bastard Club cartoon",
     dek: "Nine missions in fourteen days. Munich, Swinemünde, Seelze, Jena. The flight record states the hours. It does not state what a man carried home.",
+    audio: "/audio/ninety-four-hours.mp3",
     sections: [
       {
         id: "10.1",
@@ -728,6 +732,7 @@ export const chapters: Chapter[] = [
     imageAlt: "Nose art from a later montage: Spirit of Martinez among other B-17 names",
     imagePosition: "top",
     dek: "Martinez names a bomber. For two mornings the crew flies ships that are not theirs, while the Spirit sits at Horham with her cowlings off.",
+    audio: "/audio/borrowed-aircraft.mp3",
     sections: [
       {
         id: "11.1",
@@ -845,6 +850,7 @@ export const chapters: Chapter[] = [
     image: "/images/chowhound-banner.jpg",
     imageAlt: "A modern composite of the food drops: the mill at Utrecht, bomb bay doors open, a ration crate, food for liberated peoples",
     dek: "Nine wallets stamped for a war in the Pacific. Three mornings over Utrecht instead, at four hundred feet, with flour in the bomb bay.",
+    audio: "/audio/utrecht.mp3",
     sections: [
       {
         id: "12.1",
@@ -910,6 +916,7 @@ export const chapters: Chapter[] = [
     image: "/images/archive/shop.jpg",
     imageAlt: "Frank Calicura in a butcher’s apron at a cutting block on Main Street",
     dek: "The aircraft is dismantled before he can take souvenirs. Sam reopens the field, then dies. Frank goes back to a butcher’s apron, and a commercial ticket he still renews.",
+    audio: "/audio/what-came-back.mp3?v=2",
     sections: [
       {
         id: "13.1",
@@ -999,6 +1006,7 @@ export const chapters: Chapter[] = [
     image: "/images/footlocker.jpg",
     imageAlt: "The locker arranged: B-15 jacket, crew plate, wallet, and gloves",
     dek: "Seven numbers, none of them a lie. A scrapbook numbered in pencil. A ribbon without a citation. A letter that could not quite decide about a man’s back.",
+    audio: "/audio/the-number.mp3",
     sections: [
       {
         id: "14.1",
@@ -1076,6 +1084,7 @@ export const chapters: Chapter[] = [
     image: "/images/watts-towers.jpg",
     imageAlt: "The Watts Towers, built by Sabato Rodia",
     dek: "The builder of the Watts Towers stands in an apron in his sister’s hometown, between two of her nephews, in the month the shop moves to 700 Main Street.",
+    audio: "/audio/uncle-sam.mp3",
     sections: [
       {
         id: "15.1",
