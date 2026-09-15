@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect } from "react";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { useBookAudio } from "@/components/layout/BookAudio";
 import { PhotoPlate } from "@/components/PhotoPlate";
-import { ResumeFollow, useReadingFollow } from "@/components/ReadingFollow";
+import { useReadingFollow } from "@/components/ReadingFollow";
 import {
   adjacentChapters,
   chapterBySlug,
@@ -12,6 +12,7 @@ import {
   retiredChapterSlugs,
 } from "@/data/chapters";
 import { chapterCues } from "@/data/cues";
+import { sentenceCues } from "@/data/sentenceCues";
 import type { Block } from "@/data/types";
 import { cn } from "@/lib/utils";
 
@@ -32,7 +33,7 @@ function ChapterPage() {
   const { slug } = Route.useParams();
   const hash = useRouterState({ select: (s) => s.location.hash });
   const { offer, play, track } = useBookAudio();
-  const { activeId, listening, follow, resume } = useReadingFollow(slug);
+  const { activeId } = useReadingFollow(slug);
   const chapter = chapterBySlug(slug);
 
   useLayoutEffect(() => {
@@ -81,13 +82,30 @@ function ChapterPage() {
           />
           <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/80 to-ink/30" />
           <div className="relative mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20">
-            <p className="kicker">
+            <p
+              data-cue="ch-num"
+              className={cn("kicker", activeId === "ch-num" && "is-reading")}
+            >
               Chapter {chapter.number} · {chapter.years}
             </p>
-            <h1 className="mt-4 font-display text-4xl leading-[1.05] font-semibold text-paper sm:text-6xl">
+            <h1
+              data-cue="ch-title"
+              className={cn(
+                "mt-4 font-display text-4xl leading-[1.05] font-semibold text-paper sm:text-6xl",
+                activeId === "ch-title" && "is-reading",
+              )}
+            >
               {chapter.title}
             </h1>
-            <p className="mt-4 font-display text-lg text-fog italic">{chapter.kicker}</p>
+            <p
+              data-cue="ch-kicker"
+              className={cn(
+                "mt-4 font-display text-lg text-fog italic",
+                activeId === "ch-kicker" && "is-reading",
+              )}
+            >
+              {chapter.kicker}
+            </p>
             {chapter.audio && track && !thisChapter ? (
               <button
                 type="button"
@@ -172,7 +190,7 @@ function ChapterPage() {
                 A reading of this chapter is in the bar at the top. It will keep
                 playing while you move through the book. The text below is the
                 transcript.
-                {chapterCues[slug]
+                {chapterCues[slug] || sentenceCues[slug]
                   ? " The voice’s place on the page is marked as it reads."
                   : ""}
               </p>
@@ -201,12 +219,32 @@ function ChapterPage() {
               >
                 {section.title ? (
                   <header className="mb-6">
-                    <p className="font-sans text-[0.68rem] tracking-[0.22em] text-feather uppercase">
+                    <p
+                      data-cue={`sec-${section.id}-id`}
+                      className={cn(
+                        "font-sans text-[0.68rem] tracking-[0.22em] text-feather uppercase",
+                        activeId === `sec-${section.id}-id` && "is-reading",
+                      )}
+                    >
                       {section.id}
                     </p>
-                    <h2 className="mt-2 font-display text-3xl text-ink">{section.title}</h2>
+                    <h2
+                      data-cue={`sec-${section.id}-title`}
+                      className={cn(
+                        "mt-2 font-display text-3xl text-ink",
+                        activeId === `sec-${section.id}-title` && "is-reading",
+                      )}
+                    >
+                      {section.title}
+                    </h2>
                     {section.place ? (
-                      <p className="mt-1 font-display text-base text-muted italic">
+                      <p
+                        data-cue={`sec-${section.id}-place`}
+                        className={cn(
+                          "mt-1 font-display text-base text-muted italic",
+                          activeId === `sec-${section.id}-place` && "is-reading",
+                        )}
+                      >
                         {section.place}
                       </p>
                     ) : null}
@@ -261,7 +299,6 @@ function ChapterPage() {
           </div>
         </nav>
       </article>
-      <ResumeFollow show={listening && !follow} onResume={resume} />
     </SiteShell>
   );
 }

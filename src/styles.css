@@ -124,11 +124,19 @@
   color: var(--color-feather);
 }
 
-.prose-archive p.is-reading {
-  background: color-mix(in srgb, var(--color-brass) 18%, transparent);
+.prose-archive p.is-reading,
+.prose-archive h2.is-reading {
+  background: color-mix(in srgb, var(--color-brass) 22%, transparent);
   box-shadow: inset 3px 0 0 var(--color-brass);
   margin-left: -0.75rem;
   padding-left: 0.75rem;
+}
+
+.kicker.is-reading,
+h1.is-reading,
+[data-cue="ch-kicker"].is-reading {
+  background: color-mix(in srgb, var(--color-brass) 28%, transparent);
+  box-shadow: inset 3px 0 0 var(--color-brass);
 }
 
 .quote-pull {

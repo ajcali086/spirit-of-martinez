@@ -319,6 +319,7 @@ export const chapters: Chapter[] = [
     image: "/images/b17-nose.jpg",
     imageAlt: "A B-17 on a Florida hardstand",
     dek: "Hendricks Field teaches one thing: how to command a Fortress. A son is born. A mother dies. A twenty-three-year-old signs a will.",
+    audio: "/audio/the-specialist.mp3",
     sections: [
       {
         id: "5.1",
@@ -396,6 +397,7 @@ export const chapters: Chapter[] = [
     image: "/images/hero-fortress.jpg",
     imageAlt: "The locker arranged: B-15 jacket, crew plate, wallet, and gloves",
     dek: "The Army puts nine names on the same piece of paper. They learn to work against something that will shoot back. A dollar bill goes around a room.",
+    audio: "/audio/nine-strangers.mp3",
     sections: [
       {
         id: "6.1",

@@ -11,6 +11,8 @@ import {
 } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Pause, Play, X } from "lucide-react";
+import { chapterCues } from "@/data/cues";
+import { sentenceCues } from "@/data/sentenceCues";
 
 export type ChapterTrack = {
   kind: "chapter";
@@ -42,6 +44,8 @@ type BookAudioValue = {
   playing: boolean;
   ended: boolean;
   time: number;
+  follow: boolean;
+  setFollow: (value: boolean) => void;
   offer: (track: ChapterTrack) => void;
   play: (track: AudioTrack) => void;
   toggle: () => void;
@@ -93,6 +97,7 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
   const [time, setTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(CHAPTER_VOLUME);
+  const [follow, setFollow] = useState(true);
 
   const lockSeek = useCallback((seconds: number) => {
     intended.current = seconds;
@@ -193,6 +198,23 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
   }, [volume]);
 
   useEffect(() => {
+    setFollow(true);
+  }, [track && track.kind === "chapter" ? track.slug : ""]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== " " && e.code !== "Space") return;
+      const target = e.target as HTMLElement | null;
+      if (target?.closest("input, textarea, select, [contenteditable]")) return;
+      if (!track || track.kind !== "chapter") return;
+      e.preventDefault();
+      toggle();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [track, toggle]);
+
+  useEffect(() => {
     document.documentElement.style.setProperty(
       "--player-h",
       track ? "3rem" : "0px",
@@ -203,8 +225,19 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
   }, [track]);
 
   const value = useMemo(
-    () => ({ track, playing, ended, time, offer, play, toggle, stop }),
-    [track, playing, ended, time, offer, play, toggle, stop],
+    () => ({
+      track,
+      playing,
+      ended,
+      time,
+      follow,
+      setFollow,
+      offer,
+      play,
+      toggle,
+      stop,
+    }),
+    [track, playing, ended, time, follow, offer, play, toggle, stop],
   );
 
   return (
@@ -277,6 +310,8 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
         }}
         onToggle={toggle}
         onStop={stop}
+        follow={follow}
+        onFollow={setFollow}
       />
     </BookAudioContext.Provider>
   );
@@ -292,6 +327,8 @@ function PlayerBar({
   onVolume,
   onToggle,
   onStop,
+  follow,
+  onFollow,
 }: {
   track: AudioTrack | null;
   playing: boolean;
@@ -302,6 +339,8 @@ function PlayerBar({
   onVolume: (value: number) => void;
   onToggle: () => void;
   onStop: () => void;
+  follow: boolean;
+  onFollow: (value: boolean) => void;
 }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   if (!track) return null;
@@ -336,6 +375,7 @@ function PlayerBar({
             onClick={onToggle}
             className="flex size-11 shrink-0 items-center justify-center text-brass hover:text-paper"
             aria-label={label}
+            aria-keyshortcuts="Space"
           >
             {playing ? (
               <Pause className="size-5 fill-current" />
@@ -343,6 +383,11 @@ function PlayerBar({
               <Play className="size-5 fill-current" />
             )}
           </button>
+          {!music ? (
+            <span className="hidden shrink-0 font-sans text-[0.58rem] tracking-[0.16em] text-muted uppercase lg:inline">
+              Space
+            </span>
+          ) : null}
           {music ? (
             pathname === "/" ? (
               <p className={titleClass}>{track.title}</p>
@@ -392,6 +437,18 @@ function PlayerBar({
             {formatTime(elapsed)}
             {duration ? ` / ${formatTime(duration)}` : ""}
           </p>
+          {!music && (sentenceCues[track.slug] || chapterCues[track.slug]) ? (
+            <button
+              type="button"
+              onClick={() => onFollow(!follow)}
+              aria-pressed={follow}
+              className={`inline-flex min-h-11 shrink-0 items-center px-1.5 font-sans text-[0.62rem] tracking-[0.14em] uppercase sm:px-2 sm:tracking-[0.16em] ${
+                follow ? "text-brass" : "text-muted hover:text-paper"
+              }`}
+            >
+              {follow ? "Following" : "Follow"}
+            </button>
+          ) : null}
           <button
             type="button"
             onClick={onStop}

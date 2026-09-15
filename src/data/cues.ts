@@ -1,6 +1,6 @@
 export type ReadingCue = { id: string; start: number; end: number };
 
-/** Paragraph cues timed from each chapter's reading. */
+/** Paragraph windows timed from each chapter's reading. Sentences split at render. */
 export const chapterCues: Record<string, ReadingCue[]> = {
   "weight-of-small-machines": [
     { id: "1.1-p0", start: 8.53, end: 33.26 },
@@ -148,4 +148,148 @@ export function cueAt(cues: ReadingCue[], time: number) {
     if (time >= cue.start && time < cue.end) return cue;
   }
   return null;
+}
+
+/** Headings stay; sentence ids collapse to their paragraph. */
+export function collapseToParagraphs(cues: ReadingCue[]): ReadingCue[] {
+  const out: ReadingCue[] = [];
+  for (const cue of cues) {
+    const para = cue.id.match(/^(.*-p\d+)-s\d+$/);
+    const id = para ? para[1] : cue.id;
+    const last = out[out.length - 1];
+    if (last && last.id === id) {
+      last.end = cue.end;
+    } else {
+      out.push({ id, start: cue.start, end: cue.end });
+    }
+  }
+  return out;
+}
+
+const ABBREV = new Set([
+  "mr",
+  "mrs",
+  "ms",
+  "dr",
+  "st",
+  "no",
+  "vs",
+  "jr",
+  "sr",
+  "gen",
+  "col",
+  "lt",
+  "sgt",
+  "maj",
+  "cpl",
+  "pfc",
+  "capt",
+  "wm",
+  "gov",
+  "sen",
+  "rep",
+  "hon",
+  "rev",
+  "ave",
+  "blvd",
+  "inc",
+  "ltd",
+  "co",
+  "al",
+  "etc",
+  "vol",
+  "jan",
+  "feb",
+  "mar",
+  "apr",
+  "jun",
+  "jul",
+  "aug",
+  "sep",
+  "oct",
+  "nov",
+  "dec",
+]);
+
+function wordBefore(text: string, period: number) {
+  let i = period - 1;
+  while (i >= 0 && /[A-Za-z]/.test(text[i])) i -= 1;
+  return text.slice(i + 1, period);
+}
+
+function isSentenceBreak(text: string, period: number) {
+  const word = wordBefore(text, period);
+  if (word.length === 1 && /[A-Z]/.test(word)) return false;
+  if (ABBREV.has(word.toLowerCase())) return false;
+  return true;
+}
+
+export function splitSentences(text: string): string[] {
+  const parts: string[] = [];
+  let start = 0;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (ch !== "." && ch !== "!" && ch !== "?") continue;
+    let j = i + 1;
+    while (j < text.length && /\s/.test(text[j])) j += 1;
+    if (j <= i + 1 || j >= text.length) continue;
+    if (!/[A-Z“"‘]/.test(text[j])) continue;
+    if (!isSentenceBreak(text, i)) continue;
+    const piece = text.slice(start, j).trim();
+    if (piece) parts.push(piece);
+    start = j;
+    i = j - 1;
+  }
+  const rest = text.slice(start).trim();
+  if (rest) parts.push(rest);
+  const merged: string[] = [];
+  for (const part of parts.length > 0 ? parts : [text]) {
+    const tiny = part.length < 12 || !/[a-z]/.test(part);
+    if (merged.length > 0 && tiny) {
+      merged[merged.length - 1] = `${merged[merged.length - 1]} ${part}`;
+    } else {
+      merged.push(part);
+    }
+  }
+  return merged.length > 0 ? merged : [text];
+}
+
+export function expandParagraphCue(
+  cue: ReadingCue,
+  text: string,
+  pauses: number[] = [],
+): ReadingCue[] {
+  const sentences = splitSentences(text);
+  if (sentences.length <= 1) return [{ ...cue, id: `${cue.id}-s0` }];
+  const total = sentences.reduce((n, s) => n + s.length, 0) || 1;
+  const span = cue.end - cue.start;
+  const inner = pauses.filter(
+    (t) => t > cue.start + 0.3 && t < cue.end - 0.2,
+  );
+  const used = new Set<number>();
+  const edges = [cue.start];
+  let acc = 0;
+  for (let i = 0; i < sentences.length - 1; i++) {
+    acc += sentences[i].length;
+    const guess = cue.start + span * (acc / total);
+    const last = edges[edges.length - 1];
+    let best = guess;
+    let bestDist = 2.2;
+    for (const t of inner) {
+      if (used.has(t) || t <= last + 0.4) continue;
+      const d = Math.abs(t - guess);
+      if (d < bestDist) {
+        best = t;
+        bestDist = d;
+      }
+    }
+    if (best !== guess) used.add(best);
+    edges.push(best);
+  }
+  edges.push(cue.end);
+  return sentences.map((_, i) => ({
+    id: `${cue.id}-s${i}`,
+    start: Math.round(edges[i] * 100) / 100,
+    end: Math.round(edges[i + 1] * 100) / 100,
+  }));
 }

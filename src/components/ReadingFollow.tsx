@@ -1,19 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useBookAudio } from "@/components/layout/BookAudio";
-import { chapterCues, cueAt } from "@/data/cues";
+import { chapterCues, collapseToParagraphs, cueAt } from "@/data/cues";
+import { sentenceCues } from "@/data/sentenceCues";
 
 export function useReadingFollow(slug: string) {
-  const { track, playing, ended, time } = useBookAudio();
-  const cues = chapterCues[slug];
+  const { track, playing, ended, time, follow, setFollow } = useBookAudio();
+  const paraCues = chapterCues[slug];
+  const aligned = sentenceCues[slug];
+  const cues = useMemo(() => {
+    if (aligned) return collapseToParagraphs(aligned);
+    return paraCues;
+  }, [aligned, paraCues]);
   const onThisChapter =
     Boolean(cues) && track?.kind === "chapter" && track.slug === slug && !ended;
-  const activeId = onThisChapter ? (cueAt(cues, time)?.id ?? null) : null;
-  const [follow, setFollow] = useState(true);
+  const activeId = onThisChapter ? (cueAt(cues ?? [], time)?.id ?? null) : null;
   const ignoreUntil = useRef(0);
-
-  useEffect(() => {
-    setFollow(true);
-  }, [slug]);
 
   useEffect(() => {
     const pause = (e: Event) => {
@@ -37,7 +38,7 @@ export function useReadingFollow(slug: string) {
       window.removeEventListener("touchmove", pause);
       window.removeEventListener("keydown", pause);
     };
-  }, []);
+  }, [setFollow]);
 
   useEffect(() => {
     if (!playing || !follow || !activeId) return;
@@ -63,23 +64,4 @@ export function useReadingFollow(slug: string) {
     follow,
     resume: () => setFollow(true),
   };
-}
-
-export function ResumeFollow({
-  show,
-  onResume,
-}: {
-  show: boolean;
-  onResume: () => void;
-}) {
-  if (!show) return null;
-  return (
-    <button
-      type="button"
-      onClick={onResume}
-      className="fixed bottom-4 left-4 z-40 min-h-11 bg-ink px-4 text-[0.68rem] tracking-[0.16em] text-brass uppercase ring-1 ring-brass/60 hover:bg-ink-soft sm:bottom-6 sm:left-6"
-    >
-      Resume follow
-    </button>
-  );
 }
