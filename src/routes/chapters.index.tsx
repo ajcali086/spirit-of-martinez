@@ -12,7 +12,7 @@ function ChaptersIndex() {
       <PageHero
         kicker="The Book"
         title="Fifteen chapters"
-        dek="Read in order, or open any chapter the way a family opens a box — wherever the hand lands. Every chapter has a reading. It will keep playing while you move through the book."
+        dek="Read in order, or open any chapter the way a family opens a box — wherever the hand lands. Every chapter has a synthetic reading. It will keep playing while you move through the book."
         image="/images/footlocker.jpg"
         imageAlt="The locker arranged: B-15 jacket, crew plate, wallet, and gloves"
         compact

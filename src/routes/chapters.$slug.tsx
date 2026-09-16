@@ -14,6 +14,7 @@ import {
 import { chapterCues } from "@/data/cues";
 import { sentenceCues } from "@/data/sentenceCues";
 import type { Block } from "@/data/types";
+import { pageMeta } from "@/lib/og/pageMeta";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/chapters/$slug")({
@@ -25,6 +26,16 @@ export const Route = createFileRoute("/chapters/$slug")({
         params: { slug: dest },
       });
     }
+  },
+  head: ({ params }) => {
+    const chapter = chapterBySlug(params.slug);
+    if (!chapter) return {};
+    return pageMeta({
+      title: `Chapter ${chapter.number} — ${chapter.title} · The Spirit of Martinez`,
+      description: chapter.dek,
+      path: `/chapters/${chapter.slug}`,
+      image: chapter.image,
+    });
   },
   component: ChapterPage,
 });
@@ -192,9 +203,9 @@ function ChapterPage() {
             ) : null}
             {chapter.audio ? (
               <p className="mb-10 font-sans text-sm leading-relaxed text-ink-soft/80">
-                A reading of this chapter is in the bar at the top. It will keep
-                playing while you move through the book. The text below is the
-                transcript.
+                A synthetic reading of this chapter is in the bar at the top. It
+                will keep playing while you move through the book. The text
+                below is the transcript.
                 {chapterCues[slug] || sentenceCues[slug]
                   ? " The voice’s place on the page is marked as it reads."
                   : ""}

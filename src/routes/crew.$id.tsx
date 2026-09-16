@@ -4,21 +4,20 @@ import { SiteShell } from "@/components/layout/SiteShell";
 import { PhotoPlate } from "@/components/PhotoPlate";
 import { CrewRecords } from "@/components/CrewRecords";
 import { adjacentCrew, crewById } from "@/data/crew";
+import { photos } from "@/data/photos";
+import { canonicalUrl, pageMeta } from "@/lib/og/pageMeta";
 
 export const Route = createFileRoute("/crew/$id")({
   component: CrewMemberPage,
   head: ({ params }) => {
     const member = crewById(params.id);
     if (!member) return {};
-    return {
-      meta: [
-        { title: `${member.name} — The Spirit of Martinez` },
-        {
-          name: "description",
-          content: `${member.role}. ${member.hometown}. ${member.wartime}`,
-        },
-      ],
-    };
+    return pageMeta({
+      title: `${member.name} — The Spirit of Martinez`,
+      description: `${member.role}. ${member.hometown}.`,
+      path: `/crew/${member.id}`,
+      image: member.photo ? photos[member.photo].src : photos.crew.src,
+    });
   },
 });
 
@@ -27,7 +26,7 @@ function CrewMemberPage() {
   const member = crewById(id);
   if (!member) throw notFound();
   const { prev, next, index, total } = adjacentCrew(member.id);
-  const citeUrl = `https://spiritofmartinez.com/crew/${member.id}`;
+  const citeUrl = canonicalUrl(`/crew/${member.id}`);
 
   return (
     <SiteShell>

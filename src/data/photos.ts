@@ -1,4 +1,5 @@
 import type { PhotoId } from "./types";
+import { canonicalUrl } from "@/lib/og/pageMeta";
 
 export type PhotoKind = "photograph" | "object";
 
@@ -1282,7 +1283,7 @@ export function displayCredit(credit: string) {
 }
 
 export function citePhoto(photo: ArchivePhoto) {
-  const url = `https://spiritofmartinez.com/archive/${photo.id}`;
+  const url = canonicalUrl(`/archive/${photo.id}`);
   const dated = photo.date ? `, ${photo.date}` : "";
   return {
     credit: displayCredit(photo.credit),

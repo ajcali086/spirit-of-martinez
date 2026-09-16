@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PhotoPlate } from "@/components/PhotoPlate";
 import { adjacentPhotos, citePhoto, isPhotoId, photos } from "@/data/photos";
+import { pageMeta } from "@/lib/og/pageMeta";
 
 export const Route = createFileRoute("/archive/$id")({
   component: ArchiveObjectPage,
@@ -10,11 +11,20 @@ export const Route = createFileRoute("/archive/$id")({
     const photo = isPhotoId(params.id) ? photos[params.id] : undefined;
     if (!photo) return {};
     const cite = citePhoto(photo);
+    const head = pageMeta({
+      title: `${photo.title} — The Spirit of Martinez`,
+      description: photo.caption,
+      path: `/archive/${photo.id}`,
+      image: photo.src,
+    });
     return {
+      ...head,
       meta: [
-        { title: `${photo.title} — The Spirit of Martinez` },
-        { name: "description", content: photo.caption },
-        { name: "citation", content: `${cite.credit}. ${cite.title}${cite.dated}. ${cite.work}. ${cite.url}` },
+        ...head.meta,
+        {
+          name: "citation",
+          content: `${cite.credit}. ${cite.title}${cite.dated}. ${cite.work}. ${cite.url}`,
+        },
       ],
     };
   },

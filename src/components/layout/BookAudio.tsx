@@ -570,7 +570,7 @@ function PlayerBar({
     <div
       className="pointer-events-none fixed inset-x-0 top-16 z-50"
       role="region"
-      aria-label={music ? "Music" : "Chapter reading"}
+      aria-label={music ? "Music" : "Synthetic chapter reading"}
     >
       <div className="pointer-events-auto border-b border-rule/80 bg-ink/90 backdrop-blur-md">
         <div className="mx-auto flex h-12 max-w-6xl items-center gap-3 px-3 sm:px-6">
@@ -601,13 +601,22 @@ function PlayerBar({
               </Link>
             )
           ) : (
-            <Link
-              to="/chapters/$slug"
-              params={{ slug: track.slug }}
-              className={`${titleClass} hover:text-paper`}
-            >
-              Chapter {String(track.number).padStart(2, "0")} · {track.title}
-            </Link>
+            <>
+              <Link
+                to="/chapters/$slug"
+                params={{ slug: track.slug }}
+                className={`${titleClass} hover:text-paper`}
+              >
+                Chapter {String(track.number).padStart(2, "0")} · {track.title}
+              </Link>
+              <Link
+                to="/sources"
+                hash="reading"
+                className="shrink-0 font-sans text-[0.58rem] tracking-[0.16em] text-muted uppercase hover:text-paper"
+              >
+                Synthetic
+              </Link>
+            </>
           )}
           {music ? (
             <label className="flex min-w-20 flex-1 sm:max-w-40">

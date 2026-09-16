@@ -69,8 +69,8 @@ function Home() {
             The text follows
           </h2>
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-fog">
-            Every chapter has a reading that stays with you as you move. Start
-            with{" "}
+            Every chapter has a synthetic reading that stays with you as you
+            move. Start with{" "}
             <Link
               to="/chapters/$slug"
               params={{ slug: "mission-one" }}

@@ -58,6 +58,17 @@ function SourcesPage() {
         <Blocks blocks={provenance} />
       </section>
 
+      <section
+        id="reading"
+        className="mx-auto max-w-3xl scroll-mt-24 px-4 pb-14 sm:px-6"
+      >
+        <h2 className="kicker">The reading</h2>
+        <p className="mt-4 leading-relaxed text-fog">
+          The voice that follows each chapter is synthetic. It is a reading of
+          the text as written, not a recording.
+        </p>
+      </section>
+
       <section className="mx-auto max-w-3xl px-4 pb-14 sm:px-6">
         <h2 className="kicker">Start here</h2>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-fog">
