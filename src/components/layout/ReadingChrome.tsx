@@ -56,7 +56,7 @@ export function BackToTop() {
         ).matches;
         window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
       }}
-      className="fixed right-4 bottom-4 z-40 min-h-11 bg-brass px-4 text-[0.68rem] tracking-[0.16em] text-ink uppercase hover:bg-brass-dim sm:right-6 sm:bottom-6"
+      className="fixed right-4 bottom-[calc(1rem+var(--dock-h,0px))] z-40 min-h-11 bg-brass px-4 text-[0.68rem] tracking-[0.16em] text-ink uppercase hover:bg-brass-dim sm:right-6 sm:bottom-[calc(1.5rem+var(--dock-h,0px))]"
       aria-label="Back to top"
     >
       Top

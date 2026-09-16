@@ -32,7 +32,7 @@ export const Route = createFileRoute("/chapters/$slug")({
 function ChapterPage() {
   const { slug } = Route.useParams();
   const hash = useRouterState({ select: (s) => s.location.hash });
-  const { offer, play, track } = useBookAudio();
+  const { offer, play, track, dockedChapter } = useBookAudio();
   const { activeId } = useReadingFollow(slug);
   const chapter = chapterBySlug(slug);
 
@@ -63,6 +63,11 @@ function ChapterPage() {
   let firstPara = true;
   const thisChapter =
     track?.kind === "chapter" && track.slug === chapter.slug;
+  const thisDocked = dockedChapter?.slug === chapter.slug;
+  const occupied =
+    (track?.kind === "chapter" && track.slug !== chapter.slug) ||
+    (dockedChapter != null && dockedChapter.slug !== chapter.slug) ||
+    track?.kind === "music";
 
   return (
     <SiteShell>
@@ -106,7 +111,7 @@ function ChapterPage() {
             >
               {chapter.kicker}
             </p>
-            {chapter.audio && track && !thisChapter ? (
+            {chapter.audio && occupied && !thisChapter && !thisDocked ? (
               <button
                 type="button"
                 onClick={() =>

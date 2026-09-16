@@ -4,6 +4,7 @@ import { SiteShell } from "@/components/layout/SiteShell";
 import { SpiritMark } from "@/components/SpiritMark";
 import { PhotoPlate } from "@/components/PhotoPlate";
 import { HomeMusic } from "@/components/HomeMusic";
+import { counts } from "@/data/archive";
 import { chapters } from "@/data/chapters";
 import { crew } from "@/data/crew";
 import { missions } from "@/data/missions";
@@ -11,13 +12,6 @@ import { timelineEras } from "@/data/timeline";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({ component: Home });
-
-const stats = [
-  { value: "28", label: "Combat missions" },
-  { value: "3", label: "Food drops" },
-  { value: "208", label: "Combat hours" },
-  { value: "9", label: "Men in the crew" },
-];
 
 function Home() {
   const featured = [chapters[0], chapters[8], chapters[10], chapters[14]];
@@ -68,22 +62,62 @@ function Home() {
         </div>
       </section>
 
-      <section className="border-b border-rule bg-ink-soft">
-        <dl className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-y divide-rule sm:grid-cols-4 sm:divide-y-0">
-          {stats.map((s) => (
-            <div
-              key={s.label}
-              className="flex flex-col px-4 py-8 text-center sm:py-10"
+      <section className="border-b border-rule">
+        <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
+          <p className="kicker">Read + listen</p>
+          <h2 className="mt-3 max-w-2xl font-display text-3xl text-paper sm:text-4xl">
+            The text follows
+          </h2>
+          <p className="mt-4 max-w-xl text-sm leading-relaxed text-fog">
+            Every chapter has a reading that stays with you as you move. Start
+            with{" "}
+            <Link
+              to="/chapters/$slug"
+              params={{ slug: "mission-one" }}
+              className="text-brass underline-offset-4 hover:underline"
             >
-              <dt className="order-2 mt-2 text-[0.68rem] tracking-[0.18em] text-fog uppercase">
-                {s.label}
-              </dt>
-              <dd className="order-1 font-display text-4xl text-brass sm:text-5xl">
-                {s.value}
-              </dd>
+              Chapter 9
+            </Link>
+            {" "}
+            — Chemnitz, the first morning.
+          </p>
+        </div>
+      </section>
+
+      <section className="border-b border-rule bg-ink-soft">
+        <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <p className="kicker">Seven numbers</p>
+              <h2 className="mt-3 font-display text-3xl text-paper sm:text-4xl">
+                None of them a lie
+              </h2>
             </div>
-          ))}
-        </dl>
+            <Link
+              to="/archive"
+              hash="seven-numbers"
+              className="inline-flex min-h-11 shrink-0 items-center text-[0.72rem] tracking-[0.16em] text-brass uppercase"
+            >
+              The counts
+            </Link>
+          </div>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-fog">
+            Ask how many missions he flew. The honest answer depends on which
+            document is doing the counting.
+          </p>
+          <ol className="mt-8 grid grid-cols-2 gap-px bg-rule sm:grid-cols-4 lg:grid-cols-7">
+            {counts.map((c) => (
+              <li key={c.figure} className="bg-ink-soft px-4 py-5">
+                <p className="font-display text-3xl leading-none text-brass sm:text-4xl">
+                  {c.figure}
+                </p>
+                <p className="mt-3 text-[0.72rem] leading-snug text-fog">
+                  {c.label}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </div>
       </section>
 
       <section aria-labelledby="era-rail-heading" className="border-b border-rule">
@@ -166,24 +200,12 @@ function Home() {
             <div>
               <p className="kicker">Fifteen chapters</p>
               <h2 className="mt-3 font-display text-3xl text-paper sm:text-4xl">
-                Begin anywhere
+                Fifteen chapters
               </h2>
-              <p className="mt-3 max-w-md text-sm leading-relaxed text-fog">
-                New here?{" "}
-                <Link
-                  to="/chapters/$slug"
-                  params={{ slug: "mission-one" }}
-                  className="text-brass underline-offset-4 hover:underline"
-                >
-                  Start with Chapter 9
-                </Link>
-                . Chemnitz. The first morning. Chapters 1–4 have a reading that
-                stays with you as you move.
-              </p>
             </div>
             <Link
               to="/chapters"
-              className="hidden min-h-11 items-center text-[0.72rem] tracking-[0.16em] text-brass uppercase sm:inline-flex"
+              className="inline-flex min-h-11 items-center text-[0.72rem] tracking-[0.16em] text-brass uppercase"
             >
               Full contents
             </Link>

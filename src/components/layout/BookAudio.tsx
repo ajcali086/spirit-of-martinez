@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Pause, Play, X } from "lucide-react";
+import { Pause, Play, X, Music2 } from "lucide-react";
 import { chapterCues } from "@/data/cues";
 import { sentenceCues } from "@/data/sentenceCues";
 
@@ -39,6 +39,13 @@ export const SKYWATCH: MusicTrack = {
 const MUSIC_VOLUME = 0.22;
 const CHAPTER_VOLUME = 1;
 
+type ChapterResume = {
+  track: ChapterTrack;
+  time: number;
+  ended: boolean;
+  wasPlaying: boolean;
+};
+
 type BookAudioValue = {
   track: AudioTrack | null;
   playing: boolean;
@@ -46,10 +53,15 @@ type BookAudioValue = {
   time: number;
   follow: boolean;
   setFollow: (value: boolean) => void;
+  musicDocked: boolean;
+  dockedChapter: ChapterTrack | null;
   offer: (track: ChapterTrack) => void;
   play: (track: AudioTrack) => void;
   toggle: () => void;
   stop: () => void;
+  dockMusic: () => void;
+  dockChapter: () => void;
+  offerMusicDock: () => void;
 };
 
 const BookAudioContext = createContext<BookAudioValue | null>(null);
@@ -98,6 +110,22 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(CHAPTER_VOLUME);
   const [follow, setFollow] = useState(true);
+  const [musicDocked, setMusicDocked] = useState(false);
+  const [chapterResume, setChapterResume] = useState<ChapterResume | null>(null);
+  const trackRef = useRef<AudioTrack | null>(null);
+  const musicDockRef = useRef<HTMLButtonElement>(null);
+  const chapterDockRef = useRef<HTMLButtonElement>(null);
+  const focusMusicDock = useRef(false);
+  const focusChapterDock = useRef(false);
+  const hasPlayed = useRef(false);
+  const playingRef = useRef(false);
+  const endedRef = useRef(false);
+  const restorePos = useRef<number | null>(null);
+  const chapterResumeRef = useRef<ChapterResume | null>(null);
+  trackRef.current = track;
+  playingRef.current = playing;
+  endedRef.current = ended;
+  chapterResumeRef.current = chapterResume;
 
   const lockSeek = useCallback((seconds: number) => {
     intended.current = seconds;
@@ -121,6 +149,7 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
 
   const offer = useCallback((next: ChapterTrack) => {
     setTrack((prev) => {
+      if (chapterResumeRef.current) return prev;
       if (!prev) return next;
       if (sameTrack(prev, next)) return prev;
       const el = audioRef.current;
@@ -128,11 +157,64 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
         return prev;
       }
       if (el && !el.paused) return prev;
+      if (prev.kind === "music") setMusicDocked(true);
       return next;
     });
   }, []);
 
+  const expandChapter = useCallback((snap: ChapterResume) => {
+    const t = snap.ended ? 0 : snap.time;
+    intended.current = t;
+    holding.current = true;
+    restorePos.current = t;
+    setEnded(false);
+    setTime(t);
+    setChapterResume(null);
+    chapterResumeRef.current = null;
+    if (trackRef.current?.kind === "music") setMusicDocked(true);
+    setVolume(CHAPTER_VOLUME);
+    pendingPlay.current = snap.ended || snap.wasPlaying;
+    const el = audioRef.current;
+    if (el && assignedSrc.current === snap.track.src) {
+      el.volume = CHAPTER_VOLUME;
+      el.loop = false;
+      applyTime(el, t);
+      setTrack(snap.track);
+      if (pendingPlay.current) {
+        pendingPlay.current = false;
+        holding.current = true;
+        void el.play().then(() => applyTime(el, intended.current)).catch(() => {});
+      }
+      return;
+    }
+    setTrack(snap.track);
+  }, []);
+
   const play = useCallback((next: AudioTrack) => {
+    const prev = trackRef.current;
+    if (next.kind === "music") {
+      setMusicDocked(false);
+      if (prev?.kind === "chapter" && hasPlayed.current) {
+        const snap: ChapterResume = {
+          track: prev,
+          time: intended.current,
+          ended: endedRef.current,
+          wasPlaying: playingRef.current && !endedRef.current,
+        };
+        chapterResumeRef.current = snap;
+        setChapterResume(snap);
+      }
+    } else {
+      const snap = chapterResumeRef.current;
+      if (snap && next.slug === snap.track.slug) {
+        expandChapter(snap);
+        return;
+      }
+      if (prev?.kind === "music") setMusicDocked(true);
+      setChapterResume(null);
+      chapterResumeRef.current = null;
+      hasPlayed.current = false;
+    }
     setVolume(next.kind === "music" ? MUSIC_VOLUME : CHAPTER_VOLUME);
     setEnded(false);
     const el = audioRef.current;
@@ -141,20 +223,45 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
       el.volume = next.kind === "music" ? MUSIC_VOLUME : CHAPTER_VOLUME;
       el.loop = next.kind === "music";
       resumeFromIntended();
+      setTrack((cur) => (sameTrack(cur, next) ? cur : next));
       return;
     }
     pendingPlay.current = true;
     intended.current = 0;
     holding.current = false;
-    setTrack((prev) => (sameTrack(prev, next) ? prev : next));
-  }, [resumeFromIntended]);
+    setTrack((cur) => (sameTrack(cur, next) ? cur : next));
+  }, [expandChapter, resumeFromIntended]);
 
   const toggle = useCallback(() => {
     const el = audioRef.current;
     if (!el) return;
-    if (el.paused) resumeFromIntended();
-    else el.pause();
+    if (el.paused) {
+      if (endedRef.current) {
+        intended.current = 0;
+        holding.current = true;
+        setEnded(false);
+        setTime(0);
+        applyTime(el, 0);
+      }
+      resumeFromIntended();
+    } else el.pause();
   }, [resumeFromIntended]);
+
+  const dockMusic = useCallback(() => {
+    const el = audioRef.current;
+    if (el) el.pause();
+    focusMusicDock.current = true;
+    setMusicDocked(true);
+    setPlaying(false);
+    if (trackRef.current?.kind === "music") {
+      setTrack(null);
+    }
+  }, []);
+
+  const offerMusicDock = useCallback(() => {
+    if (trackRef.current) return;
+    setMusicDocked(true);
+  }, []);
 
   const stop = useCallback(() => {
     const el = audioRef.current;
@@ -167,6 +274,7 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
     pendingPlay.current = false;
     intended.current = 0;
     holding.current = false;
+    hasPlayed.current = false;
     setTrack(null);
     setPlaying(false);
     setEnded(false);
@@ -174,18 +282,47 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
     setDuration(0);
   }, []);
 
+  const dockChapter = useCallback(() => {
+    const current = trackRef.current;
+    if (current?.kind !== "chapter") return;
+    if (!hasPlayed.current) {
+      stop();
+      return;
+    }
+    const snap: ChapterResume = {
+      track: current,
+      time: intended.current,
+      ended: endedRef.current,
+      wasPlaying: playingRef.current && !endedRef.current,
+    };
+    chapterResumeRef.current = snap;
+    setChapterResume(snap);
+    const el = audioRef.current;
+    if (el) el.pause();
+    focusChapterDock.current = true;
+    setPlaying(false);
+    setTrack(null);
+  }, [stop]);
+
   useLayoutEffect(() => {
     const el = audioRef.current;
     if (!el || !track) return;
     if (assignedSrc.current !== track.src) {
       assignedSrc.current = track.src;
-      intended.current = 0;
-      holding.current = false;
+      const restore = restorePos.current;
+      restorePos.current = null;
+      if (restore == null) {
+        intended.current = 0;
+        holding.current = false;
+        setTime(0);
+        setDuration(0);
+        setEnded(false);
+      } else {
+        intended.current = restore;
+        holding.current = true;
+      }
       el.src = track.src;
       el.loop = track.kind === "music";
-      setTime(0);
-      setDuration(0);
-      setEnded(false);
     }
     if (pendingPlay.current) {
       pendingPlay.current = false;
@@ -203,6 +340,17 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (document.querySelector("dialog[open]")) return;
+        if (trackRef.current?.kind === "music") {
+          e.preventDefault();
+          dockMusic();
+        } else if (trackRef.current?.kind === "chapter") {
+          e.preventDefault();
+          dockChapter();
+        }
+        return;
+      }
       if (e.key !== " " && e.code !== "Space") return;
       const target = e.target as HTMLElement | null;
       if (target?.closest("input, textarea, select, [contenteditable]")) return;
@@ -212,17 +360,37 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [track, toggle]);
+  }, [track, toggle, dockMusic, dockChapter]);
 
   useEffect(() => {
     document.documentElement.style.setProperty(
       "--player-h",
       track ? "3rem" : "0px",
     );
+    const showMusicDock = musicDocked && track?.kind !== "music";
+    document.documentElement.style.setProperty(
+      "--dock-h",
+      showMusicDock ? "4.25rem" : "0px",
+    );
     return () => {
       document.documentElement.style.setProperty("--player-h", "0px");
+      document.documentElement.style.setProperty("--dock-h", "0px");
     };
-  }, [track]);
+  }, [track, musicDocked]);
+
+  useEffect(() => {
+    if (!musicDocked || track?.kind === "music" || !focusMusicDock.current) return;
+    focusMusicDock.current = false;
+    musicDockRef.current?.focus();
+  }, [musicDocked, track]);
+
+  useEffect(() => {
+    if (!chapterResume || track?.kind === "chapter" || !focusChapterDock.current) {
+      return;
+    }
+    focusChapterDock.current = false;
+    chapterDockRef.current?.focus();
+  }, [chapterResume, track]);
 
   const value = useMemo(
     () => ({
@@ -232,12 +400,17 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
       time,
       follow,
       setFollow,
+      musicDocked,
+      dockedChapter: chapterResume?.track ?? null,
       offer,
       play,
       toggle,
       stop,
+      dockMusic,
+      dockChapter,
+      offerMusicDock,
     }),
-    [track, playing, ended, time, follow, offer, play, toggle, stop],
+    [track, playing, ended, time, follow, musicDocked, chapterResume, offer, play, toggle, stop, dockMusic, dockChapter, offerMusicDock],
   );
 
   return (
@@ -248,6 +421,7 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
         onPlay={(e) => {
           setPlaying(true);
           setEnded(false);
+          if (trackRef.current?.kind === "chapter") hasPlayed.current = true;
           applyTime(e.currentTarget, intended.current);
         }}
         onPause={() => setPlaying(false)}
@@ -309,10 +483,38 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
           if (audioRef.current) audioRef.current.volume = value;
         }}
         onToggle={toggle}
-        onStop={stop}
+        onDockMusic={dockMusic}
+        onDockChapter={dockChapter}
         follow={follow}
         onFollow={setFollow}
       />
+      {chapterResume && track?.kind !== "chapter" ? (
+        <button
+          ref={chapterDockRef}
+          type="button"
+          onClick={() => expandChapter(chapterResume)}
+          aria-label={`Resume Chapter ${chapterResume.track.number} reading`}
+          className="fixed left-4 bottom-4 z-[60] flex size-11 flex-col items-center justify-center border border-fog/35 bg-ink/90 text-brass backdrop-blur-md hover:border-brass hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass sm:left-6 sm:bottom-6"
+        >
+          <span className="font-sans text-[0.5rem] leading-none tracking-[0.14em] text-fog uppercase">
+            Ch
+          </span>
+          <span className="mt-0.5 font-sans text-[0.8rem] leading-none tabular-nums">
+            {chapterResume.track.number}
+          </span>
+        </button>
+      ) : null}
+      {musicDocked && track?.kind !== "music" ? (
+        <button
+          ref={musicDockRef}
+          type="button"
+          onClick={() => play(SKYWATCH)}
+          aria-label="Play Skywatch Silence"
+          className="fixed right-4 bottom-4 z-[60] flex size-11 items-center justify-center border border-fog/35 bg-ink/90 text-brass backdrop-blur-md hover:border-brass hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass sm:right-6 sm:bottom-6"
+        >
+          <Music2 className="size-4" aria-hidden />
+        </button>
+      ) : null}
     </BookAudioContext.Provider>
   );
 }
@@ -326,7 +528,8 @@ function PlayerBar({
   onSeek,
   onVolume,
   onToggle,
-  onStop,
+  onDockMusic,
+  onDockChapter,
   follow,
   onFollow,
 }: {
@@ -338,7 +541,8 @@ function PlayerBar({
   onSeek: (value: number) => void;
   onVolume: (value: number) => void;
   onToggle: () => void;
-  onStop: () => void;
+  onDockMusic: () => void;
+  onDockChapter: () => void;
   follow: boolean;
   onFollow: (value: boolean) => void;
 }) {
@@ -451,9 +655,9 @@ function PlayerBar({
           ) : null}
           <button
             type="button"
-            onClick={onStop}
+            onClick={music ? onDockMusic : onDockChapter}
             className="flex size-11 shrink-0 items-center justify-center text-muted hover:text-paper"
-            aria-label={music ? "Stop music" : "Close reading"}
+            aria-label={music ? "Hide Skywatch Silence" : "Hide reading"}
           >
             <X className="size-4" />
           </button>
