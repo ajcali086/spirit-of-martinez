@@ -86,11 +86,11 @@ function ArchiveObjectPage() {
               </h2>
               <ul className="mt-3 space-y-2">
                 {inBook.map((ch) => (
-                  <li key={ch.slug}>
+                  <li key={`${ch.slug}-${ch.paragraphId}`}>
                     <Link
                       to="/chapters/$slug"
                       params={{ slug: ch.slug }}
-                      hash={ch.sectionId}
+                      hash={ch.paragraphId}
                       className="inline-flex min-h-11 items-baseline gap-2 font-display text-xl text-ink hover:text-brass-dim"
                     >
                       <span className="font-sans text-[0.68rem] tracking-[0.16em] text-feather uppercase">

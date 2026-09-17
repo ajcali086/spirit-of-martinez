@@ -285,8 +285,11 @@ function ChapterPage() {
                   </header>
                 ) : null}
                 {section.blocks.map((block, i) => {
-                  const cueId =
-                    block.type === "p" ? `${section.id}-p${pIndex++}` : undefined;
+                  let cueId: string | undefined;
+                  if (block.type === "p") {
+                    const positional = `${section.id}-p${pIndex++}`;
+                    cueId = block.id?.startsWith("m-") ? positional : (block.id ?? positional);
+                  }
                   const node = renderBlock(
                     block,
                     firstPara && block.type === "p",
