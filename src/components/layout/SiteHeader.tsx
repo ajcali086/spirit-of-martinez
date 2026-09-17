@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { SpiritMark } from "@/components/SpiritMark";
@@ -8,6 +8,10 @@ import { cn } from "@/lib/utils";
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   return (
     <header className="sticky top-0 z-40 border-b border-rule/80 bg-ink/85 backdrop-blur-md">
@@ -51,6 +55,7 @@ export function SiteHeader() {
           type="button"
           className="relative flex size-11 items-center justify-center text-paper lg:hidden"
           aria-expanded={open}
+          aria-controls="site-menu"
           aria-label={open ? "Close menu" : "Open menu"}
           onClick={() => setOpen((v) => !v)}
         >
@@ -60,8 +65,9 @@ export function SiteHeader() {
 
       {open ? (
         <nav
+          id="site-menu"
           className="border-t border-rule bg-ink-soft px-4 py-3 lg:hidden"
-          aria-label="Mobile"
+          aria-label="Primary"
         >
           <ul className="flex flex-col">
             {nav.map((item) => (

@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PhotoPlate } from "@/components/PhotoPlate";
 import { adjacentPhotos, citePhoto, isPhotoId, photos } from "@/data/photos";
-import { pageMeta } from "@/lib/og/pageMeta";
+import { pageMeta, plateOgImage } from "@/lib/og/pageMeta";
 
 export const Route = createFileRoute("/archive/$id")({
   component: ArchiveObjectPage,
@@ -11,14 +11,12 @@ export const Route = createFileRoute("/archive/$id")({
     const photo = isPhotoId(params.id) ? photos[params.id] : undefined;
     if (!photo) return {};
     const cite = citePhoto(photo);
+    const share = plateOgImage(photo);
     const head = pageMeta({
       title: `${photo.title} — The Spirit of Martinez`,
       description: photo.caption,
       path: `/archive/${photo.id}`,
-      image: photo.src,
-      imageWidth: photo.width,
-      imageHeight: photo.height,
-      imageAlt: photo.alt,
+      ...share,
     });
     return {
       ...head,

@@ -20,6 +20,7 @@ const IMAGE_PX: Record<string, readonly [number, number]> = {
   "/images/archive/airfield.jpg": [1500, 1074],
   "/images/archive/joyce.jpg": [1800, 1560],
   "/images/archive/shop.jpg": [1500, 1169],
+  "/images/archive/og/maxwellpair.jpg": [1200, 630],
 };
 
 export function canonicalUrl(path: string) {
@@ -48,6 +49,38 @@ export function assetUrl(path: string) {
     ? file
     : `${file}.jpg`;
   return `${absoluteUrl(withExt)}${query}`;
+}
+
+/** Share crop if authored; site card for uncropped portraits; native image otherwise. */
+export function plateOgImage(photo: {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+  ogImage?: string;
+}) {
+  if (photo.ogImage) {
+    return {
+      image: photo.ogImage,
+      imageWidth: 1200,
+      imageHeight: 630,
+      imageAlt: photo.alt,
+    };
+  }
+  if (photo.height > photo.width) {
+    return {
+      image: "/og.jpg",
+      imageWidth: 1200,
+      imageHeight: 630,
+      imageAlt: SITE_TITLE,
+    };
+  }
+  return {
+    image: photo.src,
+    imageWidth: photo.width,
+    imageHeight: photo.height,
+    imageAlt: photo.alt,
+  };
 }
 
 export function pageMeta({

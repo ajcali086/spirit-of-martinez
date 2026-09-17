@@ -15,6 +15,8 @@ export type ArchivePhoto = {
   credit: string;
   kind: PhotoKind;
   maxWidth?: "sm" | "lg" | "xl";
+  /** Dedicated 1200×630 share crop. Portraits need this or Facebook center-crops through the face. */
+  ogImage?: string;
   source?: { label: string; href: string };
 };
 
@@ -444,6 +446,7 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
       "Joyce and Frank, Maxwell Field, 1943. Kodachrome. She crossed the country on the chance a ten-week course would still have him there when the train arrived. The collection’s own note on the slide ties it to what came nine months later: a son.",
     credit: "Family collection",
     kind: "photograph",
+    ogImage: "/images/archive/og/maxwellpair.jpg",
   },
   richard: {
     id: "richard",

@@ -554,9 +554,12 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
           type="button"
           onClick={() => play(SKYWATCH)}
           aria-label="Play Skywatch Silence"
-          className="fixed right-4 bottom-4 z-[60] flex size-11 items-center justify-center border border-fog/35 bg-ink/90 text-brass backdrop-blur-md hover:border-brass hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass sm:right-6 sm:bottom-6"
+          className="fixed right-4 bottom-4 z-[60] flex h-11 items-center gap-2 border border-fog/35 bg-ink/90 px-3 text-brass backdrop-blur-md hover:border-brass hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass sm:right-6 sm:bottom-6"
         >
           <Music2 className="size-4" aria-hidden />
+          <span className="font-sans text-[0.68rem] tracking-[0.16em] uppercase">
+            Music
+          </span>
         </button>
       ) : null}
     </BookAudioContext.Provider>

@@ -76,7 +76,7 @@ export function PhotoPlate({
         <Link
           to="/archive/$id"
           params={{ id }}
-          aria-label={`${photo.title}. Open the plate.`}
+          aria-label={`${photo.title}. See the photograph.`}
           className="block outline-none transition-opacity duration-150 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass"
         >
           {image}
@@ -114,18 +114,7 @@ export function PhotoPlate({
               {" · "}
               Zoom to read the hand
             </>
-          ) : (
-            <>
-              {" · "}
-              <Link
-                to="/archive/$id"
-                params={{ id }}
-                className="tracking-[0.16em] underline-offset-4 hover:underline"
-              >
-                Open the plate
-              </Link>
-            </>
-          )}
+          ) : null}
         </span>
       </figcaption>
     </figure>

@@ -53,7 +53,7 @@ function Home() {
               to="/missions"
               className="inline-flex min-h-12 items-center border border-fog/40 px-5 text-sm tracking-[0.12em] text-paper uppercase transition-colors hover:border-brass hover:text-brass"
             >
-              Mission board
+              The 31 missions
             </Link>
           </div>
           <p className="stagger-in mt-6 max-w-xl text-sm leading-relaxed text-fog">
@@ -102,7 +102,7 @@ function Home() {
               hash="seven-numbers"
               className="inline-flex min-h-11 shrink-0 items-center text-[0.72rem] tracking-[0.16em] text-brass uppercase"
             >
-              The counts
+              Why the counts differ
             </Link>
           </div>
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-fog">
@@ -111,11 +111,17 @@ function Home() {
           </p>
           <ol className="mt-8 grid grid-cols-2 gap-px bg-rule sm:grid-cols-4 lg:grid-cols-7">
             {counts.map((c) => (
-              <li key={c.figure} className="bg-ink-soft px-4 py-5">
-                <p className="font-display text-3xl leading-none text-brass sm:text-4xl">
+              <li
+                key={c.figure}
+                className="bg-ink-soft px-4 py-5"
+                aria-label={
+                  c.figure === "~50" ? `About 50, ${c.label}` : `${c.figure}, ${c.label}`
+                }
+              >
+                <p className="font-display text-3xl leading-none text-brass sm:text-4xl" aria-hidden>
                   {c.figure}
                 </p>
-                <p className="mt-3 text-[0.72rem] leading-snug text-fog">
+                <p className="mt-3 text-[0.72rem] leading-snug text-fog" aria-hidden>
                   {c.label}
                 </p>
               </li>
@@ -186,6 +192,13 @@ function Home() {
             after he came home.
           </p>
         </div>
+        <Link
+          to="/archive"
+          className="mt-8 inline-flex min-h-11 items-center gap-2 text-[0.72rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
+        >
+          Enter the archive
+          <ArrowRight className="size-3.5" />
+        </Link>
       </section>
 
       <section className="border-y border-rule bg-ink-soft py-16 sm:py-20">
@@ -202,7 +215,7 @@ function Home() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="flex items-end justify-between gap-4">
             <div>
-              <p className="kicker">Fifteen chapters</p>
+              <p className="kicker">The Book</p>
               <h2 className="mt-3 font-display text-3xl text-paper sm:text-4xl">
                 Fifteen chapters
               </h2>
@@ -211,7 +224,7 @@ function Home() {
               to="/chapters"
               className="inline-flex min-h-11 items-center text-[0.72rem] tracking-[0.16em] text-brass uppercase"
             >
-              Full contents
+              Read the book
             </Link>
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -234,6 +247,7 @@ function Home() {
                 </div>
                 <div className="p-5">
                   <p className="text-[0.68rem] tracking-[0.2em] text-brass uppercase">
+                    {ch.number === 9 ? "Start here · " : ""}
                     Chapter {String(ch.number).padStart(2, "0")} · {ch.years}
                     {ch.audio ? " · Listen" : ""}
                   </p>
@@ -259,7 +273,8 @@ function Home() {
           {crew.map((m) => (
             <li key={m.id}>
               <Link
-                to="/crew"
+                to="/crew/$id"
+                params={{ id: m.id }}
                 className="flex min-h-14 flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between"
               >
                 <span className="font-display text-xl text-paper">{m.name}</span>

@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { assetUrl, canonicalUrl, pageMeta, sitePageMeta } from "./pageMeta.ts";
+import { assetUrl, canonicalUrl, pageMeta, plateOgImage, sitePageMeta } from "./pageMeta.ts";
 
 describe("canonicalUrl", () => {
   it("is always www, never apex", () => {
@@ -85,5 +85,30 @@ describe("pageMeta", () => {
       assetUrl("/images/footlocker.jpg"),
       "https://www.spiritofmartinez.com/images/footlocker.jpg",
     );
+  });
+
+  it("uses an authored 1200×630 crop when the plate has one", () => {
+    const share = plateOgImage({
+      src: "/images/archive/maxwellpair",
+      width: 1212,
+      height: 1500,
+      alt: "Joyce and Frank",
+      ogImage: "/images/archive/og/maxwellpair.jpg",
+    });
+    assert.equal(share.image, "/images/archive/og/maxwellpair.jpg");
+    assert.equal(share.imageWidth, 1200);
+    assert.equal(share.imageHeight, 630);
+  });
+
+  it("falls back to the site card for an uncropped portrait", () => {
+    const share = plateOgImage({
+      src: "/images/archive/maxwell",
+      width: 800,
+      height: 1200,
+      alt: "Four cadets",
+    });
+    assert.equal(share.image, "/og.jpg");
+    assert.equal(share.imageWidth, 1200);
+    assert.equal(share.imageHeight, 630);
   });
 });
