@@ -1294,6 +1294,7 @@ export function citePhoto(photo: ArchivePhoto) {
     dated,
     work: "The Spirit of Martinez",
     url,
+    displayUrl: url.replace(/\//g, "/\u200b"),
   };
 }
 

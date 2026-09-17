@@ -37,15 +37,27 @@ export function ReadingProgress() {
 
 export function BackToTop() {
   const [show, setShow] = useState(false);
+  const [footerInView, setFooterInView] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setShow(window.scrollY > 720);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const footer = document.getElementById("site-footer");
+    const io = footer
+      ? new IntersectionObserver(
+          ([entry]) => setFooterInView(entry.isIntersecting),
+          { threshold: 0.05 },
+        )
+      : null;
+    if (footer && io) io.observe(footer);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      io?.disconnect();
+    };
   }, []);
 
-  if (!show) return null;
+  if (!show || footerInView) return null;
 
   return (
     <button

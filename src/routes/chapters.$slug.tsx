@@ -4,11 +4,14 @@ import { useEffect, useLayoutEffect } from "react";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { useBookAudio } from "@/components/layout/BookAudio";
 import { PhotoPlate } from "@/components/PhotoPlate";
+import { CiteThis } from "@/components/CiteThis";
+import { SiteImage } from "@/components/SiteImage";
 import { useReadingFollow } from "@/components/ReadingFollow";
 import {
   adjacentChapters,
   chapterBySlug,
   chapters,
+  citeChapter,
   retiredChapterSlugs,
 } from "@/data/chapters";
 import { chapterCues } from "@/data/cues";
@@ -85,6 +88,7 @@ function ChapterPage() {
     throw notFound();
   }
   const { prev, next } = adjacentChapters(slug);
+  const cite = citeChapter(chapter);
   let firstPara = true;
   const thisChapter =
     track?.kind === "chapter" && track.slug === chapter.slug;
@@ -98,7 +102,7 @@ function ChapterPage() {
     <SiteShell>
       <article>
         <header className="relative overflow-hidden border-b border-rule">
-          <img
+          <SiteImage
             src={chapter.image}
             alt={chapter.imageAlt}
             width={1600}
@@ -295,6 +299,15 @@ function ChapterPage() {
               </section>
               );
             })}
+            <CiteThis
+              credit={cite.credit}
+              title={cite.title}
+              dated={cite.dated}
+              work={cite.work}
+              url={cite.url}
+              displayUrl={cite.displayUrl}
+              shareTitle={`Chapter ${chapter.number}, ${chapter.title} — The Spirit of Martinez`}
+            />
           </div>
         </div>
 

@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { SiteImage } from "@/components/SiteImage";
 
 export function PageHero({
   kicker,
@@ -20,7 +21,7 @@ export function PageHero({
   return (
     <section className="relative overflow-hidden border-b border-rule">
       {image ? (
-        <img
+        <SiteImage
           src={image}
           alt={imageAlt ?? ""}
           width={1600}

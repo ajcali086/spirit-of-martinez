@@ -11,6 +11,7 @@ import { missions } from "@/data/missions";
 import { timelineEras } from "@/data/timeline";
 import { cn } from "@/lib/utils";
 import { coverPageMeta } from "@/lib/og/cover";
+import { SiteImage } from "@/components/SiteImage";
 
 export const Route = createFileRoute("/")({
   head: () => coverPageMeta("/"),
@@ -23,7 +24,7 @@ function Home() {
   return (
     <SiteShell>
       <section className="relative flex min-h-[calc(100dvh-4rem)] flex-col justify-end overflow-hidden">
-        <img
+        <SiteImage
           src="/images/hero-fortress.jpg"
           alt="The locker arranged: B-15 jacket, Horham crew photograph, wallet, and gloves"
           width={1800}
@@ -110,22 +111,35 @@ function Home() {
             document is doing the counting.
           </p>
           <ol className="mt-8 grid grid-cols-2 gap-px bg-rule sm:grid-cols-4 lg:grid-cols-7">
-            {counts.map((c) => (
-              <li
-                key={c.figure}
-                className="bg-ink-soft px-4 py-5"
-                aria-label={
-                  c.figure === "~50" ? `About 50, ${c.label}` : `${c.figure}, ${c.label}`
-                }
-              >
-                <p className="font-display text-3xl leading-none text-brass sm:text-4xl" aria-hidden>
-                  {c.figure}
-                </p>
-                <p className="mt-3 text-[0.72rem] leading-snug text-fog" aria-hidden>
-                  {c.label}
-                </p>
-              </li>
-            ))}
+            {counts.map((c, i) => {
+              const last = i === counts.length - 1;
+              return (
+                <li
+                  key={c.figure}
+                  className={cn(
+                    "bg-ink-soft px-4 py-5",
+                    last && "col-span-2 flex items-baseline gap-3 lg:col-span-1 lg:block",
+                  )}
+                  aria-label={
+                    c.figure === "~50" ? `About 50, ${c.label}` : `${c.figure}, ${c.label}`
+                  }
+                >
+                  <p className="font-display text-3xl leading-none text-brass sm:text-4xl" aria-hidden>
+                    {c.figure}
+                  </p>
+                  <p
+                    className={cn(
+                      "text-[0.72rem] leading-snug text-fog",
+                      last ? "lg:mt-3" : "mt-3",
+                    )}
+                    aria-hidden
+                  >
+                    {last ? <span className="lg:hidden">· </span> : null}
+                    {c.label}
+                  </p>
+                </li>
+              );
+            })}
           </ol>
         </div>
       </section>
@@ -149,7 +163,7 @@ function Home() {
                 <Link
                   to="/timeline"
                   hash={era.id}
-                  className="group flex min-h-28 flex-col px-4 py-6 transition-colors hover:bg-ink-soft sm:min-h-32 sm:px-5"
+                  className="group flex min-h-28 flex-col px-4 py-6 pr-20 transition-colors hover:bg-ink-soft sm:min-h-32 sm:px-5"
                 >
                   <span className="flex items-center gap-2">
                     <span className="size-2 rounded-full bg-brass" aria-hidden />
@@ -236,7 +250,7 @@ function Home() {
                 className="group overflow-hidden bg-ink-soft transition-transform duration-150 ease-out hover:-translate-y-0.5"
               >
                 <div className="aspect-16/9 overflow-hidden">
-                  <img
+                  <SiteImage
                     src={ch.image}
                     alt={ch.imageAlt}
                     className={cn(
@@ -288,7 +302,7 @@ function Home() {
       </section>
 
       <section className="relative overflow-hidden border-t border-rule">
-        <img
+        <SiteImage
           src="/images/chowhound-banner.jpg"
           alt="A modern composite of the food drops: the mill at Utrecht, bomb bay doors open, a ration crate, food for liberated peoples"
           className="absolute inset-0 size-full object-cover"

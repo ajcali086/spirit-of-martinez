@@ -1,7 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { CiteThis } from "@/components/CiteThis";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PhotoPlate } from "@/components/PhotoPlate";
+import { chaptersForPhoto } from "@/data/chapters";
 import { adjacentPhotos, citePhoto, isPhotoId, photos } from "@/data/photos";
 import { pageMeta, plateOgImage } from "@/lib/og/pageMeta";
 
@@ -38,6 +40,7 @@ function ArchiveObjectPage() {
   const { prev, next, index, total } = adjacentPhotos(id);
   const kind = photo.kind === "photograph" ? "Photograph" : "Object";
   const cite = citePhoto(photo);
+  const inBook = chaptersForPhoto(photo.id);
 
   return (
     <SiteShell>
@@ -76,6 +79,31 @@ function ArchiveObjectPage() {
             </p>
           </section>
 
+          {inBook.length > 0 ? (
+            <section className="mt-10 border-t border-paper-deep pt-8">
+              <h2 className="font-sans text-[0.68rem] tracking-[0.22em] text-feather uppercase">
+                In the book
+              </h2>
+              <ul className="mt-3 space-y-2">
+                {inBook.map((ch) => (
+                  <li key={ch.slug}>
+                    <Link
+                      to="/chapters/$slug"
+                      params={{ slug: ch.slug }}
+                      hash={ch.sectionId}
+                      className="inline-flex min-h-11 items-baseline gap-2 font-display text-xl text-ink hover:text-brass-dim"
+                    >
+                      <span className="font-sans text-[0.68rem] tracking-[0.16em] text-feather uppercase">
+                        Chapter {ch.number}
+                      </span>
+                      {ch.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
           {photo.source ? (
             <section className="mt-10 border-t border-paper-deep pt-8">
               <h2 className="font-sans text-[0.68rem] tracking-[0.22em] text-feather uppercase">
@@ -92,18 +120,15 @@ function ArchiveObjectPage() {
             </section>
           ) : null}
 
-          <section className="mt-10 border-t border-paper-deep pt-8">
-            <h2 className="font-sans text-[0.68rem] tracking-[0.22em] text-feather uppercase">
-              Cite this
-            </h2>
-            <p className="mt-3 font-display text-lg leading-relaxed text-ink-soft">
-              {cite.credit}. <em>{cite.title}</em>
-              {cite.dated}. {cite.work}.
-            </p>
-            <p className="mt-2 break-all font-sans text-sm leading-relaxed text-muted">
-              {cite.url}
-            </p>
-          </section>
+          <CiteThis
+            credit={cite.credit}
+            title={cite.title}
+            dated={cite.dated}
+            work={cite.work}
+            url={cite.url}
+            displayUrl={cite.displayUrl}
+            shareTitle={`${photo.title} — The Spirit of Martinez`}
+          />
         </div>
 
         <nav className="border-t border-rule bg-ink-soft text-paper">
@@ -117,7 +142,9 @@ function ArchiveObjectPage() {
                 <span className="flex items-center gap-2 text-[0.68rem] tracking-[0.16em] text-muted uppercase">
                   <ArrowLeft className="size-3.5" /> Previous
                 </span>
-                <span className="font-display text-xl text-paper">{prev.title}</span>
+                <span className="font-display text-xl text-paper">
+                  {String(index).padStart(2, "0")} · {prev.title}
+                </span>
               </Link>
             ) : (
               <div className="hidden sm:block" />
@@ -131,7 +158,9 @@ function ArchiveObjectPage() {
                 <span className="flex items-center justify-end gap-2 text-[0.68rem] tracking-[0.16em] text-muted uppercase">
                   Next <ArrowRight className="size-3.5" />
                 </span>
-                <span className="font-display text-xl text-paper">{next.title}</span>
+                <span className="font-display text-xl text-paper">
+                  {String(index + 2).padStart(2, "0")} · {next.title}
+                </span>
               </Link>
             ) : null}
           </div>

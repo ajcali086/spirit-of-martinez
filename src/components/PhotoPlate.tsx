@@ -112,7 +112,7 @@ export function PhotoPlate({
           {onCard ? (
             <>
               {" · "}
-              Zoom to read the hand
+              Zoom to read the handwriting
             </>
           ) : null}
         </span>

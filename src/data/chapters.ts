@@ -1,4 +1,5 @@
 import type { Chapter } from "./types";
+import { canonicalUrl } from "@/lib/og/pageMeta";
 
 export const chapters: Chapter[] = [
   {
@@ -1157,6 +1158,37 @@ export function adjacentChapters(slug: string) {
   return {
     prev: i > 0 ? chapters[i - 1] : undefined,
     next: i >= 0 && i < chapters.length - 1 ? chapters[i + 1] : undefined,
+  };
+}
+
+/** Reverse of the figure blocks — a plate’s place in the book. */
+export function chaptersForPhoto(id: string) {
+  const found: { slug: string; number: number; title: string; sectionId: string }[] = [];
+  for (const ch of chapters) {
+    for (const section of ch.sections) {
+      if (section.blocks.some((b) => b.type === "figure" && b.id === id)) {
+        found.push({
+          slug: ch.slug,
+          number: ch.number,
+          title: ch.title,
+          sectionId: section.id,
+        });
+        break;
+      }
+    }
+  }
+  return found;
+}
+
+export function citeChapter(chapter: { number: number; title: string; slug: string }) {
+  const url = canonicalUrl(`/chapters/${chapter.slug}`);
+  return {
+    credit: "The Spirit of Martinez",
+    title: chapter.title,
+    dated: `, Chapter ${chapter.number}`,
+    work: "What a Family Kept",
+    url,
+    displayUrl: url.replace(/\//g, "/\u200b"),
   };
 }
 

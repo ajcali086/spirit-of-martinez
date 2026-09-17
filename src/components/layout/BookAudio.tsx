@@ -409,7 +409,7 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
     const showMusicDock = musicDocked && track?.kind !== "music";
     document.documentElement.style.setProperty(
       "--dock-h",
-      showMusicDock ? "4.25rem" : "0px",
+      showMusicDock ? "3.5rem" : "0px",
     );
     return () => {
       document.documentElement.style.setProperty("--player-h", "0px");
