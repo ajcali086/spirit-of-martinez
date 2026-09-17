@@ -5,8 +5,12 @@ import { PageHero } from "@/components/PageHero";
 import { ObjectCatalog } from "@/components/ObjectCatalog";
 import { SevenNumbers } from "@/components/SevenNumbers";
 import { artifacts, decorations, openQuestions } from "@/data/archive";
+import { coverPageMeta } from "@/lib/og/cover";
 
-export const Route = createFileRoute("/archive/")({ component: ArchivePage });
+export const Route = createFileRoute("/archive/")({
+  head: () => coverPageMeta("/archive"),
+  component: ArchivePage,
+});
 
 function ArchivePage() {
   const hash = useRouterState({ select: (s) => s.location.hash });

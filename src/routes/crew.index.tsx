@@ -5,8 +5,12 @@ import { PhotoPlate } from "@/components/PhotoPlate";
 import { CrewRecords } from "@/components/CrewRecords";
 import { crew } from "@/data/crew";
 import { BGDB_CREW_URL } from "@/data/missions";
+import { coverPageMeta } from "@/lib/og/cover";
 
-export const Route = createFileRoute("/crew/")({ component: CrewPage });
+export const Route = createFileRoute("/crew/")({
+  head: () => coverPageMeta("/crew"),
+  component: CrewPage,
+});
 
 function CrewPage() {
   return (

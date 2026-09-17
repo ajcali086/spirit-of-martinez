@@ -10,8 +10,12 @@ import { crew } from "@/data/crew";
 import { missions } from "@/data/missions";
 import { timelineEras } from "@/data/timeline";
 import { cn } from "@/lib/utils";
+import { coverPageMeta } from "@/lib/og/cover";
 
-export const Route = createFileRoute("/")({ component: Home });
+export const Route = createFileRoute("/")({
+  head: () => coverPageMeta("/"),
+  component: Home,
+});
 
 function Home() {
   const featured = [chapters[0], chapters[8], chapters[10], chapters[14]];

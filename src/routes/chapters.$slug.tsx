@@ -15,6 +15,7 @@ import { chapterCues } from "@/data/cues";
 import { sentenceCues } from "@/data/sentenceCues";
 import type { Block } from "@/data/types";
 import { pageMeta } from "@/lib/og/pageMeta";
+import { readPlace, writePlace } from "@/lib/bookmark";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/chapters/$slug")({
@@ -35,6 +36,7 @@ export const Route = createFileRoute("/chapters/$slug")({
       description: chapter.dek,
       path: `/chapters/${chapter.slug}`,
       image: chapter.image,
+      imageAlt: chapter.imageAlt,
     });
   },
   component: ChapterPage,
@@ -66,6 +68,18 @@ function ChapterPage() {
       slug: chapter.slug,
     });
   }, [chapter, offer]);
+
+  useEffect(() => {
+    if (!chapter) return;
+    const prev = readPlace();
+    writePlace({
+      slug: chapter.slug,
+      number: chapter.number,
+      title: chapter.title,
+      time: prev?.slug === chapter.slug ? prev.time : 0,
+      ended: prev?.slug === chapter.slug ? prev.ended : false,
+    });
+  }, [chapter]);
 
   if (!chapter) {
     throw notFound();

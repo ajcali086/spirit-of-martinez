@@ -3,8 +3,12 @@ import { createFileRoute, Link, useRouterState } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
 import { timeline, timelineEras } from "@/data/timeline";
+import { coverPageMeta } from "@/lib/og/cover";
 
-export const Route = createFileRoute("/timeline")({ component: TimelinePage });
+export const Route = createFileRoute("/timeline")({
+  head: () => coverPageMeta("/timeline"),
+  component: TimelinePage,
+});
 
 function TimelinePage() {
   const hash = useRouterState({ select: (s) => s.location.hash });

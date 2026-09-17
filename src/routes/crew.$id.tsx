@@ -12,11 +12,15 @@ export const Route = createFileRoute("/crew/$id")({
   head: ({ params }) => {
     const member = crewById(params.id);
     if (!member) return {};
+    const portrait = member.photo ? photos[member.photo] : photos.crew;
     return pageMeta({
       title: `${member.name} — The Spirit of Martinez`,
       description: `${member.role}. ${member.hometown}.`,
       path: `/crew/${member.id}`,
-      image: member.photo ? photos[member.photo].src : photos.crew.src,
+      image: portrait.src,
+      imageWidth: portrait.width,
+      imageHeight: portrait.height,
+      imageAlt: portrait.alt,
     });
   },
 });

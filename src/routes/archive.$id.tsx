@@ -16,6 +16,9 @@ export const Route = createFileRoute("/archive/$id")({
       description: photo.caption,
       path: `/archive/${photo.id}`,
       image: photo.src,
+      imageWidth: photo.width,
+      imageHeight: photo.height,
+      imageAlt: photo.alt,
     });
     return {
       ...head,

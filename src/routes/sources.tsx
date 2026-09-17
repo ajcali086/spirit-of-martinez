@@ -9,8 +9,12 @@ import {
   sourceClasses,
 } from "@/data/sources";
 import type { Block } from "@/data/types";
+import { coverPageMeta } from "@/lib/og/cover";
 
-export const Route = createFileRoute("/sources")({ component: SourcesPage });
+export const Route = createFileRoute("/sources")({
+  head: () => coverPageMeta("/sources"),
+  component: SourcesPage,
+});
 
 function Blocks({ blocks }: { blocks: Block[] }) {
   return (

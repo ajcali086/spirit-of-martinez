@@ -3,8 +3,12 @@ import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
 import { PhotoPlate } from "@/components/PhotoPlate";
 import { aircraft } from "@/data/aircraft";
+import { coverPageMeta } from "@/lib/og/cover";
 
-export const Route = createFileRoute("/aircraft")({ component: AircraftPage });
+export const Route = createFileRoute("/aircraft")({
+  head: () => coverPageMeta("/aircraft"),
+  component: AircraftPage,
+});
 
 function AircraftPage() {
   return (

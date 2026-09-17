@@ -13,6 +13,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { Pause, Play, X, Music2 } from "lucide-react";
 import { chapterCues } from "@/data/cues";
 import { sentenceCues } from "@/data/sentenceCues";
+import { readPlace, writePlace } from "@/lib/bookmark";
 
 export type ChapterTrack = {
   kind: "chapter";
@@ -127,6 +128,20 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
   endedRef.current = ended;
   chapterResumeRef.current = chapterResume;
 
+  const remember = useCallback(() => {
+    const current = trackRef.current;
+    if (current?.kind !== "chapter") return;
+    const prev = readPlace();
+    if (prev && prev.slug !== current.slug) return;
+    writePlace({
+      slug: current.slug,
+      number: current.number,
+      title: current.title,
+      time: intended.current,
+      ended: endedRef.current,
+    });
+  }, []);
+
   const lockSeek = useCallback((seconds: number) => {
     intended.current = seconds;
     holding.current = true;
@@ -195,6 +210,7 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
     if (next.kind === "music") {
       setMusicDocked(false);
       if (prev?.kind === "chapter" && hasPlayed.current) {
+        remember();
         const snap: ChapterResume = {
           track: prev,
           time: intended.current,
@@ -226,11 +242,12 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
       setTrack((cur) => (sameTrack(cur, next) ? cur : next));
       return;
     }
+    if (prev?.kind === "chapter" && !sameTrack(prev, next)) remember();
     pendingPlay.current = true;
     intended.current = 0;
     holding.current = false;
     setTrack((cur) => (sameTrack(cur, next) ? cur : next));
-  }, [expandChapter, resumeFromIntended]);
+  }, [expandChapter, remember, resumeFromIntended]);
 
   const toggle = useCallback(() => {
     const el = audioRef.current;
@@ -289,6 +306,7 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
       stop();
       return;
     }
+    remember();
     const snap: ChapterResume = {
       track: current,
       time: intended.current,
@@ -302,7 +320,7 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
     focusChapterDock.current = true;
     setPlaying(false);
     setTrack(null);
-  }, [stop]);
+  }, [remember, stop]);
 
   useLayoutEffect(() => {
     const el = audioRef.current;
@@ -311,7 +329,22 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
       assignedSrc.current = track.src;
       const restore = restorePos.current;
       restorePos.current = null;
-      if (restore == null) {
+      if (restore == null && track.kind === "chapter") {
+        const place = readPlace();
+        if (place && place.slug === track.slug && !place.ended && place.time > 0.4) {
+          intended.current = place.time;
+          holding.current = true;
+          setTime(place.time);
+          setDuration(0);
+          setEnded(false);
+        } else {
+          intended.current = 0;
+          holding.current = false;
+          setTime(0);
+          setDuration(0);
+          setEnded(false);
+        }
+      } else if (restore == null) {
         intended.current = 0;
         holding.current = false;
         setTime(0);
@@ -361,6 +394,12 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [track, toggle, dockMusic, dockChapter]);
+
+  useEffect(() => {
+    const onHide = () => remember();
+    window.addEventListener("pagehide", onHide);
+    return () => window.removeEventListener("pagehide", onHide);
+  }, [remember]);
 
   useEffect(() => {
     document.documentElement.style.setProperty(
@@ -424,7 +463,10 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
           if (trackRef.current?.kind === "chapter") hasPlayed.current = true;
           applyTime(e.currentTarget, intended.current);
         }}
-        onPause={() => setPlaying(false)}
+        onPause={() => {
+          setPlaying(false);
+          if (hasPlayed.current) remember();
+        }}
         onTimeUpdate={(e) => {
           const el = e.currentTarget;
           const t = el.currentTime;
@@ -465,9 +507,11 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
           const at = Number.isFinite(d) && d > 0 ? d : intended.current;
           holding.current = false;
           intended.current = at;
+          endedRef.current = true;
           setPlaying(false);
           setEnded(true);
           setTime(at);
+          remember();
         }}
       />
       {children}

@@ -12,8 +12,12 @@ import {
   missions,
 } from "@/data/missions";
 import { cn } from "@/lib/utils";
+import { coverPageMeta } from "@/lib/og/cover";
 
-export const Route = createFileRoute("/missions")({ component: MissionsPage });
+export const Route = createFileRoute("/missions")({
+  head: () => coverPageMeta("/missions"),
+  component: MissionsPage,
+});
 
 function MissionsPage() {
   const hash = useRouterState({ select: (s) => s.location.hash });
