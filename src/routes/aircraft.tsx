@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
 import { PhotoPlate } from "@/components/PhotoPlate";
+import { GraphicAccent } from "@/components/GraphicAccent";
 import { aircraft } from "@/data/aircraft";
 import { coverPageMeta } from "@/lib/og/cover";
 
@@ -22,6 +23,12 @@ function AircraftPage() {
         imagePosition="top"
       />
       <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
+        <GraphicAccent
+          name="ship"
+          width={1500}
+          height={503}
+          className="mb-12 h-28 w-auto max-w-full sm:h-40"
+        />
         <dl className="grid grid-cols-2 gap-px bg-rule sm:grid-cols-3">
           {aircraft.specs.map((s) => (
             <div key={s.label} className="bg-ink px-4 py-6">
@@ -73,6 +80,12 @@ function AircraftPage() {
         <p className="mt-16 border-t border-rule pt-8 font-display text-xl text-fog italic">
           Fate: {aircraft.fate}. Last flight {aircraft.lastFlight}.
         </p>
+        <GraphicAccent
+          name="tally"
+          width={1445}
+          height={393}
+          className="mt-12 h-24 w-auto max-w-full sm:mt-16 sm:h-36"
+        />
       </div>
     </SiteShell>
   );

@@ -60,19 +60,6 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
     credit: "Family collection",
     kind: "photograph",
   },
-  lettering: {
-    id: "lettering",
-    title: "The name on the aluminum",
-    src: "/images/archive/lettering",
-    width: 1500,
-    height: 750,
-    alt: "Close photograph of Spirit of Martinez painted on riveted aluminum: Spirit of in script, MARTINEZ in block letters, quotation marks at each end",
-    caption:
-      "The name on the aluminum. Spirit of, in script; MARTINEZ in block. Quoted as painted. The rivets are the ship’s own punctuation.",
-    credit: "Family collection",
-    kind: "photograph",
-    ogImage: "/images/archive/og/lettering.jpg",
-  },
   crusher: {
     id: "crusher",
     title: "F.J. Calicura",
@@ -1304,7 +1291,6 @@ export const photoList: ArchivePhoto[] = [
   photos.calicura,
   photos.probst,
   photos.naming,
-  photos.lettering,
   photos.britishbase,
   photos.taylorletter,
   photos.nameonplane,

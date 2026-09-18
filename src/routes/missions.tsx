@@ -13,6 +13,7 @@ import {
 } from "@/data/missions";
 import { cn } from "@/lib/utils";
 import { coverPageMeta } from "@/lib/og/cover";
+import { GraphicAccent } from "@/components/GraphicAccent";
 
 export const Route = createFileRoute("/missions")({
   head: () => coverPageMeta("/missions"),
@@ -81,6 +82,12 @@ function MissionsPage() {
         </div>
       </section>
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+        <GraphicAccent
+          name="ship"
+          width={1500}
+          height={503}
+          className="mb-10 h-24 w-auto max-w-full sm:h-32"
+        />
         <div className="flex flex-wrap gap-2">
           {(
             [

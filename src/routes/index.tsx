@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { SiteShell } from "@/components/layout/SiteShell";
-import { SpiritMark } from "@/components/SpiritMark";
 import { PhotoPlate } from "@/components/PhotoPlate";
+import { GraphicAccent } from "@/components/GraphicAccent";
 import { HomeMusic } from "@/components/HomeMusic";
 import { counts } from "@/data/archive";
 import { chapters } from "@/data/chapters";
@@ -309,7 +309,12 @@ function Home() {
         />
         <div className="absolute inset-0 bg-ink/75" />
         <div className="relative mx-auto max-w-3xl px-4 py-20 text-center sm:px-6 sm:py-28">
-          <SpiritMark className="mx-auto h-16 w-auto text-brass" />
+          <GraphicAccent
+            name="ship"
+            width={1500}
+            height={503}
+            className="h-16 w-auto max-w-full sm:h-24"
+          />
           <p className="mt-6 font-display text-2xl leading-snug text-paper italic sm:text-3xl">
             “We should be the honored ones, in having the people at home asking
             us to name it after our town.”

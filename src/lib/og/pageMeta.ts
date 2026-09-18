@@ -27,7 +27,6 @@ const IMAGE_PX: Record<string, readonly [number, number]> = {
   "/images/archive/og/dogtags.jpg": [1200, 630],
   "/images/archive/og/flyingcover.jpg": [1200, 630],
   "/images/archive/og/carpenter.jpg": [1200, 630],
-  "/images/archive/og/lettering.jpg": [1200, 630],
 };
 
 export function canonicalUrl(path: string) {
