@@ -6,6 +6,8 @@
 
 Does not rewrite an existing JPEG unless --force. Portraits need --og; Facebook
 center-crops otherwise. og-focus is 0–1 from the top (0.35 = upper third).
+After a new plate ships, rescrape the URL in Facebook Sharing Debugger the same
+day so the first share is not a stale site card.
 """
 
 from __future__ import annotations
@@ -43,15 +45,20 @@ def fit_max(im: Image.Image, max_edge: int) -> Image.Image:
 
 
 def og_crop(im: Image.Image, focus: float) -> Image.Image:
+    """Center-aware 1.91:1 crop. Wide banners lose sides; tall plates lose top/bottom."""
     w, h = im.size
-    target_h = max(1, round(w * OG_H / OG_W))
-    if h <= target_h:
-        crop = im
+    target_ratio = OG_W / OG_H
+    ratio = w / h
+    focus = min(1.0, max(0.0, focus))
+    if ratio > target_ratio:
+        new_w = max(1, round(h * target_ratio))
+        left = max(0, min((w - new_w) // 2, w - new_w))
+        crop = im.crop((left, 0, left + new_w, h))
     else:
-        focus = min(1.0, max(0.0, focus))
-        top = int(round(focus * h - target_h / 2))
-        top = max(0, min(top, h - target_h))
-        crop = im.crop((0, top, w, top + target_h))
+        new_h = max(1, round(w / target_ratio))
+        top = int(round(focus * h - new_h / 2))
+        top = max(0, min(top, h - new_h))
+        crop = im.crop((0, top, w, top + new_h))
     return crop.resize((OG_W, OG_H), Image.Resampling.LANCZOS)
 
 

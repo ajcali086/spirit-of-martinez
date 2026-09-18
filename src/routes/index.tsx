@@ -23,7 +23,7 @@ function Home() {
 
   return (
     <SiteShell>
-      <section className="relative flex min-h-[calc(100dvh-4rem)] flex-col justify-end overflow-hidden">
+      <section className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col justify-end overflow-hidden sm:min-h-[calc(100dvh-5rem)]">
         <SiteImage
           src="/images/hero-fortress.jpg"
           alt="The locker arranged: B-15 jacket, Horham crew photograph, wallet, and gloves"

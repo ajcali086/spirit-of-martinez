@@ -8,23 +8,22 @@ export function CopyLink({
   title: string;
 }) {
   const [copied, setCopied] = useState(false);
-  const [mode, setMode] = useState<"share" | "copy">("copy");
+  const [canShare, setCanShare] = useState(false);
 
   useEffect(() => {
-    const share = typeof navigator.share === "function";
-    const coarse = window.matchMedia("(pointer: coarse)").matches;
-    setMode(share && coarse ? "share" : "copy");
+    setCanShare(typeof navigator.share === "function");
   }, []);
 
   async function onShare() {
-    if (mode === "share") {
-      try {
-        await navigator.share({ title, url });
-        return;
-      } catch (err) {
-        if (err instanceof DOMException && err.name === "AbortError") return;
-      }
+    try {
+      await navigator.share({ title, url });
+    } catch (err) {
+      if (err instanceof DOMException && err.name === "AbortError") return;
+      await copy();
     }
+  }
+
+  async function copy() {
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
@@ -35,12 +34,23 @@ export function CopyLink({
   }
 
   return (
-    <button
-      type="button"
-      onClick={() => void onShare()}
-      className="inline-flex min-h-11 shrink-0 items-center font-sans text-[0.68rem] tracking-[0.16em] text-feather uppercase hover:text-ink"
-    >
-      {copied ? "Link copied" : mode === "share" ? "Share" : "Copy link"}
-    </button>
+    <span className="flex shrink-0 items-center gap-4">
+      {canShare ? (
+        <button
+          type="button"
+          onClick={() => void onShare()}
+          className="inline-flex min-h-11 items-center font-sans text-[0.68rem] tracking-[0.16em] text-feather uppercase hover:text-ink"
+        >
+          Share
+        </button>
+      ) : null}
+      <button
+        type="button"
+        onClick={() => void copy()}
+        className="inline-flex min-h-11 items-center font-sans text-[0.68rem] tracking-[0.16em] text-feather uppercase hover:text-ink"
+      >
+        {copied ? "Link copied" : "Copy link"}
+      </button>
+    </span>
   );
 }

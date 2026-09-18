@@ -57,35 +57,32 @@ export function assetUrl(path: string) {
   return `${absoluteUrl(withExt)}${query}`;
 }
 
-/** Share crop if authored; site card for uncropped portraits; native image otherwise. */
+/** Share crop if authored; otherwise the conventional 1200×630 file at archive/og/{id}.jpg. */
 export function plateOgImage(photo: {
+  id: string;
   src: string;
   width: number;
   height: number;
   alt: string;
   ogImage?: string;
 }) {
-  if (photo.ogImage) {
-    return {
-      image: photo.ogImage,
-      imageWidth: 1200,
-      imageHeight: 630,
-      imageAlt: photo.alt,
-    };
-  }
-  if (photo.height > photo.width) {
-    return {
-      image: "/og.jpg",
-      imageWidth: 1200,
-      imageHeight: 630,
-      imageAlt: SITE_TITLE,
-    };
-  }
+  const image = photo.ogImage ?? `/images/archive/og/${photo.id}.jpg`;
   return {
-    image: photo.src,
-    imageWidth: photo.width,
-    imageHeight: photo.height,
+    image,
+    imageWidth: 1200,
+    imageHeight: 630,
     imageAlt: photo.alt,
+  };
+}
+
+/** Chapter banners are not 1.91:1. Dedicated crops live at /images/og/{stem}.jpg. */
+export function bannerOgImage(src: string, alt: string) {
+  const stem = src.replace(/\.(jpe?g|png|webp)$/i, "").split("/").pop() ?? "og";
+  return {
+    image: `/images/og/${stem}.jpg`,
+    imageWidth: 1200,
+    imageHeight: 630,
+    imageAlt: alt,
   };
 }
 

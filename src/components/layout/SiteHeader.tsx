@@ -15,14 +15,14 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-rule/80 bg-ink/85 backdrop-blur-md">
-      <div className="relative mx-auto flex h-16 max-w-6xl items-center justify-end px-4 sm:h-[4.25rem] sm:px-6">
+      <div className="relative mx-auto flex h-[4.5rem] max-w-6xl items-center justify-end px-4 sm:h-20 sm:px-6">
         <Link
           to="/"
           aria-label="Spirit of Martinez"
-          className="absolute inset-y-0 left-1/2 z-10 flex min-h-11 min-w-[4.5rem] -translate-x-1/2 items-center justify-center px-3"
+          className="absolute inset-y-0 left-1/2 z-10 flex min-h-11 min-w-[5.5rem] -translate-x-1/2 items-center justify-center px-3"
           onClick={() => setOpen(false)}
         >
-          <SpiritMark className="h-10 w-auto text-brass sm:h-11" />
+          <SpiritMark className="h-14 w-auto text-brass sm:h-16" />
         </Link>
 
         <button

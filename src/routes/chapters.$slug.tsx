@@ -18,7 +18,7 @@ import {
 import { chapterCues } from "@/data/cues";
 import { sentenceCues } from "@/data/sentenceCues";
 import type { Block, PhotoId } from "@/data/types";
-import { pageMeta } from "@/lib/og/pageMeta";
+import { pageMeta, bannerOgImage } from "@/lib/og/pageMeta";
 import { readPlace, writePlace } from "@/lib/bookmark";
 import { cn } from "@/lib/utils";
 
@@ -39,8 +39,7 @@ export const Route = createFileRoute("/chapters/$slug")({
       title: `Chapter ${chapter.number} — ${chapter.title} · The Spirit of Martinez`,
       description: chapter.dek,
       path: `/chapters/${chapter.slug}`,
-      image: chapter.image,
-      imageAlt: chapter.imageAlt,
+      ...bannerOgImage(chapter.image, chapter.imageAlt),
     });
   },
   component: ChapterPage,

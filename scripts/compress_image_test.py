@@ -26,6 +26,11 @@ class CompressImage(unittest.TestCase):
         card = og_crop(im, 0.28)
         self.assertEqual(card.size, (1200, 630))
 
+    def test_og_crop_wide_banner_does_not_squash(self):
+        im = Image.new("RGB", (1500, 599), (80, 60, 40))
+        card = og_crop(im, 0.5)
+        self.assertEqual(card.size, (1200, 630))
+
     def test_missing_skips_og_folder(self):
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)

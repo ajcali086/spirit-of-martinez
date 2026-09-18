@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { assetUrl, canonicalUrl, pageMeta, plateOgImage, sitePageMeta } from "./pageMeta.ts";
+import { assetUrl, bannerOgImage, canonicalUrl, pageMeta, plateOgImage, sitePageMeta } from "./pageMeta.ts";
 
 describe("canonicalUrl", () => {
   it("is always www, never apex", () => {
@@ -89,6 +89,7 @@ describe("pageMeta", () => {
 
   it("uses an authored 1200×630 crop when the plate has one", () => {
     const share = plateOgImage({
+      id: "maxwellpair",
       src: "/images/archive/maxwellpair",
       width: 1212,
       height: 1500,
@@ -100,14 +101,23 @@ describe("pageMeta", () => {
     assert.equal(share.imageHeight, 630);
   });
 
-  it("falls back to the site card for an uncropped portrait", () => {
+  it("uses the conventional crop path when none is authored", () => {
     const share = plateOgImage({
-      src: "/images/archive/maxwell",
-      width: 800,
-      height: 1200,
-      alt: "Four cadets",
+      id: "redbar",
+      src: "/images/archive/redbar",
+      width: 1488,
+      height: 908,
+      alt: "The Red Bar card",
     });
-    assert.equal(share.image, "/og.jpg");
+    assert.equal(share.image, "/images/archive/og/redbar.jpg");
+    assert.equal(share.imageWidth, 1200);
+    assert.equal(share.imageHeight, 630);
+    assert.equal(share.imageAlt, "The Red Bar card");
+  });
+
+  it("maps a chapter banner to a 1200×630 crop", () => {
+    const share = bannerOgImage("/images/missions-banner.jpg", "The tour");
+    assert.equal(share.image, "/images/og/missions-banner.jpg");
     assert.equal(share.imageWidth, 1200);
     assert.equal(share.imageHeight, 630);
   });

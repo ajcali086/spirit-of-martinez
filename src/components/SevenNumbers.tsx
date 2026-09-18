@@ -119,7 +119,7 @@ export function SevenNumbers() {
             <li
               key={`${m.number}-${m.date}`}
               className={cn(
-                "grid grid-cols-[2.6rem_1fr] gap-x-3 gap-y-0.5 border-b border-rule px-2 py-3 last:border-b-0 sm:grid-cols-[2.6rem_9rem_1fr_12rem] sm:items-baseline sm:px-3",
+                "grid grid-cols-[3rem_1fr] gap-x-3 gap-y-0.5 border-b border-rule px-2 py-3 last:border-b-0 sm:grid-cols-[3rem_9rem_1fr_12rem] sm:items-baseline sm:px-3",
                 on ? "bg-brass/10" : "opacity-30",
               )}
             >
@@ -153,7 +153,7 @@ export function SevenNumbers() {
           );
         })}
         {active === "30" && showAll ? (
-          <li className="grid grid-cols-[2.6rem_1fr] gap-x-3 border-t border-feather/40 bg-[repeating-linear-gradient(45deg,transparent,transparent_7px,rgba(142,58,50,0.12)_7px,rgba(142,58,50,0.12)_14px)] px-2 py-3 sm:grid-cols-[2.6rem_9rem_1fr_12rem] sm:items-baseline sm:px-3">
+          <li className="grid grid-cols-[3rem_1fr] gap-x-3 border-t border-feather/40 bg-[repeating-linear-gradient(45deg,transparent,transparent_7px,rgba(142,58,50,0.12)_7px,rgba(142,58,50,0.12)_14px)] px-2 py-3 sm:grid-cols-[3rem_9rem_1fr_12rem] sm:items-baseline sm:px-3">
             <span className="font-display text-xl text-feather">30</span>
             <span className="text-[0.72rem] text-muted max-sm:col-start-2">—</span>
             <span className="font-display text-lg text-feather max-sm:col-span-2 max-sm:col-start-2">
