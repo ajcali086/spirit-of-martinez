@@ -5,6 +5,7 @@
  */
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { createHash } from "node:crypto";
 
 export const DEFAULT_APP_NAME = "Grok App";
 export const OG_SERVICE_URL_DEFAULT = "https://og.grok.me";
@@ -259,6 +260,21 @@ export function ogCardPublicPath(cwd = process.cwd()) {
   return "";
 }
 
+/** Append ?v=<md5> so crawlers treat a replaced cover as a new image URL. */
+export function versionedAssetPath(publicPath, cwd = process.cwd()) {
+  const raw = String(publicPath ?? "").trim();
+  if (!raw) return "";
+  const pathOnly = raw.split("?")[0];
+  const file = join(cwd, "public", pathOnly.replace(/^\//, ""));
+  try {
+    if (!existsSync(file)) return raw;
+    const v = createHash("md5").update(readFileSync(file)).digest("hex").slice(0, 8);
+    return `${pathOnly}?v=${v}`;
+  } catch {
+    return raw;
+  }
+}
+
 function detectCustomOgCard(cwd = process.cwd(), site = {}) {
   if (ogCardPublicPath(cwd)) return true;
   // Vercel runtime has no public/: trust a bake that already saw the file.
@@ -271,7 +287,7 @@ export function snapshotOgIdentity(cwd = process.cwd()) {
   const disk = ogCardPublicPath(cwd);
   if (disk) {
     site.card = "custom";
-    site.image = disk;
+    site.image = versionedAssetPath(String(site.image ?? "").trim() || disk, cwd);
   } else {
     // site.json `card=custom` without a file must not bake a 404 /og.jpg URL.
     if (siteHasCustomCard(site)) delete site.card;
@@ -323,14 +339,20 @@ export function siteHasCustomCard(site = {}) {
  * Otherwise empty — caller emits the og.grok.me placeholder.
  */
 export function resolveOgCardAsset(site = {}, cwd = process.cwd()) {
-  return ogCardPublicPath(cwd) || (detectCustomOgCard(cwd, site) ? String(site.image ?? "").trim() || "/og.jpg" : "");
+  const fromSite = String(site.image ?? "").trim();
+  if (fromSite) return fromSite;
+  return ogCardPublicPath(cwd) || (detectCustomOgCard(cwd, site) ? "/og.jpg" : "");
 }
 
 /** Stamp `card=custom` when public/og.jpg or public/og.png is on disk. */
 function applyCustomCardFromFs(site, cwd) {
   const disk = ogCardPublicPath(cwd);
   if (!disk) return site;
-  return { ...site, card: "custom", image: disk };
+  return {
+    ...site,
+    card: "custom",
+    image: versionedAssetPath(String(site.image ?? "").trim() || disk, cwd),
+  };
 }
 
 export function grokOgHeadTags({
@@ -385,6 +407,11 @@ export function stripShareMetaTags(html) {
   });
 }
 
+/** Page-authored unfurl: canonical og:url means the document owns the share card. */
+export function documentHasPageOg(html) {
+  return /<meta\b[^>]*\bproperty\s*=\s*["']og:url["'][^>]*>/i.test(String(html));
+}
+
 function insertAfterHeadOpen(html, snippet) {
   if (/<head\b[^>]*>/i.test(html)) {
     return html.replace(/<head\b[^>]*>/i, (open) => `${open}${snippet}`);
@@ -432,7 +459,9 @@ export function injectGrokPwaHead(html, ctx = {}) {
     host,
     documentTitle,
   );
-  let next = stripShareMetaTags(html);
+  let next = html;
+  const keepPageOg = documentHasPageOg(next);
+  if (!keepPageOg) next = stripShareMetaTags(next);
 
   const missing = grokPwaHeadTags(appName)
     .filter(([key]) => {
@@ -442,10 +471,12 @@ export function injectGrokPwaHead(html, ctx = {}) {
     })
     .map(([, tag]) => tag);
 
-  next = insertAfterHeadOpen(
-    next,
-    grokOgHeadTags({ host, appName, site, documentTitle, cwd }).join(""),
-  );
+  if (!keepPageOg) {
+    next = insertAfterHeadOpen(
+      next,
+      grokOgHeadTags({ host, appName, site, documentTitle, cwd }).join(""),
+    );
+  }
 
   const creatorTags = grokXCreatorHeadTags(creator, creatorId);
   if (creatorTags.length > 0) {
@@ -467,8 +498,9 @@ function findHeadClose(buf) {
 
 /**
  * Streaming head injector: buffers only until `</head>` (ASCII marker; never
- * appears inside a UTF-8 continuation byte), overwrites share-card metas,
- * then passes later chunks through so streaming SSR keeps streaming.
+ * appears inside a UTF-8 continuation byte), overwrites share-card metas
+ * unless the document already published og:url, then passes later chunks
+ * through so streaming SSR keeps streaming.
  */
 export function createHeadInjector(ctx = {}) {
   const normalized = normalizeHeadContext(ctx);

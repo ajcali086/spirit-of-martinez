@@ -16,6 +16,7 @@ import {
   resolveOgCardAsset,
   snapshotOgIdentity,
   stripInstallParams,
+  versionedAssetPath,
 } from "./grok-pwa-shared.mjs";
 import { renderInstallPage } from "./grok-pwa-plugin.mjs";
 
@@ -208,7 +209,8 @@ test("snapshotOgIdentity stamps card=custom from a public card file", () => {
   writeFileSync(join(root, "public/og.jpg"), "x");
   const { site } = snapshotOgIdentity(root);
   assert.equal(site.card, "custom");
-  assert.equal(site.image, "/og.jpg");
+  assert.equal(site.image, versionedAssetPath("/og.jpg", root));
+  assert.match(site.image, /^\/og\.jpg\?v=[0-9a-f]{8}$/);
   assert.equal(site.banner, undefined);
 });
 
@@ -230,8 +232,9 @@ test("replacing the cover file changes the og:image cache key", () => {
   const src = (html) => html.match(/property="og:image" content="([^"]+)"/)[1];
   const a = src(first);
   const b = src(second);
-  assert.equal(a, "https://www.spiritofmartinez.com/og.jpg");
-  assert.equal(b, a);
+  assert.match(a, /^https:\/\/www\.spiritofmartinez\.com\/og\.jpg\?v=[0-9a-f]{8}$/);
+  assert.match(b, /^https:\/\/www\.spiritofmartinez\.com\/og\.jpg\?v=[0-9a-f]{8}$/);
+  assert.notEqual(a, b);
 });
 
 test("snapshotOgIdentity stamps banner from public/x-banner.jpg", () => {
