@@ -1307,3 +1307,8 @@ export function adjacentPhotos(id: PhotoId) {
     total: photoList.length,
   };
 }
+
+export function plateNumber(id: PhotoId) {
+  const i = photoList.findIndex((p) => p.id === id);
+  return i >= 0 ? i + 1 : 0;
+}

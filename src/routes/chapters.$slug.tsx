@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect } from "react";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { useBookAudio } from "@/components/layout/BookAudio";
 import { PhotoPlate } from "@/components/PhotoPlate";
+import { PassageDoor } from "@/components/PassageDoor";
 import { CiteThis } from "@/components/CiteThis";
 import { SiteImage } from "@/components/SiteImage";
 import { useReadingFollow } from "@/components/ReadingFollow";
@@ -16,7 +17,7 @@ import {
 } from "@/data/chapters";
 import { chapterCues } from "@/data/cues";
 import { sentenceCues } from "@/data/sentenceCues";
-import type { Block } from "@/data/types";
+import type { Block, PhotoId } from "@/data/types";
 import { pageMeta } from "@/lib/og/pageMeta";
 import { readPlace, writePlace } from "@/lib/bookmark";
 import { cn } from "@/lib/utils";
@@ -245,6 +246,16 @@ function ChapterPage() {
             ) : null}
             {chapter.sections.map((section) => {
               let pIndex = 0;
+              const plateDoors = new Map<string, PhotoId[]>();
+              let lastP: string | undefined;
+              for (const b of section.blocks) {
+                if (b.type === "p" && b.id) lastP = b.id;
+                if (b.type === "figure" && lastP) {
+                  const list = plateDoors.get(lastP) ?? [];
+                  list.push(b.id);
+                  plateDoors.set(lastP, list);
+                }
+              }
               return (
               <section
                 key={section.id}
@@ -295,6 +306,9 @@ function ChapterPage() {
                     firstPara && block.type === "p",
                     cueId,
                     activeId,
+                    block.type === "p" && block.id
+                      ? plateDoors.get(block.id)
+                      : undefined,
                   );
                   if (firstPara && block.type === "p") firstPara = false;
                   return <div key={`${section.id}-${i}`}>{node}</div>;
@@ -354,6 +368,7 @@ function renderBlock(
   dropCap: boolean,
   cueId?: string,
   activeId?: string | null,
+  plates?: PhotoId[],
 ) {
   if (block.type === "quote") {
     return (
@@ -387,7 +402,8 @@ function renderBlock(
   if (block.type === "figure") {
     return <PhotoPlate id={block.id} caption={block.caption} tone="paper" />;
   }
-  return (
+  const reading = Boolean(cueId && activeId === cueId);
+  const paragraph = (
     <p
       id={block.id}
       data-cue={cueId}
@@ -395,10 +411,19 @@ function renderBlock(
         dropCap && "drop-cap",
         block.id && "scroll-mt-28",
         cueId && "scroll-mt-28",
-        cueId && activeId === cueId && "is-reading",
+        reading && "is-reading",
       )}
     >
       {block.text}
     </p>
+  );
+  if (!plates?.length) return paragraph;
+  return (
+    <div className="group relative">
+      {paragraph}
+      {plates.map((id) => (
+        <PassageDoor key={id} id={id} open={reading} />
+      ))}
+    </div>
   );
 }
