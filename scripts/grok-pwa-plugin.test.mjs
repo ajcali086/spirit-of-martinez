@@ -16,7 +16,6 @@ import {
   resolveOgCardAsset,
   snapshotOgIdentity,
   stripInstallParams,
-  versionedAssetPath,
 } from "./grok-pwa-shared.mjs";
 import { renderInstallPage } from "./grok-pwa-plugin.mjs";
 
@@ -26,37 +25,18 @@ test("injects before </head>", () => {
   const out = injectGrokPwaHead("<html><head><title>x</title></head><body></body></html>");
   assert.match(out, /rel="manifest"/);
   assert.match(out, /apple-touch-icon/);
-  assert.match(out, /grok-app-builder\/extensions\.js/);
+  assert.doesNotMatch(out, /grok-app-builder\/extensions\.js/);
   assert.ok(out.indexOf("manifest") < out.indexOf("</head>"));
 });
 
-test("injects the extensions script without a project id", () => {
-  const out = injectGrokPwaHead("<html><head></head></html>", {
-    appName: "Demo",
-    projectId: "",
-  });
-  assert.match(out, /src="https:\/\/grok\.com\/grok-app-builder\/extensions\.js" defer/);
-  assert.doesNotMatch(out, /grok-project-id/);
-  assert.doesNotMatch(out, /data-project-id/);
-  assert.doesNotMatch(out, /property="grok:app_id"/);
-});
-
-test("injects project id on the script and meta when provided", () => {
+test("does not inject the grok install script", () => {
   const out = injectGrokPwaHead("<html><head></head></html>", {
     appName: "Demo",
     projectId: "proj-123",
   });
-  assert.match(out, /name="grok-project-id" content="proj-123"/);
-  assert.match(out, /data-project-id="proj-123"/);
-  assert.match(out, /property="grok:app_id" content="proj-123"/);
-});
-
-test("does not duplicate grok:app_id", () => {
-  const ctx = { appName: "Demo", projectId: "proj-123" };
-  const once = injectGrokPwaHead("<html><head></head></html>", ctx);
-  const twice = injectGrokPwaHead(once, ctx);
-  assert.equal(once, twice);
-  assert.equal(twice.split('property="grok:app_id"').length - 1, 1);
+  assert.doesNotMatch(out, /grok-app-builder\/extensions\.js/);
+  assert.doesNotMatch(out, /grok-project-id/);
+  assert.doesNotMatch(out, /property="grok:app_id"/);
 });
 
 test("omits x:creator tags without both creator values", () => {
@@ -228,8 +208,7 @@ test("snapshotOgIdentity stamps card=custom from a public card file", () => {
   writeFileSync(join(root, "public/og.jpg"), "x");
   const { site } = snapshotOgIdentity(root);
   assert.equal(site.card, "custom");
-  assert.equal(site.image, versionedAssetPath("/og.jpg", root));
-  assert.match(site.image, /^\/og\.jpg\?v=[0-9a-f]{8}$/);
+  assert.equal(site.image, "/og.jpg");
   assert.equal(site.banner, undefined);
 });
 
@@ -251,9 +230,8 @@ test("replacing the cover file changes the og:image cache key", () => {
   const src = (html) => html.match(/property="og:image" content="([^"]+)"/)[1];
   const a = src(first);
   const b = src(second);
-  assert.match(a, /^https:\/\/www\.spiritofmartinez\.com\/og\.jpg\?v=[0-9a-f]{8}$/);
-  assert.match(b, /^https:\/\/www\.spiritofmartinez\.com\/og\.jpg\?v=[0-9a-f]{8}$/);
-  assert.notEqual(a, b);
+  assert.equal(a, "https://www.spiritofmartinez.com/og.jpg");
+  assert.equal(b, a);
 });
 
 test("snapshotOgIdentity stamps banner from public/x-banner.jpg", () => {
@@ -452,12 +430,12 @@ test("streaming injector matches </HEAD> case-insensitively", () => {
   assert.match(out, /<body>hello<\/body>/);
 });
 
-test("does not duplicate the extensions script", () => {
+test("does not inject the grok install script twice or at all", () => {
   const ctx = { appName: "Demo", projectId: "proj-123" };
   const once = injectGrokPwaHead("<html><head></head></html>", ctx);
   const twice = injectGrokPwaHead(once, ctx);
   assert.equal(once, twice);
-  assert.equal(twice.split("extensions.js").length - 1, 1);
+  assert.equal(twice.split("extensions.js").length - 1, 0);
 });
 
 test("is idempotent", () => {
