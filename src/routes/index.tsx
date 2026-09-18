@@ -309,7 +309,7 @@ function Home() {
         />
         <div className="absolute inset-0 bg-ink/75" />
         <div className="relative mx-auto max-w-3xl px-4 py-20 text-center sm:px-6 sm:py-28">
-          <SpiritMark className="mx-auto size-14" />
+          <SpiritMark className="mx-auto h-16 w-auto text-brass" />
           <p className="mt-6 font-display text-2xl leading-snug text-paper italic sm:text-3xl">
             “We should be the honored ones, in having the people at home asking
             us to name it after our town.”

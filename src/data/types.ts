@@ -85,7 +85,14 @@ export type PhotoId =
   | "brunswick"
   | "crusher"
   | "spiritpage"
-  | "maxwellpair";
+  | "maxwellpair"
+  | "pocket"
+  | "airportgroup"
+  | "preflight"
+  | "dogtags"
+  | "flyingcover"
+  | "carpenter"
+  | "lettering";
 
 export type Block =
   | { type: "p"; text: string; id?: string }

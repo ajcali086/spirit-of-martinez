@@ -15,24 +15,33 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-rule/80 bg-ink/85 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+      <div className="relative mx-auto flex h-16 max-w-6xl items-center justify-end px-4 sm:h-[4.25rem] sm:px-6">
         <Link
           to="/"
-          className="flex min-h-11 items-center gap-2.5 text-paper transition-opacity hover:opacity-80"
+          aria-label="Spirit of Martinez"
+          className="absolute inset-y-0 left-1/2 z-10 flex min-h-11 min-w-[4.5rem] -translate-x-1/2 items-center justify-center px-3"
           onClick={() => setOpen(false)}
         >
-          <SpiritMark className="size-8 shrink-0" />
-          <span className="flex flex-col leading-none">
-            <span className="font-display text-[1.15rem] font-semibold tracking-tight">
-              Spirit of Martinez
-            </span>
-            <span className="mt-0.5 text-[0.62rem] tracking-[0.18em] text-fog uppercase">
-              What a Family Kept
-            </span>
-          </span>
+          <SpiritMark className="h-10 w-auto text-brass sm:h-11" />
         </Link>
 
-        <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Primary">
+        <button
+          type="button"
+          className="relative z-20 flex size-11 shrink-0 items-center justify-center text-paper lg:hidden"
+          aria-expanded={open}
+          aria-controls="site-menu"
+          aria-label={open ? "Close menu" : "Open menu"}
+          onClick={() => setOpen((v) => !v)}
+        >
+          {open ? <X className="size-5" /> : <Menu className="size-5" />}
+        </button>
+      </div>
+
+      <nav
+        className="hidden border-t border-rule/60 lg:block"
+        aria-label="Primary"
+      >
+        <div className="mx-auto flex max-w-6xl items-center justify-center gap-0.5 px-4 sm:px-6">
           {nav.map((item) => {
             const active =
               pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -49,19 +58,8 @@ export function SiteHeader() {
               </Link>
             );
           })}
-        </nav>
-
-        <button
-          type="button"
-          className="relative flex size-11 items-center justify-center text-paper lg:hidden"
-          aria-expanded={open}
-          aria-controls="site-menu"
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
-      </div>
+        </div>
+      </nav>
 
       {open ? (
         <nav
