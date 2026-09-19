@@ -4,6 +4,7 @@ import type { Map as LeafletMap, Marker as LeafletMarker } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import {
   HORHAM,
+  THEATER,
   missionChapter,
   missionPlaces,
   missions,
@@ -37,6 +38,9 @@ export function MissionMap() {
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const [failed, setFailed] = useState(false);
   const [ready, setReady] = useState(false);
+  const revealedFor = useRef<number | null>(null);
+  const lastActiveRef = useRef<string | null>(null);
+  const userOpened = useRef(false);
 
   const visible = useMemo(() => {
     if (kind === "all") return missions;
@@ -46,6 +50,7 @@ export function MissionMap() {
 
   useEffect(() => {
     let dead = false;
+    let dropPointer: (() => void) | undefined;
     if (!mapRef.current) return;
 
     (async () => {
@@ -62,13 +67,61 @@ export function MissionMap() {
           zoomControl: true,
           scrollWheelZoom: false,
           attributionControl: true,
-          minZoom: 3,
+          minZoom: 4,
           maxZoom: 9,
+          maxBounds: L.latLngBounds(THEATER.sw, THEATER.ne),
+          maxBoundsViscosity: 1,
+          worldCopyJump: false,
           fadeAnimation: false,
           zoomAnimation: false,
           markerZoomAnimation: false,
         });
         leafletRef.current = map;
+
+        const phone = window.matchMedia("(max-width: 899px)");
+        const applyDrag = () => {
+          if (phone.matches) {
+            map.dragging.disable();
+            map.touchZoom.enable();
+          } else {
+            map.dragging.enable();
+            map.touchZoom.enable();
+          }
+        };
+        applyDrag();
+        phone.addEventListener("change", applyDrag);
+
+        const surface = map.getContainer();
+        let twoFinger: { x: number; y: number } | null = null;
+        const mid = (touches: TouchList) => ({
+          x: (touches[0].clientX + touches[1].clientX) / 2,
+          y: (touches[0].clientY + touches[1].clientY) / 2,
+        });
+        const onTouchStart = (e: TouchEvent) => {
+          twoFinger = e.touches.length === 2 ? mid(e.touches) : null;
+        };
+        const onTouchMove = (e: TouchEvent) => {
+          if (e.touches.length !== 2 || !twoFinger) return;
+          e.preventDefault();
+          const now = mid(e.touches);
+          map.panBy([twoFinger.x - now.x, twoFinger.y - now.y], { animate: false });
+          twoFinger = now;
+        };
+        const onTouchEnd = () => {
+          twoFinger = null;
+        };
+        surface.addEventListener("touchstart", onTouchStart, { passive: true });
+        surface.addEventListener("touchmove", onTouchMove, { passive: false });
+        surface.addEventListener("touchend", onTouchEnd);
+        surface.addEventListener("touchcancel", onTouchEnd);
+
+        dropPointer = () => {
+          phone.removeEventListener("change", applyDrag);
+          surface.removeEventListener("touchstart", onTouchStart);
+          surface.removeEventListener("touchmove", onTouchMove);
+          surface.removeEventListener("touchend", onTouchEnd);
+          surface.removeEventListener("touchcancel", onTouchEnd);
+        };
 
         L.geoJSON(europe, {
           style: {
@@ -107,6 +160,7 @@ export function MissionMap() {
 
     return () => {
       dead = true;
+      dropPointer?.();
       leafletRef.current?.remove();
       leafletRef.current = null;
       markersRef.current.clear();
@@ -145,14 +199,19 @@ export function MissionMap() {
         })
           .addTo(map)
           .bindPopup(popupHtml(place), { maxWidth: 320 });
-        marker.on("click", () => setActiveKey(place.key));
+        marker.on("click", () => {
+          setActiveKey(place.key);
+          lastActiveRef.current = place.key;
+          userOpened.current = true;
+        });
         markersRef.current.set(place.key, marker);
       }
 
       const focused = places.find((p) =>
         p.missions.some((m) => m.number === focusNumber),
       );
-      if (focused) {
+      const firstReveal = revealedFor.current !== focusNumber;
+      if (firstReveal && focused) {
         map.fitBounds(
           [
             [HORHAM.lat, HORHAM.lng],
@@ -162,12 +221,17 @@ export function MissionMap() {
         );
         markersRef.current.get(focused.key)?.openPopup();
         setActiveKey(focused.key);
+        lastActiveRef.current = focused.key;
+        revealedFor.current = focusNumber;
+      } else if (
+        userOpened.current &&
+        lastActiveRef.current &&
+        markersRef.current.has(lastActiveRef.current)
+      ) {
+        const keep = lastActiveRef.current;
+        markersRef.current.get(keep)?.openPopup();
+        setActiveKey(keep);
       } else {
-        const bounds = L.latLngBounds([
-          [HORHAM.lat, HORHAM.lng],
-          ...places.map((p) => [p.lat, p.lng] as [number, number]),
-        ]);
-        map.fitBounds(bounds, { padding: [38, 38], maxZoom: 6 });
         map.closePopup();
         setActiveKey(null);
       }
@@ -183,6 +247,8 @@ export function MissionMap() {
     const map = leafletRef.current;
     if (!marker || !map) return;
     setActiveKey(key);
+    lastActiveRef.current = key;
+    userOpened.current = true;
     map.setView(marker.getLatLng(), Math.max(map.getZoom(), 6), { animate: false });
     marker.openPopup();
     if (window.innerWidth < 900) {
@@ -202,6 +268,8 @@ export function MissionMap() {
     );
     map.closePopup();
     setActiveKey(null);
+    lastActiveRef.current = null;
+    userOpened.current = false;
   }
 
   return (
@@ -346,6 +414,8 @@ function popupHtml(place: MissionPlace) {
         <div class="chart-row"><span>Printed</span><b>Captains of Aircraft Map<br>Newcastle to Prague</b></div>
         <div class="chart-row"><span>In hand</span><b>Mission #7<br>23 Feb. 1945</b></div>
         <div class="chart-row"><span>Crew record</span><b>24 February 1945<br>Bremen</b></div>
+        <div class="chart-row"><span>On the sheet</span><b>Control points · IP · RP · fighters · flak in colored pencil</b></div>
+        <div class="chart-row"><span>Unread</span><b>The rest of the hand is untranscribed. Whose hand is not established here.</b></div>
       </div>
       <a class="archive-door" href="/archive/chart7">Open the original chart</a>`
     : "";

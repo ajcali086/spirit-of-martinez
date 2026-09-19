@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { HORHAM, missionPlaces, missions, parseMissionsHash } from "./missions.ts";
+import { HORHAM, THEATER, missionPlaces, missions, parseMissionsHash } from "./missions.ts";
 
 describe("mission map data", () => {
   it("gives every sortie a modern center", () => {
@@ -34,6 +34,15 @@ describe("mission map data", () => {
 
   it("places Horham west of the targets", () => {
     assert.ok(HORHAM.lng < Math.min(...missions.map((m) => m.lng)));
+  });
+
+  it("keeps every pin inside the theater bounds", () => {
+    const [south, west] = THEATER.sw;
+    const [north, east] = THEATER.ne;
+    for (const p of [{ lat: HORHAM.lat, lng: HORHAM.lng }, ...missions]) {
+      assert.ok(p.lat > south && p.lat < north);
+      assert.ok(p.lng > west && p.lng < east);
+    }
   });
 
   it("reads board hashes", () => {

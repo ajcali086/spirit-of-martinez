@@ -22,6 +22,12 @@ export const HORHAM = {
   label: "Horham · Station 119",
 } as const;
 
+/** Theater the map may show. Not a claimed operating area. */
+export const THEATER = {
+  sw: [40, -12] as [number, number],
+  ne: [64, 28] as [number, number],
+};
+
 export type MissionsHash =
   | { view: "map"; number: number }
   | { view: "list"; number: number }

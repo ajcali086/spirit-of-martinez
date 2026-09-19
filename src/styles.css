@@ -187,6 +187,11 @@ h1.is-reading,
   background: #1c1a16;
   font-family: var(--font-sans);
 }
+@media (max-width: 899px) {
+  .mission-map .leaflet-container {
+    touch-action: pan-y pinch-zoom;
+  }
+}
 .mission-map .leaflet-container img {
   outline: none;
 }

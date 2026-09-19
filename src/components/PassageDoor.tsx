@@ -15,6 +15,7 @@ export function PassageDoor({
 
   return (
     <Link
+      data-passage-door
       to="/archive/$id"
       params={{ id }}
       aria-label={`Plate ${n}: ${photo.title}`}

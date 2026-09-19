@@ -5,6 +5,7 @@ import { SiteShell } from "@/components/layout/SiteShell";
 import { useBookAudio } from "@/components/layout/BookAudio";
 import { PhotoPlate } from "@/components/PhotoPlate";
 import { PassageDoor } from "@/components/PassageDoor";
+import { useDoorDeconflict } from "@/components/useDoorDeconflict";
 import { CiteThis } from "@/components/CiteThis";
 import { SiteImage } from "@/components/SiteImage";
 import { useReadingFollow } from "@/components/ReadingFollow";
@@ -51,6 +52,7 @@ function ChapterPage() {
   const { offer, play, track, dockedChapter } = useBookAudio();
   const { activeId } = useReadingFollow(slug);
   const chapter = chapterBySlug(slug);
+  useDoorDeconflict(slug);
 
   useLayoutEffect(() => {
     const id = hash.replace(/^#/, "");
