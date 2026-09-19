@@ -130,6 +130,11 @@ export type Mission = {
   date: string;
   dateLabel: string;
   target: string;
+  /** Modern geocoded center of the named target — not a wartime aim point. */
+  lat: number;
+  lng: number;
+  /** Compromise or disagreement the pin cannot resolve. */
+  placeNote?: string;
   kind: MissionKind;
   aircraft: string;
   notes: string;

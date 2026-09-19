@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { SpiritMark } from "@/components/SpiritMark";
+import { GraphicAccent } from "@/components/GraphicAccent";
 import { nav } from "@/data/nav";
 
 export function SiteFooter() {
@@ -7,7 +7,13 @@ export function SiteFooter() {
     <footer id="site-footer" className="mt-auto border-t border-rule bg-ink-soft">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-12 sm:px-6 md:flex-row md:items-end md:justify-between">
         <div className="max-w-md">
-          <SpiritMark className="mx-auto h-16 w-auto text-brass sm:h-20 md:mx-0" />
+          <GraphicAccent
+            name="tally"
+            width={1500}
+            height={537}
+            align="start"
+            className="h-12 w-auto max-w-[14rem] sm:h-14"
+          />
           <p className="mt-3 text-sm leading-relaxed text-fog">
             Assembled from a family’s collection, the 95th Bomb Group’s crew
             record, and the contemporary press. Where they disagree, the

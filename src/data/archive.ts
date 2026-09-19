@@ -1,4 +1,4 @@
-import type { CountQuestion, OpenQuestion } from "./types";
+import type { CountQuestion, OpenQuestion, PhotoId } from "./types";
 
 export const counts: CountQuestion[] = [
   {
@@ -38,54 +38,70 @@ export const counts: CountQuestion[] = [
   },
 ];
 
-export const artifacts = [
+export const artifacts: {
+  title: string;
+  body: string;
+  photoId?: PhotoId;
+}[] = [
   {
     title: "Award of Merit, 1939",
     body: "Treasure Island. Gas Model Hydroplane Meet. Outstanding junior citizen. Two signatures, one of them Leland W. Cutler’s.",
+    photoId: "merit",
   },
   {
     title: "Certificate of Promotion, 1935",
     body: "Martinez Junior High to senior high, Alhambra Union High School District. Frank J. Calicura. Given at Martinez, June 21, 1935.",
+    photoId: "promotion",
   },
   {
     title: "At their stations",
     body: "Seven in-aircraft prints on a paper page, labeled in a family hand. Markus and Ernest are not on the sheet.",
+    photoId: "stations",
   },
   {
     title: "Woody Woodpecker solo card",
     body: "19 October 1943, Canal Field, Ocala. Signed Ellis G. Ort. The Army let the occasion be what it was.",
+    photoId: "woodpecker",
   },
   {
     title: "Greenville Aviation School",
     body: "Ocala. Primary Training Course. Aviation Cadet Frank James Calicura. Cooper, Hanley, Cummins. The paper that names the school.",
+    photoId: "greenville",
   },
   {
     title: "Instrument ticket, 15 April 1944",
     body: "Turner Field. A.A.F. Form No. 8. Same day as the commission.",
+    photoId: "instrument",
   },
   {
     title: "Identity card, 15 April 1944",
     body: "2nd Lt. Frank J. Calicura. 5 ft. 9 in., 155 lbs. Right-hand fingerprints. The silvering is the photograph.",
+    photoId: "idcard",
   },
   {
     title: "The PILOT ring",
     body: "Dark oval stone, eagle and shield, a banner with one word. The paper from that April is all addressed to somebody. The ring is not addressed to anyone.",
+    photoId: "ring",
   },
   {
     title: "Shipping voucher no. 13",
     body: "Fifteen pieces of flying gear, Hendricks Field, 25 July 1944, in Frank’s own hand. An A-2 jacket worth $8.12 had already gone missing from a locker.",
+    photoId: "ticket",
   },
   {
     title: "The short snorter",
     body: "A dollar bill covered in signatures. The Army did not require it, did not track it, and would not have cared if it were lost.",
+    photoId: "snorter",
   },
   {
     title: "Nine wallets",
     body: "Martinez Kiwanis Club, stamped SPIRIT OF MARTINEZ, ordered for a war in the Pacific that never came.",
+    photoId: "wallet",
   },
   {
     title: "The Red Bar card",
     body: "8 Green’s Court, off Brewer Street, Soho. Open 2.30 to 10. THIS CARD CANNOT BE SOLD. Carried back from a London pass. The mission reports do not mention it.",
+    photoId: "redbar",
   },
   {
     title: "Joyce’s scrapbook",
@@ -94,30 +110,37 @@ export const artifacts = [
   {
     title: "Fourteen captains’ charts",
     body: "Newcastle to Prague, annotated by hand, missions one through fourteen without a gap. Control points, times, flak in colored pencil.",
+    photoId: "chart7",
   },
   {
     title: "The ribbon bar",
     body: "Distinguished Flying Cross, Air Medal with three oak leaf clusters, EAME campaign medal. The DFC citation has not been located. In July 1973 a fire in St. Louis destroyed most of the files.",
+    photoId: "coat",
   },
   {
     title: "Stuart’s memorandum, 8 May 1945",
     body: "Twenty-eight operational missions. Two hundred eight combat hours. Recommended instructor. It does not count the food.",
+    photoId: "stuart",
   },
   {
     title: "GO 289, 27 February 1945",
     body: "Air Medal. A mark beside the name. Second Lieutenant still. The rest of the crew on the same page.",
+    photoId: "go289",
   },
   {
     title: "VA letter, 30 October 1959",
     body: "Claim C-1,302,621. Compensation denied. The condition was found either not service-connected, or service-connected but rated below ten percent. Both readings were available in the same sentence.",
+    photoId: "letter",
   },
   {
     title: "Airman Rating Record no. 107645",
     body: "4 August 1947. Commercial pilot, single- and multi-engine land. Flight instructor, 30 September 1947. 731 Mellus Street.",
+    photoId: "rating",
   },
   {
     title: "CAA medical, 7 July 1948",
     body: "Second Class Airmen. 731 Mellus Street. Limitations: none. His signature.",
+    photoId: "medical",
   },
 ];
 

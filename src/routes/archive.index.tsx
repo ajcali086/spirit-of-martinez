@@ -1,10 +1,11 @@
 import { useLayoutEffect } from "react";
-import { createFileRoute, useRouterState } from "@tanstack/react-router";
+import { Link, createFileRoute, useRouterState } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
 import { ObjectCatalog } from "@/components/ObjectCatalog";
 import { SevenNumbers } from "@/components/SevenNumbers";
 import { artifacts, decorations, openQuestions } from "@/data/archive";
+import { photos } from "@/data/photos";
 import { coverPageMeta } from "@/lib/og/cover";
 
 export const Route = createFileRoute("/archive/")({
@@ -50,15 +51,54 @@ function ArchivePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+      <section className="mx-auto max-w-6xl px-4 py-14 pb-28 sm:px-6">
         <h2 className="kicker">Objects</h2>
         <div className="mt-8 grid gap-6 md:grid-cols-2">
-          {artifacts.map((a) => (
-            <article key={a.title} className="border-l-2 border-brass pl-4">
-              <h3 className="font-display text-xl text-paper">{a.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-fog">{a.body}</p>
-            </article>
-          ))}
+          {artifacts.map((a) => {
+            const plate = a.photoId ? photos[a.photoId] : undefined;
+            const inner = (
+              <>
+                {plate ? (
+                  <span className="block w-16 shrink-0 overflow-hidden bg-ink-mid sm:w-20">
+                    <picture>
+                      <source srcSet={`${plate.src}.webp`} type="image/webp" />
+                      <img
+                        src={`${plate.src}.jpg`}
+                        alt=""
+                        width={plate.width}
+                        height={plate.height}
+                        loading="lazy"
+                        decoding="async"
+                        className="aspect-[3/4] size-full object-cover outline-none"
+                      />
+                    </picture>
+                  </span>
+                ) : null}
+                <span className="min-w-0">
+                  <span className="block font-display text-xl text-paper group-hover:text-brass">
+                    {a.title}
+                  </span>
+                  <span className="mt-2 block text-sm leading-relaxed text-fog">
+                    {a.body}
+                  </span>
+                </span>
+              </>
+            );
+            return plate ? (
+              <Link
+                key={a.title}
+                to="/archive/$id"
+                params={{ id: plate.id }}
+                className="group flex gap-4 border-l-2 border-brass pl-4"
+              >
+                {inner}
+              </Link>
+            ) : (
+              <article key={a.title} className="flex gap-4 border-l-2 border-brass pl-4">
+                {inner}
+              </article>
+            );
+          })}
         </div>
       </section>
 

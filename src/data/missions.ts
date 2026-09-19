@@ -15,6 +15,66 @@ export function hasCaptainsChart(m: Mission) {
   return m.kind === "combat" && m.number <= 14;
 }
 
+/** Horham, Station 119. Context for the map — not a drawn route origin. */
+export const HORHAM = {
+  lat: 52.30507,
+  lng: 1.24259,
+  label: "Horham · Station 119",
+} as const;
+
+export type MissionsHash =
+  | { view: "map"; number: number }
+  | { view: "list"; number: number }
+  | null;
+
+/** Board hashes: `#m-6` is the list, `#map-6` is the pin. `#map` opens Mission 7. */
+export function parseMissionsHash(hash: string): MissionsHash {
+  const raw = String(hash).replace(/^#/, "");
+  if (raw === "map") return { view: "map", number: 7 };
+  const mapHit = /^map-(\d+)$/.exec(raw);
+  if (mapHit) {
+    const n = Number(mapHit[1]);
+    if (n >= 1 && n <= 31) return { view: "map", number: n };
+    return { view: "map", number: 7 };
+  }
+  const listHit = /^m-(\d+)$/.exec(raw);
+  if (listHit) {
+    const n = Number(listHit[1]);
+    if (n >= 1 && n <= 31) return { view: "list", number: n };
+  }
+  return null;
+}
+
+export function placeKey(m: Pick<Mission, "lat" | "lng">) {
+  return `${m.lat},${m.lng}`;
+}
+
+export type MissionPlace = {
+  key: string;
+  lat: number;
+  lng: number;
+  target: string;
+  missions: Mission[];
+};
+
+/** One pin per place. Repeated targets share a marker. */
+export function missionPlaces(list: Mission[]): MissionPlace[] {
+  const groups = new Map<string, Mission[]>();
+  for (const m of list) {
+    const k = placeKey(m);
+    const g = groups.get(k);
+    if (g) g.push(m);
+    else groups.set(k, [m]);
+  }
+  return [...groups.entries()].map(([key, ms]) => ({
+    key,
+    lat: ms[0].lat,
+    lng: ms[0].lng,
+    target: ms[0].target,
+    missions: ms,
+  }));
+}
+
 /** The chapter that already tells this morning, and the heading it opens on. */
 export function missionChapter(m: Mission): { slug: string; label: string; hash: string } {
   if (m.kind === "humanitarian") {
@@ -49,6 +109,8 @@ export const missions: Mission[] = [
     date: "1945-02-14",
     dateLabel: "14 February 1945",
     target: "Chemnitz",
+    lat: 50.83669,
+    lng: 12.92087,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
@@ -63,6 +125,8 @@ export const missions: Mission[] = [
     date: "1945-02-15",
     dateLabel: "15 February 1945",
     target: "Cottbus",
+    lat: 51.76101,
+    lng: 14.33123,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
@@ -76,6 +140,8 @@ export const missions: Mission[] = [
     date: "1945-02-19",
     dateLabel: "19 February 1945",
     target: "Osnabrück",
+    lat: 52.27203,
+    lng: 8.04555,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes: "Rail targets in the Ruhr corridor, escorted by Mustangs and Thunderbolts.",
@@ -89,6 +155,8 @@ export const missions: Mission[] = [
     date: "1945-02-20",
     dateLabel: "20 February 1945",
     target: "Nuremberg",
+    lat: 49.45435,
+    lng: 11.07346,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes: "First of two consecutive mornings over Nuremberg.",
@@ -102,6 +170,8 @@ export const missions: Mission[] = [
     date: "1945-02-21",
     dateLabel: "21 February 1945",
     target: "Nuremberg",
+    lat: 49.45435,
+    lng: 11.07346,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes: "Second consecutive day at Nuremberg.",
@@ -115,6 +185,8 @@ export const missions: Mission[] = [
     date: "1945-02-22",
     dateLabel: "22 February 1945",
     target: "Bamberg",
+    lat: 49.89185,
+    lng: 10.8929,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
@@ -129,6 +201,9 @@ export const missions: Mission[] = [
     date: "1945-02-24",
     dateLabel: "24 February 1945",
     target: "Bremen",
+    lat: 53.07538,
+    lng: 8.80455,
+    placeNote: "The surviving chart is hand-dated 23 February. The crew record puts this morning on the 24th. Both stand.",
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes: "Part of the fourteen-day run that produced 94 hours 35 minutes in February.",
@@ -141,6 +216,8 @@ export const missions: Mission[] = [
     date: "1945-02-25",
     dateLabel: "25 February 1945",
     target: "Munich",
+    lat: 48.13641,
+    lng: 11.57754,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
@@ -155,6 +232,8 @@ export const missions: Mission[] = [
     date: "1945-02-27",
     dateLabel: "27 February 1945",
     target: "Leipzig",
+    lat: 51.3452,
+    lng: 12.38594,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes: "Ninth mission in fourteen days. Air Medal awarded this date, GO 289.",
@@ -167,6 +246,8 @@ export const missions: Mission[] = [
     date: "1945-03-03",
     dateLabel: "3 March 1945",
     target: "Brunswick",
+    lat: 52.26546,
+    lng: 10.5274,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
@@ -180,6 +261,9 @@ export const missions: Mission[] = [
     date: "1945-03-04",
     dateLabel: "4 March 1945",
     target: "Ulm / Baumenheim",
+    lat: 48.68001,
+    lng: 10.82171,
+    placeNote: "Primary was a Messerschmitt plant at Baumenheim; Ulm’s marshalling yard was the fallback under ten-tenths. The pin is a modern center between them, not an aim point.",
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
@@ -193,6 +277,8 @@ export const missions: Mission[] = [
     date: "1945-03-10",
     dateLabel: "10 March 1945",
     target: "Dortmunderfeld",
+    lat: 51.50937,
+    lng: 7.43493,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
@@ -206,6 +292,8 @@ export const missions: Mission[] = [
     date: "1945-03-12",
     dateLabel: "12 March 1945",
     target: "Swinemünde",
+    lat: 53.90233,
+    lng: 14.26896,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
@@ -220,6 +308,8 @@ export const missions: Mission[] = [
     date: "1945-03-14",
     dateLabel: "14 March 1945",
     target: "Seelze",
+    lat: 52.39778,
+    lng: 9.59241,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
@@ -233,6 +323,8 @@ export const missions: Mission[] = [
     date: "1945-03-19",
     dateLabel: "19 March 1945",
     target: "Jena",
+    lat: 50.92696,
+    lng: 11.58634,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
@@ -247,6 +339,8 @@ export const missions: Mission[] = [
     date: "1945-03-20",
     dateLabel: "20 March 1945",
     target: "Hamburg",
+    lat: 53.55562,
+    lng: 9.98745,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes: "Blohm+Voss shipyards. U-boat construction, still a priority this late in the war.",
@@ -260,6 +354,8 @@ export const missions: Mission[] = [
     date: "1945-03-22",
     dateLabel: "22 March 1945",
     target: "Ahlhorn",
+    lat: 52.90087,
+    lng: 8.21076,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
@@ -274,6 +370,8 @@ export const missions: Mission[] = [
     date: "1945-03-23",
     dateLabel: "23 March 1945",
     target: "Unna",
+    lat: 51.53254,
+    lng: 7.68693,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes: "Unna–Dortmund yards, among a dozen Ruhr targets.",
@@ -286,6 +384,8 @@ export const missions: Mission[] = [
     date: "1945-03-24",
     dateLabel: "24 March 1945",
     target: "Ziegenhain",
+    lat: 50.91066,
+    lng: 9.23524,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes: "No clipping survives. A number in the scrapbook and nothing else.",
@@ -298,6 +398,8 @@ export const missions: Mission[] = [
     date: "1945-03-28",
     dateLabel: "28 March 1945",
     target: "Hannover",
+    lat: 52.37227,
+    lng: 9.73815,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes: "Tank plants and a half-track factory at Hannover and Hildesheim.",
@@ -311,6 +413,8 @@ export const missions: Mission[] = [
     date: "1945-03-31",
     dateLabel: "31 March 1945",
     target: "Zeitz",
+    lat: 51.05037,
+    lng: 12.13417,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes: "Synthetic oil plant. Recovered from a wire report, not from the family scrapbook.",
@@ -323,6 +427,8 @@ export const missions: Mission[] = [
     date: "1945-04-03",
     dateLabel: "3 April 1945",
     target: "Kiel",
+    lat: 54.32325,
+    lng: 10.13224,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes: "First of two consecutive days at Kiel.",
@@ -335,6 +441,8 @@ export const missions: Mission[] = [
     date: "1945-04-04",
     dateLabel: "4 April 1945",
     target: "Kiel",
+    lat: 54.32325,
+    lng: 10.13224,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
@@ -349,6 +457,8 @@ export const missions: Mission[] = [
     date: "1945-04-05",
     dateLabel: "5 April 1945",
     target: "Nuremberg",
+    lat: 49.45435,
+    lng: 11.07346,
     kind: "combat",
     aircraft: "44-8269 The Red Fox",
     notes:
@@ -362,6 +472,8 @@ export const missions: Mission[] = [
     date: "1945-04-07",
     dateLabel: "7 April 1945",
     target: "Kaltenkirchen",
+    lat: 53.83813,
+    lng: 9.95973,
     kind: "combat",
     aircraft: "43-38942 Belligerent Beauty",
     notes:
@@ -375,6 +487,8 @@ export const missions: Mission[] = [
     date: "1945-04-09",
     dateLabel: "9 April 1945",
     target: "München-Riem",
+    lat: 48.14067,
+    lng: 11.68164,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
@@ -389,6 +503,8 @@ export const missions: Mission[] = [
     date: "1945-04-10",
     dateLabel: "10 April 1945",
     target: "Burg",
+    lat: 52.27066,
+    lng: 11.85557,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
@@ -402,6 +518,8 @@ export const missions: Mission[] = [
     date: "1945-04-20",
     dateLabel: "20 April 1945",
     target: "Oranienburg",
+    lat: 52.75592,
+    lng: 13.24484,
     kind: "combat",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
@@ -413,6 +531,8 @@ export const missions: Mission[] = [
     date: "1945-05-03",
     dateLabel: "3 May 1945",
     target: "Utrecht — Lage Weide",
+    lat: 52.11119,
+    lng: 5.07102,
     kind: "humanitarian",
     aircraft: "44-6838 Spirit of Martinez",
     notes:
@@ -424,6 +544,8 @@ export const missions: Mission[] = [
     date: "1945-05-05",
     dateLabel: "5 May 1945",
     target: "Utrecht — Lage Weide",
+    lat: 52.11119,
+    lng: 5.07102,
     kind: "humanitarian",
     aircraft: "44-6838 Spirit of Martinez",
     notes: "Chowhound Four. The informal truce with German flak crews still held.",
@@ -434,6 +556,8 @@ export const missions: Mission[] = [
     date: "1945-05-06",
     dateLabel: "6 May 1945",
     target: "Utrecht — Lage Weide",
+    lat: 52.11119,
+    lng: 5.07102,
     kind: "humanitarian",
     aircraft: "44-6838 Spirit of Martinez",
     notes:

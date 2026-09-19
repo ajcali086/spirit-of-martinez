@@ -10,10 +10,12 @@ import {
   missionChapter,
   missionPeople,
   missions,
+  parseMissionsHash,
 } from "@/data/missions";
 import { cn } from "@/lib/utils";
 import { coverPageMeta } from "@/lib/og/cover";
 import { GraphicAccent } from "@/components/GraphicAccent";
+import { MissionMap } from "@/components/MissionMap";
 
 export const Route = createFileRoute("/missions")({
   head: () => coverPageMeta("/missions"),
@@ -22,20 +24,24 @@ export const Route = createFileRoute("/missions")({
 
 function MissionsPage() {
   const hash = useRouterState({ select: (s) => s.location.hash });
-  const [filter, setFilter] = useState<"charts" | "all" | "combat" | "humanitarian">("charts");
+  const [filter, setFilter] = useState<"charts" | "all" | "combat" | "humanitarian" | "map">("charts");
   const list = useMemo(() => {
     if (filter === "charts") return missions.filter(hasCaptainsChart);
-    if (filter === "all") return missions;
+    if (filter === "all" || filter === "map") return missions;
     return missions.filter((m) => m.kind === filter);
   }, [filter]);
 
   useEffect(() => {
-    const n = Number(String(hash).replace(/^#?m-/, ""));
-    if (!Number.isFinite(n) || n < 1) return;
-    if (n >= 29) setFilter("humanitarian");
-    else if (n > 14) setFilter("all");
+    const parsed = parseMissionsHash(hash);
+    if (!parsed) return;
+    if (parsed.view === "map") {
+      setFilter("map");
+      return;
+    }
+    if (parsed.number >= 29) setFilter("humanitarian");
+    else if (parsed.number > 14) setFilter("all");
     requestAnimationFrame(() => {
-      document.getElementById(`m-${n}`)?.scrollIntoView({ block: "center" });
+      document.getElementById(`m-${parsed.number}`)?.scrollIntoView({ block: "center" });
     });
   }, [hash]);
 
@@ -82,12 +88,14 @@ function MissionsPage() {
         </div>
       </section>
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-        <GraphicAccent
-          name="ship"
-          width={1500}
-          height={503}
-          className="mb-10 h-24 w-auto max-w-full sm:h-32"
-        />
+        {filter !== "map" ? (
+          <GraphicAccent
+            name="ship"
+            width={1500}
+            height={503}
+            className="mb-10 h-24 w-auto max-w-full sm:h-32"
+          />
+        ) : null}
         <div className="flex flex-wrap gap-2">
           {(
             [
@@ -95,6 +103,7 @@ function MissionsPage() {
               ["all", "All 31"],
               ["combat", "Combat"],
               ["humanitarian", "Chowhound"],
+              ["map", "Map"],
             ] as const
           ).map(([id, label]) => (
             <button
@@ -113,6 +122,8 @@ function MissionsPage() {
           ))}
         </div>
 
+        {filter !== "map" ? (
+          <>
         <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted">
           Fourteen captains’ charts survive in the locker, missions one through
           fourteen without a gap. The list opens on those. The rest of the tour
@@ -141,7 +152,12 @@ function MissionsPage() {
         </p>
 
         <PhotoPlate id="chart7" className="mt-10" />
+          </>
+        ) : null}
 
+        {filter === "map" ? (
+          <MissionMap />
+        ) : (
         <ol className="mt-8 divide-y divide-rule border-y border-rule">
           {list.map((m) => {
             const chapter = missionChapter(m);
@@ -181,6 +197,13 @@ function MissionsPage() {
                       className="inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
                     >
                       {chapter.label}
+                    </Link>
+                    <Link
+                      to="/missions"
+                      hash={`map-${m.number}`}
+                      className="inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
+                    >
+                      Map
                     </Link>
                     <Link
                       to="/aircraft"
@@ -230,6 +253,7 @@ function MissionsPage() {
             );
           })}
         </ol>
+        )}
       </div>
     </SiteShell>
   );

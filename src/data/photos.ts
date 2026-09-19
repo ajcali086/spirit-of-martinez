@@ -3,6 +3,20 @@ import { canonicalUrl } from "@/lib/og/pageMeta";
 
 export type PhotoKind = "photograph" | "object";
 
+export type PlaceLayer = "hometown" | "training" | "london" | "tour" | "postwar";
+export type PlacePrecision = "address" | "city" | "approximate";
+
+/** A location the plate itself locates. Plot, not account. */
+export type PhotoPlace = {
+  label: string;
+  layer: PlaceLayer;
+  precision: PlacePrecision;
+  lat: number;
+  lng: number;
+  /** Catalog line on the marker. Stops there. */
+  line: string;
+};
+
 export type ArchivePhoto = {
   id: PhotoId;
   title: string;
@@ -18,6 +32,11 @@ export type ArchivePhoto = {
   /** Dedicated 1200×630 share crop. Portraits need this or Facebook center-crops through the face. */
   ogImage?: string;
   source?: { label: string; href: string };
+  /**
+   * Geography tied to the plate by its own evidence.
+   * The Red Bar prints its address; a photo captioned “somewhere in England” does not get this.
+   */
+  place?: PhotoPlace;
 };
 
 export const photos: Record<PhotoId, ArchivePhoto> = {
@@ -33,6 +52,14 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
       "The crew of 44-6838, Spirit of Martinez, on the hardstand at Horham, 1945. The name is already on the nose — this is the ship after the Army caught up to what the men had decided to call her.",
     credit: "Family collection",
     kind: "photograph",
+    place: {
+      label: "Horham · Station 119",
+      layer: "tour",
+      precision: "city",
+      lat: 52.30507,
+      lng: 1.24259,
+      line: "The crew of 44-6838 on the hardstand at Horham, 1945.",
+    },
   },
   naming: {
     id: "naming",
@@ -46,6 +73,14 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
       "Under the nose, 1945. Frank Calicura in flying kit at left; Capt. David Olsson — another Martinez man — in the overcoat; Col. Jack E. Shuck, group commander, taking the handshake. The book records the moment as official recognition, not a friendship.",
     credit: "Family collection",
     kind: "photograph",
+    place: {
+      label: "Horham · Station 119",
+      layer: "tour",
+      precision: "city",
+      lat: 52.30507,
+      lng: 1.24259,
+      line: "Under the nose at Horham, 1945. Official recognition, not a friendship.",
+    },
   },
   nose: {
     id: "nose",
@@ -59,6 +94,14 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
       "Frank Calicura at the nose of 44-6838, Horham, 14 February 1945 — the morning of mission one. The name is already on the ship.",
     credit: "Family collection",
     kind: "photograph",
+    place: {
+      label: "Horham · Station 119",
+      layer: "tour",
+      precision: "city",
+      lat: 52.30507,
+      lng: 1.24259,
+      line: "Frank Calicura at the nose of 44-6838, Horham, 14 February 1945 — the morning of mission one.",
+    },
   },
   crusher: {
     id: "crusher",
@@ -98,6 +141,14 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
       "Oxford Street. The shopfront behind them reads Mindel & Faraday, the photographers at 34–36. A London pass. The mission reports document targets, tonnage, losses, and times. They document nothing about this pavement.",
     credit: "Family collection",
     kind: "photograph",
+    place: {
+      label: "34–36 Oxford Street",
+      layer: "london",
+      precision: "address",
+      lat: 51.51522,
+      lng: -0.14189,
+      line: "The shopfront reads Mindel & Faraday, the photographers at 34–36. A London pass. The mission reports document nothing about this pavement.",
+    },
   },
   watts: {
     id: "watts",
@@ -111,6 +162,14 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
       "The other direction. Frank Calicura and his son Samuel outside the Watts Towers, on a stop the family places during a trip to Disneyland, about 1958. Samuel was born in 1952.",
     credit: "Family collection",
     kind: "photograph",
+    place: {
+      label: "Watts Towers",
+      layer: "postwar",
+      precision: "city",
+      lat: 33.93875,
+      lng: -118.24103,
+      line: "Frank Calicura and his son Samuel outside the Watts Towers, about 1958.",
+    },
   },
   gazette: {
     id: "gazette",
@@ -125,6 +184,14 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
     credit: "Family collection",
     kind: "photograph",
     maxWidth: "lg",
+    place: {
+      label: "Martinez",
+      layer: "hometown",
+      precision: "city",
+      lat: 38.01937,
+      lng: -122.13413,
+      line: "Frank Calicura at the Contra Costa Gazette, Martinez, summer 1945.",
+    },
   },
   hamburg: {
     id: "hamburg",
@@ -281,6 +348,14 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
       "The strip by the tracks. Filled ground along the Southern Pacific, a hangar lettered MARTINEZ AIRPORT, the wires Sam Calicura Jr. spent years trying to get moved. Two men dragged this runway into city fill. One of them taught his brothers to fly on it.",
     credit: "Beatie family collection",
     kind: "photograph",
+    place: {
+      label: "Martinez Airport",
+      layer: "hometown",
+      precision: "city",
+      lat: 38.0194,
+      lng: -122.141,
+      line: "The strip by the tracks. A hangar lettered MARTINEZ AIRPORT.",
+    },
   },
   airportgroup: {
     id: "airportgroup",
@@ -294,6 +369,14 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
     credit: "Beatie family collection",
     kind: "photograph",
     ogImage: "/images/archive/og/airportgroup.jpg",
+    place: {
+      label: "Martinez Airport",
+      layer: "hometown",
+      precision: "city",
+      lat: 38.0194,
+      lng: -122.141,
+      line: "Martinez Airport. Sam Calicura Jr. is fourth from the left, in a suit, no cap.",
+    },
   },
   shop: {
     id: "shop",
@@ -460,6 +543,14 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
     credit: "Family collection",
     kind: "photograph",
     ogImage: "/images/archive/og/maxwellpair.jpg",
+    place: {
+      label: "Maxwell Field",
+      layer: "training",
+      precision: "city",
+      lat: 32.3792,
+      lng: -86.3652,
+      line: "Joyce and Frank, Maxwell Field, 1943. The pin is the field, not a doorstep.",
+    },
   },
   carpenter: {
     id: "carpenter",
@@ -474,6 +565,14 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
     credit: "Family collection",
     kind: "photograph",
     ogImage: "/images/archive/og/carpenter.jpg",
+    place: {
+      label: "Maxwell Field",
+      layer: "training",
+      precision: "city",
+      lat: 32.3792,
+      lng: -86.3652,
+      line: "Maxwell Field, 1943. The same trees as Joyce’s visit.",
+    },
   },
   richard: {
     id: "richard",
@@ -529,6 +628,14 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
     credit: "Family collection",
     kind: "object",
     maxWidth: "lg",
+    place: {
+      label: "8 Green’s Court, Soho",
+      layer: "london",
+      precision: "address",
+      lat: 51.51155,
+      lng: -0.13572,
+      line: "Carried back from a London pass; the mission reports do not mention it.",
+    },
   },
   pocket: {
     id: "pocket",
@@ -723,6 +830,14 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
       "Maxwell Field, Montgomery. Four cadets on a gun in front of a columned building. The family keeps it as Frank’s. The other three are not named here.",
     credit: "Family collection",
     kind: "photograph",
+    place: {
+      label: "Maxwell Field",
+      layer: "training",
+      precision: "city",
+      lat: 32.3792,
+      lng: -86.3652,
+      line: "Maxwell Field, Montgomery. Four cadets on a gun. The pin is the field, not a doorstep.",
+    },
   },
   pregnant: {
     id: "pregnant",
@@ -736,6 +851,14 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
       "Joyce, 1943. The front of 731 Mellus Street. After Maxwell, before the boy. She is already carrying Frank James Calicura Jr.",
     credit: "Family collection",
     kind: "photograph",
+    place: {
+      label: "731 Mellus Street",
+      layer: "hometown",
+      precision: "address",
+      lat: 38.0169,
+      lng: -122.1385,
+      line: "Joyce, 1943. The front of 731 Mellus Street. After Maxwell, before the boy.",
+    },
   },
   cockpit: {
     id: "cockpit",
@@ -1401,4 +1524,9 @@ export function adjacentPhotos(id: PhotoId) {
 export function plateNumber(id: PhotoId) {
   const i = photoList.findIndex((p) => p.id === id);
   return i >= 0 ? i + 1 : 0;
+}
+
+/** Plates the locker itself locates. The archive map reads this; the missions map does not. */
+export function photosWithPlace() {
+  return photoList.filter((p): p is ArchivePhoto & { place: PhotoPlace } => Boolean(p.place));
 }
