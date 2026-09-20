@@ -14,6 +14,7 @@ import { Pause, Play, X, Music2 } from "lucide-react";
 import { chapterCues } from "@/data/cues";
 import { sentenceCues } from "@/data/sentenceCues";
 import { readPlace, writePlace } from "@/lib/bookmark";
+import { isAacSrc, pickChapterAudio } from "@/lib/chapterAudio";
 
 export type ChapterTrack = {
   kind: "chapter";
@@ -80,6 +81,11 @@ function sameTrack(a: AudioTrack | null, b: AudioTrack) {
   if (a.kind !== b.kind) return false;
   if (a.kind === "music") return true;
   return b.kind === "chapter" && a.slug === b.slug;
+}
+
+function trackSrc(track: AudioTrack): string {
+  if (track.kind === "music") return track.src;
+  return pickChapterAudio(track.slug, track.src);
 }
 
 function formatTime(seconds: number) {
@@ -190,7 +196,7 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
     setVolume(CHAPTER_VOLUME);
     pendingPlay.current = snap.ended || snap.wasPlaying;
     const el = audioRef.current;
-    if (el && assignedSrc.current === snap.track.src) {
+    if (el && assignedSrc.current === trackSrc(snap.track)) {
       el.volume = CHAPTER_VOLUME;
       el.loop = false;
       applyTime(el, t);
@@ -234,7 +240,7 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
     setVolume(next.kind === "music" ? MUSIC_VOLUME : CHAPTER_VOLUME);
     setEnded(false);
     const el = audioRef.current;
-    if (el && assignedSrc.current === next.src) {
+    if (el && assignedSrc.current === trackSrc(next)) {
       pendingPlay.current = false;
       el.volume = next.kind === "music" ? MUSIC_VOLUME : CHAPTER_VOLUME;
       el.loop = next.kind === "music";
@@ -325,8 +331,8 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
   useLayoutEffect(() => {
     const el = audioRef.current;
     if (!el || !track) return;
-    if (assignedSrc.current !== track.src) {
-      assignedSrc.current = track.src;
+    if (assignedSrc.current !== trackSrc(track)) {
+      assignedSrc.current = trackSrc(track);
       const restore = restorePos.current;
       restorePos.current = null;
       if (restore == null && track.kind === "chapter") {
@@ -354,7 +360,7 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
         intended.current = restore;
         holding.current = true;
       }
-      el.src = track.src;
+      el.src = trackSrc(track);
       el.loop = track.kind === "music";
     }
     if (pendingPlay.current) {
@@ -466,6 +472,21 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
         onPause={() => {
           setPlaying(false);
           if (hasPlayed.current) remember();
+        }}
+        onError={() => {
+          const current = trackRef.current;
+          const el = audioRef.current;
+          if (!el || !current || current.kind !== "chapter") return;
+          if (!isAacSrc(assignedSrc.current ?? "")) return;
+          assignedSrc.current = current.src;
+          el.src = current.src;
+          el.loop = false;
+          applyTime(el, intended.current);
+          if (pendingPlay.current || playingRef.current) {
+            pendingPlay.current = false;
+            holding.current = true;
+            void el.play().then(() => applyTime(el, intended.current)).catch(() => {});
+          }
         }}
         onTimeUpdate={(e) => {
           const el = e.currentTarget;
