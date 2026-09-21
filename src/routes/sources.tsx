@@ -112,6 +112,21 @@ function SourcesPage() {
               view, as the bomb bay saw it.
             </p>
           </li>
+          <li className="py-6">
+            <p className="font-sans text-[0.68rem] tracking-[0.22em] text-feather uppercase">
+              The collection
+            </p>
+            <Link
+              to="/archive"
+              className="mt-2 block font-display text-2xl text-paper hover:text-brass"
+            >
+              The footlocker
+            </Link>
+            <p className="mt-2 text-sm leading-relaxed text-muted">
+              The papers, the plates, and the seven counts. None of them agrees
+              with all of the others.
+            </p>
+          </li>
         </ul>
       </section>
 

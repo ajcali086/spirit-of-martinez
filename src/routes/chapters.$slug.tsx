@@ -7,6 +7,7 @@ import { PhotoPlate } from "@/components/PhotoPlate";
 import { PassageDoor } from "@/components/PassageDoor";
 import { useDoorDeconflict } from "@/components/useDoorDeconflict";
 import { CiteThis } from "@/components/CiteThis";
+import { ContinueTracker } from "@/components/ContinueTracker";
 import { SiteImage } from "@/components/SiteImage";
 import { useReadingFollow } from "@/components/ReadingFollow";
 import {
@@ -32,6 +33,7 @@ export const Route = createFileRoute("/chapters/$slug")({
         params: { slug: dest },
       });
     }
+    if (!chapterBySlug(params.slug)) throw notFound();
   },
   head: ({ params }) => {
     const chapter = chapterBySlug(params.slug);
@@ -102,6 +104,7 @@ function ChapterPage() {
 
   return (
     <SiteShell>
+      <ContinueTracker kind="chapter" slug={chapter.slug} />
       <article>
         <header className="relative overflow-hidden border-b border-rule">
           <SiteImage
@@ -195,7 +198,10 @@ function ChapterPage() {
         </nav>
 
         <div className="bg-paper">
-          <div className="prose-archive mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-16">
+          <div
+            data-continue-root="chapter"
+            className="prose-archive mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-16"
+          >
             <p className="mb-10 font-sans text-[0.72rem] leading-relaxed tracking-[0.14em] text-brass-dim uppercase">
               {chapter.dek}
             </p>

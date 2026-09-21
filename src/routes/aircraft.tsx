@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
 import { PhotoPlate } from "@/components/PhotoPlate";
@@ -52,6 +52,14 @@ function AircraftPage() {
           >
             44-6838 — Spirit of Martinez
           </a>
+          . The book tells the mornings she flew, and the ones she sat out, in{" "}
+          <Link
+            to="/chapters/$slug"
+            params={{ slug: "borrowed-aircraft" }}
+            className="text-brass underline-offset-4 hover:text-paper hover:underline"
+          >
+            Borrowed Aircraft
+          </Link>
           .
         </p>
 

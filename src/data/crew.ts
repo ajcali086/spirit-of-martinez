@@ -1,4 +1,4 @@
-import type { CrewMember, RecordLink } from "./types";
+import type { CrewMember, PhotoId, RecordLink } from "./types";
 
 export function bgdbPersonUrl(id: number) {
   return `https://95thbgdb.com/person/${id}`;
@@ -213,4 +213,42 @@ export function adjacentCrew(id: string) {
     index: i,
     total: crew.length,
   };
+}
+
+/** Plates that are this man's own papers, not a group sitting. */
+const CALICURA_PLATES = new Set<PhotoId>([
+  "idcard",
+  "instrument",
+  "merit",
+  "promotion",
+  "woodpecker",
+  "greenville",
+  "ring",
+  "ticket",
+  "letter",
+  "rating",
+  "medical",
+  "stuart",
+  "coat",
+  "go289",
+  "quals",
+  "will",
+  "jacket",
+  "nose",
+]);
+
+const CREW_PLATES = new Set<PhotoId>(["crew", "crew2", "stations", "naming"]);
+
+export function crewForPhoto(id: PhotoId): CrewMember[] {
+  const portraits = crew.filter((m) => m.photo === id);
+  if (portraits.length) return portraits;
+  if (CALICURA_PLATES.has(id)) {
+    const frank = crewById("calicura");
+    return frank ? [frank] : [];
+  }
+  return [];
+}
+
+export function isCrewPlate(id: PhotoId) {
+  return CREW_PLATES.has(id);
 }
