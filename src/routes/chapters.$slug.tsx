@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound, redirect, useRouterState } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Headphones, Play } from "lucide-react";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { useBookAudio, type ChapterTrack } from "@/components/layout/BookAudio";
 import { PhotoPlate } from "@/components/PhotoPlate";
@@ -54,12 +54,29 @@ export const Route = createFileRoute("/chapters/$slug")({
 
 function ChapterPage() {
   const { slug } = Route.useParams();
-  const { moments } = Route.useLoaderData();
+  const { moments: loaded } = Route.useLoaderData();
+  const [moments, setMoments] = useState(loaded);
   const hash = useRouterState({ select: (s) => s.location.hash });
   const { offer, play, playFrom, track, dockedChapter } = useBookAudio();
   const { activeId } = useReadingFollow(slug);
   const chapter = chapterBySlug(slug);
   useDoorDeconflict(slug);
+
+  useEffect(() => {
+    setMoments(loaded);
+  }, [loaded, slug]);
+
+  useEffect(() => {
+    if (moments?.cues.length) return;
+    if (!hasChapterMoments(slug)) return;
+    let cancelled = false;
+    void loadChapterMoments(slug).then((m) => {
+      if (!cancelled && m) setMoments(m);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [slug, moments]);
 
   useLayoutEffect(() => {
     const id = hash.replace(/^#/, "");

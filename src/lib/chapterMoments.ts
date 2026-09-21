@@ -36,10 +36,39 @@ export function hasChapterMoments(slug: string): boolean {
 
 const cache = new Map<string, ChapterMoments>();
 
+/** Vite, Node, and Nitro each wrap JSON imports differently. */
+export function asMoments(mod: unknown): ChapterMoments | null {
+  let cur: unknown = mod;
+  for (let i = 0; i < 3; i++) {
+    if (!cur || typeof cur !== "object") return null;
+    const rec = cur as {
+      default?: unknown;
+      audio?: unknown;
+      cues?: unknown;
+      silent?: unknown;
+      weak?: unknown;
+    };
+    if (Array.isArray(rec.cues)) {
+      return {
+        audio: typeof rec.audio === "string" ? rec.audio : "",
+        silent: Array.isArray(rec.silent) ? (rec.silent as string[]) : [],
+        weak: Array.isArray(rec.weak) ? (rec.weak as string[]) : [],
+        cues: rec.cues as ReadingCue[],
+      };
+    }
+    if (rec.default && typeof rec.default === "object") {
+      cur = rec.default;
+      continue;
+    }
+    return null;
+  }
+  return null;
+}
+
 /** Explicit import map so Vite can code-split one JSON chunk per chapter. */
 function importChapterMoments(
   slug: string,
-): Promise<{ default: ChapterMoments }> {
+): Promise<unknown> {
   switch (slug) {
     case "borrowed-aircraft":
       return import("@/generated/moments/cues/borrowed-aircraft.json");
@@ -82,8 +111,8 @@ export async function loadChapterMoments(
   if (!hasChapterMoments(slug)) return null;
   const hit = cache.get(slug);
   if (hit) return hit;
-  const mod = await importChapterMoments(slug);
-  const data = mod.default;
+  const data = asMoments(await importChapterMoments(slug));
+  if (!data) return null;
   cache.set(slug, data);
   return data;
 }
