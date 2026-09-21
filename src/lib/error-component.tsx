@@ -1,29 +1,26 @@
 import type { ErrorComponentProps } from "@tanstack/react-router";
-import { TriangleAlert } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { SiteShell } from "@/components/layout/SiteShell";
 
-const FALLBACK_MESSAGE = "An unexpected error occurred. Try reloading the page.";
-
-function errorMessage(error: unknown): string {
-  if (error instanceof Error && error.message) return error.message;
-  if (typeof error === "string" && error) return error;
-  return FALLBACK_MESSAGE;
-}
-
-export function AppErrorComponent({ error }: ErrorComponentProps) {
+export function AppErrorComponent({ error: _error }: ErrorComponentProps) {
   return (
-    <main
-      className={
-        "flex min-h-screen flex-col items-center justify-center gap-3 px-6 text-center " +
-        "bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50"
-      }
-    >
-      <span className="text-red-500" aria-hidden="true">
-        <TriangleAlert className="size-10" strokeWidth={2} />
-      </span>
-      <h1 className="text-lg font-semibold">Something went wrong</h1>
-      <p className="max-w-md text-sm break-words text-zinc-500 dark:text-zinc-400">
-        {errorMessage(error)}
-      </p>
-    </main>
+    <SiteShell>
+      <main className="mx-auto max-w-xl px-4 py-24 text-center">
+        <p className="kicker">The board went dark</p>
+        <h1 className="mt-4 font-display text-4xl text-paper">
+          Something went wrong
+        </h1>
+        <p className="mt-4 text-fog">
+          That page could not be shown. The rest of the collection is still
+          here.
+        </p>
+        <Link
+          to="/"
+          className="mt-8 inline-flex min-h-12 items-center bg-brass px-5 text-sm tracking-[0.14em] text-ink uppercase"
+        >
+          Return home
+        </Link>
+      </main>
+    </SiteShell>
   );
 }

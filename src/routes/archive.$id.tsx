@@ -1,13 +1,18 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { CiteThis } from "@/components/CiteThis";
+import { ContinueTracker } from "@/components/ContinueTracker";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PhotoPlate } from "@/components/PhotoPlate";
 import { chaptersForPhoto } from "@/data/chapters";
+import { crewForPhoto, isCrewPlate } from "@/data/crew";
 import { adjacentPhotos, citePhoto, isPhotoId, photos } from "@/data/photos";
 import { pageMeta, plateOgImage } from "@/lib/og/pageMeta";
 
 export const Route = createFileRoute("/archive/$id")({
+  beforeLoad: ({ params }) => {
+    if (!isPhotoId(params.id)) throw notFound();
+  },
   component: ArchiveObjectPage,
   head: ({ params }) => {
     const photo = isPhotoId(params.id) ? photos[params.id] : undefined;
@@ -41,9 +46,12 @@ function ArchiveObjectPage() {
   const kind = photo.kind === "photograph" ? "Photograph" : "Object";
   const cite = citePhoto(photo);
   const inBook = chaptersForPhoto(photo.id);
+  const onRoster = crewForPhoto(photo.id);
+  const wholeCrew = isCrewPlate(photo.id);
 
   return (
     <SiteShell>
+      <ContinueTracker kind="plate" slug={photo.id} />
       <article className="bg-paper text-ink">
         <header className="border-b border-paper-deep">
           <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
@@ -67,7 +75,10 @@ function ArchiveObjectPage() {
           </div>
         </header>
 
-        <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+        <div
+          data-continue-root="plate"
+          className="mx-auto max-w-3xl px-4 py-10 sm:px-6"
+        >
           <PhotoPlate id={photo.id} tone="paper" className="mt-0" />
 
           <section className="mt-12 border-t border-paper-deep pt-8">
@@ -97,6 +108,40 @@ function ArchiveObjectPage() {
                         Chapter {ch.number}
                       </span>
                       {ch.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {onRoster.length > 0 || wholeCrew ? (
+            <section className="mt-10 border-t border-paper-deep pt-8">
+              <h2 className="font-sans text-[0.68rem] tracking-[0.22em] text-feather uppercase">
+                On the roster
+              </h2>
+              <ul className="mt-3 space-y-2">
+                {wholeCrew ? (
+                  <li>
+                    <Link
+                      to="/crew"
+                      className="inline-flex min-h-11 items-baseline gap-2 font-display text-xl text-ink hover:text-brass-dim"
+                    >
+                      Nine strangers
+                    </Link>
+                  </li>
+                ) : null}
+                {onRoster.map((m) => (
+                  <li key={m.id}>
+                    <Link
+                      to="/crew/$id"
+                      params={{ id: m.id }}
+                      className="inline-flex min-h-11 items-baseline gap-2 font-display text-xl text-ink hover:text-brass-dim"
+                    >
+                      <span className="font-sans text-[0.68rem] tracking-[0.16em] text-feather uppercase">
+                        {m.role}
+                      </span>
+                      {m.name}
                     </Link>
                   </li>
                 ))}

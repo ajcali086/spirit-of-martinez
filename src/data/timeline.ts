@@ -34,6 +34,7 @@ export const timeline: TimelineEvent[] = [
     year: 1902,
     title: "Ellis Island",
     body: "Saverio Colacurcio carries the name he was born with through Ellis Island, the Pennsylvania coal towns, and across the country to a refinery on the Carquinez Strait.",
+    href: "/chapters/weight-of-small-machines",
     era: "before",
   },
   {
@@ -51,6 +52,7 @@ export const timeline: TimelineEvent[] = [
     year: 1921,
     title: "Frank James Calicura is born",
     body: "One of seventeen children in the house at 515 Mellus Street. The paper supports sixteen. The family keeps seventeen.",
+    href: "/chapters/weight-of-small-machines",
     era: "before",
   },
   {
