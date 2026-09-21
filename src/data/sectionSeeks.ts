@@ -1,6 +1,4 @@
-import { chapters } from "./chapters";
-import { chapterCues, collapseToParagraphs } from "./cues";
-import { sentenceCues } from "./sentenceCues";
+import { chapterCues, collapseToParagraphs, type ReadingCue } from "./cues";
 import type { Chapter, Section } from "./types";
 
 export type SectionSeek = {
@@ -9,10 +7,9 @@ export type SectionSeek = {
   start: number;
 };
 
-/** Same paragraph windows FOLLOW uses. */
-export function paragraphCuesFor(slug: string) {
-  const aligned = sentenceCues[slug];
-  if (aligned) return collapseToParagraphs(aligned);
+/** Same paragraph windows FOLLOW uses. Pass this chapter's cues — never all of them. */
+export function paragraphCuesFor(slug: string, aligned?: ReadingCue[]) {
+  if (aligned?.length) return collapseToParagraphs(aligned);
   return chapterCues[slug];
 }
 
@@ -40,9 +37,12 @@ function startForSection(
   return byId.get(pid)?.start;
 }
 
-export function sectionSeeksFor(chapter: Chapter): SectionSeek[] {
+export function sectionSeeksFor(
+  chapter: Chapter,
+  aligned?: ReadingCue[],
+): SectionSeek[] {
   if (!chapter.audio) return [];
-  const cues = paragraphCuesFor(chapter.slug);
+  const cues = paragraphCuesFor(chapter.slug, aligned);
   if (!cues?.length) return [];
   const byId = new Map(cues.map((c) => [c.id, c]));
   const out: SectionSeek[] = [];
@@ -54,7 +54,3 @@ export function sectionSeeksFor(chapter: Chapter): SectionSeek[] {
   }
   return out;
 }
-
-export const sectionSeeks: Record<string, SectionSeek[]> = Object.fromEntries(
-  chapters.map((ch) => [ch.slug, sectionSeeksFor(ch)]),
-);

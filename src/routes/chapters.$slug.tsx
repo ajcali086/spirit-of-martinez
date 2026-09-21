@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound, redirect, useRouterState } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Headphones, Play } from "lucide-react";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { useBookAudio, type ChapterTrack } from "@/components/layout/BookAudio";
 import { PhotoPlate } from "@/components/PhotoPlate";
@@ -18,8 +18,8 @@ import {
   retiredChapterSlugs,
 } from "@/data/chapters";
 import { chapterCues } from "@/data/cues";
-import { sentenceCues } from "@/data/sentenceCues";
-import { sectionSeeks, type SectionSeek } from "@/data/sectionSeeks";
+import { hasChapterMoments, loadChapterMoments } from "@/lib/chapterMoments";
+import { sectionSeeksFor, type SectionSeek } from "@/data/sectionSeeks";
 import type { Block, Chapter, PhotoId, Section } from "@/data/types";
 import { pageMeta, bannerOgImage } from "@/lib/og/pageMeta";
 import { readPlace, writePlace } from "@/lib/bookmark";
@@ -36,6 +36,9 @@ export const Route = createFileRoute("/chapters/$slug")({
     }
     if (!chapterBySlug(params.slug)) throw notFound();
   },
+  loader: async ({ params }) => ({
+    moments: await loadChapterMoments(params.slug),
+  }),
   head: ({ params }) => {
     const chapter = chapterBySlug(params.slug);
     if (!chapter) return {};
@@ -51,11 +54,29 @@ export const Route = createFileRoute("/chapters/$slug")({
 
 function ChapterPage() {
   const { slug } = Route.useParams();
+  const { moments: loaded } = Route.useLoaderData();
+  const [moments, setMoments] = useState(loaded);
   const hash = useRouterState({ select: (s) => s.location.hash });
   const { offer, play, playFrom, track, dockedChapter } = useBookAudio();
   const { activeId } = useReadingFollow(slug);
   const chapter = chapterBySlug(slug);
   useDoorDeconflict(slug);
+
+  useEffect(() => {
+    setMoments(loaded);
+  }, [loaded, slug]);
+
+  useEffect(() => {
+    if (moments?.cues.length) return;
+    if (!hasChapterMoments(slug)) return;
+    let cancelled = false;
+    void loadChapterMoments(slug).then((m) => {
+      if (!cancelled && m) setMoments(m);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [slug, moments]);
 
   useLayoutEffect(() => {
     const id = hash.replace(/^#/, "");
@@ -94,7 +115,9 @@ function ChapterPage() {
   }
   const { prev, next } = adjacentChapters(slug);
   const cite = citeChapter(chapter);
-  const seeks = chapter.audio ? sectionSeeks[chapter.slug] : undefined;
+  const seeks = chapter.audio
+    ? sectionSeeksFor(chapter, moments?.cues)
+    : undefined;
   let firstPara = true;
   const thisChapter =
     track?.kind === "chapter" && track.slug === chapter.slug;
@@ -234,7 +257,7 @@ function ChapterPage() {
                 A synthetic reading of this chapter is in the bar at the top. It
                 will keep playing while you move through the book. The text
                 below is the transcript.
-                {chapterCues[slug] || sentenceCues[slug]
+                {chapterCues[slug] || hasChapterMoments(slug)
                   ? " The voice’s place on the page is marked as it reads."
                   : ""}
               </p>

@@ -2,6 +2,7 @@ import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-r
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { BookAudioProvider } from "@/components/layout/BookAudio";
+import { SITE_DESCRIPTION } from "@/lib/og/pageMeta";
 import appCss from "../styles.css?url";
 
 const APP_NAME = "The Spirit of Martinez";
@@ -14,8 +15,7 @@ export const Route = createRootRoute({
       { title: APP_NAME },
       {
         name: "description",
-        content:
-          "What a Family Kept — the Calicura family of Martinez, California, and the B-17 Flying Fortress that carried their town’s name over Europe in 1945.",
+        content: SITE_DESCRIPTION,
       },
       { name: "theme-color", content: "#141210" },
     ],
