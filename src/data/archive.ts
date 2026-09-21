@@ -79,6 +79,11 @@ export const artifacts: {
     photoId: "idcard",
   },
   {
+    title: "CAA airman identification",
+    body: "Form ACA 935. Frank James Calicura, Martinez. 146¼ lbs. 5 ft. 9½ in. Certified as an airman. The Army card comes later.",
+    photoId: "airmanid",
+  },
+  {
     title: "The PILOT ring",
     body: "Dark oval stone, eagle and shield, a banner with one word. The paper from that April is all addressed to somebody. The ring is not addressed to anyone.",
     photoId: "ring",

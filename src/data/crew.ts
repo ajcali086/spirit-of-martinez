@@ -218,6 +218,10 @@ export function adjacentCrew(id: string) {
 /** Plates that are this man's own papers, not a group sitting. */
 const CALICURA_PLATES = new Set<PhotoId>([
   "idcard",
+  "airmanid",
+  "portrait",
+  "cadet",
+  "joyce1958",
   "instrument",
   "merit",
   "promotion",
@@ -242,6 +246,11 @@ const CREW_PLATES = new Set<PhotoId>(["crew", "crew2", "stations", "naming"]);
 export function crewForPhoto(id: PhotoId): CrewMember[] {
   const portraits = crew.filter((m) => m.photo === id);
   if (portraits.length) return portraits;
+  if (id === "london") {
+    return ["calicura", "barnes", "probst"]
+      .map((pid) => crewById(pid))
+      .filter((m): m is CrewMember => Boolean(m));
+  }
   if (CALICURA_PLATES.has(id)) {
     const frank = crewById("calicura");
     return frank ? [frank] : [];

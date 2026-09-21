@@ -15,7 +15,15 @@ describe("lostness", () => {
 
   it("identity card and crusher open onto Frank", () => {
     assert.equal(crewForPhoto("idcard")[0]?.id, "calicura");
+    assert.equal(crewForPhoto("airmanid")[0]?.id, "calicura");
     assert.equal(crewForPhoto("crusher")[0]?.id, "calicura");
+  });
+
+  it("the London pass names Frank, Barnes, and Probst", () => {
+    assert.deepEqual(
+      crewForPhoto("london").map((m) => m.id),
+      ["calicura", "barnes", "probst"],
+    );
   });
 
   it("Barnes’s plate opens onto Barnes", () => {
