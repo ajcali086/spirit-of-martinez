@@ -1,12 +1,30 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useBookAudio } from "@/components/layout/BookAudio";
-import { chapterCues, collapseToParagraphs, cueAt } from "@/data/cues";
-import { sentenceCues } from "@/data/sentenceCues";
+import {
+  chapterCues,
+  collapseToParagraphs,
+  cueAt,
+  type ReadingCue,
+} from "@/data/cues";
+import { loadChapterMoments } from "@/lib/chapterMoments";
 
 export function useReadingFollow(slug: string) {
   const { track, playing, ended, time, follow, setFollow } = useBookAudio();
   const paraCues = chapterCues[slug];
-  const aligned = sentenceCues[slug];
+  const [aligned, setAligned] = useState<ReadingCue[] | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    setAligned(null);
+    void loadChapterMoments(slug).then((moments) => {
+      if (cancelled) return;
+      setAligned(moments?.cues ?? null);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [slug]);
+
   const cues = useMemo(() => {
     if (aligned) return collapseToParagraphs(aligned);
     return paraCues;
