@@ -1,11 +1,10 @@
 import { Play } from "lucide-react";
 import { PhotoPlate } from "@/components/PhotoPlate";
 import { PassageDoor } from "@/components/PassageDoor";
-import { useBookAudio, type ChapterTrack } from "@/components/layout/BookAudio";
+import { type ChapterTrack } from "@/components/layout/BookAudio";
 import type { Block, Chapter, PhotoId, Section } from "@/data/types";
-import { sectionSeeks, type SectionSeek } from "@/data/sectionSeeks";
+import { type SectionSeek } from "@/data/sectionSeeks";
 import { cn } from "@/lib/utils";
-
 
 export function seekButton(
   chapter: Chapter,
