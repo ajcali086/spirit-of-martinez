@@ -140,10 +140,12 @@
   font-size: 1.2rem;
   line-height: 1.65;
   color: var(--color-ink-soft);
+  margin-top: 1.15rem;
 }
 
-.prose-archive p + p {
-  margin-top: 1.15rem;
+.prose-archive section > header + div p,
+.prose-archive section > div:first-child p {
+  margin-top: 0;
 }
 
 .prose-archive .drop-cap::first-letter {
@@ -163,6 +165,49 @@
   box-shadow: inset 3px 0 0 var(--color-brass);
   margin-left: -0.75rem;
   padding-left: 0.75rem;
+}
+
+.prose-archive h2 .seek {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: baseline;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.prose-archive h2 .seek:focus-visible {
+  outline: 2px solid var(--color-brass);
+  outline-offset: 4px;
+}
+
+.prose-archive h2 .seek-glyph {
+  display: inline-block;
+  width: 0.85rem;
+  height: 0.85rem;
+  flex-shrink: 0;
+  align-self: center;
+  color: var(--color-feather);
+  opacity: 0;
+  transform: translateY(0.08em);
+  transition: opacity 150ms ease;
+}
+
+.prose-archive h2 .seek:hover .seek-glyph,
+.prose-archive h2 .seek:focus-visible .seek-glyph {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .prose-archive h2 .seek-glyph {
+    opacity: 0.5;
+  }
 }
 
 .kicker.is-reading,

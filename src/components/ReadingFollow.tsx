@@ -13,7 +13,8 @@ export function useReadingFollow(slug: string) {
   }, [aligned, paraCues]);
   const onThisChapter =
     Boolean(cues) && track?.kind === "chapter" && track.slug === slug && !ended;
-  const activeId = onThisChapter ? (cueAt(cues ?? [], time)?.id ?? null) : null;
+  const activeId =
+    onThisChapter && playing ? (cueAt(cues ?? [], time)?.id ?? null) : null;
   const ignoreUntil = useRef(0);
 
   useEffect(() => {
