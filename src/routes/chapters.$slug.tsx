@@ -428,6 +428,12 @@ function seekButton(
   );
 }
 
+const FIGURE_MISSION: Partial<Record<PhotoId, number>> = {
+  nuremberg4: 4,
+  nuremberg5: 5,
+  stripes: 6,
+};
+
 function renderBlock(
   block: Block,
   dropCap: boolean,
@@ -465,7 +471,14 @@ function renderBlock(
     );
   }
   if (block.type === "figure") {
-    return <PhotoPlate id={block.id} caption={block.caption} tone="paper" />;
+    const plate = <PhotoPlate id={block.id} caption={block.caption} tone="paper" />;
+    const mission = FIGURE_MISSION[block.id];
+    if (!mission) return plate;
+    return (
+      <div id={`m-${mission}`} className="scroll-mt-28">
+        {plate}
+      </div>
+    );
   }
   const reading = Boolean(cueId && activeId === cueId);
   const missionNo = block.id?.match(/^m-(\d+)$/)?.[1];
@@ -480,21 +493,21 @@ function renderBlock(
         reading && "is-reading",
       )}
     >
-      {missionNo ? (
-        <>
-          <span className="mr-3 font-display text-[1.05rem] text-feather tabular-nums">
-            {missionNo.padStart(2, "0")}
-          </span>{" "}
-        </>
-      ) : null}
       {block.text}
     </p>
   );
-  if (!plates?.length) return paragraph;
+  if (!missionNo && !plates?.length) return paragraph;
   return (
     <div className="group relative">
+      {missionNo ? (
+        <p className="mission-kicker">
+          <Link to="/missions" hash={`m-${missionNo}`}>
+            Mission {missionNo.padStart(2, "0")}
+          </Link>
+        </p>
+      ) : null}
       {paragraph}
-      {plates.map((id) => (
+      {plates?.map((id) => (
         <PassageDoor key={id} id={id} open={reading} />
       ))}
     </div>

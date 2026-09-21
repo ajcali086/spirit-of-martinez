@@ -148,6 +148,31 @@
   margin-top: 0;
 }
 
+.prose-archive .mission-kicker {
+  margin-top: 1.35rem;
+  margin-bottom: 0;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  line-height: 1.2;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-feather);
+}
+
+.prose-archive .mission-kicker + p {
+  margin-top: 0.4rem;
+}
+
+.prose-archive .mission-kicker a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.prose-archive .mission-kicker a:hover,
+.prose-archive .mission-kicker a:focus-visible {
+  color: var(--color-brass);
+}
+
 .prose-archive .drop-cap::first-letter {
   float: left;
   font-family: var(--font-display);
