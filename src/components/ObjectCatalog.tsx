@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { photoList } from "@/data/photos";
 import type { PhotoKind } from "@/data/photos";
 import { cn } from "@/lib/utils";
+import { SIZES, webpSrcSet } from "@/lib/srcset";
 
 function thumbBox(width: number, height: number) {
   const r = width / height;
@@ -29,6 +30,7 @@ type Filter = "all" | PhotoKind;
 export function ObjectCatalog() {
   const [filter, setFilter] = useState<Filter>("all");
   const [query, setQuery] = useState("");
+  const [open, setOpen] = useState(false);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -43,6 +45,9 @@ export function ObjectCatalog() {
       );
     });
   }, [filter, query]);
+
+  const phonePage = 24;
+  const clipped = !open && !query.trim() && results.length > phonePage;
 
   return (
     <div>
@@ -92,8 +97,11 @@ export function ObjectCatalog() {
         </p>
       ) : (
         <ul className="mt-10 grid items-start gap-px border border-paper-deep bg-paper-deep sm:grid-cols-2 lg:grid-cols-3">
-          {results.map((p) => (
-            <li key={p.id} className="bg-paper">
+          {results.map((p, i) => (
+            <li
+              key={p.id}
+              className={cn("bg-paper", clipped && i >= phonePage && "max-sm:hidden")}
+            >
               <Link
                 to="/archive/$id"
                 params={{ id: p.id }}
@@ -106,7 +114,11 @@ export function ObjectCatalog() {
                   )}
                 >
                   <picture>
-                    <source srcSet={`${p.src}.webp`} type="image/webp" />
+                    <source
+                      srcSet={webpSrcSet(p.src) ?? `${p.src}.webp`}
+                      type="image/webp"
+                      sizes={SIZES.catalog}
+                    />
                     <img
                       src={`${p.src}.jpg`}
                       alt={p.alt}
@@ -114,6 +126,7 @@ export function ObjectCatalog() {
                       height={p.height}
                       loading="lazy"
                       decoding="async"
+                      sizes={SIZES.catalog}
                       className={cn(
                         "size-full outline-none transition-opacity group-hover:opacity-90",
                         thumbFit(p.width, p.height, p.kind),
@@ -138,8 +151,17 @@ export function ObjectCatalog() {
           ))}
         </ul>
       )}
+      {clipped ? (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="mt-6 flex min-h-11 w-full items-center justify-center border border-paper-deep text-[0.72rem] tracking-[0.16em] text-ink uppercase hover:border-ink sm:hidden"
+        >
+          Show the rest · {results.length - phonePage} more
+        </button>
+      ) : null}
       <p className="mt-4 text-[0.68rem] tracking-[0.14em] text-muted uppercase">
-        {results.length} of {photoList.length}
+        {clipped ? `${phonePage} of ${results.length} on this screen` : `${results.length} of ${photoList.length}`}
       </p>
     </div>
   );

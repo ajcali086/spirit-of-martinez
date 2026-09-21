@@ -38,7 +38,7 @@ export function PageHero({
         className={cn(
           "absolute inset-0",
           image
-            ? "bg-linear-to-t from-ink via-ink/78 to-ink/35"
+            ? "bg-linear-to-t from-ink via-ink/88 to-ink/55"
             : "bg-ink-soft",
         )}
       />
@@ -46,6 +46,7 @@ export function PageHero({
         className={cn(
           "relative mx-auto max-w-4xl px-4 sm:px-6",
           compact ? "py-10 sm:py-12" : "py-16 sm:py-20",
+          image && "[text-shadow:0_1px_18px_rgb(20_18_16_/_0.92)]",
         )}
       >
         <p className="kicker stagger-in">{kicker}</p>

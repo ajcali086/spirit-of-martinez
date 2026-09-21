@@ -12,6 +12,7 @@ import { timelineEras } from "@/data/timeline";
 import { cn } from "@/lib/utils";
 import { coverPageMeta } from "@/lib/og/cover";
 import { SiteImage } from "@/components/SiteImage";
+import { SIZES } from "@/lib/srcset";
 
 export const Route = createFileRoute("/")({
   head: () => coverPageMeta("/"),
@@ -33,8 +34,8 @@ function Home() {
           decoding="async"
           className="absolute inset-0 size-full bg-ink-mid object-cover"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/70 to-ink/25" />
-        <div className="relative mx-auto w-full max-w-6xl px-4 pb-28 pt-12 sm:px-6 sm:pb-24">
+        <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/82 to-ink/50" />
+        <div className="relative mx-auto w-full max-w-6xl px-4 pb-28 pt-12 [text-shadow:0_1px_18px_rgb(20_18_16_/_0.92)] sm:px-6 sm:pb-24">
           <p className="kicker stagger-in">Martinez, California · 1938–1959</p>
           <h1 className="stagger-in mt-4 max-w-4xl font-display text-4xl leading-[0.95] font-semibold text-paper sm:text-6xl lg:text-7xl">
             The Spirit of Martinez
@@ -253,6 +254,7 @@ function Home() {
                   <SiteImage
                     src={ch.image}
                     alt={ch.imageAlt}
+                    sizes={SIZES.chapterCard}
                     className={cn(
                       "size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]",
                       ch.imagePosition === "top" && "object-top",

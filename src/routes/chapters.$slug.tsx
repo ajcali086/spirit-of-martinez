@@ -445,6 +445,7 @@ function renderBlock(
     return <PhotoPlate id={block.id} caption={block.caption} tone="paper" />;
   }
   const reading = Boolean(cueId && activeId === cueId);
+  const missionNo = block.id?.match(/^m-(\d+)$/)?.[1];
   const paragraph = (
     <p
       id={block.id}
@@ -456,6 +457,13 @@ function renderBlock(
         reading && "is-reading",
       )}
     >
+      {missionNo ? (
+        <>
+          <span className="mr-3 font-display text-[1.05rem] text-feather tabular-nums">
+            {missionNo.padStart(2, "0")}
+          </span>{" "}
+        </>
+      ) : null}
       {block.text}
     </p>
   );

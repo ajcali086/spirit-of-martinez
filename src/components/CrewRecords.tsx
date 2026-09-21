@@ -15,7 +15,7 @@ function RecordAnchor({
 }) {
   const className = compact
     ? "inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
-    : "flex min-h-11 flex-col justify-center py-4 text-brass hover:text-paper";
+    : "flex min-h-11 flex-col justify-center py-3 text-brass hover:text-paper";
   const body = compact ? (
     record.label
   ) : (

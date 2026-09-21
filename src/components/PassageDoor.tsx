@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { photos, plateNumber } from "@/data/photos";
 import type { PhotoId } from "@/data/types";
 import { cn } from "@/lib/utils";
+import { webpSrcSet } from "@/lib/srcset";
 
 export function PassageDoor({
   id,
@@ -42,6 +43,8 @@ export function PassageDoor({
           height={Math.max(1, Math.round((96 * photo.height) / photo.width))}
           loading="lazy"
           decoding="async"
+          srcSet={webpSrcSet(photo.src)}
+          sizes="96px"
           className="block w-full"
         />
       </span>
