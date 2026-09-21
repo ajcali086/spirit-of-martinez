@@ -12,7 +12,7 @@ import {
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Pause, Play, X, Music2 } from "lucide-react";
 import { chapterCues } from "@/data/cues";
-import { sentenceCues } from "@/data/sentenceCues";
+import { hasChapterMoments } from "@/lib/chapterMoments";
 import { readPlace, writePlace } from "@/lib/bookmark";
 import { isAacSrc, pickChapterAudio } from "@/lib/chapterAudio";
 
@@ -764,7 +764,7 @@ function PlayerBar({
             {formatTime(elapsed)}
             {duration ? ` / ${formatTime(duration)}` : ""}
           </p>
-          {!music && (sentenceCues[track.slug] || chapterCues[track.slug]) ? (
+          {!music && (hasChapterMoments(track.slug) || chapterCues[track.slug]) ? (
             <button
               type="button"
               onClick={() => onFollow(!follow)}
