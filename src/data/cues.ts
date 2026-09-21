@@ -163,6 +163,23 @@ export function collapseToParagraphs(cues: ReadingCue[]): ReadingCue[] {
   return out;
 }
 
+/**
+ * FOLLOW windows: drop paragraphs the reading skips, keep them on the page
+ * for readers, and close tiny gaps so the highlight does not go blank.
+ */
+export function followCues(
+  cues: ReadingCue[],
+  silent: string[] = [],
+): ReadingCue[] {
+  const skip = new Set(silent);
+  const out = collapseToParagraphs(cues).filter((c) => !skip.has(c.id));
+  for (let i = 0; i < out.length - 1; i++) {
+    const gap = out[i + 1].start - out[i].end;
+    if (gap > 0 && gap < 2) out[i].end = out[i + 1].start;
+  }
+  return out;
+}
+
 const ABBREV = new Set([
   "mr",
   "mrs",

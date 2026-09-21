@@ -480,21 +480,21 @@ function renderBlock(
         reading && "is-reading",
       )}
     >
-      {missionNo ? (
-        <>
-          <span className="mr-3 font-display text-[1.05rem] text-feather tabular-nums">
-            {missionNo.padStart(2, "0")}
-          </span>{" "}
-        </>
-      ) : null}
       {block.text}
     </p>
   );
-  if (!plates?.length) return paragraph;
+  if (!missionNo && !plates?.length) return paragraph;
   return (
     <div className="group relative">
+      {missionNo ? (
+        <p className="mission-kicker">
+          <Link to="/missions" hash={`m-${missionNo}`}>
+            Mission {missionNo.padStart(2, "0")}
+          </Link>
+        </p>
+      ) : null}
       {paragraph}
-      {plates.map((id) => (
+      {plates?.map((id) => (
         <PassageDoor key={id} id={id} open={reading} />
       ))}
     </div>
