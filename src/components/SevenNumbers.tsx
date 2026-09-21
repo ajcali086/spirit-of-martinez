@@ -57,7 +57,7 @@ export function SevenNumbers() {
       </p>
 
       <div
-        className="mt-8 grid grid-cols-2 gap-px bg-rule sm:grid-cols-4 lg:grid-cols-7"
+        className="mt-8 flex flex-wrap gap-px bg-rule"
         role="group"
         aria-label="Seven counts"
       >
@@ -71,8 +71,10 @@ export function SevenNumbers() {
               aria-label={`${c.figure}, ${c.label}`}
               onClick={() => setActive(c.figure)}
               className={cn(
-                "flex min-h-28 flex-col px-4 py-5 text-left transition-colors",
-                pressed ? "bg-ink-mid ring-1 ring-inset ring-brass" : "bg-ink-soft hover:bg-ink",
+                "flex min-h-[5.25rem] min-w-[calc(50%-1px)] flex-1 flex-col px-3 py-4 text-left sm:min-h-24 sm:min-w-[calc(25%-1px)] sm:px-4 lg:min-w-[calc(14%-1px)]",
+                pressed
+                  ? "bg-ink-mid ring-1 ring-inset ring-brass"
+                  : "bg-ink-soft hover:bg-ink",
               )}
             >
               <span className="font-display text-4xl leading-none text-brass">{c.figure}</span>
@@ -87,87 +89,102 @@ export function SevenNumbers() {
         <p className="mt-3 text-[0.72rem] tracking-[0.12em] text-muted uppercase">{tally}</p>
       </div>
 
-      <div className="mt-8 flex flex-wrap gap-2">
-        <button
-          type="button"
-          aria-pressed={!showAll}
-          onClick={() => setShowAll(false)}
-          className={cn(
-            "min-h-11 px-4 text-[0.72rem] tracking-[0.16em] uppercase transition-colors",
-            !showAll ? "bg-brass text-ink" : "border border-rule text-fog hover:text-paper",
-          )}
-        >
-          Fourteen
-        </button>
-        <button
-          type="button"
-          aria-pressed={showAll}
-          onClick={() => setShowAll(true)}
-          className={cn(
-            "min-h-11 px-4 text-[0.72rem] tracking-[0.16em] uppercase transition-colors",
-            showAll ? "bg-brass text-ink" : "border border-rule text-fog hover:text-paper",
-          )}
-        >
-          See all
-        </button>
-      </div>
-
-      <ol className="mt-4 border-y border-rule">
-        {list.map((m) => {
-          const on = pred ? pred(m) : false;
-          return (
-            <li
-              key={`${m.number}-${m.date}`}
+      {pred ? (
+        <>
+          <div className="mt-8 flex flex-wrap gap-2">
+            <button
+              type="button"
+              aria-pressed={!showAll}
+              onClick={() => setShowAll(false)}
               className={cn(
-                "grid grid-cols-[3rem_1fr] gap-x-3 gap-y-0.5 border-b border-rule px-2 py-3 last:border-b-0 sm:grid-cols-[3rem_9rem_1fr_12rem] sm:items-baseline sm:px-3",
-                on ? "bg-brass/10" : "opacity-30",
+                "min-h-11 px-4 text-[0.72rem] tracking-[0.16em] uppercase transition-colors",
+                !showAll ? "bg-brass text-ink" : "border border-rule text-fog hover:text-paper",
               )}
             >
-              <span className={cn("font-display text-xl", on ? "text-brass" : "text-muted")}>
-                {String(m.number).padStart(2, "0")}
-              </span>
-              <span className="text-[0.72rem] text-muted max-sm:col-start-2">{m.dateLabel}</span>
-              <span className="font-display text-lg text-paper max-sm:col-span-2 max-sm:col-start-2">
-                <Link
-                  to="/missions"
-                  hash={`m-${m.number}`}
-                  className="hover:text-brass"
+              Fourteen
+            </button>
+            <button
+              type="button"
+              aria-pressed={showAll}
+              onClick={() => setShowAll(true)}
+              className={cn(
+                "min-h-11 px-4 text-[0.72rem] tracking-[0.16em] uppercase transition-colors",
+                showAll ? "bg-brass text-ink" : "border border-rule text-fog hover:text-paper",
+              )}
+            >
+              See all
+            </button>
+          </div>
+
+          <ol className="mt-4 border-y border-rule">
+            {list.map((m) => {
+              const on = pred(m);
+              return (
+                <li
+                  key={`${m.number}-${m.date}`}
+                  className={cn(
+                    "grid grid-cols-[2.25rem_minmax(0,1fr)] gap-x-3 border-b border-rule py-2 last:border-b-0",
+                    on ? "bg-brass/10" : "opacity-40",
+                  )}
                 >
-                  {m.target}
-                </Link>
-                {m.kind === "humanitarian" ? (
-                  <span className="ml-2 align-middle text-[0.62rem] tracking-[0.14em] text-brass uppercase">
-                    Food drop
+                  <span
+                    className={cn(
+                      "pt-0.5 font-display text-lg leading-none tabular-nums",
+                      on ? "text-brass" : "text-muted",
+                    )}
+                  >
+                    {String(m.number).padStart(2, "0")}
                   </span>
-                ) : null}
-                {borrowed(m) ? (
-                  <span className="ml-2 align-middle text-[0.62rem] tracking-[0.14em] text-feather uppercase">
-                    Borrowed ship
+                  <span className="min-w-0">
+                    <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0">
+                      <Link
+                        to="/missions"
+                        hash={`m-${m.number}`}
+                        className="font-display text-[1.05rem] leading-snug text-paper hover:text-brass"
+                      >
+                        {m.target}
+                      </Link>
+                      {m.kind === "humanitarian" ? (
+                        <span className="text-[0.62rem] tracking-[0.14em] text-brass uppercase">
+                          Food drop
+                        </span>
+                      ) : null}
+                      {borrowed(m) ? (
+                        <span className="text-[0.62rem] tracking-[0.14em] text-feather uppercase">
+                          Borrowed
+                        </span>
+                      ) : null}
+                    </span>
+                    <span className="mt-0.5 flex min-w-0 flex-wrap items-baseline gap-x-2 text-[0.7rem] leading-snug text-muted">
+                      <time dateTime={m.date}>{m.dateLabel}</time>
+                      <span aria-hidden>·</span>
+                      <span className="min-w-0">{m.aircraft}</span>
+                    </span>
                   </span>
-                ) : null}
-              </span>
-              <span className="text-xs leading-snug text-muted max-sm:col-span-2 max-sm:col-start-2 sm:text-right">
-                {m.aircraft}
-              </span>
-            </li>
-          );
-        })}
-        {active === "30" && showAll ? (
-          <li className="grid grid-cols-[3rem_1fr] gap-x-3 border-t border-feather/40 bg-[repeating-linear-gradient(45deg,transparent,transparent_7px,rgba(142,58,50,0.12)_7px,rgba(142,58,50,0.12)_14px)] px-2 py-3 sm:grid-cols-[3rem_9rem_1fr_12rem] sm:items-baseline sm:px-3">
-            <span className="font-display text-xl text-feather">30</span>
-            <span className="text-[0.72rem] text-muted max-sm:col-start-2">—</span>
-            <span className="font-display text-lg text-feather max-sm:col-span-2 max-sm:col-start-2">
-              The thirtieth symbol
-              <span className="ml-2 align-middle text-[0.62rem] tracking-[0.14em] uppercase">
-                Unaccounted
-              </span>
-            </span>
-            <span className="text-xs leading-snug text-muted max-sm:col-span-2 max-sm:col-start-2 sm:text-right">
-              No mission in the crew record corresponds to it.
-            </span>
-          </li>
-        ) : null}
-      </ol>
+                </li>
+              );
+            })}
+            {active === "30" && showAll ? (
+              <li className="grid grid-cols-[2.25rem_minmax(0,1fr)] gap-x-3 border-t border-feather/40 bg-[repeating-linear-gradient(45deg,transparent,transparent_7px,rgba(142,58,50,0.12)_7px,rgba(142,58,50,0.12)_14px)] py-2">
+                <span className="pt-0.5 font-display text-lg leading-none text-feather">
+                  30
+                </span>
+                <span className="min-w-0">
+                  <span className="font-display text-[1.05rem] leading-snug text-feather">
+                    The thirtieth symbol
+                    <span className="ml-2 align-middle text-[0.62rem] tracking-[0.14em] uppercase">
+                      Unaccounted
+                    </span>
+                  </span>
+                  <span className="mt-0.5 block text-[0.7rem] leading-snug text-muted">
+                    No mission in the crew record corresponds to it.
+                  </span>
+                </span>
+              </li>
+            ) : null}
+          </ol>
+        </>
+      ) : null}
 
       <Link
         to="/missions"

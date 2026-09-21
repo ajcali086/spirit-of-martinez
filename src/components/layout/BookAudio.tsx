@@ -452,20 +452,21 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
   }, [remember]);
 
   useEffect(() => {
+    const showMusicDock = musicDocked && track?.kind !== "music";
+    const showChapterDock = Boolean(chapterResume) && track?.kind !== "chapter";
     document.documentElement.style.setProperty(
       "--player-h",
       track ? "3rem" : "0px",
     );
-    const showMusicDock = musicDocked && track?.kind !== "music";
     document.documentElement.style.setProperty(
       "--dock-h",
-      showMusicDock ? "3.5rem" : "0px",
+      showMusicDock || showChapterDock ? "4.25rem" : "0px",
     );
     return () => {
       document.documentElement.style.setProperty("--player-h", "0px");
       document.documentElement.style.setProperty("--dock-h", "0px");
     };
-  }, [track, musicDocked]);
+  }, [track, musicDocked, chapterResume]);
 
   useEffect(() => {
     if (!musicDocked || track?.kind === "music" || !focusMusicDock.current) return;

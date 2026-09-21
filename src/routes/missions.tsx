@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { coverPageMeta } from "@/lib/og/cover";
 import { GraphicAccent } from "@/components/GraphicAccent";
 import { MissionMap } from "@/components/MissionMap";
+import { SIZES, webpSrcSet } from "@/lib/srcset";
 
 export const Route = createFileRoute("/missions")({
   head: () => coverPageMeta("/missions"),
@@ -51,11 +52,17 @@ function MissionsPage() {
         <picture>
           <source
             srcSet={
-              filter === "humanitarian"
+              webpSrcSet(
+                filter === "humanitarian"
+                  ? "/images/chowhound-banner.jpg"
+                  : "/images/missions-banner.jpg",
+              ) ??
+              (filter === "humanitarian"
                 ? "/images/chowhound-banner.webp"
-                : "/images/missions-banner.webp"
+                : "/images/missions-banner.webp")
             }
             type="image/webp"
+            sizes={SIZES.banner}
           />
           <img
             src={
@@ -71,7 +78,9 @@ function MissionsPage() {
             width={1500}
             height={599}
             fetchPriority="high"
+            loading="eager"
             decoding="async"
+            sizes={SIZES.banner}
             className="h-72 w-full bg-ink-mid object-cover object-center sm:h-auto sm:object-contain"
           />
         </picture>

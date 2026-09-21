@@ -62,6 +62,32 @@ describe("pageMeta", () => {
     assert.equal(props["og:type"], "article");
   });
 
+  it("gives each index its own title and description", () => {
+    const crew = sitePageMeta("/crew");
+    const titles = Object.fromEntries(
+      ["/chapters", "/timeline", "/missions", "/crew", "/aircraft", "/archive", "/sources"].map(
+        (path) => {
+          const head = sitePageMeta(path);
+          const title = head.meta.find((m) => "title" in m && !("name" in m) && !("property" in m));
+          return [path, title && "title" in title ? title.title : ""];
+        },
+      ),
+    );
+    const unique = new Set(Object.values(titles));
+    assert.equal(unique.size, 7);
+    const crewDesc = crew.meta.find(
+      (m) => "name" in m && m.name === "description",
+    );
+    assert.match(
+      crewDesc && "content" in crewDesc ? crewDesc.content : "",
+      /Tampa order of 30 August 1944/,
+    );
+    assert.match(
+      crewDesc && "content" in crewDesc ? crewDesc.content : "",
+      /Avon Park on 6 November/,
+    );
+  });
+
   it("stamps home as website with the family line", () => {
     const head = sitePageMeta("/");
     const props = Object.fromEntries(

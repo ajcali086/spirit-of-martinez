@@ -3,6 +3,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { photos, type ArchivePhoto } from "@/data/photos";
 import type { PhotoId } from "@/data/types";
 import { cn } from "@/lib/utils";
+import { webpSrcSet } from "@/lib/srcset";
 
 export function PhotoPlate({
   id,
@@ -36,13 +37,27 @@ export function PhotoPlate({
             ? "mx-auto w-full max-w-lg"
             : undefined;
 
+  const sizes = onCard
+    ? "(min-width: 768px) 48rem, 100vw"
+    : photo.maxWidth === "sm"
+      ? "(min-width: 640px) 24rem, 100vw"
+      : photo.maxWidth === "xl"
+        ? "(min-width: 1024px) 56rem, 100vw"
+        : widthClass
+          ? "(min-width: 640px) 32rem, 100vw"
+          : "(min-width: 1024px) 56rem, 100vw";
+  const srcSet = webpSrcSet(photo.src);
   const image = (
     <div
       className="overflow-hidden bg-ink-mid"
       style={{ aspectRatio: `${photo.width} / ${photo.height}` }}
     >
       <picture>
-        <source srcSet={`${photo.src}.webp`} type="image/webp" />
+        <source
+          srcSet={srcSet ?? `${photo.src}.webp`}
+          type="image/webp"
+          sizes={srcSet ? sizes : undefined}
+        />
         <img
           src={`${photo.src}.jpg`}
           alt={photo.alt}
@@ -51,17 +66,7 @@ export function PhotoPlate({
           loading={priority ? "eager" : "lazy"}
           fetchPriority={priority ? "high" : undefined}
           decoding="async"
-          sizes={
-            onCard
-              ? "(min-width: 768px) 48rem, 100vw"
-              : photo.maxWidth === "sm"
-                ? "(min-width: 640px) 24rem, 100vw"
-                : photo.maxWidth === "xl"
-                  ? "(min-width: 1024px) 56rem, 100vw"
-                  : widthClass
-                    ? "(min-width: 640px) 32rem, 100vw"
-                    : "(min-width: 1024px) 56rem, 100vw"
-          }
+          sizes={sizes}
           className="size-full object-contain"
         />
       </picture>

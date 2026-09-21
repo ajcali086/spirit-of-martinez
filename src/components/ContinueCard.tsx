@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { SiteImage } from "@/components/SiteImage";
+import { SIZES } from "@/lib/srcset";
 import { readPlace } from "@/lib/bookmark";
 import {
   dismissContinue,
@@ -57,6 +58,7 @@ export function ContinueCard() {
           width={96}
           height={96}
           loading="lazy"
+          sizes={SIZES.continueThumb}
           className="size-24 shrink-0 bg-ink-mid object-cover"
         />
         <div className="min-w-0 flex-1 pr-10">
