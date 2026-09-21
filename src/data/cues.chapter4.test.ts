@@ -1,17 +1,36 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { describe, it } from "node:test";
+import { fileURLToPath } from "node:url";
 import { chapters } from "./chapters.ts";
 import { chapterCues, collapseToParagraphs, cueAt } from "./cues.ts";
-import { sentenceCues } from "./sentenceCues.ts";
 import { paragraphCuesFor, sectionSeeks } from "./sectionSeeks.ts";
 
 const SLUG = "nine-hundred-miles-south";
 const SKIPPED = new Set(["4.2-p3", "4.6-p5", "4.6-p11"]);
 
+const here = path.dirname(fileURLToPath(import.meta.url));
+const cuesPath = path.join(
+  here,
+  "..",
+  "generated",
+  "moments",
+  "cues",
+  `${SLUG}.json`,
+);
+
+function loadAligned() {
+  const raw = JSON.parse(readFileSync(cuesPath, "utf8")) as {
+    cues: { id: string; start: number; end: number }[];
+  };
+  return raw.cues;
+}
+
 describe("chapter 4 timing", () => {
   it("does not flash the three paragraphs the reading skips", () => {
-    const aligned = sentenceCues[SLUG];
-    assert.ok(aligned);
+    const aligned = loadAligned();
+    assert.ok(aligned.length > 0);
     for (const cue of aligned) {
       const para = cue.id.match(/^(.*-p\d+)/)?.[1];
       assert.equal(SKIPPED.has(para ?? ""), false, cue.id);
@@ -28,7 +47,7 @@ describe("chapter 4 timing", () => {
   it("keeps spoken paragraphs at a steady reading rate", () => {
     const chapter = chapters.find((c) => c.slug === SLUG)!;
     const windows = new Map(
-      collapseToParagraphs(sentenceCues[SLUG])
+      collapseToParagraphs(loadAligned())
         .filter((c) => /p\d+$/.test(c.id))
         .map((c) => [c.id, c]),
     );

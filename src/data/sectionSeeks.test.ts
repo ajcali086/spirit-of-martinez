@@ -1,14 +1,28 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { describe, it } from "node:test";
+import { fileURLToPath } from "node:url";
 import { chapters } from "./chapters.ts";
 import { collapseToParagraphs } from "./cues.ts";
-import { sentenceCues } from "./sentenceCues.ts";
 import {
   firstParagraphCueId,
   paragraphCuesFor,
   sectionSeeks,
   sectionSeeksFor,
 } from "./sectionSeeks.ts";
+
+const here = path.dirname(fileURLToPath(import.meta.url));
+
+function loadCues(slug: string) {
+  const raw = JSON.parse(
+    readFileSync(
+      path.join(here, "..", "generated", "moments", "cues", `${slug}.json`),
+      "utf8",
+    ),
+  ) as { cues: { id: string; start: number; end: number }[] };
+  return raw.cues;
+}
 
 describe("section seeks", () => {
   it("starts 11.3 on the spoken title, then the paragraph follows", () => {
@@ -27,7 +41,7 @@ describe("section seeks", () => {
     assert.equal(seek!.start, 190.96);
     assert.ok(seek!.start < para!.start);
     assert.equal(firstParagraphCueId(section!), "11.3-p0");
-    const spoken = collapseToParagraphs(sentenceCues["borrowed-aircraft"]).find(
+    const spoken = collapseToParagraphs(loadCues("borrowed-aircraft")).find(
       (c) => c.id === "sec-11.3-title",
     );
     assert.equal(spoken?.start, seek!.start);
