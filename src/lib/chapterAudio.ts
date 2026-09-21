@@ -1,10 +1,10 @@
-/** Chapters with a duration-checked AAC-LC file next to the MP3. */
-export const AAC_CHAPTERS = new Set(["weight-of-small-machines"]);
-
+/** AAC-LC companions live next to every chapter MP3. Music (Skywatch) stays MP3. */
 export const AAC_TYPE = 'audio/mp4; codecs="mp4a.40.2"';
 
+export const AAC_QUERY = "v=3";
+
 export function aacSrc(slug: string): string {
-  return `/audio/${slug}.m4a?v=1`;
+  return `/audio/${slug}.m4a?${AAC_QUERY}`;
 }
 
 function browserCanPlayType(type: string): string {
@@ -21,7 +21,7 @@ export function pickChapterAudio(
   fallback: string,
   canPlayType: (type: string) => string = browserCanPlayType,
 ): string {
-  if (AAC_CHAPTERS.has(slug) && canPlayType(AAC_TYPE)) {
+  if (canPlayType(AAC_TYPE)) {
     return aacSrc(slug);
   }
   return fallback;
