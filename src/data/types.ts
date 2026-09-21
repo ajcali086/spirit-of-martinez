@@ -91,7 +91,11 @@ export type PhotoId =
   | "preflight"
   | "dogtags"
   | "flyingcover"
-  | "carpenter";
+  | "carpenter"
+  | "airmanid"
+  | "portrait"
+  | "joyce1958"
+  | "cadet";
 
 export type Block =
   | { type: "p"; text: string; id?: string }
