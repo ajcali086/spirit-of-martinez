@@ -428,6 +428,12 @@ function seekButton(
   );
 }
 
+const FIGURE_MISSION: Partial<Record<PhotoId, number>> = {
+  nuremberg4: 4,
+  nuremberg5: 5,
+  stripes: 6,
+};
+
 function renderBlock(
   block: Block,
   dropCap: boolean,
@@ -465,7 +471,14 @@ function renderBlock(
     );
   }
   if (block.type === "figure") {
-    return <PhotoPlate id={block.id} caption={block.caption} tone="paper" />;
+    const plate = <PhotoPlate id={block.id} caption={block.caption} tone="paper" />;
+    const mission = FIGURE_MISSION[block.id];
+    if (!mission) return plate;
+    return (
+      <div id={`m-${mission}`} className="scroll-mt-28">
+        {plate}
+      </div>
+    );
   }
   const reading = Boolean(cueId && activeId === cueId);
   const missionNo = block.id?.match(/^m-(\d+)$/)?.[1];

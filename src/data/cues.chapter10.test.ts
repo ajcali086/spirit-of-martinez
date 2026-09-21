@@ -7,57 +7,52 @@ import { chapters } from "./chapters.ts";
 import { cueAt, followCues } from "./cues.ts";
 
 const SLUG = "ninety-four-hours";
-const SILENT = [
-  "10.1-p2",
-  "10.1-p3",
-  "10.1-p4",
-  "10.1-p5",
-  "10.1-p6",
-  "10.1-p7",
-];
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 
 function loadAligned() {
-  const raw = JSON.parse(
+  return JSON.parse(
     readFileSync(
       path.join(here, "..", "generated", "moments", "cues", `${SLUG}.json`),
       "utf8",
     ),
   ) as { cues: { id: string; start: number; end: number }[]; silent: string[] };
-  return raw;
 }
 
-describe("chapter 10 timing", () => {
-  it("keeps the skipped mission lines on the page", () => {
-    const chapter = chapters.find((c) => c.slug === SLUG)!;
-    const ids = chapter.sections.flatMap((s) =>
-      s.blocks.filter((b) => b.type === "p").map((b) => b.id),
+function spokenParagraphs() {
+  const chapter = chapters.find((c) => c.slug === SLUG)!;
+  const section = chapter.sections.find((s) => s.id === "10.1")!;
+  return section.blocks.filter((b) => b.type === "p");
+}
+
+describe("chapter 10 listen sync", () => {
+  it("keeps 10.1-p0, p8, and p9, and no longer pads the stretch with silent mission blurbs", () => {
+    const paras = spokenParagraphs();
+    const ids = paras.map((b) => b.id);
+    assert.deepEqual(ids, ["10.1-p0", "10.1-p1", "10.1-p2", "m-3", "10.1-p8", "10.1-p9"]);
+    assert.equal(
+      paras.find((b) => b.id === "10.1-p1")?.text.startsWith("Frank Calicura’s crew flew again"),
+      true,
     );
-    assert.ok(ids.includes("m-4"));
-    assert.ok(ids.includes("m-5"));
-    assert.ok(ids.includes("m-7"));
-    assert.ok(ids.includes("10.1-p6"));
+    assert.equal(
+      paras.find((b) => b.id === "10.1-p2")?.text,
+      "One of these has a clipping of its own beyond those already quoted.",
+    );
   });
 
-  it("does not highlight the six lines the reading skips", () => {
-    const { cues, silent } = loadAligned();
-    assert.deepEqual(silent, SILENT);
-    const follow = followCues(cues, silent);
-    for (const id of SILENT) {
-      assert.equal(
-        follow.some((c) => c.id === id),
-        false,
-        id,
-      );
-    }
+  it("has no silent placeholders in this stretch", () => {
+    const { silent } = loadAligned();
+    assert.equal(silent.includes("10.1-p2"), false);
+    assert.equal(silent.includes("10.1-p1"), false);
   });
 
-  it("holds Osnabrück until the spoken run resumes", () => {
+  it("advances with the voice from the list through the clipping to nine missions", () => {
     const { cues, silent } = loadAligned();
     const follow = followCues(cues, silent);
-    assert.equal(cueAt(follow, 61)?.id, "10.1-p1");
-    assert.equal(cueAt(follow, 62.5)?.id, "10.1-p1");
-    assert.equal(cueAt(follow, 63)?.id, "10.1-p8");
+    assert.equal(cueAt(follow, 20)?.id, "10.1-p0");
+    assert.equal(cueAt(follow, 30)?.id, "10.1-p1");
+    assert.equal(cueAt(follow, 44)?.id, "10.1-p2");
+    assert.equal(cueAt(follow, 55)?.id, "10.1-p3");
+    assert.equal(cueAt(follow, 64)?.id, "10.1-p8");
   });
 });
