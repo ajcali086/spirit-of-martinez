@@ -3,7 +3,7 @@ export const SITE = "https://www.spiritofmartinez.com";
 export const SITE_TITLE = "The Spirit of Martinez";
 
 export const SITE_DESCRIPTION =
-  "What a Family Kept — the Calicura family of Martinez, California, and the B-17 Flying Fortress that carried their town’s name over Europe in 1945.";
+  "A B-17 named for Martinez, California: 28 missions over Germany, 3 food drops over Utrecht, and a family’s footlocker that never agreed on the count.";
 
 const IMAGE_PX: Record<string, readonly [number, number]> = {
   "/og.jpg": [1200, 630],

@@ -43,7 +43,13 @@ function Home() {
           <p className="stagger-in mt-3 font-display text-xl italic text-fog sm:text-2xl">
             What a Family Kept
           </p>
-          <div className="stagger-in mt-6 flex flex-wrap gap-3">
+          <p className="stagger-in mt-6 max-w-2xl font-display text-lg leading-snug text-paper sm:text-xl lg:max-w-3xl lg:text-2xl lg:leading-snug">
+            In 1945 a butcher’s son from Martinez, California, flew a B-17 named
+            for his hometown: twenty-eight missions over Germany, then three
+            over Utrecht, dropping food. His family kept the footlocker. The
+            papers in it disagree about the count, and this is where they part.
+          </p>
+          <div className="stagger-in mt-8 flex flex-wrap gap-3">
             <Link
               to="/chapters"
               className="inline-flex min-h-12 items-center gap-2 bg-brass px-5 text-sm tracking-[0.12em] text-ink uppercase transition-transform duration-150 ease-out hover:bg-brass-dim active:scale-[0.96]"
@@ -52,18 +58,13 @@ function Home() {
               <ArrowRight className="size-4" />
             </Link>
             <Link
-              to="/missions"
+              to="/chapters/$slug"
+              params={{ slug: "mission-one" }}
               className="inline-flex min-h-12 items-center border border-fog/40 px-5 text-sm tracking-[0.12em] text-paper uppercase transition-colors hover:border-brass hover:text-brass"
             >
-              The 31 missions
+              Start at the first morning
             </Link>
           </div>
-          <p className="stagger-in mt-6 max-w-xl text-sm leading-relaxed text-fog">
-            A butcher’s son from a refinery town. A B-17 named for the city that
-            taught him to fly. Twenty-eight mornings over Germany, three over
-            Utrecht with flour in the bomb bay, and a footlocker that never
-            agreed with itself about the count.
-          </p>
           <HomeMusic />
         </div>
       </section>

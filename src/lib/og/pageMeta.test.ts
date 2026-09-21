@@ -97,7 +97,7 @@ describe("pageMeta", () => {
     );
     assert.equal(props["og:type"], "website");
     assert.equal(props["og:url"], "https://www.spiritofmartinez.com/");
-    assert.match(props["og:description"] ?? "", /What a Family Kept/);
+    assert.match(props["og:description"] ?? "", /footlocker that never agreed on the count/);
     assert.equal(props["og:image:width"], "1200");
     assert.equal(props["og:image:height"], "630");
   });
