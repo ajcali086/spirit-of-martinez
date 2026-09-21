@@ -95,7 +95,11 @@ export type PhotoId =
   | "airmanid"
   | "portrait"
   | "joyce1958"
-  | "cadet";
+  | "cadet"
+  | "tampaorder"
+  | "clarkbarnes"
+  | "unknownpilot"
+  | "chowhoundmill";
 
 export type Block =
   | { type: "p"; text: string; id?: string }
