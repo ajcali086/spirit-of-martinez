@@ -29,9 +29,12 @@ function AircraftPage() {
           height={503}
           className="mb-12 h-28 w-auto max-w-full sm:h-40"
         />
-        <dl className="grid grid-cols-2 gap-px bg-rule sm:grid-cols-3">
+        <dl className="flex flex-wrap gap-px bg-rule">
           {aircraft.specs.map((s) => (
-            <div key={s.label} className="bg-ink px-4 py-6">
+            <div
+              key={s.label}
+              className="min-w-[calc(50%-1px)] flex-1 bg-ink px-4 py-6 sm:min-w-[calc(33.333%-1px)]"
+            >
               <dt className="text-[0.68rem] tracking-[0.16em] text-muted uppercase">
                 {s.label}
               </dt>

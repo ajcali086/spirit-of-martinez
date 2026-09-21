@@ -1,8 +1,8 @@
 import { createFileRoute, Link, notFound, redirect, useRouterState } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, Headphones } from "lucide-react";
+import { ArrowLeft, ArrowRight, Headphones, Play } from "lucide-react";
 import { useEffect, useLayoutEffect } from "react";
 import { SiteShell } from "@/components/layout/SiteShell";
-import { useBookAudio } from "@/components/layout/BookAudio";
+import { useBookAudio, type ChapterTrack } from "@/components/layout/BookAudio";
 import { PhotoPlate } from "@/components/PhotoPlate";
 import { PassageDoor } from "@/components/PassageDoor";
 import { useDoorDeconflict } from "@/components/useDoorDeconflict";
@@ -19,7 +19,8 @@ import {
 } from "@/data/chapters";
 import { chapterCues } from "@/data/cues";
 import { sentenceCues } from "@/data/sentenceCues";
-import type { Block, PhotoId } from "@/data/types";
+import { sectionSeeks, type SectionSeek } from "@/data/sectionSeeks";
+import type { Block, Chapter, PhotoId, Section } from "@/data/types";
 import { pageMeta, bannerOgImage } from "@/lib/og/pageMeta";
 import { readPlace, writePlace } from "@/lib/bookmark";
 import { cn } from "@/lib/utils";
@@ -51,7 +52,7 @@ export const Route = createFileRoute("/chapters/$slug")({
 function ChapterPage() {
   const { slug } = Route.useParams();
   const hash = useRouterState({ select: (s) => s.location.hash });
-  const { offer, play, track, dockedChapter } = useBookAudio();
+  const { offer, play, playFrom, track, dockedChapter } = useBookAudio();
   const { activeId } = useReadingFollow(slug);
   const chapter = chapterBySlug(slug);
   useDoorDeconflict(slug);
@@ -93,6 +94,7 @@ function ChapterPage() {
   }
   const { prev, next } = adjacentChapters(slug);
   const cite = citeChapter(chapter);
+  const seeks = chapter.audio ? sectionSeeks[chapter.slug] : undefined;
   let firstPara = true;
   const thisChapter =
     track?.kind === "chapter" && track.slug === chapter.slug;
@@ -287,7 +289,7 @@ function ChapterPage() {
                         activeId === `sec-${section.id}-title` && "is-reading",
                       )}
                     >
-                      {section.title}
+                      {seekButton(chapter, section, seeks, playFrom)}
                     </h2>
                     {section.place ? (
                       <p
@@ -367,6 +369,39 @@ function ChapterPage() {
         </nav>
       </article>
     </SiteShell>
+  );
+}
+
+function seekButton(
+  chapter: Chapter,
+  section: Section,
+  seeks: SectionSeek[] | undefined,
+  playFrom: (track: ChapterTrack, seconds: number) => void,
+) {
+  const seek = seeks?.find((s) => s.id === section.id);
+  if (!seek || !chapter.audio) return section.title;
+  return (
+    <button
+      type="button"
+      className="seek"
+      data-seek={String(seek.start)}
+      aria-label={`Play reading from ${section.id}, ${section.title}`}
+      onClick={() =>
+        playFrom(
+          {
+            kind: "chapter",
+            src: chapter.audio!,
+            title: chapter.title,
+            number: chapter.number,
+            slug: chapter.slug,
+          },
+          seek.start,
+        )
+      }
+    >
+      <span>{section.title}</span>
+      <Play className="seek-glyph" aria-hidden strokeWidth={1.75} />
+    </button>
   );
 }
 
