@@ -1,1 +1,1 @@
-@file:/tmp/chapters_content.tsx
+$include:/tmp/chapters_content.tsx
