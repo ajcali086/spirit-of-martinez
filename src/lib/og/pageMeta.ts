@@ -3,7 +3,7 @@ export const SITE = "https://www.spiritofmartinez.com";
 export const SITE_TITLE = "The Spirit of Martinez";
 
 export const SITE_DESCRIPTION =
-  "What a Family Kept — the Calicura family of Martinez, California, and the B-17 Flying Fortress that carried their town’s name over Europe in 1945.";
+  "A B-17 named for Martinez, California: 28 missions over Germany, 3 food drops over Utrecht, and a family’s footlocker that never agreed on the count.";
 
 const IMAGE_PX: Record<string, readonly [number, number]> = {
   "/og.jpg": [1200, 630],
@@ -134,15 +134,55 @@ export function pageMeta({
 }
 
 /** Site-level card for home and indexes. Pass the baked cover path so ?v= survives. */
+export const INDEX_META: Record<string, { title: string; description: string }> = {
+  "/": { title: SITE_TITLE, description: SITE_DESCRIPTION },
+  "/chapters": {
+    title: "Fifteen chapters · The Spirit of Martinez",
+    description:
+      "Read in order, or open any chapter the way a family opens a box. Every chapter has a synthetic reading.",
+  },
+  "/timeline": {
+    title: "A chronology · The Spirit of Martinez",
+    description:
+      "Figures someone had a reason to write down, 1902 to 1959, set in the order they happened — not the order the papers printed them.",
+  },
+  "/missions": {
+    title: "Thirty-one sorties · The Spirit of Martinez",
+    description:
+      "Twenty-eight combat missions and three humanitarian drops. Joyce numbered the scrapbook to twenty-eight. The food carries no number at all.",
+  },
+  "/crew": {
+    title: "Nine strangers · The Spirit of Martinez",
+    description:
+      "Eight names on a Tampa order of 30 August 1944. A ninth, the navigator, at Avon Park on 6 November.",
+  },
+  "/aircraft": {
+    title: "Spirit of Martinez, 44-6838 · The Spirit of Martinez",
+    description:
+      "B-17G-65-DL Flying Fortress. Assigned to the 335th Bomb Squadron, 95th Bombardment Group (H), Station 119, Horham.",
+  },
+  "/archive": {
+    title: "What the paperwork says · The Spirit of Martinez",
+    description:
+      "None of these documents agrees with all the others about exactly what happened, or exactly how many times it happened. A family kept everything anyway.",
+  },
+  "/sources": {
+    title: "A note on sources · The Spirit of Martinez",
+    description:
+      "Four kinds of material sit behind every page. They do not agree with one another, and where they disagree the disagreement is stated rather than settled.",
+  },
+};
+
 export function sitePageMeta(path: string, image = "/og.jpg") {
+  const page = INDEX_META[path] ?? INDEX_META["/"];
   return pageMeta({
-    title: SITE_TITLE,
-    description: SITE_DESCRIPTION,
+    title: page.title,
+    description: page.description,
     path,
     image,
     type: "website",
     imageWidth: 1200,
     imageHeight: 630,
-    imageAlt: SITE_TITLE,
+    imageAlt: page.title,
   });
 }

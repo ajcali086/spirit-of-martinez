@@ -1,36 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Headphones } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ContinueCard } from "@/components/ContinueCard";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PageHero } from "@/components/PageHero";
 import { chapters } from "@/data/chapters";
-import { type Place, readPlace } from "@/lib/bookmark";
 import { coverPageMeta } from "@/lib/og/cover";
 
 export const Route = createFileRoute("/chapters/")({
   head: () => coverPageMeta("/chapters"),
   component: ChaptersIndex,
 });
-
-function ContinueLine() {
-  const [place, setPlace] = useState<Place | null>(null);
-  useEffect(() => {
-    setPlace(readPlace());
-  }, []);
-  if (!place) return null;
-  return (
-    <p className="mx-auto max-w-3xl px-4 pt-8 sm:px-6">
-      <Link
-        to="/chapters/$slug"
-        params={{ slug: place.slug }}
-        className="inline-flex min-h-11 items-center font-sans text-[0.72rem] tracking-[0.18em] text-brass uppercase hover:text-paper"
-      >
-        Continue: Chapter {place.number}
-        <span className="sr-only">, {place.title}</span>
-      </Link>
-    </p>
-  );
-}
 
 function ChaptersIndex() {
   return (
@@ -43,7 +22,7 @@ function ChaptersIndex() {
         imageAlt="The locker arranged: B-15 jacket, crew plate, wallet, and gloves"
         compact
       />
-      <ContinueLine />
+      <ContinueCard />
       <ol className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
         {chapters.map((ch) => (
           <li key={ch.slug} className="border-b border-rule">

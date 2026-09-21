@@ -12,6 +12,7 @@ import { timelineEras } from "@/data/timeline";
 import { cn } from "@/lib/utils";
 import { coverPageMeta } from "@/lib/og/cover";
 import { SiteImage } from "@/components/SiteImage";
+import { SIZES } from "@/lib/srcset";
 
 export const Route = createFileRoute("/")({
   head: () => coverPageMeta("/"),
@@ -33,8 +34,8 @@ function Home() {
           decoding="async"
           className="absolute inset-0 size-full bg-ink-mid object-cover"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/70 to-ink/25" />
-        <div className="relative mx-auto w-full max-w-6xl px-4 pb-28 pt-12 sm:px-6 sm:pb-24">
+        <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/82 to-ink/50" />
+        <div className="relative mx-auto w-full max-w-6xl px-4 pb-28 pt-12 [text-shadow:0_1px_18px_rgb(20_18_16_/_0.92)] sm:px-6 sm:pb-24">
           <p className="kicker stagger-in">Martinez, California · 1938–1959</p>
           <h1 className="stagger-in mt-4 max-w-4xl font-display text-4xl leading-[0.95] font-semibold text-paper sm:text-6xl lg:text-7xl">
             The Spirit of Martinez
@@ -42,7 +43,13 @@ function Home() {
           <p className="stagger-in mt-3 font-display text-xl italic text-fog sm:text-2xl">
             What a Family Kept
           </p>
-          <div className="stagger-in mt-6 flex flex-wrap gap-3">
+          <p className="stagger-in mt-6 max-w-2xl font-display text-lg leading-snug text-paper sm:text-xl lg:max-w-3xl lg:text-2xl lg:leading-snug">
+            In 1945 a butcher’s son from Martinez, California, flew a B-17 named
+            for his hometown: twenty-eight missions over Germany, then three
+            over Utrecht, dropping food. His family kept the footlocker. The
+            papers in it disagree about the count, and this is where they part.
+          </p>
+          <div className="stagger-in mt-8 flex flex-wrap gap-3">
             <Link
               to="/chapters"
               className="inline-flex min-h-12 items-center gap-2 bg-brass px-5 text-sm tracking-[0.12em] text-ink uppercase transition-transform duration-150 ease-out hover:bg-brass-dim active:scale-[0.96]"
@@ -51,18 +58,13 @@ function Home() {
               <ArrowRight className="size-4" />
             </Link>
             <Link
-              to="/missions"
+              to="/chapters/$slug"
+              params={{ slug: "mission-one" }}
               className="inline-flex min-h-12 items-center border border-fog/40 px-5 text-sm tracking-[0.12em] text-paper uppercase transition-colors hover:border-brass hover:text-brass"
             >
-              The 31 missions
+              Start at the first morning
             </Link>
           </div>
-          <p className="stagger-in mt-6 max-w-xl text-sm leading-relaxed text-fog">
-            A butcher’s son from a refinery town. A B-17 named for the city that
-            taught him to fly. Twenty-eight mornings over Germany, three over
-            Utrecht with flour in the bomb bay, and a footlocker that never
-            agreed with itself about the count.
-          </p>
           <HomeMusic />
         </div>
       </section>
@@ -253,6 +255,7 @@ function Home() {
                   <SiteImage
                     src={ch.image}
                     alt={ch.imageAlt}
+                    sizes={SIZES.chapterCard}
                     className={cn(
                       "size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]",
                       ch.imagePosition === "top" && "object-top",

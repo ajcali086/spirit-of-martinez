@@ -8,6 +8,9 @@ import { photos } from "@/data/photos";
 import { canonicalUrl, pageMeta } from "@/lib/og/pageMeta";
 
 export const Route = createFileRoute("/crew/$id")({
+  beforeLoad: ({ params }) => {
+    if (!crewById(params.id)) throw notFound();
+  },
   component: CrewMemberPage,
   head: ({ params }) => {
     const member = crewById(params.id);
@@ -67,6 +70,20 @@ function CrewMemberPage() {
             {member.wartime}
           </p>
           <p className="mt-5 text-sm leading-relaxed text-muted">{member.after}</p>
+          <div className="mt-6 flex flex-wrap items-center gap-x-5">
+            <Link
+              to="/missions"
+              className="inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
+            >
+              The mission board
+            </Link>
+            <Link
+              to="/aircraft"
+              className="inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
+            >
+              The aircraft
+            </Link>
+          </div>
           <p className="mt-6 text-sm leading-relaxed text-muted">
             <Link to="/crew" hash="nine-counts" className="text-brass underline-offset-4 hover:underline">
               Nine men, four totals

@@ -7,6 +7,7 @@ import { SevenNumbers } from "@/components/SevenNumbers";
 import { artifacts, decorations, openQuestions } from "@/data/archive";
 import { photos } from "@/data/photos";
 import { coverPageMeta } from "@/lib/og/cover";
+import { SIZES, webpSrcSet } from "@/lib/srcset";
 
 export const Route = createFileRoute("/archive/")({
   head: () => coverPageMeta("/archive"),
@@ -27,7 +28,7 @@ function ArchivePage() {
       <PageHero
         kicker="The footlocker"
         title="What the paperwork says, and what it cannot settle"
-        dek="None of these documents agrees with all the others about exactly what happened, or exactly how many times it happened. Fifteen chapters into trying, the book stopped trying to resolve that. A family kept everything anyway."
+        dek="None of these documents agrees with all the others about exactly what happened, or exactly how many times it happened. The book stopped trying to resolve that. A family kept everything anyway."
         image="/images/footlocker.jpg"
         imageAlt="The locker arranged: B-15 jacket, crew plate, wallet, and gloves"
       />
@@ -61,7 +62,11 @@ function ArchivePage() {
                 {plate ? (
                   <span className="block w-16 shrink-0 overflow-hidden bg-ink-mid sm:w-20">
                     <picture>
-                      <source srcSet={`${plate.src}.webp`} type="image/webp" />
+                      <source
+                        srcSet={webpSrcSet(plate.src) ?? `${plate.src}.webp`}
+                        type="image/webp"
+                        sizes={SIZES.objectThumb}
+                      />
                       <img
                         src={`${plate.src}.jpg`}
                         alt=""
@@ -69,6 +74,7 @@ function ArchivePage() {
                         height={plate.height}
                         loading="lazy"
                         decoding="async"
+                        sizes={SIZES.objectThumb}
                         className="aspect-[3/4] size-full object-cover outline-none"
                       />
                     </picture>

@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { CopyLink } from "@/components/CopyLink";
 
 export function CiteThis({
@@ -32,6 +33,12 @@ export function CiteThis({
       <p className="mt-2 font-sans text-sm leading-relaxed text-muted">
         {displayUrl}
       </p>
+      <Link
+        to="/sources"
+        className="mt-4 inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-feather uppercase hover:text-ink"
+      >
+        A note on sources
+      </Link>
     </section>
   );
 }

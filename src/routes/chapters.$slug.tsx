@@ -1,12 +1,13 @@
 import { createFileRoute, Link, notFound, redirect, useRouterState } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, Headphones } from "lucide-react";
-import { useEffect, useLayoutEffect } from "react";
+import { ArrowLeft, ArrowRight, Headphones, Play } from "lucide-react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { SiteShell } from "@/components/layout/SiteShell";
-import { useBookAudio } from "@/components/layout/BookAudio";
+import { useBookAudio, type ChapterTrack } from "@/components/layout/BookAudio";
 import { PhotoPlate } from "@/components/PhotoPlate";
 import { PassageDoor } from "@/components/PassageDoor";
 import { useDoorDeconflict } from "@/components/useDoorDeconflict";
 import { CiteThis } from "@/components/CiteThis";
+import { ContinueTracker } from "@/components/ContinueTracker";
 import { SiteImage } from "@/components/SiteImage";
 import { useReadingFollow } from "@/components/ReadingFollow";
 import {
@@ -17,8 +18,9 @@ import {
   retiredChapterSlugs,
 } from "@/data/chapters";
 import { chapterCues } from "@/data/cues";
-import { sentenceCues } from "@/data/sentenceCues";
-import type { Block, PhotoId } from "@/data/types";
+import { hasChapterMoments, loadChapterMoments } from "@/lib/chapterMoments";
+import { sectionSeeksFor, type SectionSeek } from "@/data/sectionSeeks";
+import type { Block, Chapter, PhotoId, Section } from "@/data/types";
 import { pageMeta, bannerOgImage } from "@/lib/og/pageMeta";
 import { readPlace, writePlace } from "@/lib/bookmark";
 import { cn } from "@/lib/utils";
@@ -32,7 +34,11 @@ export const Route = createFileRoute("/chapters/$slug")({
         params: { slug: dest },
       });
     }
+    if (!chapterBySlug(params.slug)) throw notFound();
   },
+  loader: async ({ params }) => ({
+    moments: await loadChapterMoments(params.slug),
+  }),
   head: ({ params }) => {
     const chapter = chapterBySlug(params.slug);
     if (!chapter) return {};
@@ -48,11 +54,29 @@ export const Route = createFileRoute("/chapters/$slug")({
 
 function ChapterPage() {
   const { slug } = Route.useParams();
+  const { moments: loaded } = Route.useLoaderData();
+  const [moments, setMoments] = useState(loaded);
   const hash = useRouterState({ select: (s) => s.location.hash });
-  const { offer, play, track, dockedChapter } = useBookAudio();
+  const { offer, play, playFrom, track, dockedChapter } = useBookAudio();
   const { activeId } = useReadingFollow(slug);
   const chapter = chapterBySlug(slug);
   useDoorDeconflict(slug);
+
+  useEffect(() => {
+    setMoments(loaded);
+  }, [loaded, slug]);
+
+  useEffect(() => {
+    if (moments?.cues.length) return;
+    if (!hasChapterMoments(slug)) return;
+    let cancelled = false;
+    void loadChapterMoments(slug).then((m) => {
+      if (!cancelled && m) setMoments(m);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [slug, moments]);
 
   useLayoutEffect(() => {
     const id = hash.replace(/^#/, "");
@@ -91,6 +115,9 @@ function ChapterPage() {
   }
   const { prev, next } = adjacentChapters(slug);
   const cite = citeChapter(chapter);
+  const seeks = chapter.audio
+    ? sectionSeeksFor(chapter, moments?.cues)
+    : undefined;
   let firstPara = true;
   const thisChapter =
     track?.kind === "chapter" && track.slug === chapter.slug;
@@ -102,6 +129,7 @@ function ChapterPage() {
 
   return (
     <SiteShell>
+      <ContinueTracker kind="chapter" slug={chapter.slug} />
       <article>
         <header className="relative overflow-hidden border-b border-rule">
           <SiteImage
@@ -195,7 +223,10 @@ function ChapterPage() {
         </nav>
 
         <div className="bg-paper">
-          <div className="prose-archive mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-16">
+          <div
+            data-continue-root="chapter"
+            className="prose-archive mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-16"
+          >
             <p className="mb-10 font-sans text-[0.72rem] leading-relaxed tracking-[0.14em] text-brass-dim uppercase">
               {chapter.dek}
             </p>
@@ -226,7 +257,7 @@ function ChapterPage() {
                 A synthetic reading of this chapter is in the bar at the top. It
                 will keep playing while you move through the book. The text
                 below is the transcript.
-                {chapterCues[slug] || sentenceCues[slug]
+                {chapterCues[slug] || hasChapterMoments(slug)
                   ? " The voice’s place on the page is marked as it reads."
                   : ""}
               </p>
@@ -281,7 +312,7 @@ function ChapterPage() {
                         activeId === `sec-${section.id}-title` && "is-reading",
                       )}
                     >
-                      {section.title}
+                      {seekButton(chapter, section, seeks, playFrom)}
                     </h2>
                     {section.place ? (
                       <p
@@ -364,6 +395,45 @@ function ChapterPage() {
   );
 }
 
+function seekButton(
+  chapter: Chapter,
+  section: Section,
+  seeks: SectionSeek[] | undefined,
+  playFrom: (track: ChapterTrack, seconds: number) => void,
+) {
+  const seek = seeks?.find((s) => s.id === section.id);
+  if (!seek || !chapter.audio) return section.title;
+  return (
+    <button
+      type="button"
+      className="seek"
+      data-seek={String(seek.start)}
+      aria-label={`Play reading from ${section.id}, ${section.title}`}
+      onClick={() =>
+        playFrom(
+          {
+            kind: "chapter",
+            src: chapter.audio!,
+            title: chapter.title,
+            number: chapter.number,
+            slug: chapter.slug,
+          },
+          seek.start,
+        )
+      }
+    >
+      <span>{section.title}</span>
+      <Play className="seek-glyph" aria-hidden strokeWidth={1.75} />
+    </button>
+  );
+}
+
+const FIGURE_MISSION: Partial<Record<PhotoId, number>> = {
+  nuremberg4: 4,
+  nuremberg5: 5,
+  stripes: 6,
+};
+
 function renderBlock(
   block: Block,
   dropCap: boolean,
@@ -401,9 +471,17 @@ function renderBlock(
     );
   }
   if (block.type === "figure") {
-    return <PhotoPlate id={block.id} caption={block.caption} tone="paper" />;
+    const plate = <PhotoPlate id={block.id} caption={block.caption} tone="paper" />;
+    const mission = FIGURE_MISSION[block.id];
+    if (!mission) return plate;
+    return (
+      <div id={`m-${mission}`} className="scroll-mt-28">
+        {plate}
+      </div>
+    );
   }
   const reading = Boolean(cueId && activeId === cueId);
+  const missionNo = block.id?.match(/^m-(\d+)$/)?.[1];
   const paragraph = (
     <p
       id={block.id}
@@ -418,11 +496,18 @@ function renderBlock(
       {block.text}
     </p>
   );
-  if (!plates?.length) return paragraph;
+  if (!missionNo && !plates?.length) return paragraph;
   return (
     <div className="group relative">
+      {missionNo ? (
+        <p className="mission-kicker">
+          <Link to="/missions" hash={`m-${missionNo}`}>
+            Mission {missionNo.padStart(2, "0")}
+          </Link>
+        </p>
+      ) : null}
       {paragraph}
-      {plates.map((id) => (
+      {plates?.map((id) => (
         <PassageDoor key={id} id={id} open={reading} />
       ))}
     </div>

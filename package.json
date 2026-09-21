@@ -16,8 +16,9 @@
     "preview:stop": "node scripts/preview.mjs stop",
     "typecheck": "tsc --noEmit",
     "check:auth": "node scripts/check-auth-invariant.mjs",
-    "test": "node --test 'scripts/**/*.test.mjs' && node --experimental-strip-types --test src/lib/app-data/app-data.test.ts src/lib/app-data/readiness-schedule.test.ts src/lib/auth/gate-identity.test.ts src/lib/auth/sign-in-gate.test.ts src/lib/og/pageMeta.test.ts src/lib/bookmark.test.ts src/lib/deconflict.test.ts src/lib/chapterAudio.test.ts src/data/missions.test.ts && python3 scripts/compress_image_test.py && python3 scripts/freeze_paragraph_ids_test.py",
+    "test": "node --test 'scripts/**/*.test.mjs' && node --experimental-strip-types --test src/lib/app-data/app-data.test.ts src/lib/app-data/readiness-schedule.test.ts src/lib/auth/gate-identity.test.ts src/lib/auth/sign-in-gate.test.ts src/lib/og/pageMeta.test.ts src/lib/bookmark.test.ts src/lib/continue.test.ts src/lib/deconflict.test.ts src/lib/chapterAudio.test.ts src/lib/srcset.test.ts src/lib/chapterMoments.test.ts src/data/missions.test.ts src/data/sectionSeeks.test.ts src/data/cues.chapter4.test.ts src/data/cues.chapter10.test.ts && python3 scripts/compress_image_test.py && python3 scripts/freeze_paragraph_ids_test.py",
     "images": "python3 scripts/compress_image.py --missing",
+    "images:responsive": "node scripts/make-responsive-images.mjs",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
@@ -93,6 +94,7 @@
     "nitro": "3.0.260610-beta",
     "playwright": "^1.62.0",
     "prettier": "^3.4.0",
+    "sharp": "^0.35.4",
     "typescript": "^5.7.0",
     "typescript-eslint": "^8.56.1",
     "vite": "^8.2.0"

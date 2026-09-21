@@ -12,7 +12,7 @@ import {
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Pause, Play, X, Music2 } from "lucide-react";
 import { chapterCues } from "@/data/cues";
-import { sentenceCues } from "@/data/sentenceCues";
+import { hasChapterMoments } from "@/lib/chapterMoments";
 import { readPlace, writePlace } from "@/lib/bookmark";
 import { isAacSrc, pickChapterAudio } from "@/lib/chapterAudio";
 
@@ -59,6 +59,7 @@ type BookAudioValue = {
   dockedChapter: ChapterTrack | null;
   offer: (track: ChapterTrack) => void;
   play: (track: AudioTrack) => void;
+  playFrom: (track: ChapterTrack, seconds: number) => void;
   toggle: () => void;
   stop: () => void;
   dockMusic: () => void;
@@ -210,6 +211,49 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
     }
     setTrack(snap.track);
   }, []);
+
+  const playFrom = useCallback(
+    (next: ChapterTrack, seconds: number) => {
+      const t =
+        Number.isFinite(seconds) && seconds > 0 ? seconds : 0;
+      intended.current = t;
+      holding.current = true;
+      restorePos.current = t;
+      setFollow(true);
+      setEnded(false);
+      setTime(t);
+      setVolume(CHAPTER_VOLUME);
+
+      if (chapterResumeRef.current) {
+        setChapterResume(null);
+        chapterResumeRef.current = null;
+      }
+
+      const prev = trackRef.current;
+      if (prev?.kind === "music") setMusicDocked(true);
+
+      const el = audioRef.current;
+      const src = trackSrc(next);
+      if (el && assignedSrc.current === src) {
+        pendingPlay.current = false;
+        el.volume = CHAPTER_VOLUME;
+        el.loop = false;
+        applyTime(el, t);
+        void el
+          .play()
+          .then(() => applyTime(el, intended.current))
+          .catch(() => {});
+        setTrack((cur) => (sameTrack(cur, next) ? cur : next));
+        return;
+      }
+
+      if (prev?.kind === "chapter" && !sameTrack(prev, next)) remember();
+      pendingPlay.current = true;
+      hasPlayed.current = false;
+      setTrack(next);
+    },
+    [remember],
+  );
 
   const play = useCallback((next: AudioTrack) => {
     const prev = trackRef.current;
@@ -408,20 +452,21 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
   }, [remember]);
 
   useEffect(() => {
+    const showMusicDock = musicDocked && track?.kind !== "music";
+    const showChapterDock = Boolean(chapterResume) && track?.kind !== "chapter";
     document.documentElement.style.setProperty(
       "--player-h",
       track ? "3rem" : "0px",
     );
-    const showMusicDock = musicDocked && track?.kind !== "music";
     document.documentElement.style.setProperty(
       "--dock-h",
-      showMusicDock ? "3.5rem" : "0px",
+      showMusicDock || showChapterDock ? "4.25rem" : "0px",
     );
     return () => {
       document.documentElement.style.setProperty("--player-h", "0px");
       document.documentElement.style.setProperty("--dock-h", "0px");
     };
-  }, [track, musicDocked]);
+  }, [track, musicDocked, chapterResume]);
 
   useEffect(() => {
     if (!musicDocked || track?.kind === "music" || !focusMusicDock.current) return;
@@ -449,13 +494,14 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
       dockedChapter: chapterResume?.track ?? null,
       offer,
       play,
+      playFrom,
       toggle,
       stop,
       dockMusic,
       dockChapter,
       offerMusicDock,
     }),
-    [track, playing, ended, time, follow, musicDocked, chapterResume, offer, play, toggle, stop, dockMusic, dockChapter, offerMusicDock],
+    [track, playing, ended, time, follow, musicDocked, chapterResume, offer, play, playFrom, toggle, stop, dockMusic, dockChapter, offerMusicDock],
   );
 
   return (
@@ -636,7 +682,7 @@ function PlayerBar({
 
   return (
     <div
-      className="pointer-events-none fixed inset-x-0 top-16 z-50"
+      className="pointer-events-none fixed inset-x-0 top-[4.5rem] z-50 sm:top-20 lg:top-[7.875rem]"
       role="region"
       aria-label={music ? "Music" : "Synthetic chapter reading"}
     >
@@ -718,7 +764,7 @@ function PlayerBar({
             {formatTime(elapsed)}
             {duration ? ` / ${formatTime(duration)}` : ""}
           </p>
-          {!music && (sentenceCues[track.slug] || chapterCues[track.slug]) ? (
+          {!music && (hasChapterMoments(track.slug) || chapterCues[track.slug]) ? (
             <button
               type="button"
               onClick={() => onFollow(!follow)}
