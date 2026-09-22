@@ -20,6 +20,8 @@ import {
 } from "@/data/chapters";
 import { chapterCues } from "@/data/cues";
 import { hasChapterMoments, loadChapterMoments } from "@/lib/chapterMoments";
+import { photos } from "@/data/photos";
+import { shownInlineFigures } from "@/lib/figureLayout";
 import { parseStartParam } from "@/lib/passageShare";
 import { sectionSeeksFor, type SectionSeek } from "@/data/sectionSeeks";
 import type { Block, Chapter, PhotoId, Section } from "@/data/types";
@@ -310,6 +312,11 @@ function ChapterPage() {
                   plateDoors.set(lastP, list);
                 }
               }
+              const shownPlates = shownInlineFigures(
+                chapter.number,
+                section.blocks,
+                (id) => photos[id].kind,
+              );
               return (
               <section
                 key={section.id}
@@ -363,6 +370,7 @@ function ChapterPage() {
                     block.type === "p" && block.id
                       ? plateDoors.get(block.id)
                       : undefined,
+                    shownPlates,
                   );
                   if (firstPara && block.type === "p") firstPara = false;
                   return <div key={`${section.id}-${i}`}>{node}</div>;
@@ -456,6 +464,7 @@ function renderBlock(
   cueId?: string,
   activeId?: string | null,
   plates?: PhotoId[],
+  shownPlates?: Set<PhotoId>,
 ) {
   if (block.type === "quote") {
     return (
@@ -487,6 +496,7 @@ function renderBlock(
     );
   }
   if (block.type === "figure") {
+    if (shownPlates && !shownPlates.has(block.id)) return null;
     const plate = <PhotoPlate id={block.id} caption={block.caption} tone="paper" />;
     const mission = FIGURE_MISSION[block.id];
     if (!mission) return plate;
@@ -523,9 +533,18 @@ function renderBlock(
         </p>
       ) : null}
       {paragraph}
-      {plates?.map((id) => (
-        <PassageDoor key={id} id={id} open={reading} />
-      ))}
+      {plates?.map((id) => {
+        const mission = FIGURE_MISSION[id];
+        const doorOnly = shownPlates ? !shownPlates.has(id) : false;
+        return (
+          <PassageDoor
+            key={id}
+            id={id}
+            open={reading}
+            anchor={doorOnly && mission ? `m-${mission}` : undefined}
+          />
+        );
+      })}
     </div>
   );
 }

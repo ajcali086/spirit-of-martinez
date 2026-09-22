@@ -7,15 +7,19 @@ import { webpSrcSet } from "@/lib/srcset";
 export function PassageDoor({
   id,
   open,
+  anchor,
 }: {
   id: PhotoId;
   open: boolean;
+  /** Mission hash when this plate is a door only, not an inline figure. */
+  anchor?: string;
 }) {
   const photo = photos[id];
   const n = String(plateNumber(id)).padStart(2, "0");
 
   return (
     <Link
+      id={anchor}
       data-passage-door
       to="/archive/$id"
       params={{ id }}
@@ -23,6 +27,7 @@ export function PassageDoor({
       className={cn(
         "mt-2 flex min-h-11 items-center gap-3 font-sans text-[0.68rem] tracking-[0.16em] text-feather/55 uppercase transition-colors duration-150 hover:text-feather focus-visible:text-feather focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass xl:absolute xl:top-0 xl:left-full xl:mt-0 xl:ml-8 xl:w-28 xl:flex-col xl:items-start xl:gap-2",
         open && "text-feather",
+        anchor && "scroll-mt-28",
       )}
     >
       <span className="xl:hidden">See the plate</span>
