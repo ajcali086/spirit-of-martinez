@@ -1,4 +1,6 @@
-import manifest from "../generated/responsive-images.json";
+// The import attribute is required by plain `node --test` (see
+// scripts/test-register.mjs); Vite and tsc don't need it but accept it.
+import manifest from "../generated/responsive-images.json" with { type: "json" };
 
 type Entry = { width: number; height: number; variants: [number, string][] };
 const images = manifest as unknown as Record<string, Entry>;

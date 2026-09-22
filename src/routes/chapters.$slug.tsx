@@ -5,6 +5,7 @@ import { SiteShell } from "@/components/layout/SiteShell";
 import { useBookAudio, type ChapterTrack } from "@/components/layout/BookAudio";
 import { PhotoPlate } from "@/components/PhotoPlate";
 import { PassageDoor } from "@/components/PassageDoor";
+import { ChapterPlateRail } from "@/components/ChapterPlateRail";
 import { useDoorDeconflict } from "@/components/useDoorDeconflict";
 import { CiteThis } from "@/components/CiteThis";
 import { ContinueTracker } from "@/components/ContinueTracker";
@@ -21,7 +22,7 @@ import {
 import { chapterCues } from "@/data/cues";
 import { hasChapterMoments, loadChapterMoments } from "@/lib/chapterMoments";
 import { photos } from "@/data/photos";
-import { shownInlineFigures } from "@/lib/figureLayout";
+import { figureAnchorId, figureRail, shownInlineFigures } from "@/lib/figureLayout";
 import { parseStartParam } from "@/lib/passageShare";
 import { sectionSeeksFor, type SectionSeek } from "@/data/sectionSeeks";
 import type { Block, Chapter, PhotoId, Section } from "@/data/types";
@@ -139,6 +140,7 @@ function ChapterPage() {
   }
   const { prev, next } = adjacentChapters(slug);
   const cite = citeChapter(chapter);
+  const railItems = figureRail(chapter.sections, (id) => FIGURE_MISSION[id]);
   const seeks = chapter.audio
     ? sectionSeeksFor(chapter, moments?.cues)
     : undefined;
@@ -214,6 +216,8 @@ function ChapterPage() {
             ) : null}
           </div>
         </header>
+
+        <ChapterPlateRail items={railItems} chapterSlug={chapter.slug} />
 
         <nav
           aria-label="Chapters"
@@ -499,9 +503,8 @@ function renderBlock(
     if (shownPlates && !shownPlates.has(block.id)) return null;
     const plate = <PhotoPlate id={block.id} caption={block.caption} tone="paper" />;
     const mission = FIGURE_MISSION[block.id];
-    if (!mission) return plate;
     return (
-      <div id={`m-${mission}`} className="scroll-mt-28">
+      <div id={figureAnchorId(block.id, mission)} className="scroll-mt-28">
         {plate}
       </div>
     );
@@ -541,7 +544,7 @@ function renderBlock(
             key={id}
             id={id}
             open={reading}
-            anchor={doorOnly && mission ? `m-${mission}` : undefined}
+            anchor={doorOnly ? figureAnchorId(id, mission) : undefined}
           />
         );
       })}
