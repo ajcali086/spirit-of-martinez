@@ -4,16 +4,17 @@ import { renderSnippetCard } from "@/lib/snippetCard";
 /**
  * A shareable "story" image for one moment — a plate, a rule, a kicker, the
  * passage itself, and a quiet footer (see snippetCard.ts for the draw
- * order). This is a second sharing surface from the server-rendered
- * og-image link-preview card: that one is for a crawler reading a pasted
- * link; this one is for the person on the page tapping Share and getting an
- * actual image file. See the moment-sharing spec, §1, and the SnippetCard
- * addendum for why both exist.
+ * order). Shares a single PNG via the Web Share API, downloading it where
+ * file sharing isn't supported.
+ *
+ * The sentence-level counterpart to SharePassage.tsx, which shares the
+ * paragraph-level card plus a WAV clip from the plate "In the book" rows.
+ * This one is image-only: it carries no audio and so draws no Listen badge.
  *
  * Not yet wired into a chapter page — this is the standalone, reusable
  * piece. Wiring it into the paragraph share pill or the audio bar needs the
- * moment-link system (§3 of the spec) to exist first, since that's what
- * supplies a moment's shareUrl.
+ * moment-link system to exist first, since that's what supplies a moment's
+ * shareUrl (and the cue window a clip would need).
  */
 export type SnippetCardProps = {
   /** e.g. "Chapter 7 · Station 119 · 7.1 The Ground", title case — the
@@ -22,9 +23,6 @@ export type SnippetCardProps = {
   /** One or more already-resolved sentence strings, in order. Not raw
    * paragraph text — see fitCardText() in snippetCard.ts for why. */
   sentences: string[];
-  /** "Listen · 0:09", or omit when this moment has no usable audio (a
-   * silent or weak sentence per the moments build report). */
-  badge?: string | null;
   /** The plate's own credit line, verbatim, or null on the chapter-image
    * fallback path (nearestPlate.ts's "chapter-image" case isn't an
    * ArchivePhoto and has nothing to credit). */
@@ -71,7 +69,6 @@ async function loadPlateImage(src: string): Promise<HTMLImageElement> {
 export function SnippetCard({
   kicker,
   sentences,
-  badge = null,
   credit = null,
   plateSrc,
   plateAlt,
@@ -124,7 +121,6 @@ export function SnippetCard({
           credit,
           kicker,
           sentences,
-          badge,
         });
         if (cancelled) return;
         // The rendered canvas becomes the visible element directly — no
@@ -148,7 +144,7 @@ export function SnippetCard({
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- sentences/badge are stable per moment; re-keying the component (not re-rendering it) is how a caller should change what's shown.
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- sentences are stable per moment; re-keying the component (not re-rendering it) is how a caller should change what's shown.
   }, [visible, state]);
 
   async function onShare() {

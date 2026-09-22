@@ -1,7 +1,6 @@
-// Relative, not "@/data/...": the test file for this module is run directly
-// with `node --experimental-strip-types --test`, which doesn't understand
-// the "@/" tsconfig path alias (the same limitation already affects
-// src/data/cues.chapter10.test.ts). Vite resolves either form the same way.
+// Relative, not "@/data/...": plain `node --test` has no bundler, so the
+// "@/" alias only resolves through scripts/test-register.mjs. Relative paths
+// need no hook at all, and Vite resolves either form the same way.
 import type { Chapter } from "../data/types.ts";
 import { photos, type ArchivePhoto } from "../data/photos.ts";
 

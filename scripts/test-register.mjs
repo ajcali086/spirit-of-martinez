@@ -8,8 +8,8 @@
 // but a real, value-level import blows up with ERR_MODULE_NOT_FOUND. That's
 // what happened wiring nearestPlate.test.ts up to the real
 // src/data/photos.ts, itself an alias import away from src/lib/og/pageMeta,
-// and it turns out to already affect several existing test files too (see
-// the PR this shipped with for the list).
+// and it turns out to already affect five existing test files too:
+// cues.chapter4, cues.chapter10, sectionSeeks, continue, and srcset.
 //
 // This registers a resolve hook that does the same two rewrites Vite and
 // tsc already do, so test files can pull in real production modules —

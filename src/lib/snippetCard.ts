@@ -1,9 +1,12 @@
 /**
  * snippetCard.ts — renders a shareable "story" image for one moment: a
  * plate, a rule, a kicker, the passage itself, and a quiet footer. Runs
- * entirely in the browser at share time (see the moment-sharing spec, §1,
- * for why this is a second surface from the server-rendered og-image card
- * and not a replacement for it).
+ * entirely in the browser at share time.
+ *
+ * Sits alongside passageCard.ts, which draws the paragraph-level card wired
+ * into the plate "In the book" rows; this one is sentence-level. Same
+ * 1080×1350, same ink ground and paper text, so the two read as one product
+ * — keep them in step when either changes.
  *
  * The geometry and text-fitting below are pure functions — they take a
  * `measure` callback instead of touching a real canvas — so they're tested
@@ -14,12 +17,16 @@
 export const SNIPPET_CARD_WIDTH = 1080;
 export const SNIPPET_CARD_HEIGHT = 1350;
 
+// The tokens passageCard.ts already draws with, so both cards share a look:
+// ink ground, paper text, brass kicker. `footer` is this card's own — it
+// carries a credit line passageCard has no equivalent for, and the
+// paper-ground grey (#7a7366) falls below 4.5:1 against ink.
 export const SNIPPET_CARD_COLORS = {
-  paper: "#f3ead6",
   ink: "#141210",
   inkMid: "#2a2620",
+  paper: "#f3ead6",
   brass: "#b8954a",
-  muted: "#7a7366",
+  footer: "#a8a08f",
 };
 
 // ------------------------------------------------------------ geometry ----
@@ -29,7 +36,7 @@ export type Rect = { x: number; y: number; w: number; h: number };
 /**
  * The source and destination rectangles for a cover-fit `drawImage` call:
  * scale the source to fill the box, cropping whichever axis overflows.
- * Never distorts the image and never leaves paper showing through.
+ * Never distorts the image and never leaves the ground showing through.
  */
 export function coverFit(
   srcW: number,
@@ -91,9 +98,9 @@ export type ShrinkResult = { size: number; lines: string[] };
 /**
  * Steps the font size down from `from` to `to` (1px at a time) and returns
  * the largest size whose wrapped lines fit `maxHeight`. If nothing fits even
- * at the floor, returns the floor anyway — the mockup this design is built
- * from (moment-card-story.png) is the evidence that the floor still reads
- * cleanly even when a long sentence runs a little past it.
+ * at the floor, returns the floor anyway: overflowing by a line reads better
+ * than type too small to read at all. The 34px floor has not yet been
+ * checked on a real phone — italic Cormorant that small is the risk.
  */
 export function shrinkToFit(
   text: string,
@@ -130,10 +137,13 @@ export type CardTextResult =
   | { ok: false; reason: string };
 
 /**
- * Mirrors the server og-image's truncation rule (moment-sharing spec §7.1),
- * so a moment reads the same way on both cards, and never invents a second
- * sentence splitter: `parts` must already be one or more whole sentences —
- * SnippetCard never re-segments raw paragraph text itself.
+ * Cuts only at a sentence boundary, and never invents a sentence splitter:
+ * `parts` must already be one or more whole sentences — SnippetCard never
+ * re-segments raw paragraph text itself.
+ *
+ * Note this is a stricter rule than passageCard.ts's `wrap()`, which caps at
+ * six lines and ellipsizes mid-word. Worth reconciling if the two cards ever
+ * need to truncate a passage identically; they don't today.
  *
  *   total <= 60 words          → shown in full, verbatim
  *   one sentence over 60 words → no card (too long to read as a card at all)
@@ -217,9 +227,6 @@ export type SnippetCardInput = {
   /** One or more already-resolved sentence strings, in order. Not raw,
    * unsegmented paragraph text — see fitCardText(). */
   sentences: string[];
-  /** "Listen · 0:09", or null when this moment has no usable audio (a
-   * silent or weak sentence — see the moments build report). */
-  badge?: string | null;
 };
 
 function drawTracked(
@@ -237,11 +244,16 @@ function drawTracked(
 }
 
 /**
- * Renders one moment as a 1080×1350 canvas. Draw order is fixed: paper,
+ * Renders one moment as a 1080×1350 canvas. Draw order is fixed: ink ground,
  * cover-fit plate, brass rule, tracked kicker, the passage (shrink-to-fit,
  * 56px down to a 34px floor), a quiet footer. Throws only when the text
  * itself can't be shown (see fitCardText) or the browser has no 2D canvas
  * context — the caller decides what to do then (fall back to a link share).
+ *
+ * Image only: nothing here draws a "Listen" badge, because SnippetCard
+ * shares a single PNG. When the moment-link system supplies a cue window,
+ * the clip and the badge land together (passageCard.ts/SharePassage.tsx show
+ * the shape) — not the badge on its own.
  */
 export async function renderSnippetCard(
   input: SnippetCardInput,
@@ -257,11 +269,11 @@ export async function renderSnippetCard(
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("This browser can't draw a 2D canvas.");
 
-  const { paper, ink, inkMid, brass, muted } = SNIPPET_CARD_COLORS;
+  const { ink, inkMid, paper, brass, footer } = SNIPPET_CARD_COLORS;
   const padX = 64;
 
-  // 1. paper
-  ctx.fillStyle = paper;
+  // 1. ink ground
+  ctx.fillStyle = ink;
   ctx.fillRect(0, 0, SNIPPET_CARD_WIDTH, SNIPPET_CARD_HEIGHT);
 
   // 2. plate, cover-fit into the top band
@@ -315,28 +327,18 @@ export async function renderSnippetCard(
     measure,
   });
   ctx.font = `italic 400 ${size}px "Cormorant Garamond", Georgia, serif`;
-  ctx.fillStyle = ink;
+  ctx.fillStyle = paper;
   const lineHeight = size * 1.22;
   lines.forEach((line, i) => {
     ctx.fillText(line, padX, textTop + size + i * lineHeight);
   });
 
-  // 6. footer — credit (when there is one), site line, listen badge
+  // 6. footer — credit (when there is one), then the site line
   ctx.font = '400 18px "Outfit", ui-sans-serif, system-ui, sans-serif';
-  ctx.fillStyle = muted;
+  ctx.fillStyle = footer;
   const siteY = SNIPPET_CARD_HEIGHT - 48;
   if (input.credit) ctx.fillText(input.credit, padX, siteY - 26);
-  ctx.fillText(
-    "The Spirit of Martinez · spiritofmartinez.com",
-    padX,
-    siteY,
-  );
-  if (input.badge) {
-    ctx.font = '600 18px "Outfit", ui-sans-serif, system-ui, sans-serif';
-    ctx.fillStyle = brass;
-    const w = ctx.measureText(input.badge).width;
-    ctx.fillText(input.badge, SNIPPET_CARD_WIDTH - padX - w, siteY);
-  }
+  ctx.fillText("The Spirit of Martinez · spiritofmartinez.com", padX, siteY);
 
   return canvas;
 }
