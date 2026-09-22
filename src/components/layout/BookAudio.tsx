@@ -15,6 +15,7 @@ import { chapterCues } from "@/data/cues";
 import { hasChapterMoments } from "@/lib/chapterMoments";
 import { readPlace, writePlace } from "@/lib/bookmark";
 import { isAacSrc, pickChapterAudio } from "@/lib/chapterAudio";
+import { primeAudioBuffer } from "@/lib/audioBlob";
 
 export type ChapterTrack = {
   kind: "chapter";
@@ -406,6 +407,7 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
       }
       el.src = trackSrc(track);
       el.loop = track.kind === "music";
+      if (track.kind === "chapter") primeAudioBuffer(trackSrc(track));
     }
     if (pendingPlay.current) {
       pendingPlay.current = false;

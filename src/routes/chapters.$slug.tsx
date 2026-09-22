@@ -15,10 +15,14 @@ import {
   chapterBySlug,
   chapters,
   citeChapter,
+  FIGURE_MISSION,
   retiredChapterSlugs,
 } from "@/data/chapters";
 import { chapterCues } from "@/data/cues";
 import { hasChapterMoments, loadChapterMoments } from "@/lib/chapterMoments";
+import { photos } from "@/data/photos";
+import { shownInlineFigures } from "@/lib/figureLayout";
+import { parseStartParam } from "@/lib/passageShare";
 import { sectionSeeksFor, type SectionSeek } from "@/data/sectionSeeks";
 import type { Block, Chapter, PhotoId, Section } from "@/data/types";
 import { pageMeta, bannerOgImage } from "@/lib/og/pageMeta";
@@ -26,6 +30,10 @@ import { readPlace, writePlace } from "@/lib/bookmark";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/chapters/$slug")({
+  validateSearch: (search: Record<string, unknown>): { t?: number } => {
+    const t = parseStartParam(search.t);
+    return t == null ? {} : { t };
+  },
   beforeLoad: ({ params }) => {
     const dest = retiredChapterSlugs[params.slug];
     if (dest) {
@@ -55,6 +63,8 @@ export const Route = createFileRoute("/chapters/$slug")({
 function ChapterPage() {
   const { slug } = Route.useParams();
   const { moments: loaded } = Route.useLoaderData();
+  const startAt = Route.useSearch({ select: (s) => s.t });
+  const navigate = Route.useNavigate();
   const [moments, setMoments] = useState(loaded);
   const hash = useRouterState({ select: (s) => s.location.hash });
   const { offer, play, playFrom, track, dockedChapter } = useBookAudio();
@@ -89,14 +99,28 @@ function ChapterPage() {
 
   useEffect(() => {
     if (!chapter?.audio) return;
-    offer({
+    const next: ChapterTrack = {
       kind: "chapter",
       src: chapter.audio,
       title: chapter.title,
       number: chapter.number,
       slug: chapter.slug,
+    };
+    if (startAt == null) {
+      offer(next);
+      return;
+    }
+    playFrom(next, startAt);
+    const fragment =
+      typeof window !== "undefined"
+        ? window.location.hash.replace(/^#/, "")
+        : "";
+    void navigate({
+      search: {},
+      hash: fragment || true,
+      replace: true,
     });
-  }, [chapter, offer]);
+  }, [chapter, offer, playFrom, startAt, navigate]);
 
   useEffect(() => {
     if (!chapter) return;
@@ -288,6 +312,11 @@ function ChapterPage() {
                   plateDoors.set(lastP, list);
                 }
               }
+              const shownPlates = shownInlineFigures(
+                chapter.number,
+                section.blocks,
+                (id) => photos[id].kind,
+              );
               return (
               <section
                 key={section.id}
@@ -341,6 +370,7 @@ function ChapterPage() {
                     block.type === "p" && block.id
                       ? plateDoors.get(block.id)
                       : undefined,
+                    shownPlates,
                   );
                   if (firstPara && block.type === "p") firstPara = false;
                   return <div key={`${section.id}-${i}`}>{node}</div>;
@@ -428,18 +458,13 @@ function seekButton(
   );
 }
 
-const FIGURE_MISSION: Partial<Record<PhotoId, number>> = {
-  nuremberg4: 4,
-  nuremberg5: 5,
-  stripes: 6,
-};
-
 function renderBlock(
   block: Block,
   dropCap: boolean,
   cueId?: string,
   activeId?: string | null,
   plates?: PhotoId[],
+  shownPlates?: Set<PhotoId>,
 ) {
   if (block.type === "quote") {
     return (
@@ -471,6 +496,7 @@ function renderBlock(
     );
   }
   if (block.type === "figure") {
+    if (shownPlates && !shownPlates.has(block.id)) return null;
     const plate = <PhotoPlate id={block.id} caption={block.caption} tone="paper" />;
     const mission = FIGURE_MISSION[block.id];
     if (!mission) return plate;
@@ -507,9 +533,18 @@ function renderBlock(
         </p>
       ) : null}
       {paragraph}
-      {plates?.map((id) => (
-        <PassageDoor key={id} id={id} open={reading} />
-      ))}
+      {plates?.map((id) => {
+        const mission = FIGURE_MISSION[id];
+        const doorOnly = shownPlates ? !shownPlates.has(id) : false;
+        return (
+          <PassageDoor
+            key={id}
+            id={id}
+            open={reading}
+            anchor={doorOnly && mission ? `m-${mission}` : undefined}
+          />
+        );
+      })}
     </div>
   );
 }
