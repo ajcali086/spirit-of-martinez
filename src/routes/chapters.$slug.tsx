@@ -15,10 +15,12 @@ import {
   chapterBySlug,
   chapters,
   citeChapter,
+  FIGURE_MISSION,
   retiredChapterSlugs,
 } from "@/data/chapters";
 import { chapterCues } from "@/data/cues";
 import { hasChapterMoments, loadChapterMoments } from "@/lib/chapterMoments";
+import { parseStartParam } from "@/lib/passageShare";
 import { sectionSeeksFor, type SectionSeek } from "@/data/sectionSeeks";
 import type { Block, Chapter, PhotoId, Section } from "@/data/types";
 import { pageMeta, bannerOgImage } from "@/lib/og/pageMeta";
@@ -26,6 +28,10 @@ import { readPlace, writePlace } from "@/lib/bookmark";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/chapters/$slug")({
+  validateSearch: (search: Record<string, unknown>): { t?: number } => {
+    const t = parseStartParam(search.t);
+    return t == null ? {} : { t };
+  },
   beforeLoad: ({ params }) => {
     const dest = retiredChapterSlugs[params.slug];
     if (dest) {
@@ -55,6 +61,8 @@ export const Route = createFileRoute("/chapters/$slug")({
 function ChapterPage() {
   const { slug } = Route.useParams();
   const { moments: loaded } = Route.useLoaderData();
+  const startAt = Route.useSearch({ select: (s) => s.t });
+  const navigate = Route.useNavigate();
   const [moments, setMoments] = useState(loaded);
   const hash = useRouterState({ select: (s) => s.location.hash });
   const { offer, play, playFrom, track, dockedChapter } = useBookAudio();
@@ -89,14 +97,28 @@ function ChapterPage() {
 
   useEffect(() => {
     if (!chapter?.audio) return;
-    offer({
+    const next: ChapterTrack = {
       kind: "chapter",
       src: chapter.audio,
       title: chapter.title,
       number: chapter.number,
       slug: chapter.slug,
+    };
+    if (startAt == null) {
+      offer(next);
+      return;
+    }
+    playFrom(next, startAt);
+    const fragment =
+      typeof window !== "undefined"
+        ? window.location.hash.replace(/^#/, "")
+        : "";
+    void navigate({
+      search: {},
+      hash: fragment || true,
+      replace: true,
     });
-  }, [chapter, offer]);
+  }, [chapter, offer, playFrom, startAt, navigate]);
 
   useEffect(() => {
     if (!chapter) return;
@@ -427,12 +449,6 @@ function seekButton(
     </button>
   );
 }
-
-const FIGURE_MISSION: Partial<Record<PhotoId, number>> = {
-  nuremberg4: 4,
-  nuremberg5: 5,
-  stripes: 6,
-};
 
 function renderBlock(
   block: Block,

@@ -4,6 +4,7 @@ import { CiteThis } from "@/components/CiteThis";
 import { ContinueTracker } from "@/components/ContinueTracker";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PhotoPlate } from "@/components/PhotoPlate";
+import { SharePassage } from "@/components/SharePassage";
 import { chaptersForPhoto } from "@/data/chapters";
 import { crewForPhoto, isCrewPlate } from "@/data/crew";
 import { adjacentPhotos, citePhoto, isPhotoId, photos } from "@/data/photos";
@@ -95,7 +96,7 @@ function ArchiveObjectPage() {
               <h2 className="font-sans text-[0.68rem] tracking-[0.22em] text-feather uppercase">
                 In the book
               </h2>
-              <ul className="mt-3 space-y-2">
+              <ul className="mt-3 space-y-3">
                 {inBook.map((ch) => (
                   <li key={`${ch.slug}-${ch.paragraphId}`}>
                     <Link
@@ -109,6 +110,16 @@ function ArchiveObjectPage() {
                       </span>
                       {ch.title}
                     </Link>
+                    <div>
+                      <SharePassage
+                        photoId={photo.id}
+                        slug={ch.slug}
+                        paragraphId={ch.paragraphId}
+                        text={ch.text}
+                        chapterNumber={ch.number}
+                        chapterTitle={ch.title}
+                      />
+                    </div>
                   </li>
                 ))}
               </ul>

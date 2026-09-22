@@ -1,5 +1,5 @@
-import type { Chapter } from "./types";
-import { canonicalUrl } from "@/lib/og/pageMeta";
+import type { Chapter, PhotoId } from "./types";
+import { canonicalUrl } from "../lib/og/pageMeta.ts";
 
 export const chapters: Chapter[] = [
   {
@@ -673,6 +673,7 @@ export const chapters: Chapter[] = [
         blocks: [
           { type: "p", id: "m-8", text: "Mission eight took Frank Calicura’s crew to Munich — a rail target, not an airfield, though two clippings in the collection share that city and a nearly identical headline, and only the 95th Bomb Group’s dated crew record sorts out which belongs to which mission." },
           { type: "p", id: "10.2-p1", text: "The family’s own clipping survives from this one: “Rail-Hitting Heavies Tear Into Munich,” reporting that Fortresses rumbled over the city in two waves to hit the terminal rail station and marshalling yards in its eastern and western districts, the fourth day in a row the Eighth had thrown its weight against German communications and fuel supplies. Other formations that same day struck the yards at Ulm, a tank assembly plant at Aschaffenburg, airfields at Giebelstadt and Schwebisch-Hall, and an oil depot hidden in the woods outside Neuberg. More than seven hundred Mustangs and Thunderbolts escorted the raid, five hundred of them assigned solely to shield the bombers. The clipping is a fair measure of how large and how routine this kind of effort had become by February 1945 — a rail network under sustained, systematic attack, one city at a time, as a matter of course rather than exception." },
+          { type: "p", id: "m-9", text: "The ninth morning was Leipzig, February 27. The Air Medal is dated that day. The family kept no clipping of this one of its own." },
         ],
       },
       {
@@ -1175,12 +1176,17 @@ export function chaptersForPhoto(id: string) {
     title: string;
     sectionId: string;
     paragraphId: string;
+    text: string;
   }[] = [];
   for (const ch of chapters) {
     for (const section of ch.sections) {
       let lastP: string | undefined;
+      let lastText = "";
       for (const b of section.blocks) {
-        if (b.type === "p") lastP = b.id ?? section.id;
+        if (b.type === "p") {
+          lastP = b.id ?? section.id;
+          lastText = b.text;
+        }
         if (b.type === "figure" && b.id === id) {
           found.push({
             slug: ch.slug,
@@ -1188,6 +1194,7 @@ export function chaptersForPhoto(id: string) {
             title: ch.title,
             sectionId: section.id,
             paragraphId: lastP ?? section.id,
+            text: lastText,
           });
           break;
         }
@@ -1196,6 +1203,29 @@ export function chaptersForPhoto(id: string) {
     }
   }
   return found;
+}
+
+/** Figures that carry a mission hash so /chapters/…#m-N always resolves. */
+export const FIGURE_MISSION: Partial<Record<PhotoId, number>> = {
+  nuremberg4: 4,
+  nuremberg5: 5,
+  stripes: 6,
+  chart7: 7,
+};
+
+export function chapterAnchorIds(chapter: Chapter): Set<string> {
+  const ids = new Set<string>();
+  for (const section of chapter.sections) {
+    ids.add(section.id);
+    for (const b of section.blocks) {
+      if (b.type === "p" && b.id) ids.add(b.id);
+      if (b.type === "figure") {
+        const n = FIGURE_MISSION[b.id];
+        if (n) ids.add(`m-${n}`);
+      }
+    }
+  }
+  return ids;
 }
 
 export function citeChapter(chapter: { number: number; title: string; slug: string }) {

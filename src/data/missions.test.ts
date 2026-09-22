@@ -1,6 +1,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { HORHAM, THEATER, missionPlaces, missions, parseMissionsHash } from "./missions.ts";
+import { chapterAnchorIds, chapterBySlug } from "./chapters.ts";
+import { HORHAM, THEATER, missionChapter, missionPlaces, missions, parseMissionsHash } from "./missions.ts";
 
 describe("mission map data", () => {
   it("gives every sortie a modern center", () => {
@@ -50,5 +51,26 @@ describe("mission map data", () => {
     assert.deepEqual(parseMissionsHash("map"), { view: "map", number: 7 });
     assert.deepEqual(parseMissionsHash("#m-17"), { view: "list", number: 17 });
     assert.equal(parseMissionsHash("#other"), null);
+  });
+
+  it("lands every mission hash on a heading that exists", () => {
+    for (const m of missions) {
+      const dest = missionChapter(m);
+      const chapter = chapterBySlug(dest.slug);
+      assert.ok(chapter, dest.slug);
+      assert.ok(
+        chapterAnchorIds(chapter!).has(dest.hash),
+        `mission ${m.number} → /chapters/${dest.slug}#${dest.hash}`,
+      );
+    }
+  });
+
+  it("gives Bamberg’s chart and Leipzig their own addresses", () => {
+    const chapter = chapterBySlug("ninety-four-hours");
+    const ids = chapterAnchorIds(chapter!);
+    assert.equal(ids.has("m-7"), true);
+    assert.equal(ids.has("m-9"), true);
+    assert.equal(missionChapter(missions.find((m) => m.number === 7)!).hash, "m-7");
+    assert.equal(missionChapter(missions.find((m) => m.number === 9)!).hash, "m-9");
   });
 });

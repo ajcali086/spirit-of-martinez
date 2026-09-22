@@ -1,5 +1,5 @@
-import { chapterCues, collapseToParagraphs, type ReadingCue } from "./cues";
-import type { Chapter, Section } from "./types";
+import { chapterCues, collapseToParagraphs, type ReadingCue } from "./cues.ts";
+import type { Chapter, Section } from "./types.ts";
 
 export type SectionSeek = {
   id: string;
