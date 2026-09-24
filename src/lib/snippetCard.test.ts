@@ -1,9 +1,12 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import {
+  cardBandHeight,
   coverFit,
   fitCardText,
+  MIN_PASSAGE_HEIGHT,
   shrinkToFit,
+  SNIPPET_CARD_HEIGHT,
   wrapLines,
   type Measure,
 } from "./snippetCard.ts";
@@ -35,6 +38,32 @@ describe("coverFit", () => {
     const { src, dst } = coverFit(0, 0, 100, 100);
     assert.ok(Number.isFinite(src.w) && Number.isFinite(src.h));
     assert.deepEqual(dst, { x: 0, y: 0, w: 100, h: 100 });
+  });
+});
+
+describe("cardBandHeight", () => {
+  // Band bottom to first line of text; mirrors KICKER_GAP + FOOTER_HEIGHT.
+  const reserved = 104 + 108;
+  const passageRoom = (band: number) => SNIPPET_CARD_HEIGHT - reserved - band;
+
+  it("gives a landscape plate its full 0.6 ratio", () => {
+    assert.equal(cardBandHeight(false), 810);
+  });
+
+  it("clamps a portrait plate so the passage keeps its minimum", () => {
+    const band = cardBandHeight(true);
+    assert.ok(band < Math.round(SNIPPET_CARD_HEIGHT * 0.78), "should be clamped");
+    assert.equal(passageRoom(band), MIN_PASSAGE_HEIGHT);
+  });
+
+  it("still gives a portrait plate a taller band than a landscape one", () => {
+    assert.ok(cardBandHeight(true) > cardBandHeight(false));
+  });
+
+  it("never leaves the passage less room than the minimum", () => {
+    for (const portrait of [true, false]) {
+      assert.ok(passageRoom(cardBandHeight(portrait)) >= MIN_PASSAGE_HEIGHT);
+    }
   });
 });
 

@@ -125,6 +125,31 @@ export function shrinkToFit(
   return { size: to, lines: last.lines };
 }
 
+// ------------------------------------------------------------ the band ----
+
+const FOOTER_HEIGHT = 108;
+/** Band bottom to the passage's first line: kicker baseline (+64) then (+40). */
+const KICKER_GAP = 104;
+/** Enough for a 60-word passage (the hard cap) at the 34px floor. */
+export const MIN_PASSAGE_HEIGHT = 260;
+
+/**
+ * How tall the plate's band is. A portrait plate gets a taller band so a crop
+ * doesn't cut through a face — but never so tall that the passage has nowhere
+ * to go: at the full 0.78 ratio only 85px was left, and a legal 53-word
+ * passage bottomed out at the 34px floor and drew straight through the credit
+ * and site lines. Reserve the passage's minimum first; the plate takes what's
+ * left, up to its ratio.
+ */
+export function cardBandHeight(
+  isPortrait: boolean,
+  cardHeight: number = SNIPPET_CARD_HEIGHT,
+): number {
+  const wanted = Math.round(cardHeight * (isPortrait ? 0.78 : 0.6));
+  const maxBand = cardHeight - FOOTER_HEIGHT - KICKER_GAP - MIN_PASSAGE_HEIGHT;
+  return Math.min(wanted, maxBand);
+}
+
 // ------------------------------------------------------------- capping ----
 
 const HARD_CAP_WORDS = 60;
@@ -277,9 +302,7 @@ export async function renderSnippetCard(
   ctx.fillRect(0, 0, SNIPPET_CARD_WIDTH, SNIPPET_CARD_HEIGHT);
 
   // 2. plate, cover-fit into the top band
-  const bandH = Math.round(
-    SNIPPET_CARD_HEIGHT * (input.plateIsPortrait ? 0.78 : 0.6),
-  );
+  const bandH = cardBandHeight(Boolean(input.plateIsPortrait));
   if (input.plateImage) {
     const { src, dst } = coverFit(
       input.plateImage.naturalWidth,
@@ -315,7 +338,6 @@ export async function renderSnippetCard(
   drawTracked(ctx, input.kicker.toUpperCase(), padX, kickerY, 3);
 
   // 5. the passage, shrink-to-fit
-  const footerH = 108;
   const textTop = kickerY + 40;
   const measure: Measure = (t, size) => {
     ctx.font = `italic 400 ${size}px "Cormorant Garamond", Georgia, serif`;
@@ -323,7 +345,7 @@ export async function renderSnippetCard(
   };
   const { size, lines } = shrinkToFit(fitted.text, {
     maxWidth: SNIPPET_CARD_WIDTH - padX * 2,
-    maxHeight: SNIPPET_CARD_HEIGHT - footerH - textTop,
+    maxHeight: SNIPPET_CARD_HEIGHT - FOOTER_HEIGHT - textTop,
     measure,
   });
   ctx.font = `italic 400 ${size}px "Cormorant Garamond", Georgia, serif`;
