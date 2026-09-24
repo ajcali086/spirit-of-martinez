@@ -55,7 +55,7 @@ export function ChapterPlateRail({
         <div
           role="list"
           aria-label="Plates in this chapter"
-          className="flex gap-3 overflow-x-auto px-4 pb-4 sm:px-6"
+          className="flex items-start gap-3 overflow-x-auto px-4 pb-4 sm:px-6"
         >
           {items.map((item) => {
             const photo = photos[item.id];
