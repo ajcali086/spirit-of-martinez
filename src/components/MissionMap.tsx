@@ -228,14 +228,18 @@ export function MissionMap() {
       );
       const firstReveal = revealedFor.current !== focusNumber;
       if (firstReveal && focused) {
+        // Open on the whole theater rather than framing Horham against the
+        // focused target, and leave every popup shut. The focused mission is
+        // still marked — its pin carries the focus ring and its ledger row is
+        // highlighted — but the reader chooses when to open a panel, instead
+        // of arriving at a card that covers most of the map.
         map.fitBounds(
           [
             [HORHAM.lat, HORHAM.lng],
-            [focused.lat, focused.lng],
+            ...places.map((p) => [p.lat, p.lng] as [number, number]),
           ],
-          { padding: [48, 48], maxZoom: 6, animate: false },
+          { padding: [38, 38], maxZoom: 6, animate: false },
         );
-        markersRef.current.get(focused.key)?.openPopup();
         setActiveKey(focused.key);
         lastActiveRef.current = focused.key;
         revealedFor.current = focusNumber;
@@ -295,7 +299,7 @@ export function MissionMap() {
         centers, not wartime aim points. No line is a claimed flight path.
         Repeated names share one pin.
         {focusNumber === 7
-          ? " Mission 7 opens first: the chart’s date and the crew record’s date are both on the panel."
+          ? " Mission 7 is marked; tap its pin for the chart’s date beside the crew record’s."
           : ` Mission ${String(focusNumber).padStart(2, "0")} is marked.`}
       </p>
 
