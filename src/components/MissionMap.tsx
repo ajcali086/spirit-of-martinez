@@ -91,6 +91,20 @@ export function MissionMap() {
         applyDrag();
         phone.addEventListener("change", applyDrag);
 
+        // Rotating the phone resizes the map, so popups bound at the old size
+        // would go back to overhanging it.
+        const refitPopups = () => {
+          const fit = popupFit(map);
+          markersRef.current.forEach((marker) => {
+            const popup = marker.getPopup();
+            if (!popup) return;
+            popup.options.maxWidth = fit.maxWidth;
+            popup.options.maxHeight = fit.maxHeight;
+            if (popup.isOpen()) popup.update();
+          });
+        };
+        map.on("resize", refitPopups);
+
         const surface = map.getContainer();
         let twoFinger: { x: number; y: number } | null = null;
         const mid = (touches: TouchList) => ({
@@ -117,6 +131,7 @@ export function MissionMap() {
 
         dropPointer = () => {
           phone.removeEventListener("change", applyDrag);
+          map.off("resize", refitPopups);
           surface.removeEventListener("touchstart", onTouchStart);
           surface.removeEventListener("touchmove", onTouchMove);
           surface.removeEventListener("touchend", onTouchEnd);
@@ -151,6 +166,7 @@ export function MissionMap() {
           .addTo(map)
           .bindPopup(
             `<div class="pop-kicker">Departure field</div><div class="pop-title">Horham</div><div class="pop-record"><strong>AAF Station 119</strong><br>95th Bomb Group · Suffolk, England</div><p class="pop-note">The base marker is context, not a drawn route origin.</p>`,
+            popupFit(map),
           );
         if (!dead) setReady(true);
       } catch {
@@ -198,7 +214,7 @@ export function MissionMap() {
           riseOnHover: true,
         })
           .addTo(map)
-          .bindPopup(popupHtml(place), { maxWidth: 320 });
+          .bindPopup(popupHtml(place), popupFit(map));
         marker.on("click", () => {
           setActiveKey(place.key);
           lastActiveRef.current = place.key;
@@ -212,14 +228,18 @@ export function MissionMap() {
       );
       const firstReveal = revealedFor.current !== focusNumber;
       if (firstReveal && focused) {
+        // Open on the whole theater rather than framing Horham against the
+        // focused target, and leave every popup shut. The focused mission is
+        // still marked — its pin carries the focus ring and its ledger row is
+        // highlighted — but the reader chooses when to open a panel, instead
+        // of arriving at a card that covers most of the map.
         map.fitBounds(
           [
             [HORHAM.lat, HORHAM.lng],
-            [focused.lat, focused.lng],
+            ...places.map((p) => [p.lat, p.lng] as [number, number]),
           ],
-          { padding: [48, 48], maxZoom: 6, animate: false },
+          { padding: [38, 38], maxZoom: 6, animate: false },
         );
-        markersRef.current.get(focused.key)?.openPopup();
         setActiveKey(focused.key);
         lastActiveRef.current = focused.key;
         revealedFor.current = focusNumber;
@@ -279,7 +299,7 @@ export function MissionMap() {
         centers, not wartime aim points. No line is a claimed flight path.
         Repeated names share one pin.
         {focusNumber === 7
-          ? " Mission 7 opens first: the chart’s date and the crew record’s date are both on the panel."
+          ? " Mission 7 is marked; tap its pin for the chart’s date beside the crew record’s."
           : ` Mission ${String(focusNumber).padStart(2, "0")} is marked.`}
       </p>
 
@@ -404,6 +424,30 @@ export function MissionMap() {
       </section>
     </div>
   );
+}
+
+/**
+ * Popup bounds that fit inside the map itself.
+ *
+ * The mission 7 popup carries the whole chart transcript and runs ~470px tall
+ * against a 500px map, and a flat 320px maxWidth is wider than the map's own
+ * width once the phone is narrow enough (326px of map on a 360px Android). So
+ * it overhung the container, `overflow: hidden` clipped it, and with no
+ * maxHeight there was no internal scroller to reach the clipped part.
+ * Leaflet's autoPan would normally nudge a popup into view, but
+ * maxBoundsViscosity: 1 pins the map at the theater edge and the pan is
+ * refused. Sizing to the container is what actually keeps it reachable:
+ * maxHeight is also what makes Leaflet add its own scroller.
+ */
+function popupFit(map: LeafletMap) {
+  const { x, y } = map.getSize();
+  // maxWidth sizes the popup's *content*; the wrapper's padding and border
+  // add ~33px on top, and the popup sits centered on its marker, so a pin
+  // near the edge shifts it further out. The gutter covers both.
+  return {
+    maxWidth: Math.max(180, Math.min(320, x - 56)),
+    maxHeight: Math.max(160, y - 120),
+  };
 }
 
 function popupHtml(place: MissionPlace) {
