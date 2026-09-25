@@ -79,19 +79,30 @@ export function MissionMap() {
         leafletRef.current = map;
 
         const phone = window.matchMedia("(max-width: 899px)");
-        // touchZoom stays off. A pinch leaves this map's zoom origin
-        // inconsistent: the gesture rewrites each marker's own transform for
-        // the zoom it is previewing, the zoom is then normalised away (the
-        // overlay comes back at scale(1) and the view never changes), and the
-        // markers keep coordinates belonging to a zoom the map never adopted.
-        // Measured on a 390px viewport: a two-finger drag left every pin 52px
-        // off its position and a pinch 553px off, permanently.
+        // No touch gestures move this map: touchZoom is off, and there is
+        // deliberately no two-finger pan (a hand-rolled one used to live
+        // here). Both left the pins off their coordinates, and a pin in the
+        // wrong place is a factual error on this site, not a cosmetic one.
         //
-        // Repositioning them afterwards cannot fix it — marker.update(),
-        // firing viewreset, and re-running update on zoomend all reproduce the
-        // identical offset, because latLngToLayerPoint is itself computing
-        // from the corrupted origin. Only never starting the gesture avoids
-        // it. Zoom stays available through the zoomControl.
+        // A pinch rewrites each marker's own transform for the zoom it is
+        // previewing, the zoom is then normalised away (the overlay comes
+        // back at scale(1) and the view never changes), and the markers keep
+        // coordinates belonging to a zoom the map never adopted. The
+        // two-finger pan did the same through map.panBy. Measured at 390px:
+        // a pinch left pins 553px off, the pan 52px off at the theater bounds
+        // and 179px off zoomed in — permanently, and on main the pins also
+        // stopped answering taps.
+        //
+        // Repositioning them afterwards cannot fix it: marker.update(),
+        // firing viewreset, re-running update on zoomend, and routing the pan
+        // through setView all reproduce the identical offset, because
+        // latLngToLayerPoint is itself computing from the corrupted origin.
+        // Neither zoomAnimation nor maxBoundsViscosity changes it. Only never
+        // starting the gesture avoids it.
+        //
+        // What's left is the map's actual job on a phone: show the theater,
+        // tap a pin, read the popup. Zoom is the +/- control; a pin tap or a
+        // ledger "Pin" recenters. One-finger drag belongs to page scroll.
         const applyDrag = () => {
           map.touchZoom.disable();
           if (phone.matches) {
@@ -117,37 +128,9 @@ export function MissionMap() {
         };
         map.on("resize", refitPopups);
 
-        const surface = map.getContainer();
-        let twoFinger: { x: number; y: number } | null = null;
-        const mid = (touches: TouchList) => ({
-          x: (touches[0].clientX + touches[1].clientX) / 2,
-          y: (touches[0].clientY + touches[1].clientY) / 2,
-        });
-        const onTouchStart = (e: TouchEvent) => {
-          twoFinger = e.touches.length === 2 ? mid(e.touches) : null;
-        };
-        const onTouchMove = (e: TouchEvent) => {
-          if (e.touches.length !== 2 || !twoFinger) return;
-          e.preventDefault();
-          const now = mid(e.touches);
-          map.panBy([twoFinger.x - now.x, twoFinger.y - now.y], { animate: false });
-          twoFinger = now;
-        };
-        const onTouchEnd = () => {
-          twoFinger = null;
-        };
-        surface.addEventListener("touchstart", onTouchStart, { passive: true });
-        surface.addEventListener("touchmove", onTouchMove, { passive: false });
-        surface.addEventListener("touchend", onTouchEnd);
-        surface.addEventListener("touchcancel", onTouchEnd);
-
         dropPointer = () => {
           phone.removeEventListener("change", applyDrag);
           map.off("resize", refitPopups);
-          surface.removeEventListener("touchstart", onTouchStart);
-          surface.removeEventListener("touchmove", onTouchMove);
-          surface.removeEventListener("touchend", onTouchEnd);
-          surface.removeEventListener("touchcancel", onTouchEnd);
         };
 
         L.geoJSON(europe, {
