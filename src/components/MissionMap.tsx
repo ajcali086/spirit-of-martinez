@@ -207,6 +207,10 @@ export function MissionMap() {
           title: `${place.target}: ${place.missions.length} ${place.missions.length === 1 ? "sortie" : "sorties"}`,
           keyboard: false,
           riseOnHover: true,
+          // Leaflet stacks southern markers over northern ones, so at the
+          // theater zoom Osnabrück's pin covered Bremen's and tapping the
+          // marked mission opened the wrong one. The marked pin draws on top.
+          zIndexOffset: focus ? 1000 : 0,
         })
           .addTo(map)
           .bindPopup(popupHtml(place), popupFit(map));
@@ -214,6 +218,13 @@ export function MissionMap() {
           setActiveKey(place.key);
           lastActiveRef.current = place.key;
           userOpened.current = true;
+          // A tap does what the ledger's Pin button does. At the theater
+          // view the map sits on its maxBounds, so the popup's autoPan is
+          // refused and a tall popup above a pin near the top edge was
+          // clipped, title and all. Recentered at zoom 6 there is room to
+          // pan; update() re-runs the popup's layout and autoPan in it.
+          map.setView(marker.getLatLng(), Math.max(map.getZoom(), 6), { animate: false });
+          marker.getPopup()?.update();
         });
         markersRef.current.set(place.key, marker);
       }
