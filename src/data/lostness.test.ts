@@ -28,6 +28,11 @@ describe("lostness", () => {
 
   it("Barnes’s plate opens onto Barnes", () => {
     assert.equal(crewForPhoto("barnes")[0]?.id, "barnes");
+    assert.equal(crewForPhoto("clarkbarnes")[0]?.id, "barnes");
+  });
+
+  it("the unnamed 95th pilot has no crew door", () => {
+    assert.deepEqual(crewForPhoto("unknownpilot"), []);
   });
 
   it("the crew sitting is a roster plate", () => {
