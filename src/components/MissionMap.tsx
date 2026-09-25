@@ -79,13 +79,25 @@ export function MissionMap() {
         leafletRef.current = map;
 
         const phone = window.matchMedia("(max-width: 899px)");
+        // touchZoom stays off. A pinch leaves this map's zoom origin
+        // inconsistent: the gesture rewrites each marker's own transform for
+        // the zoom it is previewing, the zoom is then normalised away (the
+        // overlay comes back at scale(1) and the view never changes), and the
+        // markers keep coordinates belonging to a zoom the map never adopted.
+        // Measured on a 390px viewport: a two-finger drag left every pin 52px
+        // off its position and a pinch 553px off, permanently.
+        //
+        // Repositioning them afterwards cannot fix it — marker.update(),
+        // firing viewreset, and re-running update on zoomend all reproduce the
+        // identical offset, because latLngToLayerPoint is itself computing
+        // from the corrupted origin. Only never starting the gesture avoids
+        // it. Zoom stays available through the zoomControl.
         const applyDrag = () => {
+          map.touchZoom.disable();
           if (phone.matches) {
             map.dragging.disable();
-            map.touchZoom.enable();
           } else {
             map.dragging.enable();
-            map.touchZoom.enable();
           }
         };
         applyDrag();
