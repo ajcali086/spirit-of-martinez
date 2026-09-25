@@ -299,13 +299,14 @@ h1.is-reading,
   z-index: 0;
 }
 @media (max-width: 899px) {
-  /* Dead rule, deliberately left as-is: leaflet.css's own
-     `.leaflet-container.leaflet-touch-zoom { touch-action: pan-x pan-y }` has
-     equal specificity and is imported from the component, so it loads later
-     and wins. The map has always run on `pan-x pan-y`, and two-finger panning
-     depends on the browser not claiming the gesture for page pinch-zoom —
-     which reviving this would hand back. Raise the specificity only together
-     with a real-device check of the two-finger pan. */
+  /* Live only because MissionMap turns touchZoom off. While it was on, Leaflet
+     put `leaflet-touch-zoom` on the container, and leaflet.css's own
+     `.leaflet-container.leaflet-touch-zoom { touch-action: pan-x pan-y }` — equal
+     specificity, loaded later from the component — won. With no touch gesture
+     of the map's own left on a phone, the browser keeps both: one finger
+     scrolls the page, and a pinch zooms the whole page, which scales the pins
+     and the geometry together and so cannot unlatch them. Re-enabling
+     touchZoom would silently kill this rule again. */
   .mission-map .leaflet-container {
     touch-action: pan-y pinch-zoom;
   }
