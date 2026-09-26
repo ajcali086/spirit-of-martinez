@@ -206,6 +206,7 @@
   "chowhound": {"width":1792,"height":1008,"variants":[[480,"chowhound-480w.webp"],[800,"chowhound-800w.webp"],[1200,"chowhound-1200w.webp"],[1600,"chowhound-1600w.webp"],[1792,"chowhound.webp"]]},
   "chowhound-banner": {"width":1500,"height":599,"variants":[[480,"chowhound-banner-480w.webp"],[800,"chowhound-banner-800w.webp"],[1200,"chowhound-banner-1200w.webp"],[1500,"chowhound-banner.webp"]]},
   "cover": {"width":1500,"height":557,"variants":[[480,"cover-480w.webp"],[800,"cover-800w.webp"],[1200,"cover-1200w.webp"],[1500,"cover.webp"]]},
+  "cover-crew": {"width":1500,"height":1189,"variants":[[480,"cover-crew-480w.webp"],[800,"cover-crew-800w.webp"],[1200,"cover-crew-1200w.webp"],[1500,"cover-crew.webp"]]},
   "footlocker": {"width":1500,"height":844,"variants":[[480,"footlocker-480w.webp"],[800,"footlocker-800w.webp"],[1200,"footlocker-1200w.webp"],[1500,"footlocker.webp"]]},
   "hero-fortress": {"width":1500,"height":844,"variants":[[480,"hero-fortress-480w.webp"],[800,"hero-fortress-800w.webp"],[1200,"hero-fortress-1200w.webp"],[1500,"hero-fortress.webp"]]},
   "horham": {"width":1792,"height":1008,"variants":[[480,"horham-480w.webp"],[800,"horham-800w.webp"],[1200,"horham-1200w.webp"],[1600,"horham-1600w.webp"],[1792,"horham.webp"]]},
