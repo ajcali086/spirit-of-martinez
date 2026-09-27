@@ -37,7 +37,7 @@ function TimelinePage() {
               <h2 className="kicker mb-6">{era.label}</h2>
               <ol className="relative border-l border-rule pl-6 sm:pl-8">
                 {events.map((ev) => (
-                  <li key={ev.id} className="relative mb-8 last:mb-0">
+                  <li key={ev.id} id={ev.id} className="relative mb-8 scroll-mt-28 last:mb-0">
                     <span className="absolute top-1.5 -left-[29px] size-2.5 rounded-full bg-brass sm:-left-[37px]" />
                     <p className="text-[0.72rem] tracking-[0.16em] text-brass uppercase">
                       {ev.date}

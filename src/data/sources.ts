@@ -6,6 +6,20 @@ export type SourceClass = {
   blocks: Block[];
 };
 
+export const readingNote =
+  "The voice that follows each chapter is synthetic. It is a reading of the text as written, not a recording.";
+
+export function sourceAnchor(name: string) {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+export function sourceBlockId(prefix: string, index: number) {
+  return `${prefix}-${index}`;
+}
+
 export type MethodRule = {
   rule: string;
   body: string;

@@ -6,6 +6,9 @@ import {
   closing,
   methodRules,
   provenance,
+  readingNote,
+  sourceAnchor,
+  sourceBlockId,
   sourceClasses,
 } from "@/data/sources";
 import type { Block } from "@/data/types";
@@ -16,15 +19,17 @@ export const Route = createFileRoute("/sources")({
   component: SourcesPage,
 });
 
-function Blocks({ blocks }: { blocks: Block[] }) {
+function Blocks({ blocks, idPrefix }: { blocks: Block[]; idPrefix: string }) {
   return (
     <>
       {blocks.map((b, i) => {
+        const id = sourceBlockId(idPrefix, i);
         if (b.type === "note") {
           return (
             <p
               key={i}
-              className="mt-4 border-l-2 border-brass pl-4 text-sm leading-relaxed text-paper"
+              id={id}
+              className="mt-4 scroll-mt-28 border-l-2 border-brass pl-4 text-sm leading-relaxed text-paper"
             >
               {b.text}
             </p>
@@ -32,7 +37,11 @@ function Blocks({ blocks }: { blocks: Block[] }) {
         }
         if (b.type === "p") {
           return (
-            <p key={i} className="mt-4 leading-relaxed text-fog">
+            <p
+              key={i}
+              id={id}
+              className="mt-4 scroll-mt-28 [overflow-wrap:anywhere] leading-relaxed text-fog"
+            >
               {b.text}
             </p>
           );
@@ -57,9 +66,9 @@ function SourcesPage() {
         imageAlt="First Lieutenant Frank Calicura in khaki uniform seated beside bound volumes of the Contra Costa Gazette"
       />
 
-      <section className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+      <section id="provenance" className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
         <h2 className="kicker">Provenance</h2>
-        <Blocks blocks={provenance} />
+        <Blocks blocks={provenance} idPrefix="provenance" />
       </section>
 
       <section
@@ -67,10 +76,7 @@ function SourcesPage() {
         className="mx-auto max-w-3xl scroll-mt-24 px-4 pb-14 sm:px-6"
       >
         <h2 className="kicker">The reading</h2>
-        <p className="mt-4 leading-relaxed text-fog">
-          The voice that follows each chapter is synthetic. It is a reading of
-          the text as written, not a recording.
-        </p>
+        <p className="mt-4 leading-relaxed text-fog">{readingNote}</p>
       </section>
 
       <section className="mx-auto max-w-3xl px-4 pb-14 sm:px-6">
@@ -135,12 +141,12 @@ function SourcesPage() {
           <h2 className="kicker">The four classes of material</h2>
           <ol className="mt-8 space-y-12">
             {sourceClasses.map((c) => (
-              <li key={c.name}>
+              <li key={c.name} id={sourceAnchor(c.name)} className="scroll-mt-28">
                 <p className="font-sans text-[0.72rem] tracking-[0.22em] text-feather uppercase">
                   {c.ordinal}
                 </p>
                 <h3 className="mt-2 font-display text-2xl text-paper">{c.name}</h3>
-                <Blocks blocks={c.blocks} />
+                <Blocks blocks={c.blocks} idPrefix={sourceAnchor(c.name)} />
               </li>
             ))}
           </ol>
@@ -151,7 +157,7 @@ function SourcesPage() {
         <h2 className="kicker">How conflicts are handled</h2>
         <dl className="mt-8 divide-y divide-rule border-y border-rule">
           {methodRules.map((r) => (
-            <div key={r.rule} className="py-5">
+            <div key={r.rule} id={sourceAnchor(r.rule)} className="scroll-mt-28 py-5">
               <dt className="font-display text-xl text-paper">{r.rule}</dt>
               <dd className="mt-2 text-sm leading-relaxed text-muted">{r.body}</dd>
             </div>
@@ -163,7 +169,11 @@ function SourcesPage() {
         <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
           {closing.map((b, i) =>
             b.type === "p" ? (
-              <p key={i} className="font-display text-2xl leading-snug text-ink">
+              <p
+                key={i}
+                id={sourceBlockId("sources-close", i)}
+                className="scroll-mt-28 font-display text-2xl leading-snug text-ink"
+              >
                 {b.text}
               </p>
             ) : null,
