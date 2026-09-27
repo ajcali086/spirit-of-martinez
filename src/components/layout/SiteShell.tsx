@@ -12,7 +12,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
       <SkipLink />
       <ReadingProgress />
       <SiteHeader />
-      {track ? <div className="h-12 shrink-0" aria-hidden /> : null}
+      {track ? <div className="h-[4.75rem] shrink-0 sm:h-12" aria-hidden /> : null}
       <div id="main" tabIndex={-1} className="flex-1 outline-none">
         {children}
       </div>
