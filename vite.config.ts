@@ -37,7 +37,7 @@ function searchIndexPlugin(): Plugin {
     buildStart() {
       execFileSync(
         process.execPath,
-        ["--experimental-strip-types", "scripts/build-search-index.ts"],
+        ["--experimental-strip-types", "--import", "./scripts/test-register.mjs", "scripts/build-search-index.ts"],
         { stdio: "inherit" },
       );
     },
