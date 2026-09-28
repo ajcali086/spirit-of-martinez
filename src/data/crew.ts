@@ -222,6 +222,7 @@ const CALICURA_PLATES = new Set<PhotoId>([
   "portrait",
   "cadet",
   "joyce1958",
+  "tampaorder",
   "instrument",
   "merit",
   "promotion",
@@ -250,6 +251,10 @@ export function crewForPhoto(id: PhotoId): CrewMember[] {
     return ["calicura", "barnes", "probst"]
       .map((pid) => crewById(pid))
       .filter((m): m is CrewMember => Boolean(m));
+  }
+  if (id === "clarkbarnes") {
+    const barnes = crewById("barnes");
+    return barnes ? [barnes] : [];
   }
   if (CALICURA_PLATES.has(id)) {
     const frank = crewById("calicura");

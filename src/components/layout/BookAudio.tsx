@@ -680,7 +680,7 @@ function PlayerBar({
         : time
       : 0;
   const titleClass =
-    "min-w-0 shrink truncate font-sans text-[0.68rem] tracking-[0.14em] text-fog uppercase";
+    "flex min-h-11 min-w-0 flex-1 items-center truncate font-sans text-[0.68rem] tracking-[0.14em] text-fog uppercase sm:flex-none sm:shrink";
 
   return (
     <div
@@ -689,35 +689,35 @@ function PlayerBar({
       aria-label={music ? "Music" : "Synthetic chapter reading"}
     >
       <div className="pointer-events-auto border-b border-rule/80 bg-ink/90 backdrop-blur-md">
-        <div className="mx-auto flex h-12 max-w-6xl items-center gap-3 px-3 sm:px-6">
-          <button
-            type="button"
-            onClick={onToggle}
-            className="flex size-11 shrink-0 items-center justify-center text-brass hover:text-paper"
-            aria-label={label}
-            aria-keyshortcuts="Space"
-          >
-            {playing ? (
-              <Pause className="size-5 fill-current" />
+        <div className="mx-auto max-w-6xl px-3 py-1.5 sm:flex sm:h-12 sm:items-center sm:gap-3 sm:px-6 sm:py-0">
+          <div className="flex items-center gap-2 sm:contents">
+            <button
+              type="button"
+              onClick={onToggle}
+              className="flex size-11 shrink-0 items-center justify-center text-brass hover:text-paper"
+              aria-label={label}
+              aria-keyshortcuts="Space"
+            >
+              {playing ? (
+                <Pause className="size-5 fill-current" />
+              ) : (
+                <Play className="size-5 fill-current" />
+              )}
+            </button>
+            {!music ? (
+              <span className="hidden shrink-0 font-sans text-[0.58rem] tracking-[0.16em] text-muted uppercase lg:inline">
+                Space
+              </span>
+            ) : null}
+            {music ? (
+              pathname === "/" ? (
+                <p className={titleClass}>{track.title}</p>
+              ) : (
+                <Link to="/" className={`${titleClass} hover:text-paper`}>
+                  {track.title}
+                </Link>
+              )
             ) : (
-              <Play className="size-5 fill-current" />
-            )}
-          </button>
-          {!music ? (
-            <span className="hidden shrink-0 font-sans text-[0.58rem] tracking-[0.16em] text-muted uppercase lg:inline">
-              Space
-            </span>
-          ) : null}
-          {music ? (
-            pathname === "/" ? (
-              <p className={titleClass}>{track.title}</p>
-            ) : (
-              <Link to="/" className={`${titleClass} hover:text-paper`}>
-                {track.title}
-              </Link>
-            )
-          ) : (
-            <>
               <Link
                 to="/chapters/$slug"
                 params={{ slug: track.slug }}
@@ -725,67 +725,71 @@ function PlayerBar({
               >
                 Chapter {String(track.number).padStart(2, "0")} · {track.title}
               </Link>
+            )}
+            <button
+              type="button"
+              onClick={music ? onDockMusic : onDockChapter}
+              className="flex size-11 shrink-0 items-center justify-center text-muted hover:text-paper sm:order-last"
+              aria-label={music ? "Hide Skywatch Silence" : "Hide reading"}
+            >
+              <X className="size-4" />
+            </button>
+          </div>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-0 pb-0.5 pl-[3.25rem] sm:contents sm:pb-0 sm:pl-0">
+            {!music ? (
               <Link
                 to="/sources"
                 hash="reading"
-                className="shrink-0 font-sans text-[0.58rem] tracking-[0.16em] text-muted uppercase hover:text-paper"
+                className="inline-flex min-h-11 shrink-0 items-center font-sans text-[0.58rem] tracking-[0.16em] text-muted uppercase hover:text-paper"
               >
                 Synthetic
               </Link>
-            </>
-          )}
-          {music ? (
-            <label className="flex min-w-20 flex-1 sm:max-w-40">
-              <span className="sr-only">Volume</span>
+            ) : null}
+            {music ? (
+              <label className="flex min-w-20 flex-1 sm:max-w-40">
+                <span className="sr-only">Volume</span>
+                <input
+                  type="range"
+                  min={0}
+                  max={1}
+                  step={0.01}
+                  value={volume}
+                  onChange={(e) => onVolume(Number(e.target.value))}
+                  className="h-1 w-full cursor-pointer accent-brass"
+                />
+              </label>
+            ) : duration > 0 ? (
               <input
                 type="range"
                 min={0}
-                max={1}
-                step={0.01}
-                value={volume}
-                onChange={(e) => onVolume(Number(e.target.value))}
-                className="h-1 w-full cursor-pointer accent-brass"
+                max={duration}
+                step={0.1}
+                value={elapsed}
+                onInput={(e) => onSeek(Number(e.currentTarget.value))}
+                onChange={(e) => onSeek(Number(e.currentTarget.value))}
+                aria-label="Reading position"
+                className="hidden h-1 min-w-0 flex-1 cursor-pointer accent-brass sm:block"
               />
-            </label>
-          ) : duration > 0 ? (
-            <input
-              type="range"
-              min={0}
-              max={duration}
-              step={0.1}
-              value={elapsed}
-              onInput={(e) => onSeek(Number(e.currentTarget.value))}
-              onChange={(e) => onSeek(Number(e.currentTarget.value))}
-              aria-label="Reading position"
-              className="hidden h-1 min-w-0 flex-1 cursor-pointer accent-brass sm:block"
-            />
-          ) : (
-            <span className="hidden flex-1 sm:block" />
-          )}
-          <p className="shrink-0 font-sans text-[0.68rem] tabular-nums tracking-wide text-muted">
-            {formatTime(elapsed)}
-            {duration ? ` / ${formatTime(duration)}` : ""}
-          </p>
-          {!music && (hasChapterMoments(track.slug) || chapterCues[track.slug]) ? (
-            <button
-              type="button"
-              onClick={() => onFollow(!follow)}
-              aria-pressed={follow}
-              className={`inline-flex min-h-11 shrink-0 items-center px-1.5 font-sans text-[0.62rem] tracking-[0.14em] uppercase sm:px-2 sm:tracking-[0.16em] ${
-                follow ? "text-brass" : "text-muted hover:text-paper"
-              }`}
-            >
-              {follow ? "Following" : "Follow"}
-            </button>
-          ) : null}
-          <button
-            type="button"
-            onClick={music ? onDockMusic : onDockChapter}
-            className="flex size-11 shrink-0 items-center justify-center text-muted hover:text-paper"
-            aria-label={music ? "Hide Skywatch Silence" : "Hide reading"}
-          >
-            <X className="size-4" />
-          </button>
+            ) : (
+              <span className="hidden flex-1 sm:block" />
+            )}
+            <p className="shrink-0 font-sans text-[0.68rem] tabular-nums tracking-wide text-muted">
+              {formatTime(elapsed)}
+              {duration ? ` / ${formatTime(duration)}` : ""}
+            </p>
+            {!music && (hasChapterMoments(track.slug) || chapterCues[track.slug]) ? (
+              <button
+                type="button"
+                onClick={() => onFollow(!follow)}
+                aria-pressed={follow}
+                className={`inline-flex min-h-11 shrink-0 items-center px-1.5 font-sans text-[0.62rem] tracking-[0.14em] uppercase sm:px-2 sm:tracking-[0.16em] ${
+                  follow ? "text-brass" : "text-muted hover:text-paper"
+                }`}
+              >
+                {follow ? "Following" : "Follow"}
+              </button>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>

@@ -24,48 +24,72 @@ function Home() {
 
   return (
     <SiteShell>
-      <section className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col justify-end overflow-hidden sm:min-h-[calc(100dvh-5rem)]">
+      <section className="relative min-h-[calc(100dvh-4.5rem)] overflow-hidden border-b border-rule sm:min-h-[calc(100dvh-5rem)]">
         <SiteImage
-          src="/images/hero-fortress.jpg"
-          alt="The locker arranged: B-15 jacket, Horham crew photograph, wallet, and gloves"
-          width={1800}
-          height={1200}
+          src="/images/cover-crew.jpg"
+          alt="Nine airmen posed under the nose of the B-17 Spirit of Martinez, Horham, 1945"
+          width={1500}
+          height={1189}
           fetchPriority="high"
           decoding="async"
-          className="absolute inset-0 size-full bg-ink-mid object-cover"
+          className="absolute inset-0 size-full object-cover object-[center_32%] sm:object-[68%_42%]"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/82 to-ink/50" />
-        <div className="relative mx-auto w-full max-w-6xl px-4 pb-28 pt-12 [text-shadow:0_1px_18px_rgb(20_18_16_/_0.92)] sm:px-6 sm:pb-24">
-          <p className="kicker stagger-in">Martinez, California · 1938–1959</p>
-          <h1 className="stagger-in mt-4 max-w-4xl font-display text-4xl leading-[0.95] font-semibold text-paper sm:text-6xl lg:text-7xl">
-            The Spirit of Martinez
-          </h1>
-          <p className="stagger-in mt-3 font-display text-xl italic text-fog sm:text-2xl">
-            What a Family Kept
+        <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/50 to-ink/10 sm:bg-linear-to-r sm:from-ink sm:via-ink/80 sm:via-42% sm:to-transparent" />
+        <div className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col justify-end px-4 py-10 sm:min-h-[calc(100dvh-5rem)] sm:justify-between sm:px-8 sm:py-10 lg:px-12">
+          <p className="hidden text-right font-sans text-[0.68rem] leading-relaxed tracking-[0.28em] text-paper/90 uppercase sm:block">
+            Martinez
+            <br />
+            California
+            <br />
+            <span className="tracking-[0.22em] text-fog">1938–1959</span>
           </p>
-          <p className="stagger-in mt-6 max-w-2xl font-display text-lg leading-snug text-paper sm:text-xl lg:max-w-3xl lg:text-2xl lg:leading-snug">
-            In 1945 a butcher’s son from Martinez, California, flew a B-17 named
-            for his hometown: twenty-eight missions over Germany, then three
-            over Utrecht, dropping food. His family kept the footlocker. The
-            papers in it disagree about the count, and this is where they part.
-          </p>
-          <div className="stagger-in mt-8 flex flex-wrap gap-3">
-            <Link
-              to="/chapters"
-              className="inline-flex min-h-12 items-center gap-2 bg-brass px-5 text-sm tracking-[0.12em] text-ink uppercase transition-transform duration-150 ease-out hover:bg-brass-dim active:scale-[0.96]"
-            >
-              Read the book
-              <ArrowRight className="size-4" />
-            </Link>
-            <Link
-              to="/chapters/$slug"
-              params={{ slug: "mission-one" }}
-              className="inline-flex min-h-12 items-center border border-fog/40 px-5 text-sm tracking-[0.12em] text-paper uppercase transition-colors hover:border-brass hover:text-brass"
-            >
-              Start at the first morning
-            </Link>
+          <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,34rem)_1fr]">
+            <div>
+              <p className="kicker stagger-in">The</p>
+              <h1 className="stagger-in mt-2 max-w-xl font-display text-5xl leading-[0.9] font-semibold text-paper sm:text-6xl lg:text-7xl">
+                Spirit of Martinez
+              </h1>
+              <div className="stagger-in mt-5 h-px w-40 bg-brass" />
+              <p className="stagger-in mt-4 font-sans text-[0.72rem] tracking-[0.22em] text-paper uppercase">
+                What a family kept
+              </p>
+              <p className="stagger-in mt-4 max-w-md font-display text-lg leading-snug text-fog sm:text-xl">
+                A B-17 named for Martinez. Nine men. Twenty-eight missions over
+                Germany, then three food drops over Utrecht.
+              </p>
+              <div className="stagger-in mt-8 flex flex-wrap gap-3">
+                <Link
+                  to="/chapters"
+                  className="inline-flex min-h-12 items-center gap-2 border border-brass px-5 text-sm tracking-[0.16em] text-brass uppercase transition-colors hover:bg-brass hover:text-ink"
+                >
+                  Read the book
+                  <ArrowRight className="size-4" />
+                </Link>
+                <Link
+                  to="/chapters/$slug"
+                  params={{ slug: "mission-one" }}
+                  className="inline-flex min-h-12 items-center px-2 text-sm tracking-[0.14em] text-fog uppercase hover:text-paper"
+                >
+                  Start at the first morning
+                </Link>
+              </div>
+              <HomeMusic />
+            </div>
+            <div className="hidden text-right lg:block">
+              <p className="ml-auto max-w-xs font-display text-2xl leading-snug text-paper italic">
+                The papers disagree about the count.
+              </p>
+              <p className="mt-8 font-sans text-[0.65rem] leading-relaxed tracking-[0.2em] text-fog uppercase">
+                U.S. Army Air Forces
+                <br />
+                B-17G · 44-6838
+                <br />
+                <span className="mt-3 inline-block tracking-[0.16em] text-paper/80">
+                  Horham · 1945
+                </span>
+              </p>
+            </div>
           </div>
-          <HomeMusic />
         </div>
       </section>
 

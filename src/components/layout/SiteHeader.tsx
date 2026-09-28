@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
+import { SiteSearch } from "@/components/SiteSearch";
 import { SpiritMark } from "@/components/SpiritMark";
 import { nav } from "@/data/nav";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [searching, setSearching] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
@@ -14,8 +16,16 @@ export function SiteHeader() {
   }, [pathname]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-rule/80 bg-ink/85 backdrop-blur-md">
+    <header
+      className={cn(
+        "sticky top-0 border-b border-rule/80 bg-ink/85 backdrop-blur-md",
+        searching ? "z-[60]" : "z-40",
+      )}
+    >
       <div className="relative mx-auto flex h-[4.5rem] max-w-6xl items-center justify-end px-4 sm:h-20 sm:px-6">
+        <div className="absolute inset-y-0 left-1 z-20 flex items-center sm:left-4">
+          <SiteSearch onEngage={() => setOpen(false)} onActive={setSearching} />
+        </div>
         <Link
           to="/"
           aria-label="Spirit of Martinez"

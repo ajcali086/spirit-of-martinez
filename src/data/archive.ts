@@ -99,6 +99,11 @@ export const artifacts: {
     photoId: "snorter",
   },
   {
+    title: "Crew No. 1479",
+    body: "SO #243, Tampa, 30 August 1944. Eight names. No navigator. Barnes is not on this sheet.",
+    photoId: "tampaorder",
+  },
+  {
     title: "Nine wallets",
     body: "Martinez Kiwanis Club, stamped SPIRIT OF MARTINEZ, ordered for a war in the Pacific that never came.",
     photoId: "wallet",

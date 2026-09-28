@@ -289,8 +289,24 @@ h1.is-reading,
 .mission-map .leaflet-container {
   background: #1c1a16;
   font-family: var(--font-sans);
+  /* Leaflet gives its panes and controls z-index 400-1000, but its container
+     is position:relative with z-index:auto, so it never opens a stacking
+     context and those values compete with the page's own. The sticky header
+     is z-50 and the player z-50/60, so scrolling the map under them let
+     geometry, markers, the popup and the zoom control paint over the site
+     chrome. Isolating keeps Leaflet's z-indexes inside the map. */
+  isolation: isolate;
+  z-index: 0;
 }
 @media (max-width: 899px) {
+  /* Live only because MissionMap turns touchZoom off. While it was on, Leaflet
+     put `leaflet-touch-zoom` on the container, and leaflet.css's own
+     `.leaflet-container.leaflet-touch-zoom { touch-action: pan-x pan-y }` — equal
+     specificity, loaded later from the component — won. With no touch gesture
+     of the map's own left on a phone, the browser keeps both: one finger
+     scrolls the page, and a pinch zooms the whole page, which scales the pins
+     and the geometry together and so cannot unlatch them. Re-enabling
+     touchZoom would silently kill this rule again. */
   .mission-map .leaflet-container {
     touch-action: pan-y pinch-zoom;
   }

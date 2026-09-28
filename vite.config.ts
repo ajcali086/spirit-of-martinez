@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import type { Plugin } from "vite";
@@ -30,6 +31,19 @@ function hasGlobbedMigrations(root: string): boolean {
  * migrations — no schema to apply — skips it entirely rather than paying for a
  * PGLite instance it never queries.
  */
+function searchIndexPlugin(): Plugin {
+  return {
+    name: "search-index",
+    buildStart() {
+      execFileSync(
+        process.execPath,
+        ["--experimental-strip-types", "--import", "./scripts/test-register.mjs", "scripts/build-search-index.ts"],
+        { stdio: "inherit" },
+      );
+    },
+  };
+}
+
 function pgliteBootstrapPlugin(): Plugin {
   return {
     name: "app-builder:pglite-bootstrap",
@@ -158,6 +172,7 @@ export default defineConfig(({ command, isPreview }) => ({
   },
   resolve: { tsconfigPaths: true },
   plugins: [
+    searchIndexPlugin(),
     pgliteBootstrapPlugin(),
     // Before tanstackStart so /auth/popup never falls through to the SPA.
     authPopupPlugin(),

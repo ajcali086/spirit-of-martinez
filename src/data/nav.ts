@@ -6,4 +6,5 @@ export const nav = [
   { href: "/aircraft", label: "Aircraft" },
   { href: "/archive", label: "Archive" },
   { href: "/sources", label: "Sources" },
+  { href: "/both-stand", label: "Both Stand" },
 ] as const;
