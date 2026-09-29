@@ -4,7 +4,9 @@ import { readdirSync, readFileSync } from "node:fs";
 import {
   AAC_QUERY,
   AAC_TYPE,
+  AUDIO_ORIGIN,
   aacSrc,
+  audioUrl,
   pickChapterAudio,
   isAacSrc,
 } from "./chapterAudio.ts";
@@ -27,17 +29,19 @@ describe("pickChapterAudio", () => {
   it("keeps the MP3 when AAC is not playable", () => {
     assert.equal(
       pickChapterAudio("weight-of-small-machines", MP3, () => ""),
-      MP3,
+      audioUrl(MP3),
     );
   });
 
   it("asks for AAC-LC in MP4 at v=3", () => {
     assert.equal(AAC_TYPE, 'audio/mp4; codecs="mp4a.40.2"');
     assert.equal(AAC_QUERY, "v=3");
-    assert.equal(
-      aacSrc("mission-one"),
-      "/audio/mission-one.m4a?v=3",
-    );
+    assert.equal(aacSrc("mission-one"), `${AUDIO_ORIGIN}/mission-one.m4a?v=3`);
+  });
+
+  it("leaves the filename alone and keeps the query", () => {
+    assert.equal(audioUrl("/audio/skywatch-silence.mp3"), `${AUDIO_ORIGIN}/skywatch-silence.mp3`);
+    assert.equal(audioUrl(MP3), `${AUDIO_ORIGIN}/weight-of-small-machines.mp3?v=3`);
   });
 });
 
@@ -50,17 +54,10 @@ describe("isAacSrc", () => {
 
 describe("AAC companions on disk", () => {
   it("ships a duration-checked m4a next to every chapter MP3", () => {
-    const chapterSrc = readFileSync(
-      new URL("../data/chapters.ts", import.meta.url),
-      "utf8",
-    );
-    const audios = [...chapterSrc.matchAll(/audio: "(\/audio\/[^"]+)"/g)].map(
-      (m) => m[1],
-    );
+    const chapterSrc = readFileSync(new URL("../data/chapters.ts", import.meta.url), "utf8");
+    const audios = [...chapterSrc.matchAll(/audio: "(\/audio\/[^"]+)"/g)].map((m) => m[1]);
     assert.equal(audios.length, 15);
-    const files = new Set(
-      readdirSync(new URL("../../public/audio/", import.meta.url)),
-    );
+    const files = new Set(readdirSync(new URL("../../public/audio/", import.meta.url)));
     for (const audio of audios) {
       assert.match(audio, /\.mp3\?v=3$/);
       const slug = audio.slice("/audio/".length, -".mp3?v=3".length);
