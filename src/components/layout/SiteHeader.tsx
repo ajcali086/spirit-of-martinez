@@ -15,8 +15,15 @@ export function SiteHeader() {
     setOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    const close = () => setOpen(false);
+    window.addEventListener("som-close-chrome", close);
+    return () => window.removeEventListener("som-close-chrome", close);
+  }, []);
+
   return (
     <header
+      data-site-header
       className={cn(
         "sticky top-0 border-b border-rule/80 bg-ink/85 backdrop-blur-md",
         searching ? "z-[60]" : "z-40",
@@ -47,14 +54,10 @@ export function SiteHeader() {
         </button>
       </div>
 
-      <nav
-        className="hidden border-t border-rule/60 lg:block"
-        aria-label="Primary"
-      >
+      <nav className="hidden border-t border-rule/60 lg:block" aria-label="Primary">
         <div className="mx-auto flex max-w-6xl items-center justify-center gap-0.5 px-4 sm:px-6">
           {nav.map((item) => {
-            const active =
-              pathname === item.href || pathname.startsWith(`${item.href}/`);
+            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
               <Link
                 key={item.href}

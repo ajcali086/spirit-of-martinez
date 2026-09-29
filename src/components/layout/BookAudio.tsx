@@ -464,7 +464,10 @@ export function BookAudioProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const showMusicDock = musicDocked && track?.kind !== "music";
     const showChapterDock = Boolean(chapterResume) && track?.kind !== "chapter";
-    document.documentElement.style.setProperty("--player-h", track ? "3rem" : "0px");
+    document.documentElement.style.setProperty(
+      "--player-h",
+      track && !document.documentElement.classList.contains("player-tucked") ? "3rem" : "0px",
+    );
     document.documentElement.style.setProperty(
       "--dock-h",
       showMusicDock || showChapterDock ? "4.25rem" : "0px",
@@ -685,6 +688,57 @@ function PlayerBar({
   onFollow: (value: boolean) => void;
 }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const [phone, setPhone] = useState(false);
+  const [awake, setAwake] = useState(false);
+  const canTuck = Boolean(phone && follow && playing && track?.kind === "chapter");
+  const tucked = canTuck && !awake;
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const apply = () => setPhone(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
+  useEffect(() => {
+    if (!canTuck) return;
+    setAwake(false);
+    let timer = 0;
+    const arm = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        const bar = document.querySelector("[data-player-bar]");
+        if (bar?.contains(document.activeElement)) {
+          arm();
+          return;
+        }
+        setAwake(false);
+      }, 4000);
+    };
+    const wake = () => {
+      setAwake(true);
+      arm();
+    };
+    const sleep = () => setAwake(false);
+    window.addEventListener("pointerdown", wake);
+    window.addEventListener("som-follow-scroll", sleep);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("pointerdown", wake);
+      window.removeEventListener("som-follow-scroll", sleep);
+    };
+  }, [canTuck]);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("player-tucked", tucked);
+    document.documentElement.style.setProperty("--player-h", tucked || !track ? "0px" : "3rem");
+    return () => {
+      document.documentElement.classList.remove("player-tucked");
+      if (track) document.documentElement.style.setProperty("--player-h", "3rem");
+    };
+  }, [tucked, track]);
+
   if (!track) return null;
 
   const music = track.kind === "music";
@@ -702,11 +756,15 @@ function PlayerBar({
 
   return (
     <div
-      className="pointer-events-none fixed inset-x-0 top-[4.5rem] z-50 sm:top-20 lg:top-[7.875rem]"
+      data-player-bar
+      className="pointer-events-none fixed inset-x-0 top-[var(--header-h)] z-50"
       role="region"
       aria-label={music ? "Music" : "Synthetic chapter reading"}
     >
-      <div className="pointer-events-auto border-b border-rule/80 bg-ink/90 backdrop-blur-md">
+      <div
+        className="pointer-events-auto border-b border-rule/80 bg-ink/90 backdrop-blur-md"
+        inert={tucked}
+      >
         <div className="mx-auto max-w-6xl px-3 py-1.5 sm:flex sm:h-12 sm:items-center sm:gap-3 sm:px-6 sm:py-0">
           <div className="flex items-center gap-2 sm:contents">
             <button

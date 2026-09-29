@@ -1,13 +1,16 @@
 import { createFileRoute, Link, notFound, redirect, useRouterState } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Headphones, Play } from "lucide-react";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { SiteShell } from "@/components/layout/SiteShell";
+import { useFloatingClearance } from "@/components/layout/useFloatingClearance";
 import { useBookAudio, type ChapterTrack } from "@/components/layout/BookAudio";
 import { PhotoPlate } from "@/components/PhotoPlate";
 import { PassageDoor } from "@/components/PassageDoor";
 import { ChapterPlateRail } from "@/components/ChapterPlateRail";
 import { useDoorDeconflict } from "@/components/useDoorDeconflict";
 import { CiteThis } from "@/components/CiteThis";
+import { SharePassage } from "@/components/SharePassage";
+import { TextSize } from "@/components/TextSize";
 import { ContinueTracker } from "@/components/ContinueTracker";
 import { SiteImage } from "@/components/SiteImage";
 import { useReadingFollow } from "@/components/ReadingFollow";
@@ -72,6 +75,33 @@ function ChapterPage() {
   const { activeId } = useReadingFollow(slug);
   const chapter = chapterBySlug(slug);
   useDoorDeconflict(slug);
+  const hideRef = useRef<HTMLButtonElement>(null);
+  const [headerHidden, setHeaderHidden] = useState(false);
+  const [notice, setNotice] = useState("");
+  const { topVisible, footerInView } = useFloatingClearance();
+
+  useEffect(() => {
+    setHeaderHidden(false);
+    setNotice("");
+    document.body.classList.remove("reading-focus");
+    return () => {
+      document.body.classList.remove("reading-focus");
+    };
+  }, [slug]);
+
+  function setHeader(hidden: boolean) {
+    setHeaderHidden(hidden);
+    document.body.classList.toggle("reading-focus", hidden);
+    if (hidden) {
+      window.dispatchEvent(new Event("som-close-chrome"));
+      const header = document.querySelector("[data-site-header]");
+      if (header?.contains(document.activeElement)) {
+        hideRef.current?.focus({ preventScroll: true });
+      }
+    }
+    setNotice(hidden ? "Header hidden" : "Header shown");
+    if (!hidden) hideRef.current?.focus({ preventScroll: true });
+  }
 
   useEffect(() => {
     setMoments(loaded);
@@ -92,8 +122,7 @@ function ChapterPage() {
   useLayoutEffect(() => {
     const id = hash.replace(/^#/, "");
     if (!id) return;
-    const go = () =>
-      document.getElementById(id)?.scrollIntoView({ block: "start" });
+    const go = () => document.getElementById(id)?.scrollIntoView({ block: "start" });
     go();
     requestAnimationFrame(go);
   }, [hash, slug]);
@@ -112,10 +141,7 @@ function ChapterPage() {
       return;
     }
     playFrom(next, startAt);
-    const fragment =
-      typeof window !== "undefined"
-        ? window.location.hash.replace(/^#/, "")
-        : "";
+    const fragment = typeof window !== "undefined" ? window.location.hash.replace(/^#/, "") : "";
     void navigate({
       search: {},
       hash: fragment || true,
@@ -141,12 +167,9 @@ function ChapterPage() {
   const { prev, next } = adjacentChapters(slug);
   const cite = citeChapter(chapter);
   const railItems = figureRail(chapter.sections, (id) => FIGURE_MISSION[id]);
-  const seeks = chapter.audio
-    ? sectionSeeksFor(chapter, moments?.cues)
-    : undefined;
+  const seeks = chapter.audio ? sectionSeeksFor(chapter, moments?.cues) : undefined;
   let firstPara = true;
-  const thisChapter =
-    track?.kind === "chapter" && track.slug === chapter.slug;
+  const thisChapter = track?.kind === "chapter" && track.slug === chapter.slug;
   const thisDocked = dockedChapter?.slug === chapter.slug;
   const occupied =
     (track?.kind === "chapter" && track.slug !== chapter.slug) ||
@@ -156,6 +179,20 @@ function ChapterPage() {
   return (
     <SiteShell>
       <ContinueTracker kind="chapter" slug={chapter.slug} />
+      {headerHidden && !footerInView ? (
+        <button
+          type="button"
+          onClick={() => setHeader(false)}
+          className={cn(
+            "fixed right-4 z-40 min-h-11 bg-brass px-4 text-[0.68rem] tracking-[0.16em] text-ink uppercase hover:bg-brass-dim sm:right-6",
+            topVisible
+              ? "bottom-[calc(1rem+2.75rem+0.75rem+var(--dock-h,0px))] sm:bottom-[calc(1.5rem+2.75rem+0.75rem+var(--dock-h,0px))]"
+              : "bottom-[calc(1rem+var(--dock-h,0px))] sm:bottom-[calc(1.5rem+var(--dock-h,0px))]",
+          )}
+        >
+          Show header
+        </button>
+      ) : null}
       <article>
         <header className="relative overflow-hidden border-b border-rule">
           <SiteImage
@@ -172,10 +209,7 @@ function ChapterPage() {
           />
           <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/80 to-ink/30" />
           <div className="relative mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20">
-            <p
-              data-cue="ch-num"
-              className={cn("kicker", activeId === "ch-num" && "is-reading")}
-            >
+            <p data-cue="ch-num" className={cn("kicker", activeId === "ch-num" && "is-reading")}>
               Chapter {chapter.number} · {chapter.years}
             </p>
             <h1
@@ -196,24 +230,42 @@ function ChapterPage() {
             >
               {chapter.kicker}
             </p>
-            {chapter.audio && occupied && !thisChapter && !thisDocked ? (
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              {chapter.audio && occupied && !thisChapter && !thisDocked ? (
+                <button
+                  type="button"
+                  onClick={() =>
+                    play({
+                      kind: "chapter",
+                      src: chapter.audio!,
+                      title: chapter.title,
+                      number: chapter.number,
+                      slug: chapter.slug,
+                    })
+                  }
+                  className="inline-flex min-h-12 items-center gap-2 border border-fog/40 px-5 text-sm tracking-[0.12em] text-paper uppercase hover:border-brass hover:text-brass"
+                >
+                  <Headphones className="size-4" aria-hidden />
+                  Listen to this chapter
+                </button>
+              ) : null}
+              <TextSize onAnnounce={setNotice} />
               <button
+                ref={hideRef}
                 type="button"
-                onClick={() =>
-                  play({
-                    kind: "chapter",
-                    src: chapter.audio!,
-                    title: chapter.title,
-                    number: chapter.number,
-                    slug: chapter.slug,
-                  })
-                }
-                className="mt-6 inline-flex min-h-12 items-center gap-2 border border-fog/40 px-5 text-sm tracking-[0.12em] text-paper uppercase hover:border-brass hover:text-brass"
+                aria-pressed={headerHidden}
+                onClick={() => setHeader(!headerHidden)}
+                className={cn(
+                  "inline-flex min-h-12 items-center border border-fog/40 px-5 font-sans text-sm tracking-[0.12em] text-paper uppercase hover:border-brass hover:text-brass",
+                  headerHidden && "border-brass text-brass",
+                )}
               >
-                <Headphones className="size-4" aria-hidden />
-                Listen to this chapter
+                Hide header
               </button>
-            ) : null}
+              <span className="sr-only" aria-live="polite">
+                {notice}
+              </span>
+            </div>
           </div>
         </header>
 
@@ -221,7 +273,7 @@ function ChapterPage() {
 
         <nav
           aria-label="Chapters"
-          className="sticky top-[calc(4rem+var(--player-h,0px))] z-30 border-b border-paper-deep/40 bg-paper"
+          className="sticky top-[calc(var(--header-h)+var(--player-h,0px))] z-30 border-b border-paper-deep/40 bg-paper"
         >
           <div className="relative">
             <ol className="mx-auto flex max-w-3xl gap-1 overflow-x-auto px-3 py-2">
@@ -231,9 +283,7 @@ function ChapterPage() {
                     to="/chapters/$slug"
                     params={{ slug: c.slug }}
                     className={`flex size-11 items-center justify-center font-display text-sm ${
-                      c.slug === slug
-                        ? "bg-ink text-paper"
-                        : "text-ink-soft hover:text-ink"
+                      c.slug === slug ? "bg-ink text-paper" : "text-ink-soft hover:text-ink"
                     }`}
                     aria-current={c.slug === slug ? "page" : undefined}
                     aria-label={`Chapter ${c.number}: ${c.title}`}
@@ -282,23 +332,17 @@ function ChapterPage() {
             ) : null}
             {chapter.audio ? (
               <p className="mb-10 font-sans text-sm leading-relaxed text-ink-soft/80">
-                A synthetic reading of this chapter is in the bar at the top. It
-                will keep playing while you move through the book. The text
-                below is the transcript.
+                A synthetic reading of this chapter is in the bar at the top. It will keep playing
+                while you move through the book. The text below is the transcript.
                 {chapterCues[slug] || hasChapterMoments(slug)
                   ? " The voice’s place on the page is marked as it reads."
                   : ""}
               </p>
             ) : null}
-            {["mission-one", "ninety-four-hours", "borrowed-aircraft", "utrecht"].includes(
-              slug,
-            ) ? (
+            {["mission-one", "ninety-four-hours", "borrowed-aircraft", "utrecht"].includes(slug) ? (
               <p className="mb-10 font-sans text-sm leading-relaxed text-ink-soft/80">
                 These mornings also sit on the{" "}
-                <Link
-                  to="/missions"
-                  className="text-feather underline-offset-4 hover:underline"
-                >
+                <Link to="/missions" className="text-feather underline-offset-4 hover:underline">
                   mission board
                 </Link>
                 .
@@ -322,64 +366,59 @@ function ChapterPage() {
                 (id) => photos[id].kind,
               );
               return (
-              <section
-                key={section.id}
-                id={section.id}
-                className="mb-14 scroll-mt-28"
-              >
-                {section.title ? (
-                  <header className="mb-6">
-                    <p
-                      data-cue={`sec-${section.id}-id`}
-                      className={cn(
-                        "font-sans text-[0.68rem] tracking-[0.22em] text-feather uppercase",
-                        activeId === `sec-${section.id}-id` && "is-reading",
-                      )}
-                    >
-                      {section.id}
-                    </p>
-                    <h2
-                      data-cue={`sec-${section.id}-title`}
-                      className={cn(
-                        "mt-2 font-display text-3xl text-ink",
-                        activeId === `sec-${section.id}-title` && "is-reading",
-                      )}
-                    >
-                      {seekButton(chapter, section, seeks, playFrom)}
-                    </h2>
-                    {section.place ? (
+                <section key={section.id} id={section.id} className="mb-14 scroll-mt-28">
+                  {section.title ? (
+                    <header className="mb-6">
                       <p
-                        data-cue={`sec-${section.id}-place`}
+                        data-cue={`sec-${section.id}-id`}
                         className={cn(
-                          "mt-1 font-display text-base text-muted italic",
-                          activeId === `sec-${section.id}-place` && "is-reading",
+                          "font-sans text-[0.68rem] tracking-[0.22em] text-feather uppercase",
+                          activeId === `sec-${section.id}-id` && "is-reading",
                         )}
                       >
-                        {section.place}
+                        {section.id}
                       </p>
-                    ) : null}
-                  </header>
-                ) : null}
-                {section.blocks.map((block, i) => {
-                  let cueId: string | undefined;
-                  if (block.type === "p") {
-                    const positional = `${section.id}-p${pIndex++}`;
-                    cueId = block.id?.startsWith("m-") ? positional : (block.id ?? positional);
-                  }
-                  const node = renderBlock(
-                    block,
-                    firstPara && block.type === "p",
-                    cueId,
-                    activeId,
-                    block.type === "p" && block.id
-                      ? plateDoors.get(block.id)
-                      : undefined,
-                    shownPlates,
-                  );
-                  if (firstPara && block.type === "p") firstPara = false;
-                  return <div key={`${section.id}-${i}`}>{node}</div>;
-                })}
-              </section>
+                      <h2
+                        data-cue={`sec-${section.id}-title`}
+                        className={cn(
+                          "mt-2 font-display text-3xl text-ink",
+                          activeId === `sec-${section.id}-title` && "is-reading",
+                        )}
+                      >
+                        {seekButton(chapter, section, seeks, playFrom)}
+                      </h2>
+                      {section.place ? (
+                        <p
+                          data-cue={`sec-${section.id}-place`}
+                          className={cn(
+                            "mt-1 font-display text-base text-muted italic",
+                            activeId === `sec-${section.id}-place` && "is-reading",
+                          )}
+                        >
+                          {section.place}
+                        </p>
+                      ) : null}
+                    </header>
+                  ) : null}
+                  {section.blocks.map((block, i) => {
+                    let cueId: string | undefined;
+                    if (block.type === "p") {
+                      const positional = `${section.id}-p${pIndex++}`;
+                      cueId = block.id?.startsWith("m-") ? positional : (block.id ?? positional);
+                    }
+                    const node = renderBlock(
+                      block,
+                      firstPara && block.type === "p",
+                      cueId,
+                      activeId,
+                      block.type === "p" && block.id ? plateDoors.get(block.id) : undefined,
+                      shownPlates,
+                      chapter,
+                    );
+                    if (firstPara && block.type === "p") firstPara = false;
+                    return <div key={`${section.id}-${i}`}>{node}</div>;
+                  })}
+                </section>
               );
             })}
             <CiteThis
@@ -469,6 +508,7 @@ function renderBlock(
   activeId?: string | null,
   plates?: PhotoId[],
   shownPlates?: Set<PhotoId>,
+  chapter?: Chapter,
 ) {
   if (block.type === "quote") {
     return (
@@ -536,6 +576,16 @@ function renderBlock(
         </p>
       ) : null}
       {paragraph}
+      {chapter && plates?.length && block.id ? (
+        <SharePassage
+          photoId={plates[0]}
+          slug={chapter.slug}
+          paragraphId={block.id}
+          text={block.text}
+          chapterNumber={chapter.number}
+          chapterTitle={chapter.title}
+        />
+      ) : null}
       {plates?.map((id) => {
         const mission = FIGURE_MISSION[id];
         const doorOnly = shownPlates ? !shownPlates.has(id) : false;

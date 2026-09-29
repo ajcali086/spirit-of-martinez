@@ -3,6 +3,7 @@ import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { BookAudioProvider } from "@/components/layout/BookAudio";
 import { SITE_DESCRIPTION } from "@/lib/og/pageMeta";
+import { TEXT_SCALE_BOOT } from "@/lib/textScale";
 import appCss from "../styles.css?url";
 
 const APP_NAME = "The Spirit of Martinez";
@@ -54,6 +55,7 @@ function RootDocument() {
   return (
     <html lang="en" className="antialiased" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: TEXT_SCALE_BOOT }} />
         <HeadContent />
       </head>
       <body className="bg-ink text-paper font-sans">
