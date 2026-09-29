@@ -70,10 +70,13 @@ export function useReadingFollow(slug: string) {
     const el = document.querySelector<HTMLElement>(`[data-cue="${activeId}"]`);
     if (!el) return;
     const rect = el.getBoundingClientRect();
-    const topBound = 8 * 16;
+    const tucked = document.documentElement.classList.contains("player-tucked");
+    const headerHidden = document.body.classList.contains("reading-focus");
+    const topBound = (headerHidden ? 12 : 72) + (tucked ? 8 : 76);
     const bottomBound = window.innerHeight - 72;
     if (rect.top >= topBound && rect.bottom <= bottomBound) return;
     ignoreUntil.current = Date.now() + 900;
+    window.dispatchEvent(new Event("som-follow-scroll"));
     el.scrollIntoView({
       block: "center",
       behavior: reduce ? "auto" : "smooth",

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useFloatingClearance } from "./useFloatingClearance";
 
 export function SkipLink() {
   return (
@@ -26,46 +27,22 @@ export function ReadingProgress() {
   }, []);
 
   return (
-    <div
-      className="pointer-events-none fixed inset-x-0 top-0 z-50 h-0.5 bg-rule/40"
-      aria-hidden
-    >
+    <div className="pointer-events-none fixed inset-x-0 top-0 z-50 h-0.5 bg-rule/40" aria-hidden>
       <div className="h-full bg-brass" style={{ width: `${p * 100}%` }} />
     </div>
   );
 }
 
 export function BackToTop() {
-  const [show, setShow] = useState(false);
-  const [footerInView, setFooterInView] = useState(false);
+  const { topVisible } = useFloatingClearance();
 
-  useEffect(() => {
-    const onScroll = () => setShow(window.scrollY > 720);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    const footer = document.getElementById("site-footer");
-    const io = footer
-      ? new IntersectionObserver(
-          ([entry]) => setFooterInView(entry.isIntersecting),
-          { threshold: 0.05 },
-        )
-      : null;
-    if (footer && io) io.observe(footer);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      io?.disconnect();
-    };
-  }, []);
-
-  if (!show || footerInView) return null;
+  if (!topVisible) return null;
 
   return (
     <button
       type="button"
       onClick={() => {
-        const reduce = window.matchMedia(
-          "(prefers-reduced-motion: reduce)",
-        ).matches;
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
       }}
       className="fixed right-4 bottom-[calc(1rem+var(--dock-h,0px))] z-40 min-h-11 bg-brass px-4 text-[0.68rem] tracking-[0.16em] text-ink uppercase hover:bg-brass-dim sm:right-6 sm:bottom-[calc(1.5rem+var(--dock-h,0px))]"

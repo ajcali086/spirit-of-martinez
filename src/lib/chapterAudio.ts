@@ -3,8 +3,19 @@ export const AAC_TYPE = 'audio/mp4; codecs="mp4a.40.2"';
 
 export const AAC_QUERY = "v=3";
 
+/** Public copies in spirit-audio. The filename is unchanged; ?v= stays on the query. */
+export const AUDIO_ORIGIN = "https://e5krwqut3ljb7kbi.public.blob.vercel-storage.com";
+
+export function audioUrl(path: string): string {
+  if (path.startsWith("https://")) return path;
+  const q = path.indexOf("?");
+  const file = (q === -1 ? path : path.slice(0, q)).replace(/^\/audio\//, "");
+  const query = q === -1 ? "" : path.slice(q);
+  return `${AUDIO_ORIGIN}/${file}${query}`;
+}
+
 export function aacSrc(slug: string): string {
-  return `/audio/${slug}.m4a?${AAC_QUERY}`;
+  return audioUrl(`/audio/${slug}.m4a?${AAC_QUERY}`);
 }
 
 function browserCanPlayType(type: string): string {
@@ -24,7 +35,7 @@ export function pickChapterAudio(
   if (canPlayType(AAC_TYPE)) {
     return aacSrc(slug);
   }
-  return fallback;
+  return audioUrl(fallback);
 }
 
 export function isAacSrc(src: string): boolean {
