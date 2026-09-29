@@ -1,4 +1,6 @@
 import type { Chapter } from "../data/types.ts";
+// The import attribute is required by plain `node --test`. Vite and tsc accept it.
+import pinFile from "../generated/card-sentences.json" with { type: "json" };
 
 /**
  * Share-card sentences. Pinned by scripts/pin-card-sentences.ts into
@@ -87,4 +89,12 @@ export function cardSentences(chapters: readonly Chapter[]): CardSentencePin {
     pin[chapter.slug] = page;
   }
   return pin;
+}
+
+const pinned = pinFile as unknown as CardSentencePin;
+
+/** The sentence a share card quotes. Null when this paragraph is not in the pin. */
+export function firstCardSentence(slug: string, paragraphId: string): string | null {
+  const sentence = pinned[slug]?.[paragraphId]?.[0];
+  return sentence ? sentence : null;
 }

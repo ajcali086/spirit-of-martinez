@@ -3,26 +3,13 @@ import { chapterBySlug } from "@/data/chapters";
 import { photos } from "@/data/photos";
 import type { PhotoId } from "@/data/types";
 import { loadAudioBuffer } from "@/lib/audioBlob";
+import { firstCardSentence } from "@/lib/cardSentences";
 import { pickChapterAudio } from "@/lib/chapterAudio";
 import { loadChapterMoments } from "@/lib/chapterMoments";
 import { slicePassageWav } from "@/lib/clipSlice";
 import { canonicalUrl } from "@/lib/og/pageMeta";
 import { renderPassageCard } from "@/lib/passageCard";
-import {
-  cueWindowForParagraph,
-  formatListenLabel,
-  passageHref,
-} from "@/lib/passageShare";
-
-function downloadFile(file: File) {
-  const href = URL.createObjectURL(file);
-  const a = document.createElement("a");
-  a.href = href;
-  a.download = file.name;
-  a.rel = "noopener";
-  a.click();
-  URL.revokeObjectURL(href);
-}
+import { cueWindowForParagraph, formatListenLabel, passageHref } from "@/lib/passageShare";
 
 async function tryShare(opts: {
   title: string;
@@ -97,12 +84,10 @@ export function SharePassage({
       const chapter = chapterBySlug(slug);
       const photo = photos[photoId];
       const moments = chapter ? await loadChapterMoments(chapter.slug) : null;
-      const cue = chapter
-        ? cueWindowForParagraph(chapter, moments, paragraphId)
-        : null;
+      const cue = chapter ? cueWindowForParagraph(chapter, moments, paragraphId) : null;
       const url = canonicalUrl(passageHref(slug, paragraphId, cue?.start ?? null));
       const kicker = `Chapter ${chapterNumber} · ${chapterTitle}`;
-      const quote = text.trim();
+      const quote = firstCardSentence(slug, paragraphId) ?? text.trim();
       const listen = cue ? formatListenLabel(cue.end - cue.start) : null;
 
       let card: Blob | null = null;
@@ -136,9 +121,7 @@ export function SharePassage({
 
       const files: File[] = [];
       if (card) {
-        files.push(
-          new File([card], "spirit-of-martinez.jpg", { type: "image/jpeg" }),
-        );
+        files.push(new File([card], "spirit-of-martinez.jpg", { type: "image/jpeg" }));
       }
       if (wav) {
         files.push(new File([wav], "passage.wav", { type: "audio/wav" }));
@@ -147,20 +130,17 @@ export function SharePassage({
       const title = `${kicker} — The Spirit of Martinez`;
       const shareText = quote ? `“${quote.replace(/^["“]|["”]$/g, "")}”` : title;
       const result = await tryShare({ title, text: shareText, url, files });
-      if (result === "abort") {
-        setState("idle");
-        return;
-      }
-      if (result === "shared") {
+      if (result === "abort" || result === "shared") {
         setState("idle");
         return;
       }
       try {
         await navigator.clipboard.writeText(url);
       } catch {
-        /* clipboard blocked */
+        setState("fail");
+        window.setTimeout(() => setState("idle"), 2000);
+        return;
       }
-      for (const file of files) downloadFile(file);
       setState("copied");
       window.setTimeout(() => setState("idle"), 2000);
     } catch {
@@ -176,7 +156,7 @@ export function SharePassage({
         ? "Link copied"
         : state === "fail"
           ? "Could not share"
-          : "Share this passage";
+          : "Share this moment";
 
   return (
     <button
