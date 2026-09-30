@@ -4,6 +4,7 @@ export type PhotoId =
   | "london"
   | "watts"
   | "gazette"
+  | "friends"
   | "birth"
   | "wallet"
   | "jacket"
