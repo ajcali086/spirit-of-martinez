@@ -33,6 +33,7 @@ import type { Block, Chapter, PhotoId, Section } from "@/data/types";
 import { pageMeta, bannerOgImage } from "@/lib/og/pageMeta";
 import { readPlace, writePlace } from "@/lib/bookmark";
 import { seekStarts } from "@/lib/paragraphSeek";
+import { beginPassageFind } from "@/lib/passageFind";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/chapters/$slug")({
@@ -102,6 +103,7 @@ function ChapterPage() {
         },
         start,
       );
+      beginPassageFind(cueId, start);
       window.dispatchEvent(new Event("som-seek-used"));
     },
     [chapter, playFrom, seekByCue],
@@ -170,11 +172,19 @@ function ChapterPage() {
     }
     playFrom(next, startAt);
     const fragment = typeof window !== "undefined" ? window.location.hash.replace(/^#/, "") : "";
+    let paragraphId = fragment;
+    try {
+      paragraphId = decodeURIComponent(fragment);
+    } catch {
+      /* keep the raw hash */
+    }
+    const stopFind = paragraphId ? beginPassageFind(paragraphId, startAt) : undefined;
     void navigate({
       search: {},
       hash: fragment || true,
       replace: true,
     });
+    return () => stopFind?.();
   }, [chapter, offer, playFrom, startAt, navigate]);
 
   useEffect(() => {
