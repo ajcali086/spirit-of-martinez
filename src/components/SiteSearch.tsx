@@ -71,6 +71,15 @@ export function SiteSearch({
     setDebounced("");
   }, [pathname]);
 
+  useEffect(() => {
+    const close = () => {
+      setPhoneOpen(false);
+      setDesktopOpen(false);
+    };
+    window.addEventListener("som-close-chrome", close);
+    return () => window.removeEventListener("som-close-chrome", close);
+  }, []);
+
   const groups = useMemo(
     () => (records ? searchRecords(records, debounced) : []),
     [records, debounced],
@@ -125,7 +134,10 @@ export function SiteSearch({
     void router.navigate({ href });
   }
 
-  function onPanelKey(e: { key: string; preventDefault: () => void; shiftKey: boolean }, dialog: HTMLElement | null) {
+  function onPanelKey(
+    e: { key: string; preventDefault: () => void; shiftKey: boolean },
+    dialog: HTMLElement | null,
+  ) {
     if (e.key === "Escape") {
       e.preventDefault();
       setPhoneOpen(false);
@@ -206,7 +218,8 @@ export function SiteSearch({
                           )}
                           onMouseEnter={() => setActive(index)}
                           onClick={(e) => {
-                            if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+                            if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0)
+                              return;
                             e.preventDefault();
                             go(hit.href);
                           }}
@@ -220,7 +233,11 @@ export function SiteSearch({
                             </span>
                             {hit.chip ? (
                               <span className="shrink-0 font-sans text-[0.62rem] tracking-[0.14em] text-brass uppercase">
-                                {hit.group === "chapters" ? `¶ ${hit.chip}` : hit.group === "missions" ? `#${hit.chip}` : hit.chip}
+                                {hit.group === "chapters"
+                                  ? `¶ ${hit.chip}`
+                                  : hit.group === "missions"
+                                    ? `#${hit.chip}`
+                                    : hit.chip}
                               </span>
                             ) : null}
                           </span>
@@ -248,7 +265,10 @@ export function SiteSearch({
             ))}
           </div>
           <div className="flex flex-wrap items-center justify-between gap-2 border-t border-rule/70 px-4 py-2">
-            <p className="font-sans text-[0.62rem] tracking-[0.14em] text-fog uppercase" aria-live="polite">
+            <p
+              className="font-sans text-[0.62rem] tracking-[0.14em] text-fog uppercase"
+              aria-live="polite"
+            >
               {announcement}
             </p>
             {labeled ? (

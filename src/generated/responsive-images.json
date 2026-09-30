@@ -36,6 +36,7 @@
   "archive/flyingcover": {"width":1149,"height":1500,"variants":[[480,"archive/flyingcover-480w.webp"],[800,"archive/flyingcover-800w.webp"],[1149,"archive/flyingcover.webp"]]},
   "archive/form5": {"width":1093,"height":1400,"variants":[[480,"archive/form5-480w.webp"],[800,"archive/form5-800w.webp"],[1093,"archive/form5.webp"]]},
   "archive/fourbrothers": {"width":1042,"height":1458,"variants":[[480,"archive/fourbrothers-480w.webp"],[800,"archive/fourbrothers-800w.webp"],[1042,"archive/fourbrothers.webp"]]},
+  "archive/friends": {"width":1500,"height":834,"variants":[[480,"archive/friends-480w.webp"],[800,"archive/friends-800w.webp"],[1200,"archive/friends-1200w.webp"],[1500,"archive/friends.webp"]]},
   "archive/gazette": {"width":1198,"height":1200,"variants":[[480,"archive/gazette-480w.webp"],[800,"archive/gazette-800w.webp"],[1198,"archive/gazette.webp"]]},
   "archive/go289": {"width":1493,"height":1800,"variants":[[480,"archive/go289-480w.webp"],[800,"archive/go289-800w.webp"],[1200,"archive/go289-1200w.webp"],[1493,"archive/go289.webp"]]},
   "archive/greenville": {"width":1800,"height":1430,"variants":[[480,"archive/greenville-480w.webp"],[800,"archive/greenville-800w.webp"],[1200,"archive/greenville-1200w.webp"],[1600,"archive/greenville-1600w.webp"],[1800,"archive/greenville.webp"]]},

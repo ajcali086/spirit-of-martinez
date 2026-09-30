@@ -747,6 +747,20 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
     kind: "object",
     maxWidth: "xl",
   },
+  friends: {
+    id: "friends",
+    title: "To My Friends",
+    date: "29 May 1940",
+    src: "/images/archive/friends",
+    width: 1500,
+    height: 834,
+    alt: "Martinez News-Gazette notice, 29 May 1940, page 2, headed TO MY FRIENDS and signed SAM CALICURA, stating he has never been arrested and that the city and county records show no arrest of anyone named Calicura",
+    caption:
+      "Martinez News-Gazette, 29 May 1940, page 2. A notice he paid for. Someone named Calicura had been arrested, people had asked if it was him, and he had gone through the city and the county records himself. The notice does not name the other Calicura, or what started the rumor.",
+    credit: "Newspapers.com",
+    kind: "object",
+    maxWidth: "xl",
+  },
   promotion: {
     id: "promotion",
     title: "Certificate of Promotion",
@@ -1576,6 +1590,7 @@ export const photoList: ArchivePhoto[] = [
   photos.rodia,
   photos.promotion,
   photos.merit,
+  photos.friends,
   photos.greenville,
   photos.cadet,
   photos.woodpecker,

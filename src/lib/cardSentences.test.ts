@@ -5,6 +5,7 @@ import { chapters } from "../data/chapters.ts";
 import {
   cardSentences,
   endsWithTrigger,
+  firstCardSentence,
   rawSegments,
   stitchSentences,
   type CardSentencePin,
@@ -28,6 +29,14 @@ function paragraphs(): { id: string; text: string }[] {
 }
 
 describe("card sentences", () => {
+  it("quotes the first pinned sentence", () => {
+    assert.equal(
+      firstCardSentence("weight-of-small-machines", "1.1-p0"),
+      "The certificate says Award of Merit.",
+    );
+    assert.equal(firstCardSentence("weight-of-small-machines", "missing"), null);
+  });
+
   it("matches the pinned arrays", () => {
     assert.deepEqual(cardSentences(chapters), pinned);
   });

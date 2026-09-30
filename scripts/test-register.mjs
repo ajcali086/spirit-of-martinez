@@ -6,8 +6,10 @@
 // dependency chain only reaches them through `import type` (erased entirely
 // by --experimental-strip-types, so never actually resolved at runtime) —
 // but a real, value-level import blows up with ERR_MODULE_NOT_FOUND. That's
-// what happens today in src/lib/continue.ts (a plain "@/data" import) once
-// its test is added to the node --test list.
+// what happened wiring nearestPlate.test.ts up to the real
+// src/data/photos.ts, itself an alias import away from src/lib/og/pageMeta,
+// and it turns out to already affect five existing test files too:
+// cues.chapter4, cues.chapter10, sectionSeeks, continue, and srcset.
 //
 // This registers a resolve hook that does the same two rewrites Vite and
 // tsc already do, so test files can pull in real production modules —
