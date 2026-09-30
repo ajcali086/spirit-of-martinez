@@ -14,8 +14,8 @@ export function audioUrl(path: string): string {
   return `${AUDIO_ORIGIN}/${file}${query}`;
 }
 
-export function aacSrc(slug: string): string {
-  return audioUrl(`/audio/${slug}.m4a?${AAC_QUERY}`);
+export function aacSrc(slug: string, query = AAC_QUERY): string {
+  return audioUrl(`/audio/${slug}.m4a?${query}`);
 }
 
 function browserCanPlayType(type: string): string {
@@ -33,7 +33,8 @@ export function pickChapterAudio(
   canPlayType: (type: string) => string = browserCanPlayType,
 ): string {
   if (canPlayType(AAC_TYPE)) {
-    return aacSrc(slug);
+    const q = fallback.indexOf("?");
+    return aacSrc(slug, q === -1 ? AAC_QUERY : fallback.slice(q + 1));
   }
   return audioUrl(fallback);
 }

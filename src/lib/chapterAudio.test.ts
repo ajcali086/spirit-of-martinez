@@ -33,6 +33,14 @@ describe("pickChapterAudio", () => {
     );
   });
 
+  it("uses the chapter's own cache query on the AAC companion", () => {
+    const next = "/audio/weight-of-small-machines.mp3?v=4";
+    assert.equal(
+      pickChapterAudio("weight-of-small-machines", next, () => "probably"),
+      `${AUDIO_ORIGIN}/weight-of-small-machines.m4a?v=4`,
+    );
+  });
+
   it("asks for AAC-LC in MP4 at v=3", () => {
     assert.equal(AAC_TYPE, 'audio/mp4; codecs="mp4a.40.2"');
     assert.equal(AAC_QUERY, "v=3");
@@ -59,8 +67,8 @@ describe("AAC companions on disk", () => {
     assert.equal(audios.length, 15);
     const files = new Set(readdirSync(new URL("../../public/audio/", import.meta.url)));
     for (const audio of audios) {
-      assert.match(audio, /\.mp3\?v=3$/);
-      const slug = audio.slice("/audio/".length, -".mp3?v=3".length);
+      assert.match(audio, /\.mp3\?v=\d+$/);
+      const slug = audio.replace(/^\/audio\//, "").replace(/\.mp3\?v=\d+$/, "");
       assert.ok(files.has(`${slug}.mp3`), `missing ${slug}.mp3`);
       assert.ok(files.has(`${slug}.m4a`), `missing ${slug}.m4a`);
     }
