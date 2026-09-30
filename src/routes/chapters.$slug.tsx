@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound, redirect, useRouterState } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Headphones, Play } from "lucide-react";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { useFloatingClearance } from "@/components/layout/useFloatingClearance";
 import { useBookAudio, type ChapterTrack } from "@/components/layout/BookAudio";
@@ -14,6 +14,7 @@ import { TextSize } from "@/components/TextSize";
 import { ContinueTracker } from "@/components/ContinueTracker";
 import { SiteImage } from "@/components/SiteImage";
 import { useReadingFollow } from "@/components/ReadingFollow";
+import { PlayFromHere, SeekHint, useParagraphDoubleTap } from "@/components/ParagraphSeek";
 import {
   adjacentChapters,
   chapterBySlug,
@@ -31,6 +32,7 @@ import { sectionSeeksFor, type SectionSeek } from "@/data/sectionSeeks";
 import type { Block, Chapter, PhotoId, Section } from "@/data/types";
 import { pageMeta, bannerOgImage } from "@/lib/og/pageMeta";
 import { readPlace, writePlace } from "@/lib/bookmark";
+import { seekStarts } from "@/lib/paragraphSeek";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/chapters/$slug")({
@@ -79,6 +81,32 @@ function ChapterPage() {
   const [headerHidden, setHeaderHidden] = useState(false);
   const [notice, setNotice] = useState("");
   const { topVisible, footerInView } = useFloatingClearance();
+  const proseRef = useRef<HTMLDivElement>(null);
+  const seekByCue = useMemo(() => {
+    if (!chapter?.audio) return new Map<string, number>();
+    const cues = moments?.cues.length ? moments.cues : (chapterCues[chapter.slug] ?? []);
+    return seekStarts(cues, moments?.silent ?? []);
+  }, [chapter, moments]);
+  const seekCue = useCallback(
+    (cueId: string) => {
+      if (!chapter?.audio) return;
+      const start = seekByCue.get(cueId);
+      if (start == null) return;
+      playFrom(
+        {
+          kind: "chapter",
+          src: chapter.audio,
+          title: chapter.title,
+          number: chapter.number,
+          slug: chapter.slug,
+        },
+        start,
+      );
+      window.dispatchEvent(new Event("som-seek-used"));
+    },
+    [chapter, playFrom, seekByCue],
+  );
+  useParagraphDoubleTap(proseRef, seekCue, seekByCue.size > 0);
 
   useEffect(() => {
     setHeaderHidden(false);
@@ -303,9 +331,11 @@ function ChapterPage() {
 
         <div className="bg-paper">
           <div
+            ref={proseRef}
             data-continue-root="chapter"
-            className="prose-archive mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-16"
+            className="prose-archive mx-auto max-w-2xl px-4 py-12 touch-manipulation sm:px-6 sm:py-16"
           >
+            {chapter.audio ? <SeekHint armed={seekByCue.size > 0} /> : null}
             <p className="mb-10 font-sans text-[0.72rem] leading-relaxed tracking-[0.14em] text-brass-dim uppercase">
               {chapter.dek}
             </p>
@@ -415,6 +445,8 @@ function ChapterPage() {
                       block.type === "p" && block.id ? plateDoors.get(block.id) : undefined,
                       shownPlates,
                       chapter,
+                      cueId ? (seekByCue.get(cueId) ?? null) : null,
+                      seekCue,
                     );
                     if (firstPara && block.type === "p") firstPara = false;
                     return <div key={`${section.id}-${i}`}>{node}</div>;
@@ -510,6 +542,8 @@ function renderBlock(
   plates?: PhotoId[],
   shownPlates?: Set<PhotoId>,
   chapter?: Chapter,
+  seekStart?: number | null,
+  onSeek?: (cueId: string) => void,
 ) {
   if (block.type === "quote") {
     return (
@@ -566,7 +600,8 @@ function renderBlock(
       {block.text}
     </p>
   );
-  if (!missionNo && !plates?.length) return paragraph;
+  const canSeek = seekStart != null && Boolean(chapter?.audio) && Boolean(cueId);
+  if (!missionNo && !plates?.length && !canSeek) return paragraph;
   return (
     <div className="group relative">
       {missionNo ? (
@@ -577,15 +612,22 @@ function renderBlock(
         </p>
       ) : null}
       {paragraph}
-      {chapter && plates?.length && block.id ? (
-        <SharePassage
-          photoId={plates[0]}
-          slug={chapter.slug}
-          paragraphId={block.id}
-          text={block.text}
-          chapterNumber={chapter.number}
-          chapterTitle={chapter.title}
-        />
+      {canSeek || (chapter && plates?.length && block.id) ? (
+        <div className="flex flex-wrap items-center gap-x-4">
+          {canSeek && cueId && onSeek ? (
+            <PlayFromHere onPlay={() => onSeek(cueId)} />
+          ) : null}
+          {chapter && plates?.length && block.id ? (
+            <SharePassage
+              photoId={plates[0]}
+              slug={chapter.slug}
+              paragraphId={block.id}
+              text={block.text}
+              chapterNumber={chapter.number}
+              chapterTitle={chapter.title}
+            />
+          ) : null}
+        </div>
       ) : null}
       {plates?.map((id) => {
         const mission = FIGURE_MISSION[id];
