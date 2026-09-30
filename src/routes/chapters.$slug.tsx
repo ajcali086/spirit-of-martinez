@@ -273,6 +273,7 @@ function ChapterPage() {
 
         <nav
           aria-label="Chapters"
+          data-chapter-nav
           className="sticky top-[calc(var(--header-h)+var(--player-h,0px))] z-30 border-b border-paper-deep/40 bg-paper"
         >
           <div className="relative">
