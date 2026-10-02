@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SplatRouteImport } from './routes/$'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AircraftRouteImport } from './routes/aircraft'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as BothStandRouteImport } from './routes/both-stand'
@@ -33,6 +34,11 @@ const IndexRoute = IndexRouteImport.update({
 const SplatRoute = SplatRouteImport.update({
   id: '/$',
   path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AircraftRoute = AircraftRouteImport.update({
@@ -104,6 +110,7 @@ const CrewIdRoute = CrewIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/admin': typeof AdminRoute
   '/aircraft': typeof AircraftRoute
   '/book': typeof BookRoute
   '/both-stand': typeof BothStandRoute
@@ -121,6 +128,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/admin': typeof AdminRoute
   '/aircraft': typeof AircraftRoute
   '/book': typeof BookRoute
   '/both-stand': typeof BothStandRoute
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/admin': typeof AdminRoute
   '/aircraft': typeof AircraftRoute
   '/book': typeof BookRoute
   '/both-stand': typeof BothStandRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$'
+    | '/admin'
     | '/aircraft'
     | '/book'
     | '/both-stand'
@@ -175,6 +185,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$'
+    | '/admin'
     | '/aircraft'
     | '/book'
     | '/both-stand'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/$'
+    | '/admin'
     | '/aircraft'
     | '/book'
     | '/both-stand'
@@ -210,6 +222,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
+  AdminRoute: typeof AdminRoute
   AircraftRoute: typeof AircraftRoute
   BookRoute: typeof BookRoute
   BothStandRoute: typeof BothStandRoute
@@ -239,6 +252,13 @@ declare module '@tanstack/react-router' {
       path: '/$'
       fullPath: '/$'
       preLoaderRoute: typeof SplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/aircraft': {
@@ -338,6 +358,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
+  AdminRoute: AdminRoute,
   AircraftRoute: AircraftRoute,
   BookRoute: BookRoute,
   BothStandRoute: BothStandRoute,

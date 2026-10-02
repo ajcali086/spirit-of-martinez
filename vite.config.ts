@@ -44,6 +44,20 @@ function searchIndexPlugin(): Plugin {
   };
 }
 
+/** The CMS's config and ID key, generated from the model (scripts/cms-build.ts), however Vite was started. */
+function cmsBuildPlugin(): Plugin {
+  return {
+    name: "cms-build",
+    config() {
+      execFileSync(
+        process.execPath,
+        ["--experimental-strip-types", "--import", "./scripts/test-register.mjs", "scripts/cms-build.ts"],
+        { stdio: "inherit" },
+      );
+    },
+  };
+}
+
 function pgliteBootstrapPlugin(): Plugin {
   return {
     name: "app-builder:pglite-bootstrap",
@@ -173,6 +187,7 @@ export default defineConfig(({ command, isPreview }) => ({
   resolve: { tsconfigPaths: true },
   plugins: [
     searchIndexPlugin(),
+    cmsBuildPlugin(),
     pgliteBootstrapPlugin(),
     // Before tanstackStart so /auth/popup never falls through to the SPA.
     authPopupPlugin(),
