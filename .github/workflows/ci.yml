@@ -22,4 +22,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run typecheck
+      # The museum model: frozen IDs, the published text, corrections, the readings' cues.
+      - run: npm run check:model
       - run: npm run build

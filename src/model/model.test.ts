@@ -17,9 +17,11 @@ import {
   settled,
 } from "./index";
 import { SERVICE_FILE } from "./types";
-import { checks, inUse, provisionalIds } from "./validate";
+import { audioToRerecord, checks, inUse, ingestedText, provisionalIds } from "./validate";
+import PUBLISHED from "../data/published-text.json" with { type: "json" };
+import { corrections } from "../data/corrections.ts";
 
-describe("model: H1 retrofit stages 1 to 4, records, entities, evidence, questions, frozen IDs", () => {
+describe("model: H1 retrofit stages 1 to 5, records to corrections", () => {
   for (const check of checks) it(check.name, () => assert.deepEqual(check.run(), []));
 
   it("holds 130 records: 101 plates, verified, and 29 not held", () => {
@@ -231,5 +233,21 @@ describe("model: H1 retrofit stages 1 to 4, records, entities, evidence, questio
     const [a, b] = m12.map((p) => passageGlobalId(...(p.split("#") as [string, string])));
     assert.notEqual(a, b);
     assert.match(a, /^spirit-of-martinez\/p\/[a-z-]+\/m-12$/);
+  });
+
+  it("fingerprints the published text as ingested: 388 paragraphs, a quote, a note, 102 captions", () => {
+    const keys = Object.keys(PUBLISHED);
+    assert.equal(keys.length, 492);
+    assert.equal(keys.filter((k) => k.startsWith("plate:")).length, 102);
+    assert.deepEqual(
+      keys.filter((k) => k.includes("/")),
+      ["borrowed-aircraft#11.3/quote-0", "what-came-back#13.5/note-0"],
+    );
+    assert.deepEqual([...ingestedText.keys()].sort(), keys.sort());
+  });
+
+  it("has no corrections yet, so nothing to re-record", () => {
+    assert.deepEqual(corrections, []);
+    assert.deepEqual(audioToRerecord(), []);
   });
 });

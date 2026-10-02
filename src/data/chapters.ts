@@ -1,7 +1,14 @@
 import type { Chapter, PhotoId } from "./types";
 import { canonicalUrl } from "../lib/og/pageMeta.ts";
+import { withCorrections } from "./corrections.ts";
 
-export const chapters: Chapter[] = [
+/**
+ * The chapters as ingested: frozen by the author's decision 0. Never edited;
+ * src/data/published-text.json fingerprints every paragraph. The text changes
+ * only by an applied correction (src/data/corrections/), which `chapters`
+ * below reads through.
+ */
+export const ingestedChapters: Chapter[] = [
   {
     number: 1,
     slug: "weight-of-small-machines",
@@ -1154,6 +1161,9 @@ export const chapters: Chapter[] = [
     ],
   },
 ];
+
+/** The chapters as published: as ingested, with every applied correction in place. */
+export const chapters: Chapter[] = withCorrections(ingestedChapters);
 
 export function chapterBySlug(slug: string) {
   return chapters.find((c) => c.slug === slug);
