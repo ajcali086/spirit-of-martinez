@@ -1,0 +1,30 @@
+{
+  "id": "bb9f51a6",
+  "slug": "731-mellus-street",
+  "kind": "place",
+  "label": "731 Mellus Street",
+  "aliases": [
+    {
+      "name": "731 Mellus Street",
+      "sources": ["pregnant", "will", "eastcoast", "rating", "medical", "britishbase"]
+    },
+    {
+      "name": "731 MELLUS ST.",
+      "sources": ["dogtags"]
+    },
+    {
+      "name": "731 Mellus St.",
+      "sources": ["dogtags"]
+    }
+  ],
+  "anchors": ["pregnant", "will", "eastcoast", "dogtags", "rating", "medical", "britishbase"],
+  "geo": {
+    "lat": 38.0169,
+    "lng": -122.1385,
+    "precision": "address",
+    "layer": "hometown"
+  },
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

@@ -1,0 +1,21 @@
+{
+  "id": "542a2c21",
+  "slug": "earle-bogacki",
+  "kind": "person",
+  "label": "Earle F. Bogacki",
+  "aliases": [
+    {
+      "name": "Earle F. Bogacki",
+      "sources": ["bogacki"]
+    },
+    {
+      "name": "Bogacki",
+      "sources": ["bogacki", "tampaorder", "go289", "stations"]
+    }
+  ],
+  "anchors": ["bogacki", "tampaorder", "go289", "stations"],
+  "crew": "bogacki",
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

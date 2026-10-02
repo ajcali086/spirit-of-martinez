@@ -1,0 +1,16 @@
+{
+  "id": "956efbc2",
+  "slug": "jack-shuck",
+  "kind": "person",
+  "label": "Col. Jack E. Shuck",
+  "aliases": [
+    {
+      "name": "Jack E. Shuck",
+      "sources": ["naming", "britishbase"]
+    }
+  ],
+  "anchors": ["naming", "britishbase"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

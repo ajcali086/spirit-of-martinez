@@ -1,0 +1,12 @@
+{
+  "id": "6291db7e",
+  "slug": "mission-9",
+  "kind": "event",
+  "label": "Mission 9: Leipzig, 27 February 1945",
+  "aliases": [],
+  "anchors": ["crewrecord", "chart9"],
+  "mission": 9,
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

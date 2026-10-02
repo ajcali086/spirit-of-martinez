@@ -1,0 +1,19 @@
+{
+  "id": "aircraft",
+  "kind": "object",
+  "title": "B-17G 44-6838, Spirit of Martinez",
+  "series": "aircraft",
+  "credit": "As the aircraft page gives her",
+  "rights_holder": "unknown",
+  "held": false,
+  "status": "not-held",
+  "media": [],
+  "capture_provenance": { "unknown": "not held" },
+  "restoration": null,
+  "notes": [
+    {
+      "date": "2026-10-02",
+      "note": "The aircraft itself, a record and not an entity: objects stay records (curator's decision, 2026-10-02). Sold for scrap at Kingman, Arizona, 19 December 1945 (src/data/aircraft.ts). Plates show her; none holds her."
+    }
+  ]
+}

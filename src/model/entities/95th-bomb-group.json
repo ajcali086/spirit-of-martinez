@@ -1,0 +1,28 @@
+{
+  "id": "5b372715",
+  "slug": "95th-bomb-group",
+  "kind": "organization",
+  "label": "95th Bombardment Group (H)",
+  "aliases": [
+    {
+      "name": "95th Bombardment Group (H)",
+      "sources": ["go289", "stuart"]
+    },
+    {
+      "name": "95th Bombardment Group",
+      "sources": ["go289", "stuart", "britishbase"]
+    },
+    {
+      "name": "95th Bomb Group",
+      "sources": ["form5", "pair", "unknownpilot", "noses"]
+    },
+    {
+      "name": "95th",
+      "sources": ["form5", "go289", "stuart", "britishbase", "pair", "unknownpilot", "noses"]
+    }
+  ],
+  "anchors": ["form5", "go289", "stuart", "britishbase", "pair", "unknownpilot", "noses"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

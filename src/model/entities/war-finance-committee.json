@@ -1,0 +1,16 @@
+{
+  "id": "dbaaa2e5",
+  "slug": "war-finance-committee",
+  "kind": "organization",
+  "label": "Martinez War Finance Committee",
+  "aliases": [
+    {
+      "name": "Martinez War Finance Committee",
+      "sources": ["taylorletter"]
+    }
+  ],
+  "anchors": ["taylorletter"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

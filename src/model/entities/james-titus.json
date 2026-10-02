@@ -1,0 +1,21 @@
+{
+  "id": "ef9da52d",
+  "slug": "james-titus",
+  "kind": "person",
+  "label": "James A. Titus",
+  "aliases": [
+    {
+      "name": "James A. Titus",
+      "sources": ["titus", "signatures"]
+    },
+    {
+      "name": "Titus",
+      "sources": ["titus", "tampaorder", "signatures", "go289", "stations"]
+    }
+  ],
+  "anchors": ["titus", "tampaorder", "signatures", "go289", "stations"],
+  "crew": "titus",
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

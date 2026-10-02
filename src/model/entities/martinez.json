@@ -1,0 +1,26 @@
+{
+  "id": "74bc6516",
+  "slug": "martinez",
+  "kind": "place",
+  "label": "Martinez, California",
+  "aliases": [
+    {
+      "name": "Martinez, California",
+      "sources": ["airmanid"]
+    },
+    {
+      "name": "Martinez",
+      "sources": ["airmanid", "gazette", "promotion"]
+    }
+  ],
+  "anchors": ["airmanid", "gazette", "promotion"],
+  "geo": {
+    "lat": 38.0194,
+    "lng": -122.1341,
+    "precision": "city",
+    "layer": "hometown"
+  },
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

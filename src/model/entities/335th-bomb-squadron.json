@@ -1,0 +1,24 @@
+{
+  "id": "d6e2aa16",
+  "slug": "335th-bomb-squadron",
+  "kind": "organization",
+  "label": "335th Bomb Squadron",
+  "aliases": [
+    {
+      "name": "335th Bomb Squadron",
+      "sources": ["form5"]
+    },
+    {
+      "name": "335th Squadron",
+      "sources": ["paisano"]
+    },
+    {
+      "name": "the 335th",
+      "sources": ["shaw"]
+    }
+  ],
+  "anchors": ["form5", "shaw", "paisano"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

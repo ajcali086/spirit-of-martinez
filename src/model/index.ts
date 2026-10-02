@@ -1,15 +1,18 @@
 import { photoList } from "@/data/photos";
-import type { MuseumRecord } from "./types";
+import HELD_BACK from "./held-back.json" with { type: "json" };
+import type { Entity, HeldBack, MuseumRecord } from "./types";
 
 /**
  * The museum's model, as the site reads it: one JSON file per record in
- * records/, named for its ID. `validate.ts` checks it on every test run.
+ * records/, named for its ID, and per entity in entities/, named for its
+ * slug. `validate.ts` checks it on every test run.
  */
 export const MUSEUM_SLUG = "spirit-of-martinez";
 
 /** The files of each folder, keyed by path ("./records/crew.json"), for the file-name check. */
 export const folders = {
   records: import.meta.glob("./records/*.json", { eager: true, import: "default" }),
+  entities: import.meta.glob("./entities/*.json", { eager: true, import: "default" }),
 };
 
 const plateRank = new Map(photoList.map((p, i) => [p.id as string, i]));
@@ -34,6 +37,51 @@ export function recordById(id: string): MuseumRecord | undefined {
 /** The record a plate shows. */
 export function recordForPlate(plate: string): MuseumRecord | undefined {
   return records.find((r) => r.plate === plate);
+}
+
+const KIND_RANK: Record<Entity["kind"], number> = {
+  person: 0,
+  family: 1,
+  place: 2,
+  organization: 3,
+  event: 4,
+};
+
+/** Entities by kind, missions in number order, the rest by label; empty lists put back. */
+export const entities: Entity[] = (Object.values(folders.entities) as Entity[])
+  .map((e) => ({
+    ...e,
+    aliases: (e.aliases ?? []).map((a) => ({ ...a, sources: a.sources ?? [] })),
+    anchors: e.anchors ?? [],
+    framing: e.framing ?? null,
+    identity_assertions: (e.identity_assertions ?? []).map((a) => ({
+      ...a,
+      sources: a.sources ?? [],
+    })),
+    notes: e.notes ?? [],
+  }))
+  .sort(
+    (a, b) =>
+      KIND_RANK[a.kind] - KIND_RANK[b.kind] ||
+      (a.mission ?? 0) - (b.mission ?? 0) ||
+      a.label.localeCompare(b.label),
+  );
+
+/** Names the plates use that aren't entities yet, each with the reason. */
+export const heldBack = (HELD_BACK as HeldBack[]).map((h) => ({ ...h, sources: h.sources ?? [] }));
+
+export function entityBySlug(slug: string): Entity | undefined {
+  return entities.find((e) => e.slug === slug);
+}
+
+/** The entities a record anchors. */
+export function entitiesForRecord(id: string): Entity[] {
+  return entities.filter((e) => e.anchors.includes(id));
+}
+
+/** The mission entity for a mission number. */
+export function missionEntity(number: number): Entity | undefined {
+  return entities.find((e) => e.mission === number);
 }
 
 /** The global form of a local ID: passage, record, entity, question. */

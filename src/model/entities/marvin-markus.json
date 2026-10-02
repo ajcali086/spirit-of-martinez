@@ -1,0 +1,21 @@
+{
+  "id": "7bc631e8",
+  "slug": "marvin-markus",
+  "kind": "person",
+  "label": "Marvin L. Markus",
+  "aliases": [
+    {
+      "name": "Marvin L. Markus",
+      "sources": ["pair", "signatures"]
+    },
+    {
+      "name": "Markus",
+      "sources": ["pair", "tampaorder", "signatures", "go289"]
+    }
+  ],
+  "anchors": ["pair", "tampaorder", "signatures", "go289"],
+  "crew": "markus",
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

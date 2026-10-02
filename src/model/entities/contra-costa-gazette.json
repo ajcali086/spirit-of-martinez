@@ -1,0 +1,47 @@
+{
+  "id": "2f52697a",
+  "slug": "contra-costa-gazette",
+  "kind": "organization",
+  "label": "Contra Costa Gazette",
+  "aliases": [
+    {
+      "name": "Contra Costa Gazette",
+      "sources": ["gazette"]
+    },
+    {
+      "name": "Gazette",
+      "sources": [
+        "gazette",
+        "cadets",
+        "britishbase",
+        "commissionclip",
+        "fourbrothers",
+        "eastcoast",
+        "taylorletter",
+        "nameonplane"
+      ]
+    }
+  ],
+  "anchors": [
+    "gazette",
+    "cadets",
+    "britishbase",
+    "commissionclip",
+    "fourbrothers",
+    "eastcoast",
+    "taylorletter",
+    "nameonplane"
+  ],
+  "framing": null,
+  "identity_assertions": [
+    {
+      "action": "merge",
+      "names": ["Gazette"],
+      "curator": "Draft for Andrew's review",
+      "date": "2026-10-02",
+      "rationale": "The Gazette plate calls the Contra Costa Gazette \"the same paper that had been printing him since he enlisted\": the Gazette of the clippings.",
+      "sources": ["gazette"]
+    }
+  ],
+  "notes": []
+}

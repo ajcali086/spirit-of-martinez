@@ -1,0 +1,12 @@
+{
+  "id": "de7ab29e",
+  "slug": "mission-3",
+  "kind": "event",
+  "label": "Mission 3: Osnabrück, 19 February 1945",
+  "aliases": [],
+  "anchors": ["crewrecord", "chart3", "osnabruckclip"],
+  "mission": 3,
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

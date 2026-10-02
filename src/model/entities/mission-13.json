@@ -1,0 +1,12 @@
+{
+  "id": "c71ac46d",
+  "slug": "mission-13",
+  "kind": "event",
+  "label": "Mission 13: Swinemünde, 12 March 1945",
+  "aliases": [],
+  "anchors": ["crewrecord", "chart13"],
+  "mission": 13,
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

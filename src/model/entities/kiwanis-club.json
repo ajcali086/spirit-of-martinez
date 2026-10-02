@@ -1,0 +1,16 @@
+{
+  "id": "58343787",
+  "slug": "kiwanis-club",
+  "kind": "organization",
+  "label": "Martinez Kiwanis Club",
+  "aliases": [
+    {
+      "name": "Martinez Kiwanis Club",
+      "sources": ["wallet"]
+    }
+  ],
+  "anchors": ["wallet"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

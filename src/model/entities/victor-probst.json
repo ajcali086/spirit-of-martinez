@@ -1,0 +1,25 @@
+{
+  "id": "e906abc0",
+  "slug": "victor-probst",
+  "kind": "person",
+  "label": "Victor G. Probst",
+  "aliases": [
+    {
+      "name": "Victor G. Probst",
+      "sources": ["probst", "london"]
+    },
+    {
+      "name": "Victor Probst",
+      "sources": ["cockpit", "calicura"]
+    },
+    {
+      "name": "Probst",
+      "sources": ["cockpit", "calicura", "probst", "london", "tampaorder", "go289"]
+    }
+  ],
+  "anchors": ["cockpit", "calicura", "probst", "london", "tampaorder", "go289"],
+  "crew": "probst",
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

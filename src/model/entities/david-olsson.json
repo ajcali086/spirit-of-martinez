@@ -1,0 +1,20 @@
+{
+  "id": "fe3860bc",
+  "slug": "david-olsson",
+  "kind": "person",
+  "label": "Capt. David E. Olsson",
+  "aliases": [
+    {
+      "name": "David E. Olsson",
+      "sources": ["form5"]
+    },
+    {
+      "name": "David Olsson",
+      "sources": ["naming"]
+    }
+  ],
+  "anchors": ["naming", "form5"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

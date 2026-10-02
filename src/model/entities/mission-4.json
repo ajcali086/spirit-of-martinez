@@ -1,0 +1,12 @@
+{
+  "id": "7384682c",
+  "slug": "mission-4",
+  "kind": "event",
+  "label": "Mission 4: Nuremberg, 20 February 1945",
+  "aliases": [],
+  "anchors": ["crewrecord", "chart4", "nuremberg4"],
+  "mission": 4,
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

@@ -1,0 +1,16 @@
+{
+  "id": "1a29dda7",
+  "slug": "turner-field",
+  "kind": "place",
+  "label": "Turner Field, Georgia",
+  "aliases": [
+    {
+      "name": "Turner Field",
+      "sources": ["instrument", "commissionclip", "ring"]
+    }
+  ],
+  "anchors": ["instrument", "commissionclip", "ring"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

@@ -1,0 +1,20 @@
+{
+  "id": "32f77e8b",
+  "slug": "sabato-rodia",
+  "kind": "person",
+  "label": "Sabato Rodia",
+  "aliases": [
+    {
+      "name": "Sabato Rodia",
+      "sources": ["biro", "rodia"]
+    },
+    {
+      "name": "Sam Rodia",
+      "sources": ["rodia"]
+    }
+  ],
+  "anchors": ["biro", "rodia"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

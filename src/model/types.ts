@@ -41,6 +41,7 @@ export const SERIES = [
   ["family", "Family papers"],
   ["press", "Press"],
   ["photographs", "Photographs"],
+  ["aircraft", "The aircraft"],
 ] as const;
 export type Series = (typeof SERIES)[number][0];
 /** The series that make up the service file. */
@@ -113,3 +114,69 @@ export type MuseumRecord = {
   restoration: null;
   notes: RecordNote[];
 };
+
+/**
+ * What an entity is. Spirit's own list: missions are events, first-class
+ * here; an object (the aircraft, a jacket) stays a record, never an entity.
+ */
+export const ENTITY_KINDS = [
+  ["person", "Person", "People"],
+  ["family", "Family", "Families"],
+  ["place", "Place", "Places"],
+  ["organization", "Organization", "Organizations"],
+  ["event", "Mission", "Missions"],
+] as const;
+export type EntityKind = (typeof ENTITY_KINDS)[number][0];
+
+/** A name an entity also goes by, as the plates write it, and the records that write it so. */
+export type Alias = { name: string; sources: string[] };
+
+/**
+ * A curator's identity decision, dated and attributed:
+ * - merge: these names (aliases) are this entity;
+ * - split: this entity is distinct from those (`with`), despite a shared name.
+ * An unsettled identity is not asserted: the name is held back, and becomes
+ * an open question.
+ */
+export type IdentityAssertion = {
+  action: "merge" | "split";
+  names?: string[];
+  with?: string[];
+  curator: string;
+  date: string;
+  rationale: string;
+  sources: string[];
+};
+
+/** Where a place is, as the plate that locates it gives it. */
+export type Geo = {
+  lat: number;
+  lng: number;
+  precision: "address" | "city" | "approximate";
+  layer: "hometown" | "training" | "london" | "tour" | "postwar";
+};
+
+export type Entity = {
+  /** Identity: eight hex characters, never reused. */
+  id: string;
+  /** Display, for URLs; the file is named for it. */
+  slug: string;
+  kind: EntityKind;
+  label: string;
+  aliases: Alias[];
+  /** Record IDs that anchor it, each naming it in its plate's own words. At least one. */
+  anchors: string[];
+  /** A crew member: their ID in src/data/crew.ts. */
+  crew?: string;
+  /** A mission: its number in src/data/missions.ts. */
+  mission?: number;
+  /** A place a plate locates: its plate's coordinates. */
+  geo?: Geo;
+  /** One line, curator-written and dated. Not written yet. */
+  framing: null | { text: string; curator: string; date: string };
+  identity_assertions: IdentityAssertion[];
+  notes: RecordNote[];
+};
+
+/** A name the plates use that isn't an entity yet, with the reason. */
+export type HeldBack = { label: string; kind: EntityKind; reason: string; sources: string[] };

@@ -1,0 +1,16 @@
+{
+  "id": "c32934ba",
+  "slug": "grenier-field",
+  "kind": "place",
+  "label": "Grenier Field, Manchester, New Hampshire",
+  "aliases": [
+    {
+      "name": "Grenier Field",
+      "sources": ["ticket"]
+    }
+  ],
+  "anchors": ["ticket"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

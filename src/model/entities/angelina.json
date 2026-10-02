@@ -1,0 +1,16 @@
+{
+  "id": "e8af3b37",
+  "slug": "angelina",
+  "kind": "person",
+  "label": "Angelina",
+  "aliases": [
+    {
+      "name": "Angelina",
+      "sources": ["firstmeeting", "rodia"]
+    }
+  ],
+  "anchors": ["firstmeeting", "rodia"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

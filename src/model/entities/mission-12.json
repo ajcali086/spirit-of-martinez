@@ -1,0 +1,12 @@
+{
+  "id": "9011cebf",
+  "slug": "mission-12",
+  "kind": "event",
+  "label": "Mission 12: Dortmunderfeld, 10 March 1945",
+  "aliases": [],
+  "anchors": ["crewrecord", "chart12"],
+  "mission": 12,
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

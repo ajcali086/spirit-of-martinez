@@ -1,0 +1,16 @@
+{
+  "id": "60dbeca4",
+  "slug": "pacific-telephone",
+  "kind": "organization",
+  "label": "Pacific Telephone and Telegraph Company",
+  "aliases": [
+    {
+      "name": "Pacific Telephone and Telegraph Company",
+      "sources": ["cadets"]
+    }
+  ],
+  "anchors": ["cadets"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

@@ -1,0 +1,30 @@
+{
+  "id": "63ab2687",
+  "slug": "martinez-airport",
+  "kind": "place",
+  "label": "Martinez Airport",
+  "aliases": [
+    {
+      "name": "Martinez Airport",
+      "sources": ["airfield", "airportgroup"]
+    },
+    {
+      "name": "MARTINEZ AIRPORT",
+      "sources": ["airfield"]
+    },
+    {
+      "name": "MARTINEZ AIR PORT",
+      "sources": ["hangar"]
+    }
+  ],
+  "anchors": ["airfield", "airportgroup", "hangar"],
+  "geo": {
+    "lat": 38.0194,
+    "lng": -122.141,
+    "precision": "city",
+    "layer": "hometown"
+  },
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

@@ -1,0 +1,16 @@
+{
+  "id": "f9ca810c",
+  "slug": "richard-calicura",
+  "kind": "person",
+  "label": "Richard, Sam Calicura Jr.'s son",
+  "aliases": [
+    {
+      "name": "Richard",
+      "sources": ["richard"]
+    }
+  ],
+  "anchors": ["richard"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

@@ -1,0 +1,16 @@
+{
+  "id": "f1437653",
+  "slug": "star-meat-market",
+  "kind": "organization",
+  "label": "Star Meat Market",
+  "aliases": [
+    {
+      "name": "Star Meat Market",
+      "sources": ["cadets", "quals"]
+    }
+  ],
+  "anchors": ["cadets", "quals"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

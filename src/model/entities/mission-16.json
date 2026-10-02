@@ -1,0 +1,12 @@
+{
+  "id": "9ca1ca6a",
+  "slug": "mission-16",
+  "kind": "event",
+  "label": "Mission 16: Hamburg, 20 March 1945",
+  "aliases": [],
+  "anchors": ["crewrecord", "hamburg"],
+  "mission": 16,
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

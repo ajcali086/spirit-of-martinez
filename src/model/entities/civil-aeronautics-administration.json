@@ -1,0 +1,20 @@
+{
+  "id": "4901c1f8",
+  "slug": "civil-aeronautics-administration",
+  "kind": "organization",
+  "label": "Civil Aeronautics Administration",
+  "aliases": [
+    {
+      "name": "Civil Aeronautics Administration",
+      "sources": ["airmanid", "rating"]
+    },
+    {
+      "name": "CAA",
+      "sources": ["rating", "medical"]
+    }
+  ],
+  "anchors": ["airmanid", "rating", "medical"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

@@ -1,0 +1,16 @@
+{
+  "id": "c55bd126",
+  "slug": "nick-calicura",
+  "kind": "person",
+  "label": "Nick Calicura",
+  "aliases": [
+    {
+      "name": "Nick",
+      "sources": ["fourbrothers"]
+    }
+  ],
+  "anchors": ["fourbrothers"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

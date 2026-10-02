@@ -1,0 +1,12 @@
+{
+  "id": "fe8f1b81",
+  "slug": "mission-7",
+  "kind": "event",
+  "label": "Mission 7: Bremen, 24 February 1945",
+  "aliases": [],
+  "anchors": ["crewrecord", "chart7"],
+  "mission": 7,
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

@@ -1,0 +1,21 @@
+{
+  "id": "7a3e784f",
+  "slug": "robert-collins",
+  "kind": "person",
+  "label": "Robert E. Collins",
+  "aliases": [
+    {
+      "name": "Robert E. Collins",
+      "sources": ["pair", "signatures"]
+    },
+    {
+      "name": "Collins",
+      "sources": ["pair", "tampaorder", "signatures", "stations"]
+    }
+  ],
+  "anchors": ["pair", "tampaorder", "signatures", "stations"],
+  "crew": "collins",
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

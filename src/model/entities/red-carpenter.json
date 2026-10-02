@@ -1,0 +1,16 @@
+{
+  "id": "1bbcc2e0",
+  "slug": "red-carpenter",
+  "kind": "person",
+  "label": "Red Carpenter",
+  "aliases": [
+    {
+      "name": "Red Carpenter",
+      "sources": ["carpenter"]
+    }
+  ],
+  "anchors": ["carpenter"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

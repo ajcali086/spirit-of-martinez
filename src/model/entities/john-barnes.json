@@ -1,0 +1,34 @@
+{
+  "id": "4e53b0cd",
+  "slug": "john-barnes",
+  "kind": "person",
+  "label": "John R. Barnes",
+  "aliases": [
+    {
+      "name": "John R. Barnes",
+      "sources": ["barnes", "london"]
+    },
+    {
+      "name": "Barnes",
+      "sources": ["barnes", "clarkbarnes", "london", "go289", "stations"]
+    },
+    {
+      "name": "BARNS",
+      "sources": ["clarkbarnes"]
+    }
+  ],
+  "anchors": ["barnes", "clarkbarnes", "london", "go289", "stations"],
+  "crew": "barnes",
+  "framing": null,
+  "identity_assertions": [
+    {
+      "action": "merge",
+      "names": ["BARNS"],
+      "curator": "Draft for Andrew's review",
+      "date": "2026-10-02",
+      "rationale": "The print's label CLARK & BARNS spells him BARNS; its caption: \"Barnes is at right. ... The spelling is the print's.\"",
+      "sources": ["clarkbarnes"]
+    }
+  ],
+  "notes": []
+}
