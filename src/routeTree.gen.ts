@@ -14,6 +14,7 @@ import { Route as SplatRouteImport } from './routes/$'
 import { Route as AircraftRouteImport } from './routes/aircraft'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as BothStandRouteImport } from './routes/both-stand'
+import { Route as KeptRouteImport } from './routes/kept'
 import { Route as MissionsRouteImport } from './routes/missions'
 import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as TimelineRouteImport } from './routes/timeline'
@@ -47,6 +48,11 @@ const BookRoute = BookRouteImport.update({
 const BothStandRoute = BothStandRouteImport.update({
   id: '/both-stand',
   path: '/both-stand',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KeptRoute = KeptRouteImport.update({
+  id: '/kept',
+  path: '/kept',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MissionsRoute = MissionsRouteImport.update({
@@ -101,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/aircraft': typeof AircraftRoute
   '/book': typeof BookRoute
   '/both-stand': typeof BothStandRoute
+  '/kept': typeof KeptRoute
   '/missions': typeof MissionsRoute
   '/sources': typeof SourcesRoute
   '/timeline': typeof TimelineRoute
@@ -117,6 +124,7 @@ export interface FileRoutesByTo {
   '/aircraft': typeof AircraftRoute
   '/book': typeof BookRoute
   '/both-stand': typeof BothStandRoute
+  '/kept': typeof KeptRoute
   '/missions': typeof MissionsRoute
   '/sources': typeof SourcesRoute
   '/timeline': typeof TimelineRoute
@@ -134,6 +142,7 @@ export interface FileRoutesById {
   '/aircraft': typeof AircraftRoute
   '/book': typeof BookRoute
   '/both-stand': typeof BothStandRoute
+  '/kept': typeof KeptRoute
   '/missions': typeof MissionsRoute
   '/sources': typeof SourcesRoute
   '/timeline': typeof TimelineRoute
@@ -152,6 +161,7 @@ export interface FileRouteTypes {
     | '/aircraft'
     | '/book'
     | '/both-stand'
+    | '/kept'
     | '/missions'
     | '/sources'
     | '/timeline'
@@ -168,6 +178,7 @@ export interface FileRouteTypes {
     | '/aircraft'
     | '/book'
     | '/both-stand'
+    | '/kept'
     | '/missions'
     | '/sources'
     | '/timeline'
@@ -184,6 +195,7 @@ export interface FileRouteTypes {
     | '/aircraft'
     | '/book'
     | '/both-stand'
+    | '/kept'
     | '/missions'
     | '/sources'
     | '/timeline'
@@ -201,6 +213,7 @@ export interface RootRouteChildren {
   AircraftRoute: typeof AircraftRoute
   BookRoute: typeof BookRoute
   BothStandRoute: typeof BothStandRoute
+  KeptRoute: typeof KeptRoute
   MissionsRoute: typeof MissionsRoute
   SourcesRoute: typeof SourcesRoute
   TimelineRoute: typeof TimelineRoute
@@ -247,6 +260,13 @@ declare module '@tanstack/react-router' {
       path: '/both-stand'
       fullPath: '/both-stand'
       preLoaderRoute: typeof BothStandRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kept': {
+      id: '/kept'
+      path: '/kept'
+      fullPath: '/kept'
+      preLoaderRoute: typeof KeptRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/missions': {
@@ -321,6 +341,7 @@ const rootRouteChildren: RootRouteChildren = {
   AircraftRoute: AircraftRoute,
   BookRoute: BookRoute,
   BothStandRoute: BothStandRoute,
+  KeptRoute: KeptRoute,
   MissionsRoute: MissionsRoute,
   SourcesRoute: SourcesRoute,
   TimelineRoute: TimelineRoute,
