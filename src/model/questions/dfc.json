@@ -1,0 +1,17 @@
+{
+  "id": "dfc",
+  "title": "The Distinguished Flying Cross",
+  "origin": "archive",
+  "archive": "The Distinguished Flying Cross",
+  "what_we_know": "The headstone and the coat carry the ribbon. At least one archival summary of the service record does not list the award, and no citation has been located. The 1973 NPRC fire is the ordinary condition of that absence.",
+  "what_we_dont": "Whether the award was made, and when.",
+  "what_might_answer_it": "A general order awarding it; the citation.",
+  "evidence_needed": "The DFC citation or general order.",
+  "last_known_source": ["coat"],
+  "passages": [],
+  "entities": ["5483a6f0"],
+  "status": "open",
+  "evidence": [],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-02"
+}

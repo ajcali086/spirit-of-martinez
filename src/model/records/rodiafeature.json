@@ -1,0 +1,25 @@
+{
+  "id": "rodiafeature",
+  "kind": "object",
+  "title": "News-Gazette feature on the Rodia documentary",
+  "series": "cited",
+  "cited_at": {
+    "chapter": "uncle-sam",
+    "passage": "15.3-p0"
+  },
+  "credit": "Martinez News-Gazette",
+  "rights_holder": "unknown",
+  "held": false,
+  "status": "not-held",
+  "media": [],
+  "capture_provenance": {
+    "unknown": "not held"
+  },
+  "restoration": null,
+  "notes": [
+    {
+      "date": "2026-10-02",
+      "note": "Quotes Nick Calicura giving his uncle's birth year as 1875, a year the article calls disputed."
+    }
+  ]
+}

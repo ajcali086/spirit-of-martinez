@@ -1,0 +1,17 @@
+{
+  "id": "treasure-island-building",
+  "title": "Which Treasure Island building",
+  "origin": "archive",
+  "archive": "Which Treasure Island building",
+  "what_we_know": "The Gazette records only that Sam Calicura Jr. and Charles Beatie purchased a building at the exposition grounds for hangar purposes. Treasure Island held both purpose-built aviation structures and the Gayway. No source identifies which.",
+  "what_we_dont": "Which building they bought.",
+  "what_might_answer_it": "Exposition sale records.",
+  "evidence_needed": "A record of the sale.",
+  "last_known_source": ["tribune1939"],
+  "passages": [],
+  "entities": ["74af1d62", "78950e33", "124c93b5"],
+  "status": "open",
+  "evidence": [],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-02"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "two-clarks",
+  "title": "Are the two Clarks one man?",
+  "origin": "records",
+  "what_we_know": "A print is labeled CLARK & BARNS, NAV & BOMB. The Tampa order lists crew 1481, Clark, after this crew.",
+  "what_we_dont": "Whether they are the same man, and his full name.",
+  "what_might_answer_it": "The full Tampa order page; the print's source.",
+  "evidence_needed": "A paper naming Clark in full with his position.",
+  "last_known_source": ["clarkbarnes", "tampaorder"],
+  "passages": [],
+  "entities": ["4e53b0cd"],
+  "status": "open",
+  "evidence": [],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-02"
+}

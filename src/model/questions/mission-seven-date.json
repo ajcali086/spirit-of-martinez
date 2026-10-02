@@ -1,0 +1,17 @@
+{
+  "id": "mission-seven-date",
+  "title": "The 23rd or the 24th",
+  "origin": "both-stand",
+  "both_stand": "chart-date",
+  "what_we_know": "The captains' chart is hand-dated 23 February 1945 and numbered Mission #7. The crew record puts mission seven on the 24th, at Bremen.",
+  "what_we_dont": "Which date is right, and whose hand dated the chart.",
+  "what_might_answer_it": "The group's mission reports for 23 and 24 February 1945; the other thirteen charts, once digitized.",
+  "evidence_needed": "A document of 1945 dating mission seven, or the chart's annotator identified.",
+  "last_known_source": ["chart7", "crewrecord"],
+  "passages": [],
+  "entities": ["fe8f1b81"],
+  "status": "open",
+  "evidence": ["ev-001", "ev-002"],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-02"
+}

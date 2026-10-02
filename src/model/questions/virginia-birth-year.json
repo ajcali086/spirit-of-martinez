@@ -1,0 +1,22 @@
+{
+  "id": "virginia-birth-year",
+  "title": "1925 or 1926",
+  "origin": "both-stand",
+  "both_stand": "birth-years",
+  "what_we_know": "The registry gives 1925; the book has used 1926.",
+  "what_we_dont": "Her birth year, and the source of the book's 1926.",
+  "what_might_answer_it": "Her birth certificate.",
+  "evidence_needed": "A primary record of her birth.",
+  "last_known_source": ["registry"],
+  "passages": [
+    {
+      "chapter": "what-came-back",
+      "passage": "13.2-p5"
+    }
+  ],
+  "entities": [],
+  "status": "open",
+  "evidence": ["ev-016"],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-02"
+}

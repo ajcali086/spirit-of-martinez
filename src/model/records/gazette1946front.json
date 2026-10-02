@@ -1,0 +1,25 @@
+{
+  "id": "gazette1946front",
+  "kind": "object",
+  "title": "Gazette front page on Sam Calicura Jr.'s death, 1946",
+  "series": "cited",
+  "cited_at": {
+    "chapter": "what-came-back",
+    "passage": "13.2-p4"
+  },
+  "credit": "Martinez Gazette",
+  "rights_holder": "unknown",
+  "held": false,
+  "status": "not-held",
+  "media": [],
+  "capture_provenance": {
+    "unknown": "not held"
+  },
+  "restoration": null,
+  "notes": [
+    {
+      "date": "2026-10-02",
+      "note": "Sam Calicura Jr.'s death, March 2, 1946."
+    }
+  ]
+}

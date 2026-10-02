@@ -3,31 +3,36 @@
     "label": "Clark",
     "kind": "person",
     "reason": "Two Clarks: the print labeled CLARK & BARNS, NAV & BOMB, and crew 1481, Clark, on the Tampa order. Nothing says they are one man; an open question, not a merge.",
-    "sources": ["clarkbarnes", "tampaorder"]
+    "sources": ["clarkbarnes", "tampaorder"],
+    "question": "two-clarks"
   },
   {
     "label": "Sam Calicura (the 1940 notice)",
     "kind": "person",
     "reason": "The notice is signed SAM CALICURA; which Sam (Sam Jr., or another of the family's Sams) is not settled by the plate.",
-    "sources": ["friends"]
+    "sources": ["friends"],
+    "question": "which-sam"
   },
   {
     "label": "Sam Calicura (employer on the qualification record)",
     "kind": "person",
     "reason": "The Army form names a Sam Calicura of 726 Ferry Street as employer; the caption leaves the two addresses unreconciled, so the man is not merged with Sam Calicura Jr.",
-    "sources": ["quals"]
+    "sources": ["quals"],
+    "question": "which-sam"
   },
   {
     "label": "Sam (the Gazette's)",
     "kind": "person",
     "reason": "The Gazette puts \"Sam\" at 731 and then 515 Mellus; which Sam it means is not settled by the plates.",
-    "sources": ["britishbase", "nameonplane"]
+    "sources": ["britishbase", "nameonplane"],
+    "question": "which-sam"
   },
   {
     "label": "Olson",
     "kind": "person",
     "reason": "\"Olson's print\" on the Dillon plate: whether this is Capt. David E. Olsson is not stated.",
-    "sources": ["dillon"]
+    "sources": ["dillon"],
+    "question": "olson-olsson"
   },
   {
     "label": "Lt. Shaw",

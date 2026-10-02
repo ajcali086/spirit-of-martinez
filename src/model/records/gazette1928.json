@@ -1,0 +1,25 @@
+{
+  "id": "gazette1928",
+  "kind": "object",
+  "title": "Gazette, 1928: Angelina's sixteenth child",
+  "series": "cited",
+  "cited_at": {
+    "chapter": "what-came-back",
+    "passage": "13.2-p5"
+  },
+  "credit": "Martinez Gazette",
+  "rights_holder": "unknown",
+  "held": false,
+  "status": "not-held",
+  "media": [],
+  "capture_provenance": {
+    "unknown": "not held"
+  },
+  "restoration": null,
+  "notes": [
+    {
+      "date": "2026-10-02",
+      "note": "Puts Angelina's age at forty at her sixteenth child's birth: the source of the book's approximately 1888."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "id": "namingfeature",
+  "kind": "object",
+  "title": "News-Gazette retrospective feature, built on an interview with Joyce",
+  "series": "cited",
+  "cited_at": {
+    "chapter": "borrowed-aircraft",
+    "passage": "11.3-p2"
+  },
+  "credit": "Martinez News-Gazette",
+  "rights_holder": "unknown",
+  "held": false,
+  "status": "not-held",
+  "media": [],
+  "capture_provenance": {
+    "unknown": "not held"
+  },
+  "restoration": null,
+  "notes": [
+    {
+      "date": "2026-10-02",
+      "note": "Published decades later; the book uses it carefully, for Joyce's memory and the committee's correspondence, not for the operational record."
+    }
+  ]
+}

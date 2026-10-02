@@ -1,0 +1,25 @@
+{
+  "id": "gazette1955",
+  "kind": "object",
+  "title": "Gazette, 22 July 1955: Frank and Bill's own shop",
+  "series": "cited",
+  "cited_at": {
+    "chapter": "what-came-back",
+    "passage": "13.3-p2"
+  },
+  "credit": "Martinez Gazette",
+  "rights_holder": "unknown",
+  "held": false,
+  "status": "not-held",
+  "media": [],
+  "capture_provenance": {
+    "unknown": "not held"
+  },
+  "restoration": null,
+  "notes": [
+    {
+      "date": "2026-10-02",
+      "note": "States Frank and Bill took over the shop from Sam \"following his death in 1947\"."
+    }
+  ]
+}

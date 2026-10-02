@@ -1,0 +1,22 @@
+{
+  "id": "bill-service",
+  "title": "Navy air corps or antiaircraft",
+  "origin": "both-stand",
+  "both_stand": "bill-service",
+  "what_we_know": "The 1946 Gazette has Bill in the Navy air corps' ground forces. Two wartime papers put him in the Army's antiaircraft, a corporal.",
+  "what_we_dont": "Which service he was in; the wartime papers also disagree on where (Camp Davis or Nashville).",
+  "what_might_answer_it": "His discharge papers or service record.",
+  "evidence_needed": "A service record for William Calicura.",
+  "last_known_source": ["gazette1946", "fourbrothers", "angelinaobit"],
+  "passages": [
+    {
+      "chapter": "what-came-back",
+      "passage": "13.2-p2"
+    }
+  ],
+  "entities": ["2e744f7c"],
+  "status": "open",
+  "evidence": ["ev-011", "ev-012", "ev-013"],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-02"
+}

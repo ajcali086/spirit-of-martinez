@@ -1,0 +1,22 @@
+{
+  "id": "angelina-birth-year",
+  "title": "1884 or 1888",
+  "origin": "both-stand",
+  "both_stand": "birth-years",
+  "what_we_know": "The registry gives 1884. A 1928 Gazette article putting her age at forty gives approximately 1888.",
+  "what_we_dont": "Her birth year.",
+  "what_might_answer_it": "Her birth or baptismal record in Italy; her immigration papers.",
+  "evidence_needed": "A primary record of her birth.",
+  "last_known_source": ["registry", "gazette1928"],
+  "passages": [
+    {
+      "chapter": "what-came-back",
+      "passage": "13.2-p5"
+    }
+  ],
+  "entities": ["e8af3b37"],
+  "status": "open",
+  "evidence": ["ev-014", "ev-015"],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-02"
+}

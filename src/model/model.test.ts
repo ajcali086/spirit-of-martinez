@@ -4,20 +4,23 @@ import {
   entities,
   entitiesForRecord,
   entityBySlug,
+  evidence,
   globalId,
   heldBack,
   missionEntity,
+  questions,
   recordById,
   recordForPlate,
   records,
+  settled,
 } from "./index";
 import { SERVICE_FILE } from "./types";
 import { checks } from "./validate";
 
-describe("model: H1 retrofit stages 1 and 2, records and entities", () => {
+describe("model: H1 retrofit stages 1 to 3, records, entities, evidence and questions", () => {
   for (const check of checks) it(check.name, () => assert.deepEqual(check.run(), []));
 
-  it("holds 118 records: 101 plates, verified, and 17 not held", () => {
+  it("holds 130 records: 101 plates, verified, and 29 not held", () => {
     const count = (s: string) => records.filter((r) => r.status === s).length;
     assert.deepEqual(
       [
@@ -27,7 +30,7 @@ describe("model: H1 retrofit stages 1 and 2, records and entities", () => {
         count("unverified"),
         count("not-held"),
       ],
-      [118, 101, 101, 0, 17],
+      [130, 101, 101, 0, 29],
     );
   });
 
@@ -155,6 +158,53 @@ describe("model: H1 retrofit stages 1 and 2, records and entities", () => {
         "Marie",
       ],
     );
+  });
+
+  it("carries the register: ten entries as eleven questions, and twenty-eight and thirty-one settled", () => {
+    const carried = new Set(questions.map((q) => q.both_stand).filter(Boolean));
+    assert.equal(carried.size, 10);
+    assert.equal(questions.filter((q) => q.origin === "both-stand").length, 11);
+    assert.deepEqual(
+      questions.filter((q) => q.both_stand === "birth-years").map((q) => q.id),
+      ["angelina-birth-year", "virginia-birth-year"],
+    );
+    assert.deepEqual(
+      settled.map((s) => [s.both_stand, s.curator]),
+      [["the-count", "Andrew"]],
+    );
+  });
+
+  it("holds 20 questions: 11 from the register, 6 more from the archive, 3 from held-back names", () => {
+    const count = (o: string) => questions.filter((q) => q.origin === o).length;
+    assert.deepEqual(
+      [questions.length, count("both-stand"), count("archive"), count("records")],
+      [20, 11, 6, 3],
+    );
+    assert.equal(questions.filter((q) => q.archive).length, 8);
+  });
+
+  it("puts both sides of mission seven's date in view", () => {
+    const q = questions.find((x) => x.id === "mission-seven-date")!;
+    const links = q.evidence.map((id) => evidence.find((e) => e.id === id)!);
+    assert.deepEqual(
+      links.map((l) => [l.record, l.type]),
+      [
+        ["crewrecord", "supports"],
+        ["chart7", "contradicts"],
+      ],
+    );
+    assert.equal(links[1].says, "Hand-dated 23 Feb. 1945 and numbered Mission #7.");
+    assert.ok(q.entities.includes(missionEntity(7)!.id));
+  });
+
+  it("enters the papers the book cites as records it doesn't hold, each at its passage", () => {
+    const cited = records.filter((r) => r.cited_at);
+    assert.equal(cited.length, 12);
+    assert.ok(cited.every((r) => r.status === "not-held"));
+    assert.deepEqual(recordById("registry")?.cited_at, {
+      chapter: "what-came-back",
+      passage: "13.2-p4",
+    });
   });
 
   it("writes global IDs with the museum's prefix", () => {

@@ -1,0 +1,17 @@
+{
+  "id": "classification-center",
+  "title": "Which classification center",
+  "origin": "archive",
+  "archive": "Which classification center",
+  "what_we_know": "The collection does not say which of the three Army Air Forces classification centers administered Frank’s battery. No assignment has been made on the strength of geography.",
+  "what_we_dont": "Which of the three centers administered Frank's battery.",
+  "what_might_answer_it": "His classification papers.",
+  "evidence_needed": "A paper naming the center.",
+  "last_known_source": ["quals"],
+  "passages": [],
+  "entities": ["5483a6f0"],
+  "status": "open",
+  "evidence": [],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-02"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "dale-ernest-witness",
+  "title": "Whether Dale Ernest is the unnamed witness",
+  "origin": "archive",
+  "archive": "Whether Dale Ernest is the unnamed witness",
+  "what_we_know": "Ernest was at Avon Park in the claim’s window, and in Martinez the year the claim was decided. The connection is offered as likely, not documented.",
+  "what_we_dont": "Whether Ernest is the sworn statement's witness.",
+  "what_might_answer_it": "The claim file's sworn statement.",
+  "evidence_needed": "The statement, naming its witness.",
+  "last_known_source": ["valetter"],
+  "passages": [],
+  "entities": ["949b6b42"],
+  "status": "open",
+  "evidence": [],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-02"
+}

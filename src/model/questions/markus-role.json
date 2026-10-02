@@ -1,0 +1,22 @@
+{
+  "id": "markus-role",
+  "title": "Togglier or bombardier",
+  "origin": "both-stand",
+  "both_stand": "markus-role",
+  "what_we_know": "The crew record puts Markus in the nose as togglier. His obituary makes him master bombardier, relief navigator and co-pilot, and sends the food drops over Holland and France.",
+  "what_we_dont": "Whether he trained or served as a bombardier at any point.",
+  "what_might_answer_it": "His service record; the 95th's records of the crew's positions.",
+  "evidence_needed": "A wartime paper naming his position.",
+  "last_known_source": ["crewrecord", "markusobit"],
+  "passages": [
+    {
+      "chapter": "what-came-back",
+      "passage": "13.5"
+    }
+  ],
+  "entities": ["7bc631e8"],
+  "status": "open",
+  "evidence": ["ev-009", "ev-010"],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-02"
+}
