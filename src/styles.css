@@ -83,14 +83,23 @@
     scroll-margin-top: calc(var(--player-h, 0px) + 3.5rem);
   }
 
-  @media (max-width: 639px) {
-    html.player-tucked [data-player-bar] {
-      visibility: hidden;
-    }
+  html.player-tucked {
+    --header-h: 0px;
+  }
 
-    html.player-tucked [data-player-spacer] {
-      display: none;
-    }
+  html.player-tucked [data-site-header],
+  html.player-tucked [data-chapter-nav],
+  html.player-tucked [data-player-spacer],
+  html.player-tucked [data-reading-overlay] {
+    display: none;
+  }
+
+  html.player-tucked [data-player-bar] {
+    visibility: hidden;
+  }
+
+  html.player-tucked :is(.scroll-mt-28, .scroll-mt-24) {
+    scroll-margin-top: 0.75rem;
   }
 
   body {
@@ -224,6 +233,31 @@ body.reading-focus [data-site-header] {
   box-shadow: inset 3px 0 0 var(--color-brass);
   margin-left: -0.75rem;
   padding-left: 0.75rem;
+}
+
+.prose-archive p.is-finding:not(.is-reading) {
+  margin-left: -0.75rem;
+  padding-left: 0.75rem;
+  background: color-mix(in srgb, var(--color-brass) 10%, transparent);
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--color-brass) 45%, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .prose-archive p.is-finding:not(.is-reading) {
+    animation: passage-find 1.15s ease-in-out infinite;
+  }
+}
+
+@keyframes passage-find {
+  0%,
+  100% {
+    background: color-mix(in srgb, var(--color-brass) 8%, transparent);
+    box-shadow: inset 3px 0 0 color-mix(in srgb, var(--color-brass) 40%, transparent);
+  }
+  50% {
+    background: color-mix(in srgb, var(--color-brass) 20%, transparent);
+    box-shadow: inset 3px 0 0 var(--color-brass);
+  }
 }
 
 .prose-archive h2 .seek {

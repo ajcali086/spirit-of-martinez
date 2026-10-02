@@ -688,18 +688,9 @@ function PlayerBar({
   onFollow: (value: boolean) => void;
 }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const [phone, setPhone] = useState(false);
   const [awake, setAwake] = useState(false);
-  const canTuck = Boolean(phone && follow && playing && track?.kind === "chapter");
+  const canTuck = Boolean(follow && playing && track?.kind === "chapter");
   const tucked = canTuck && !awake;
-
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 639px)");
-    const apply = () => setPhone(mq.matches);
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, []);
 
   useEffect(() => {
     if (!canTuck) return;

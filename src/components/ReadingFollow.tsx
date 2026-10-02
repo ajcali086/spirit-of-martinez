@@ -72,7 +72,7 @@ export function useReadingFollow(slug: string) {
     const rect = el.getBoundingClientRect();
     const tucked = document.documentElement.classList.contains("player-tucked");
     const headerHidden = document.body.classList.contains("reading-focus");
-    const topBound = (headerHidden ? 12 : 72) + (tucked ? 8 : 76);
+    const topBound = (headerHidden || tucked ? 12 : 72) + (tucked ? 8 : 76);
     const bottomBound = window.innerHeight - 72;
     if (rect.top >= topBound && rect.bottom <= bottomBound) return;
     ignoreUntil.current = Date.now() + 900;

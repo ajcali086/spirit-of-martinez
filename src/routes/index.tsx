@@ -26,13 +26,13 @@ function Home() {
     <SiteShell>
       <section className="relative min-h-[calc(100dvh-4.5rem)] overflow-hidden border-b border-rule sm:min-h-[calc(100dvh-5rem)]">
         <SiteImage
-          src="/images/cover-crew.jpg"
-          alt="Nine airmen posed under the nose of the B-17 Spirit of Martinez, Horham, 1945"
+          src="/images/cover-kept.jpg"
+          alt="What was kept, laid out on a dark cloth: the crew under the Spirit of Martinez, a flight jacket, an open log, a map of Europe marked in string, a compass, and two smaller photographs"
           width={1500}
-          height={1189}
+          height={844}
           fetchPriority="high"
           decoding="async"
-          className="absolute inset-0 size-full object-cover object-[center_32%] sm:object-[68%_42%]"
+          className="absolute inset-0 size-full object-cover object-[68%_center] sm:object-center"
         />
         <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/50 to-ink/10 sm:bg-linear-to-r sm:from-ink sm:via-ink/80 sm:via-42% sm:to-transparent" />
         <div className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col justify-end px-4 py-10 sm:min-h-[calc(100dvh-5rem)] sm:justify-between sm:px-8 sm:py-10 lg:px-12">
