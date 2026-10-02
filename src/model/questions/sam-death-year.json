@@ -1,0 +1,22 @@
+{
+  "id": "sam-death-year",
+  "title": "1946 or 1947",
+  "origin": "both-stand",
+  "both_stand": "sam-death",
+  "what_we_know": "Cemetery records, the 1946 Gazette and the registry put Sam Calicura Jr.'s death at March 2, 1946. The 1955 Gazette says 1947.",
+  "what_we_dont": "Where the 1955 paper's 1947 came from.",
+  "what_might_answer_it": "The 1955 reporter's source; his death certificate.",
+  "evidence_needed": "His death certificate.",
+  "last_known_source": ["cemetery", "gazette1946front", "registry", "gazette1955"],
+  "passages": [
+    {
+      "chapter": "what-came-back",
+      "passage": "13.3-p2"
+    }
+  ],
+  "entities": ["74af1d62"],
+  "status": "open",
+  "evidence": ["ev-017", "ev-018", "ev-019", "ev-020"],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-02"
+}

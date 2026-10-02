@@ -1,0 +1,325 @@
+[
+  {
+    "id": "ev-001",
+    "claim": {
+      "plate": "chart7",
+      "quote": "The crew record puts mission seven on the 24th, at Bremen."
+    },
+    "record": "crewrecord",
+    "type": "supports",
+    "note": "The compiled crew record dates mission seven 24 February 1945, Bremen.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-002",
+    "claim": {
+      "plate": "chart7",
+      "quote": "The crew record puts mission seven on the 24th, at Bremen."
+    },
+    "record": "chart7",
+    "type": "contradicts",
+    "says": "Hand-dated 23 Feb. 1945 and numbered Mission #7.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-003",
+    "claim": {
+      "chapter": "borrowed-aircraft",
+      "passage": "m-17",
+      "quote": "mission seventeen struck the Luftwaffe airfield at Ahlhorn"
+    },
+    "record": "crewrecord",
+    "type": "supports",
+    "note": "The crew record places mission seventeen at Ahlhorn.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-004",
+    "claim": {
+      "chapter": "borrowed-aircraft",
+      "passage": "m-17",
+      "quote": "mission seventeen struck the Luftwaffe airfield at Ahlhorn"
+    },
+    "record": "m17clip",
+    "type": "contradicts",
+    "note": "Names Ingolstadt, Fürth and Grafenwöhr, not Ahlhorn.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-005",
+    "claim": {
+      "chapter": "borrowed-aircraft",
+      "passage": "11.3a-p11",
+      "quote": "the 95th Bomb Group’s own crew record puts the number flown specifically in the Spirit of Martinez at twenty-nine, not thirty"
+    },
+    "record": "crewrecord",
+    "type": "supports",
+    "note": "Thirty-one sorties, two in borrowed aircraft: twenty-nine in her.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-006",
+    "claim": {
+      "chapter": "borrowed-aircraft",
+      "passage": "11.3a-p11",
+      "quote": "the 95th Bomb Group’s own crew record puts the number flown specifically in the Spirit of Martinez at twenty-nine, not thirty"
+    },
+    "record": "jacket",
+    "type": "contradicts",
+    "says": "thirty bomb symbols",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-007",
+    "claim": {
+      "chapter": "borrowed-aircraft",
+      "passage": "11.3-p4",
+      "quote": "merely a small plaque mounted under the instrument panel"
+    },
+    "record": "namingfeature",
+    "type": "supports",
+    "note": "The committee, the feature reports, was disappointed to learn the name was a small plaque.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-008",
+    "claim": {
+      "chapter": "borrowed-aircraft",
+      "passage": "11.3-p4",
+      "quote": "merely a small plaque mounted under the instrument panel"
+    },
+    "record": "nose",
+    "type": "contradicts",
+    "says": "The name is already on the ship.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-009",
+    "claim": {
+      "chapter": "what-came-back",
+      "passage": "13.5",
+      "quote": "The crew record puts him in the nose as togglier."
+    },
+    "record": "crewrecord",
+    "type": "supports",
+    "note": "Togglier, in the nose.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-010",
+    "claim": {
+      "chapter": "what-came-back",
+      "passage": "13.5",
+      "quote": "The crew record puts him in the nose as togglier."
+    },
+    "record": "markusobit",
+    "type": "contradicts",
+    "note": "Master bombardier, relief navigator and co-pilot; drops over Holland and France.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-011",
+    "claim": {
+      "chapter": "what-came-back",
+      "passage": "13.2-p2",
+      "quote": "Bill, who had served in the Navy air corps’ ground forces"
+    },
+    "record": "gazette1946",
+    "type": "supports",
+    "note": "The 1946 paper's own description.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-012",
+    "claim": {
+      "chapter": "what-came-back",
+      "passage": "13.2-p2",
+      "quote": "Bill, who had served in the Navy air corps’ ground forces"
+    },
+    "record": "fourbrothers",
+    "type": "contradicts",
+    "says": "Bill a corporal in the anti-aircraft at Camp Davis, North Carolina.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-013",
+    "claim": {
+      "chapter": "what-came-back",
+      "passage": "13.2-p2",
+      "quote": "Bill, who had served in the Navy air corps’ ground forces"
+    },
+    "record": "angelinaobit",
+    "type": "contradicts",
+    "note": "Calls him Corporal, a rank the Navy does not use.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-014",
+    "claim": {
+      "chapter": "what-came-back",
+      "passage": "13.2-p5",
+      "quote": "It gives Angelina’s birth year as 1884"
+    },
+    "record": "registry",
+    "type": "supports",
+    "note": "Angelina, 1884.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-015",
+    "claim": {
+      "chapter": "what-came-back",
+      "passage": "13.2-p5",
+      "quote": "It gives Angelina’s birth year as 1884"
+    },
+    "record": "gazette1928",
+    "type": "contradicts",
+    "note": "Her age at forty in 1928 puts her birth about 1888.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-016",
+    "claim": {
+      "chapter": "what-came-back",
+      "passage": "13.2-p5",
+      "quote": "It gives Virginia’s birth year as 1925 against this book’s existing 1926."
+    },
+    "record": "registry",
+    "type": "supports",
+    "note": "Virginia, 1925.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-017",
+    "claim": {
+      "chapter": "what-came-back",
+      "passage": "13.3-p2",
+      "quote": "March 2, 1946, confirmed independently through cemetery records, contemporary Gazette coverage, and a genealogical registry"
+    },
+    "record": "cemetery",
+    "type": "supports",
+    "note": "March 2, 1946.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-018",
+    "claim": {
+      "chapter": "what-came-back",
+      "passage": "13.3-p2",
+      "quote": "March 2, 1946, confirmed independently through cemetery records, contemporary Gazette coverage, and a genealogical registry"
+    },
+    "record": "gazette1946front",
+    "type": "supports",
+    "note": "March 2, 1946.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-019",
+    "claim": {
+      "chapter": "what-came-back",
+      "passage": "13.3-p2",
+      "quote": "March 2, 1946, confirmed independently through cemetery records, contemporary Gazette coverage, and a genealogical registry"
+    },
+    "record": "registry",
+    "type": "supports",
+    "note": "March 2, 1946.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-020",
+    "claim": {
+      "chapter": "what-came-back",
+      "passage": "13.3-p2",
+      "quote": "March 2, 1946, confirmed independently through cemetery records, contemporary Gazette coverage, and a genealogical registry"
+    },
+    "record": "gazette1955",
+    "type": "contradicts",
+    "note": "\"following his death in 1947\", nine years after the fact.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-021",
+    "claim": {
+      "chapter": "uncle-sam",
+      "passage": "15.3-p2",
+      "quote": "Nick Calicura is quoted giving his uncle’s birth year as 1875"
+    },
+    "record": "rodiafeature",
+    "type": "supports",
+    "note": "Nick's 1875, which the article itself calls disputed.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-022",
+    "claim": {
+      "chapter": "uncle-sam",
+      "passage": "15.3-p2",
+      "quote": "Nick Calicura is quoted giving his uncle’s birth year as 1875"
+    },
+    "record": "rodiapublic",
+    "type": "contradicts",
+    "note": "1879.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-023",
+    "claim": {
+      "chapter": "the-number",
+      "passage": "14.3-p3",
+      "quote": "Which of the two the examiner meant cannot be known, because the surviving letter does not say"
+    },
+    "record": "valetter",
+    "type": "qualifies",
+    "note": "One sentence, two readings: not service-connected, or service-connected below ten percent.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-024",
+    "claim": {
+      "chapter": "the-number",
+      "passage": "14.2-p7",
+      "quote": "twenty-eight and thirty-one are both true statements about the same spring"
+    },
+    "record": "stuart",
+    "type": "supports",
+    "says": "Twenty-eight operational missions.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  },
+  {
+    "id": "ev-025",
+    "claim": {
+      "chapter": "the-number",
+      "passage": "14.2-p7",
+      "quote": "twenty-eight and thirty-one are both true statements about the same spring"
+    },
+    "record": "crewrecord",
+    "type": "qualifies",
+    "note": "Thirty-one: the twenty-eight and the three drops.",
+    "curator": "Draft for Andrew's review",
+    "date": "2026-10-02"
+  }
+]

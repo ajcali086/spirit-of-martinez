@@ -1,0 +1,25 @@
+{
+  "id": "registry",
+  "kind": "object",
+  "title": "Genealogical registry (California Death Index, 1940 census)",
+  "series": "cited",
+  "cited_at": {
+    "chapter": "what-came-back",
+    "passage": "13.2-p4"
+  },
+  "credit": "Genealogical registry",
+  "rights_holder": "unknown",
+  "held": false,
+  "status": "not-held",
+  "media": [],
+  "capture_provenance": {
+    "unknown": "not held"
+  },
+  "restoration": null,
+  "notes": [
+    {
+      "date": "2026-10-02",
+      "note": "Gives Sam Calicura Jr.'s death as March 2, 1946, Angelina's birth year as 1884 and Virginia's as 1925."
+    }
+  ]
+}

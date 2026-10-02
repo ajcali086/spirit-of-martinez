@@ -1,0 +1,25 @@
+{
+  "id": "markusobit",
+  "kind": "object",
+  "title": "Marvin L. Markus obituary",
+  "series": "cited",
+  "cited_at": {
+    "chapter": "what-came-back",
+    "passage": "13.5-p2"
+  },
+  "credit": "Bartlesville Examiner-Enterprise",
+  "rights_holder": "unknown",
+  "held": false,
+  "status": "not-held",
+  "media": [],
+  "capture_provenance": {
+    "unknown": "not held"
+  },
+  "restoration": null,
+  "notes": [
+    {
+      "date": "2026-10-02",
+      "note": "Makes him master bombardier, relief navigator and co-pilot; the source of the family's \"twenty-eight full bombing runs\"."
+    }
+  ]
+}

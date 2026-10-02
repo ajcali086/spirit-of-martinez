@@ -1,0 +1,23 @@
+{
+  "id": "thirtieth-bomb",
+  "title": "The thirtieth bomb",
+  "origin": "both-stand",
+  "both_stand": "jacket-count",
+  "archive": "The thirtieth bomb",
+  "what_we_know": "The B-15 carries thirty bomb symbols. Subtracting two missions in borrowed aircraft, the crew record accounts for twenty-nine.",
+  "what_we_dont": "What the thirtieth symbol counts: a mission not carried under 44-6838's tail number, a training or ferry flight, or a miscount.",
+  "what_might_answer_it": "The aircraft's own record of sorties; anyone who painted or saw the jacket painted.",
+  "evidence_needed": "A sortie in 44-6838 not in the crew record, or an account of the painting.",
+  "last_known_source": ["jacket", "crewrecord"],
+  "passages": [
+    {
+      "chapter": "borrowed-aircraft",
+      "passage": "11.3a-p11"
+    }
+  ],
+  "entities": ["5483a6f0"],
+  "status": "open",
+  "evidence": ["ev-005", "ev-006"],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-02"
+}

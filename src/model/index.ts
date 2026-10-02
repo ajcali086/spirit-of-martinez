@@ -1,6 +1,8 @@
 import { photoList } from "@/data/photos";
+import EVIDENCE from "./evidence.json" with { type: "json" };
 import HELD_BACK from "./held-back.json" with { type: "json" };
-import type { Entity, HeldBack, MuseumRecord } from "./types";
+import SETTLED from "./settled.json" with { type: "json" };
+import type { Entity, EvidenceLink, HeldBack, MuseumRecord, OpenQuestion, Settled } from "./types";
 
 /**
  * The museum's model, as the site reads it: one JSON file per record in
@@ -13,6 +15,7 @@ export const MUSEUM_SLUG = "spirit-of-martinez";
 export const folders = {
   records: import.meta.glob("./records/*.json", { eager: true, import: "default" }),
   entities: import.meta.glob("./entities/*.json", { eager: true, import: "default" }),
+  questions: import.meta.glob("./questions/*.json", { eager: true, import: "default" }),
 };
 
 const plateRank = new Map(photoList.map((p, i) => [p.id as string, i]));
@@ -82,6 +85,32 @@ export function entitiesForRecord(id: string): Entity[] {
 /** The mission entity for a mission number. */
 export function missionEntity(number: number): Entity | undefined {
   return entities.find((e) => e.mission === number);
+}
+
+/** Claims linked to records, typed supports, contradicts or qualifies. One file, appended to. */
+export const evidence = EVIDENCE as EvidenceLink[];
+
+/** Left open: the register's entries, the archive's questions, and those the records raise. */
+export const questions: OpenQuestion[] = (Object.values(folders.questions) as OpenQuestion[])
+  .map((q) => ({
+    ...q,
+    last_known_source: q.last_known_source ?? [],
+    passages: q.passages ?? [],
+    entities: q.entities ?? [],
+    evidence: q.evidence ?? [],
+  }))
+  .sort((a, b) => a.id.localeCompare(b.id));
+
+/** Register entries the curator judged settled, with the evidence that settles them. */
+export const settled = (SETTLED as Settled[]).map((s) => ({ ...s, evidence: s.evidence ?? [] }));
+
+export function evidenceById(id: string): EvidenceLink | undefined {
+  return evidence.find((e) => e.id === id);
+}
+
+/** The questions an entity is part of. */
+export function questionsForEntity(id: string): OpenQuestion[] {
+  return questions.filter((q) => q.entities.includes(id));
 }
 
 /** The global form of a local ID: passage, record, entity, question. */

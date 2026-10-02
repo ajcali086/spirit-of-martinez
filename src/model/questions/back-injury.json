@@ -1,0 +1,23 @@
+{
+  "id": "back-injury",
+  "title": "The origin of the back injury",
+  "origin": "both-stand",
+  "both_stand": "va-cause",
+  "archive": "The origin of the back injury",
+  "what_we_know": "A sworn statement places its onset at Avon Park in the autumn of 1944, before combat. The 1959 letter is capable of two readings and settles neither.",
+  "what_we_dont": "Which of the two readings the examiner meant, and when the injury began.",
+  "what_might_answer_it": "The VA claim file C-1,302,621; the sworn statement's witness, if named.",
+  "evidence_needed": "The examiner's rating decision, or the claim file.",
+  "last_known_source": ["valetter"],
+  "passages": [
+    {
+      "chapter": "the-number",
+      "passage": "14.3-p3"
+    }
+  ],
+  "entities": ["5483a6f0"],
+  "status": "open",
+  "evidence": ["ev-023"],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-02"
+}

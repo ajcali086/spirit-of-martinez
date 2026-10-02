@@ -5,11 +5,13 @@
 import { existsSync } from "node:fs";
 import { chapters } from "@/data/chapters";
 import { hasCaptainsChart, missions } from "@/data/missions";
+import { openQuestions as archiveQuestions } from "@/data/archive";
 import { crew, crewForPhoto } from "@/data/crew";
+import { discrepancies } from "@/data/discrepancies";
 import { photoList, photos } from "@/data/photos";
 import type { PhotoId } from "@/data/types";
-import { entities, folders, heldBack, records } from "./index";
-import { ENTITY_KINDS, SERIES } from "./types";
+import { entities, evidence, folders, heldBack, questions, records, settled } from "./index";
+import { ENTITY_KINDS, SERIES, type PassageRef } from "./types";
 
 const repo = new URL("../../", import.meta.url);
 const exists = (path: string) => existsSync(new URL(path, repo));
@@ -81,6 +83,19 @@ function anchorBasis(e: (typeof entities)[number], record: string): string | und
     ];
     if (said.some((f) => names(text, f)) || names(text, target))
       return "the plate names the mission";
+  }
+  return undefined;
+}
+
+/** A passage's words: a paragraph by its ID, or a whole section by its own. */
+function passageText(ref: PassageRef): string | undefined {
+  const c = chapters.find((x) => x.slug === ref.chapter);
+  for (const s of c?.sections ?? []) {
+    const text = (b: (typeof s.blocks)[number]) =>
+      "text" in b ? b.text : "body" in b ? b.body : "";
+    if (s.id === ref.passage) return s.blocks.map(text).join("\n");
+    const b = s.blocks.find((x) => x.type === "p" && x.id === ref.passage);
+    if (b) return text(b);
   }
   return undefined;
 }
@@ -452,6 +467,194 @@ export const checks: { name: string; run: () => string[] }[] = [
         ...fail(!entities.some((e) => e.label === h.label), `${h.label}: is an entity`),
       ]),
     ],
+  },
+  {
+    name: "a record the book cites names a passage that exists",
+    run: () =>
+      records.flatMap((r) =>
+        r.cited_at
+          ? fail(
+              passageText(r.cited_at) !== undefined,
+              `${r.id}: no passage ${r.cited_at.chapter}#${r.cited_at.passage}`,
+            )
+          : [],
+      ),
+  },
+  {
+    name: "every evidence link has an ID, a type, a record and a dated curator",
+    run: () => {
+      const seen = new Set<string>();
+      return evidence.flatMap((l) => {
+        const r = records.find((x) => x.id === l.record);
+        const out = [
+          ...fail(/^ev-\d{3}$/.test(l.id), `${l.id}: malformed ID`),
+          ...fail(!seen.has(l.id), `${l.id}: duplicate`),
+          ...fail(
+            ["supports", "contradicts", "qualifies"].includes(l.type),
+            `${l.id}: type ${l.type}`,
+          ),
+          ...fail(!!r, `${l.id}: no record ${l.record}`),
+          ...fail(!!l.curator && iso.test(l.date), `${l.id}: curator or date`),
+          ...fail(!!l.says || !!l.note, `${l.id}: says nothing of what the record says`),
+        ];
+        seen.add(l.id);
+        return out;
+      });
+    },
+  },
+  {
+    name: "every claim is quoted verbatim from its passage or plate, and what a plated record says is on its plate",
+    run: () =>
+      evidence.flatMap((l) => {
+        const c = l.claim as { quote: string; plate?: string; chapter?: string; passage?: string };
+        const source = c.plate
+          ? photoList.find((p) => p.id === c.plate)?.caption
+          : passageText({ chapter: c.chapter ?? "", passage: c.passage ?? "" });
+        const r = records.find((x) => x.id === l.record);
+        return [
+          ...fail(
+            !!c.quote && !!source?.includes(c.quote),
+            `${l.id}: claim not verbatim in its source`,
+          ),
+          ...(l.says
+            ? fail(
+                !!r?.plate && (plateText(r.plate) ?? "").includes(l.says),
+                `${l.id}: "${l.says}" not on ${l.record}'s plate`,
+              )
+            : []),
+        ];
+      }),
+  },
+  {
+    name: "every link is carried by a question or a settled entry, and every contradiction by a question",
+    run: () =>
+      evidence.flatMap((l) => {
+        const inQuestion = questions.some((q) => q.evidence.includes(l.id));
+        const inSettled = settled.some((s) => s.evidence.includes(l.id));
+        return [
+          ...fail(inQuestion || inSettled, `${l.id}: carried by nothing`),
+          ...(l.type === "contradicts"
+            ? fail(inQuestion, `${l.id}: a contradiction no question carries`)
+            : []),
+        ];
+      }),
+  },
+  {
+    name: "every open question is bounded: fields filled, sources, passages, entities and evidence resolve",
+    run: () =>
+      questions.flatMap((q) => [
+        ...fail(/^[a-z0-9]+(-[a-z0-9]+)*$/.test(q.id), `${q.id}: malformed ID`),
+        ...fail(
+          ["both-stand", "archive", "records"].includes(q.origin),
+          `${q.id}: origin ${q.origin}`,
+        ),
+        ...fail(["open", "answered"].includes(q.status), `${q.id}: status ${q.status}`),
+        ...(
+          [
+            "title",
+            "what_we_know",
+            "what_we_dont",
+            "what_might_answer_it",
+            "evidence_needed",
+          ] as const
+        ).flatMap((k) => fail(!!q[k], `${q.id}: ${k} empty`)),
+        ...fail(!!q.curator && iso.test(q.date), `${q.id}: curator or date`),
+        ...fail(q.last_known_source.length > 0, `${q.id}: no last known source`),
+        ...q.last_known_source.flatMap((s) =>
+          fail(
+            records.some((r) => r.id === s),
+            `${q.id}: no record ${s}`,
+          ),
+        ),
+        ...q.passages.flatMap((p) =>
+          fail(passageText(p) !== undefined, `${q.id}: no passage ${p.chapter}#${p.passage}`),
+        ),
+        ...q.entities.flatMap((e) =>
+          fail(
+            entities.some((x) => x.id === e),
+            `${q.id}: no entity ${e}`,
+          ),
+        ),
+        ...q.evidence.flatMap((e) =>
+          fail(
+            evidence.some((x) => x.id === e),
+            `${q.id}: no evidence ${e}`,
+          ),
+        ),
+        ...(q.status === "answered"
+          ? fail(q.evidence.length > 0, `${q.id}: answered without evidence`)
+          : []),
+        ...(q.origin === "both-stand" ? fail(!!q.both_stand, `${q.id}: no register entry`) : []),
+        ...(q.origin === "archive" ? fail(!!q.archive, `${q.id}: no archive question`) : []),
+      ]),
+  },
+  {
+    name: "every register entry is carried by a question or settled, never both; every archive question is carried",
+    run: () => [
+      ...discrepancies.flatMap((d) => {
+        const asked = questions.some((q) => q.both_stand === d.id);
+        const done = settled.some((s) => s.both_stand === d.id);
+        return fail(
+          asked !== done,
+          `${d.id}: ${asked ? "both a question and settled" : "neither a question nor settled"}`,
+        );
+      }),
+      ...questions.flatMap((q) =>
+        q.both_stand
+          ? fail(
+              discrepancies.some((d) => d.id === q.both_stand),
+              `${q.id}: no entry ${q.both_stand}`,
+            )
+          : [],
+      ),
+      ...archiveQuestions.flatMap((a) =>
+        fail(
+          questions.some((q) => q.archive === a.title),
+          `${a.title}: no question`,
+        ),
+      ),
+      ...questions.flatMap((q) =>
+        q.archive
+          ? fail(
+              archiveQuestions.some((a) => a.title === q.archive),
+              `${q.id}: no archive question "${q.archive}"`,
+            )
+          : [],
+      ),
+    ],
+  },
+  {
+    name: "a settled entry is the curator's, dated and reasoned, and rests on evidence",
+    run: () =>
+      settled.flatMap((s) => [
+        ...fail(
+          discrepancies.some((d) => d.id === s.both_stand),
+          `${s.both_stand}: no such entry`,
+        ),
+        ...fail(
+          !!s.curator && iso.test(s.date) && !!s.rationale,
+          `${s.both_stand}: curator, date, rationale`,
+        ),
+        ...fail(s.evidence.length > 0, `${s.both_stand}: no evidence`),
+        ...s.evidence.flatMap((e) =>
+          fail(
+            evidence.some((x) => x.id === e),
+            `${s.both_stand}: no evidence ${e}`,
+          ),
+        ),
+      ]),
+  },
+  {
+    name: "a held-back name's question exists",
+    run: () =>
+      heldBack.flatMap((h) =>
+        h.question
+          ? fail(
+              questions.some((q) => q.id === h.question),
+              `${h.label}: no question ${h.question}`,
+            )
+          : [],
+      ),
   },
 ];
 

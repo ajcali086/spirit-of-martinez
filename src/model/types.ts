@@ -42,6 +42,7 @@ export const SERIES = [
   ["press", "Press"],
   ["photographs", "Photographs"],
   ["aircraft", "The aircraft"],
+  ["cited", "Cited, not in the collection"],
 ] as const;
 export type Series = (typeof SERIES)[number][0];
 /** The series that make up the service file. */
@@ -102,6 +103,8 @@ export type MuseumRecord = {
   document?: DocumentEntry;
   /** A plate showing part of another record (a column of a form): that record's ID. */
   detail_of?: string;
+  /** A record the book cites but no plate shows: the passage that cites it. */
+  cited_at?: PassageRef;
   /** Where the plate's own credit says it comes from. */
   credit: string;
   rights_holder: string;
@@ -178,5 +181,73 @@ export type Entity = {
   notes: RecordNote[];
 };
 
-/** A name the plates use that isn't an entity yet, with the reason. */
-export type HeldBack = { label: string; kind: EntityKind; reason: string; sources: string[] };
+/** A name the plates use that isn't an entity yet, with the reason, and the open question that carries it, if any. */
+export type HeldBack = {
+  label: string;
+  kind: EntityKind;
+  reason: string;
+  sources: string[];
+  question?: string;
+};
+
+/** A paragraph (or a section) of a chapter: its slug, and the anchor the site links to. */
+export type PassageRef = { chapter: string; passage: string };
+
+/** What evidence bears on: words in a passage of the book, or in a plate's caption. Quotes are verbatim. */
+export type ClaimRef = (PassageRef | { plate: string }) & { quote: string };
+
+export type EvidenceType = "supports" | "contradicts" | "qualifies";
+
+/** A claim linked to a record, typed. Both sides of a contradiction stand. */
+export type EvidenceLink = {
+  /** `ev-NNN`, never reused. */
+  id: string;
+  claim: ClaimRef;
+  record: string;
+  type: EvidenceType;
+  /** What the record says, verbatim from its plate; only for a record a plate shows. */
+  says?: string;
+  /** One line: what the record says that bears on the claim, for a record no plate shows. */
+  note?: string;
+  curator: string;
+  date: string;
+};
+
+/**
+ * A bounded open question. Closes only on evidence. `both-stand` questions
+ * carry an entry of the register (src/data/discrepancies.ts); `archive`
+ * ones are the archive's own open questions (src/data/archive.ts); `records`
+ * ones are raised by the records themselves (a held-back name).
+ */
+export type OpenQuestion = {
+  id: string;
+  title: string;
+  origin: "both-stand" | "archive" | "records";
+  /** The register entry it carries. */
+  both_stand?: string;
+  /** The archive open question it carries, by its title. */
+  archive?: string;
+  what_we_know: string;
+  what_we_dont: string;
+  what_might_answer_it: string;
+  evidence_needed: string;
+  /** Records it rests on. */
+  last_known_source: string[];
+  /** Passages that state it. */
+  passages: PassageRef[];
+  /** Entity IDs it concerns. */
+  entities: string[];
+  status: "open" | "answered";
+  evidence: string[];
+  curator: string;
+  date: string;
+};
+
+/** A register entry the curator judged settled: the book explains it. Its evidence stands; no question. */
+export type Settled = {
+  both_stand: string;
+  rationale: string;
+  curator: string;
+  date: string;
+  evidence: string[];
+};

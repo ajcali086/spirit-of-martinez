@@ -1,0 +1,22 @@
+{
+  "id": "rodia-birth-year",
+  "title": "1875 or 1879",
+  "origin": "both-stand",
+  "both_stand": "rodia-year",
+  "what_we_know": "Nick Calicura gave 1875, in the province of Avellino. The public sources give 1879.",
+  "what_we_dont": "Sabato Rodia's birth year.",
+  "what_might_answer_it": "His Italian birth record; his immigration papers.",
+  "evidence_needed": "A primary record of his birth.",
+  "last_known_source": ["rodiafeature", "rodiapublic", "rodia"],
+  "passages": [
+    {
+      "chapter": "uncle-sam",
+      "passage": "15.3-p2"
+    }
+  ],
+  "entities": ["32f77e8b", "c55bd126"],
+  "status": "open",
+  "evidence": ["ev-021", "ev-022"],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-02"
+}

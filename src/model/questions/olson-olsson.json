@@ -1,0 +1,16 @@
+{
+  "id": "olson-olsson",
+  "title": "Is Olson Capt. David E. Olsson?",
+  "origin": "records",
+  "what_we_know": "The Dillon plate mentions \"Olson's print\". Capt. David E. Olsson certified Frank's Form 5 and stands under the nose.",
+  "what_we_dont": "Whether the print's Olson is Olsson.",
+  "what_might_answer_it": "The print itself, if found.",
+  "evidence_needed": "The print, or a note naming its owner.",
+  "last_known_source": ["dillon"],
+  "passages": [],
+  "entities": ["fe3860bc"],
+  "status": "open",
+  "evidence": [],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-02"
+}

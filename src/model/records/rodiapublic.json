@@ -1,0 +1,25 @@
+{
+  "id": "rodiapublic",
+  "kind": "object",
+  "title": "Public sources for Sabato Rodia's birth year",
+  "series": "cited",
+  "cited_at": {
+    "chapter": "uncle-sam",
+    "passage": "15.3-p2"
+  },
+  "credit": "Public sources cited in chapter 15",
+  "rights_holder": "unknown",
+  "held": false,
+  "status": "not-held",
+  "media": [],
+  "capture_provenance": {
+    "unknown": "not held"
+  },
+  "restoration": null,
+  "notes": [
+    {
+      "date": "2026-10-02",
+      "note": "Give 1879."
+    }
+  ]
+}

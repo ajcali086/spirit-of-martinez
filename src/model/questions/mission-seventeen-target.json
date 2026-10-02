@@ -1,0 +1,22 @@
+{
+  "id": "mission-seventeen-target",
+  "title": "Ahlhorn or the south",
+  "origin": "both-stand",
+  "both_stand": "m17-target",
+  "what_we_know": "The crew record puts mission seventeen at Ahlhorn. The family's clipping kept against that page names Ingolstadt, Fürth and Grafenwöhr.",
+  "what_we_dont": "Where the crew went on 22 March 1945, or why the clipping was kept against that page.",
+  "what_might_answer_it": "The 95th's mission report for 22 March 1945; the clipping itself, digitized.",
+  "evidence_needed": "A 1945 record of the 95th's target that day.",
+  "last_known_source": ["crewrecord", "m17clip"],
+  "passages": [
+    {
+      "chapter": "borrowed-aircraft",
+      "passage": "m-17"
+    }
+  ],
+  "entities": ["88dfa827"],
+  "status": "open",
+  "evidence": ["ev-003", "ev-004"],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-02"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "plaque-or-paint",
+  "title": "Plaque or paint",
+  "origin": "both-stand",
+  "both_stand": "nose-art",
+  "what_we_know": "The retrospective feature reports a small plaque under the instrument panel. The photograph shows the name painted across the nose in script.",
+  "what_we_dont": "Whether both were true in sequence, and when the paint went on. The nose plate's caption dates its photograph to 14 February 1945, the morning of mission one, which would date the paint; the book says no document in the collection dates the painting. Both stand here, flagged.",
+  "what_might_answer_it": "The committee's correspondence, which Joyce kept; a dated photograph of the nose before the name.",
+  "evidence_needed": "A dated record of the plaque, or of the painting.",
+  "last_known_source": ["namingfeature", "nose"],
+  "passages": [
+    {
+      "chapter": "borrowed-aircraft",
+      "passage": "11.3-p4"
+    }
+  ],
+  "entities": [],
+  "status": "open",
+  "evidence": ["ev-007", "ev-008"],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-02"
+}
