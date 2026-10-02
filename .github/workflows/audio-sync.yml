@@ -1,0 +1,44 @@
+# The readings live in the spirit-audio Blob store; the repository keeps no
+# copies (README, "Audio"). A file comes out of public/audio/ only once the
+# store holds it byte for byte: for every audio file a pull request removes
+# or replaces, this downloads the store's copy and compares SHA-256 with the
+# file as the base branch has it.
+name: Audio in the store
+
+on:
+  pull_request:
+    paths: ["public/audio/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  synced:
+    name: Removed audio is in the store
+    runs-on: ubuntu-latest
+    env:
+      ORIGIN: https://e5krwqut3ljb7kbi.public.blob.vercel-storage.com
+      BASE: ${{ github.event.pull_request.base.sha }}
+      HEAD: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Compare each removed file with the store's copy
+        run: |
+          set -euo pipefail
+          files=$(git diff --name-only --diff-filter=DM "$BASE" "$HEAD" -- 'public/audio/*.mp3' 'public/audio/*.m4a')
+          if [ -z "$files" ]; then echo "No audio removed or replaced."; exit 0; fi
+          fail=0
+          for f in $files; do
+            name=$(basename "$f")
+            want=$(git show "$BASE:$f" | sha256sum | cut -d' ' -f1)
+            got=$(curl -fsSL "$ORIGIN/$name" | sha256sum | cut -d' ' -f1) || got="(not in the store)"
+            if [ "$want" = "$got" ]; then
+              echo "in the store: $name"
+            else
+              echo "::error file=$f::$name differs from the store's copy (repo $want, store $got)"
+              fail=1
+            fi
+          done
+          exit $fail
