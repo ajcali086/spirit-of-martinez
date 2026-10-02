@@ -12,6 +12,7 @@ import {
   missions,
   parseMissionsHash,
 } from "@/data/missions";
+import { photosForMission, plateTitle } from "@/data/connections";
 import { cn } from "@/lib/utils";
 import { coverPageMeta } from "@/lib/og/cover";
 import { GraphicAccent } from "@/components/GraphicAccent";
@@ -220,6 +221,16 @@ function MissionsPage() {
                     >
                       The aircraft
                     </Link>
+                    {photosForMission(m.number).map((id) => (
+                      <Link
+                        key={id}
+                        to="/archive/$id"
+                        params={{ id }}
+                        className="inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-brass uppercase hover:text-paper"
+                      >
+                        {plateTitle(id)}
+                      </Link>
+                    ))}
                     {people.map((p) => (
                       <Link
                         key={p.id}

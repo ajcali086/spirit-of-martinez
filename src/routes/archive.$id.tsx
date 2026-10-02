@@ -6,6 +6,13 @@ import { SiteShell } from "@/components/layout/SiteShell";
 import { PhotoPlate } from "@/components/PhotoPlate";
 import { SharePassage } from "@/components/SharePassage";
 import { chaptersForPhoto } from "@/data/chapters";
+import {
+  entriesForPhoto,
+  missionForNumber,
+  missionsForPhoto,
+  plateTitle,
+  relatedByPerson,
+} from "@/data/connections";
 import { crewForPhoto, isCrewPlate } from "@/data/crew";
 import { adjacentPhotos, citePhoto, isPhotoId, photos } from "@/data/photos";
 import { pageMeta, plateOgImage } from "@/lib/og/pageMeta";
@@ -49,6 +56,12 @@ function ArchiveObjectPage() {
   const inBook = chaptersForPhoto(photo.id);
   const onRoster = crewForPhoto(photo.id);
   const wholeCrew = isCrewPlate(photo.id);
+  const alsoMissions = missionsForPhoto(photo.id).flatMap((n) => {
+    const m = missionForNumber(n);
+    return m ? [{ n, target: m.target }] : [];
+  });
+  const alsoRelated = relatedByPerson(photo.id);
+  const alsoEntries = entriesForPhoto(photo.id);
 
   return (
     <SiteShell>
@@ -153,6 +166,61 @@ function ArchiveObjectPage() {
                         {m.role}
                       </span>
                       {m.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {alsoMissions.length > 0 || alsoRelated.length > 0 || alsoEntries.length > 0 ? (
+            <section className="mt-10 border-t border-paper-deep pt-8">
+              <h2 className="font-sans text-[0.68rem] tracking-[0.22em] text-feather uppercase">
+                Also
+              </h2>
+              <ul className="mt-3 space-y-2">
+                {alsoMissions.map(({ n, target }) => (
+                  <li key={`m-${n}`}>
+                    <Link
+                      to="/missions"
+                      hash={`map-${n}`}
+                      className="inline-flex min-h-11 items-baseline gap-2 font-display text-xl text-ink hover:text-brass-dim"
+                    >
+                      Mission {n} — {target}
+                    </Link>
+                  </li>
+                ))}
+                {alsoRelated.map(({ via, photos: ids }) => (
+                  <li key={`r-${via}`}>
+                    <p className="pt-2 font-sans text-[0.68rem] tracking-[0.16em] text-feather uppercase">
+                      More of {via} in the footlocker
+                    </p>
+                    <ul>
+                      {ids.map((id) => (
+                        <li key={id}>
+                          <Link
+                            to="/archive/$id"
+                            params={{ id }}
+                            className="inline-flex min-h-11 items-baseline gap-2 font-display text-xl text-ink hover:text-brass-dim"
+                          >
+                            {plateTitle(id)}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+                {alsoEntries.map((entry) => (
+                  <li key={`b-${entry.id}`}>
+                    <Link
+                      to="/both-stand"
+                      hash={entry.id}
+                      className="inline-flex min-h-11 items-baseline gap-2 font-display text-xl text-ink hover:text-brass-dim"
+                    >
+                      <span className="font-sans text-[0.68rem] tracking-[0.16em] text-feather uppercase">
+                        Left standing
+                      </span>
+                      {entry.title}
                     </Link>
                   </li>
                 ))}
