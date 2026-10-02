@@ -144,6 +144,7 @@ describe("the CMS's dropdowns", () => {
     const target = config.collections[0].fields.find((f: { name: string }) => f.name === "target");
     assert.equal(target.options.length, sets["@text"].length);
     assert.equal(config.backend.branch, "main");
+    assert.equal(config.logo.src, "/favicon.svg");
   });
 
   it("gives every field only keys the CMS knows (a comma in a flow mapping splits a label)", () => {

@@ -31,6 +31,9 @@ backend:
 
 publish_mode: editorial_workflow
 app_title: The Spirit of Martinez · Curator
+# The museum's roundel (the site's favicon), on the sign-in page, the header and the browser tab.
+logo:
+  src: /favicon.svg
 site_url: https://www.spiritofmartinez.com
 
 media_folder: public/images/uploads
