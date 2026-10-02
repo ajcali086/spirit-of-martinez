@@ -60,17 +60,31 @@ describe("isAacSrc", () => {
   });
 });
 
-describe("AAC companions on disk", () => {
-  it("ships a duration-checked m4a next to every chapter MP3", () => {
-    const chapterSrc = readFileSync(new URL("../data/chapters.ts", import.meta.url), "utf8");
-    const audios = [...chapterSrc.matchAll(/audio: "(\/audio\/[^"]+)"/g)].map((m) => m[1]);
+// The readings live in the spirit-audio Blob store; public/audio/ holds only
+// a reading on its way there (scripts/upload-audio.mjs), usually nothing.
+describe("AAC companions", () => {
+  const chapterSrc = readFileSync(new URL("../data/chapters.ts", import.meta.url), "utf8");
+  const audios = [...chapterSrc.matchAll(/audio: "(\/audio\/[^"]+)"/g)].map((m) => m[1]);
+  const slugs = audios.map((a) => a.replace(/^\/audio\//, "").replace(/\.mp3\?v=\d+$/, ""));
+  const files = readdirSync(new URL("../../public/audio/", import.meta.url)).filter(
+    (f) => !f.startsWith("."),
+  );
+
+  it("gives every chapter a versioned MP3, which the store pairs with its m4a", () => {
     assert.equal(audios.length, 15);
-    const files = new Set(readdirSync(new URL("../../public/audio/", import.meta.url)));
-    for (const audio of audios) {
-      assert.match(audio, /\.mp3\?v=\d+$/);
-      const slug = audio.replace(/^\/audio\//, "").replace(/\.mp3\?v=\d+$/, "");
-      assert.ok(files.has(`${slug}.mp3`), `missing ${slug}.mp3`);
-      assert.ok(files.has(`${slug}.m4a`), `missing ${slug}.m4a`);
+    for (const audio of audios) assert.match(audio, /\.mp3\?v=\d+$/);
+  });
+
+  it("uploads a chapter's MP3 only with its m4a beside it, and only under a name the site plays", () => {
+    const names = new Set(files);
+    for (const f of files) {
+      const slug = f.replace(/\.(mp3|m4a)$/, "");
+      assert.ok(
+        slugs.includes(slug) || f === "skywatch-silence.mp3",
+        `${f}: no chapter or track plays it`,
+      );
+      if (f.endsWith(".mp3") && slugs.includes(slug))
+        assert.ok(names.has(`${slug}.m4a`), `${f} without ${slug}.m4a`);
     }
   });
 });
