@@ -1,15 +1,25 @@
 import { photoList } from "@/data/photos";
 import EVIDENCE from "./evidence.json" with { type: "json" };
 import HELD_BACK from "./held-back.json" with { type: "json" };
+import MUSEUM from "./museum.json" with { type: "json" };
 import SETTLED from "./settled.json" with { type: "json" };
-import type { Entity, EvidenceLink, HeldBack, MuseumRecord, OpenQuestion, Settled } from "./types";
+import type {
+  Entity,
+  EvidenceLink,
+  HeldBack,
+  Museum,
+  MuseumRecord,
+  OpenQuestion,
+  Settled,
+} from "./types";
 
 /**
  * The museum's model, as the site reads it: one JSON file per record in
  * records/, named for its ID, and per entity in entities/, named for its
  * slug. `validate.ts` checks it on every test run.
  */
-export const MUSEUM_SLUG = "spirit-of-martinez";
+export const museum = MUSEUM as Museum;
+export const MUSEUM_SLUG = museum.slug;
 
 /** The files of each folder, keyed by path ("./records/crew.json"), for the file-name check. */
 export const folders = {
@@ -113,7 +123,16 @@ export function questionsForEntity(id: string): OpenQuestion[] {
   return questions.filter((q) => q.entities.includes(id));
 }
 
-/** The global form of a local ID: passage, record, entity, question. */
-export function globalId(kind: "p" | "r" | "e" | "q", id: string): string {
+/** The global form of a local ID: record, entity or question. */
+export function globalId(kind: "r" | "e" | "q", id: string): string {
   return `${MUSEUM_SLUG}/${kind}/${id}`;
+}
+
+/**
+ * The global form of a passage. A numbered ID (`1.1-p0`) is unique across
+ * the book and stands alone; a named anchor (`m-12`, `brunswick`) is unique
+ * only within its chapter, so it carries the chapter's slug.
+ */
+export function passageGlobalId(chapter: string, id: string): string {
+  return /^\d/.test(id) ? `${MUSEUM_SLUG}/p/${id}` : `${MUSEUM_SLUG}/p/${chapter}/${id}`;
 }
