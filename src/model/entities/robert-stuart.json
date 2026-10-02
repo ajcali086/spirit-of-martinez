@@ -1,0 +1,16 @@
+{
+  "id": "49be96af",
+  "slug": "robert-stuart",
+  "kind": "person",
+  "label": "Lt. Col. Robert H. Stuart",
+  "aliases": [
+    {
+      "name": "Robert H. Stuart",
+      "sources": ["stuart"]
+    }
+  ],
+  "anchors": ["stuart"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

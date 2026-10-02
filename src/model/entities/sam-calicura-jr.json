@@ -1,0 +1,47 @@
+{
+  "id": "74af1d62",
+  "slug": "sam-calicura-jr",
+  "kind": "person",
+  "label": "Sam Calicura Jr.",
+  "aliases": [
+    {
+      "name": "Sam Calicura Jr.",
+      "sources": ["airfield", "hangar", "airportgroup", "richard", "beatie", "flyingcover"]
+    },
+    {
+      "name": "Sam Calicura",
+      "sources": ["beatie", "tribune1939"]
+    },
+    {
+      "name": "eldest brother Sam",
+      "sources": ["cadets"]
+    },
+    {
+      "name": "brother Sam",
+      "sources": ["cadets", "will"]
+    }
+  ],
+  "anchors": [
+    "airfield",
+    "hangar",
+    "airportgroup",
+    "richard",
+    "beatie",
+    "flyingcover",
+    "tribune1939",
+    "cadets",
+    "will"
+  ],
+  "framing": null,
+  "identity_assertions": [
+    {
+      "action": "merge",
+      "names": ["Sam Calicura"],
+      "curator": "Draft for Andrew's review",
+      "date": "2026-10-02",
+      "rationale": "The Tribune of 24 July 1939 names Sam Calicura with Charles Beattie on the runway; the Beatie plate names the same two men, \"who had rebuilt a runway on the Martinez fill\", as Sam Calicura Jr. and Charles Beatie.",
+      "sources": ["tribune1939", "beatie"]
+    }
+  ],
+  "notes": []
+}

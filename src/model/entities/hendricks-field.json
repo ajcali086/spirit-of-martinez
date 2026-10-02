@@ -1,0 +1,16 @@
+{
+  "id": "e1f9f0ed",
+  "slug": "hendricks-field",
+  "kind": "place",
+  "label": "Hendricks Field",
+  "aliases": [
+    {
+      "name": "Hendricks Field",
+      "sources": ["birth"]
+    }
+  ],
+  "anchors": ["birth"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

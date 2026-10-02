@@ -1,0 +1,12 @@
+{
+  "id": "45e0950f",
+  "slug": "mission-8",
+  "kind": "event",
+  "label": "Mission 8: Munich, 25 February 1945",
+  "aliases": [],
+  "anchors": ["crewrecord", "chart8"],
+  "mission": 8,
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

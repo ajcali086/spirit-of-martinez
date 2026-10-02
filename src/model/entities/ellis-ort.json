@@ -1,0 +1,16 @@
+{
+  "id": "9aaecb5b",
+  "slug": "ellis-ort",
+  "kind": "person",
+  "label": "Ellis G. Ort",
+  "aliases": [
+    {
+      "name": "Ellis G. Ort",
+      "sources": ["woodpecker"]
+    }
+  ],
+  "anchors": ["woodpecker"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

@@ -1,0 +1,33 @@
+{
+  "id": "a03c39a8",
+  "slug": "dominic-calicura",
+  "kind": "person",
+  "label": "Dominic F. Calicura",
+  "aliases": [
+    {
+      "name": "Dominic F. Calicura",
+      "sources": ["cadets"]
+    },
+    {
+      "name": "Dominic",
+      "sources": ["cadets", "brothers", "eastcoast", "fourbrothers", "snorter"]
+    },
+    {
+      "name": "Dominick",
+      "sources": ["brothers"]
+    }
+  ],
+  "anchors": ["cadets", "brothers", "eastcoast", "fourbrothers", "snorter"],
+  "framing": null,
+  "identity_assertions": [
+    {
+      "action": "merge",
+      "names": ["Dominick"],
+      "curator": "Draft for Andrew's review",
+      "date": "2026-10-02",
+      "rationale": "The album captions the brothers \"Frank & Dominick Calicura\", in period hand; the plate's caption names him Dominic.",
+      "sources": ["brothers"]
+    }
+  ],
+  "notes": []
+}

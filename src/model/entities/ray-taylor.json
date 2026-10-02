@@ -1,0 +1,16 @@
+{
+  "id": "decfc232",
+  "slug": "ray-taylor",
+  "kind": "person",
+  "label": "Ray Taylor",
+  "aliases": [
+    {
+      "name": "Ray Taylor",
+      "sources": ["nameonplane", "letter"]
+    }
+  ],
+  "anchors": ["nameonplane", "letter"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

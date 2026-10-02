@@ -1,0 +1,16 @@
+{
+  "id": "ac96edd1",
+  "slug": "canal-field",
+  "kind": "place",
+  "label": "Canal Field, Ocala",
+  "aliases": [
+    {
+      "name": "Canal Field",
+      "sources": ["woodpecker"]
+    }
+  ],
+  "anchors": ["woodpecker"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

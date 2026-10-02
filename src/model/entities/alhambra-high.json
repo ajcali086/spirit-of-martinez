@@ -1,0 +1,20 @@
+{
+  "id": "f333afb5",
+  "slug": "alhambra-high",
+  "kind": "organization",
+  "label": "Alhambra Union High School",
+  "aliases": [
+    {
+      "name": "Alhambra Union High School",
+      "sources": ["quals"]
+    },
+    {
+      "name": "Alhambra High",
+      "sources": ["quals", "cadets"]
+    }
+  ],
+  "anchors": ["quals", "cadets"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

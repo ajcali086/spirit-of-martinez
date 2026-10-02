@@ -1,0 +1,20 @@
+{
+  "id": "a23647a0",
+  "slug": "eighth-air-force",
+  "kind": "organization",
+  "label": "Eighth Air Force",
+  "aliases": [
+    {
+      "name": "Eighth Air Force",
+      "sources": ["patch", "jimmy"]
+    },
+    {
+      "name": "the Eighth",
+      "sources": ["hamburg"]
+    }
+  ],
+  "anchors": ["patch", "jimmy", "hamburg"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

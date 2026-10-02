@@ -1,0 +1,16 @@
+{
+  "id": "4e00eaa1",
+  "slug": "samuel-calicura",
+  "kind": "person",
+  "label": "Samuel, Frank's son",
+  "aliases": [
+    {
+      "name": "Samuel",
+      "sources": ["watts"]
+    }
+  ],
+  "anchors": ["watts"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

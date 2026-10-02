@@ -1,0 +1,12 @@
+{
+  "id": "e9c30707",
+  "slug": "mission-1",
+  "kind": "event",
+  "label": "Mission 1: Chemnitz, 14 February 1945",
+  "aliases": [],
+  "anchors": ["crewrecord", "chart1", "nose", "chemnitzmap"],
+  "mission": 1,
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

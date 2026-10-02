@@ -1,0 +1,19 @@
+{
+  "id": "crewrecord",
+  "kind": "object",
+  "title": "Crew record, F.J. Calicura, 31 (95th Bomb Group database)",
+  "series": "flight",
+  "credit": "95th Bomb Group database",
+  "rights_holder": "unknown",
+  "held": false,
+  "status": "not-held",
+  "media": [],
+  "capture_provenance": { "unknown": "not held" },
+  "restoration": null,
+  "notes": [
+    {
+      "date": "2026-10-02",
+      "note": "The group's compiled crew record, published at https://95thbgdb.com/crew/59: a modern compilation, not a paper issued at Horham. The source of the mission list in src/data/missions.ts. The museum holds no copy."
+    }
+  ]
+}

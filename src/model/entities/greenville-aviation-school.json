@@ -1,0 +1,16 @@
+{
+  "id": "57386fb9",
+  "slug": "greenville-aviation-school",
+  "kind": "organization",
+  "label": "Greenville Aviation School",
+  "aliases": [
+    {
+      "name": "Greenville Aviation School",
+      "sources": ["greenville"]
+    }
+  ],
+  "anchors": ["greenville"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

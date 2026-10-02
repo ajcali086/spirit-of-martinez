@@ -1,0 +1,16 @@
+{
+  "id": "124c93b5",
+  "slug": "treasure-island",
+  "kind": "place",
+  "label": "Treasure Island",
+  "aliases": [
+    {
+      "name": "Treasure Island",
+      "sources": ["merit"]
+    }
+  ],
+  "anchors": ["merit"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

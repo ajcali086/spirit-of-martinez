@@ -1,0 +1,21 @@
+{
+  "id": "949b6b42",
+  "slug": "dale-ernest",
+  "kind": "person",
+  "label": "Dale S. Ernest",
+  "aliases": [
+    {
+      "name": "Dale S. Ernest",
+      "sources": ["signatures"]
+    },
+    {
+      "name": "Ernest",
+      "sources": ["tampaorder", "signatures", "go289"]
+    }
+  ],
+  "anchors": ["tampaorder", "signatures", "go289"],
+  "crew": "ernest",
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

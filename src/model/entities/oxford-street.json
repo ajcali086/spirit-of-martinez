@@ -1,0 +1,22 @@
+{
+  "id": "a11b637e",
+  "slug": "oxford-street",
+  "kind": "place",
+  "label": "34–36 Oxford Street",
+  "aliases": [
+    {
+      "name": "Oxford Street",
+      "sources": ["london"]
+    }
+  ],
+  "anchors": ["london"],
+  "geo": {
+    "lat": 51.51522,
+    "lng": -0.14189,
+    "precision": "address",
+    "layer": "london"
+  },
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

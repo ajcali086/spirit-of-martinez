@@ -1,0 +1,16 @@
+{
+  "id": "e8221e0e",
+  "slug": "calicura-bros-meats",
+  "kind": "organization",
+  "label": "Calicura Bros. Meats",
+  "aliases": [
+    {
+      "name": "Calicura Bros. Meats",
+      "sources": ["biro"]
+    }
+  ],
+  "anchors": ["biro"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

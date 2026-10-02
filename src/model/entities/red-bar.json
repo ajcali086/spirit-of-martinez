@@ -1,0 +1,26 @@
+{
+  "id": "ff634102",
+  "slug": "red-bar",
+  "kind": "place",
+  "label": "The Red Bar, 8 Green’s Court, Soho",
+  "aliases": [
+    {
+      "name": "The Red Bar",
+      "sources": ["redbar"]
+    },
+    {
+      "name": "8 Green’s Court",
+      "sources": ["redbar"]
+    }
+  ],
+  "anchors": ["redbar"],
+  "geo": {
+    "lat": 51.51155,
+    "lng": -0.13572,
+    "precision": "address",
+    "layer": "london"
+  },
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

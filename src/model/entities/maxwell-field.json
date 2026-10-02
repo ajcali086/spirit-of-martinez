@@ -1,0 +1,22 @@
+{
+  "id": "7599a868",
+  "slug": "maxwell-field",
+  "kind": "place",
+  "label": "Maxwell Field",
+  "aliases": [
+    {
+      "name": "Maxwell Field",
+      "sources": ["maxwell", "maxwellpair", "carpenter", "preflight"]
+    }
+  ],
+  "anchors": ["maxwell", "maxwellpair", "carpenter", "preflight"],
+  "geo": {
+    "lat": 32.3792,
+    "lng": -86.3652,
+    "precision": "city",
+    "layer": "training"
+  },
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

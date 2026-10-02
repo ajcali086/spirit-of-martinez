@@ -1,0 +1,12 @@
+{
+  "id": "f9ecc830",
+  "slug": "mission-5",
+  "kind": "event",
+  "label": "Mission 5: Nuremberg, 21 February 1945",
+  "aliases": [],
+  "anchors": ["crewrecord", "chart5", "nuremberg5", "stripesspread"],
+  "mission": 5,
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

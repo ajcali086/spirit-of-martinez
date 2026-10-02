@@ -1,0 +1,16 @@
+{
+  "id": "e8dba4f5",
+  "slug": "john-patrick",
+  "kind": "person",
+  "label": "Col. John B. Patrick",
+  "aliases": [
+    {
+      "name": "John B. Patrick",
+      "sources": ["instrument", "commissionclip"]
+    }
+  ],
+  "anchors": ["instrument", "commissionclip"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

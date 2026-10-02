@@ -1,0 +1,125 @@
+{
+  "id": "5483a6f0",
+  "slug": "frank-calicura",
+  "kind": "person",
+  "label": "Frank J. Calicura",
+  "aliases": [
+    {
+      "name": "Frank J. Calicura",
+      "sources": [
+        "calicura",
+        "portrait",
+        "britishbase",
+        "crusher",
+        "idcard",
+        "promotion",
+        "woodpecker",
+        "instrument",
+        "snorter",
+        "form5",
+        "go289",
+        "stuart"
+      ]
+    },
+    {
+      "name": "Frank James Calicura",
+      "sources": ["airmanid", "greenville", "commissionclip", "will", "rating", "medical"]
+    },
+    {
+      "name": "Frank Calicura",
+      "sources": [
+        "maxwellpair",
+        "carpenter",
+        "cockpit",
+        "calicura",
+        "naming",
+        "taylorletter",
+        "nameonplane",
+        "nose",
+        "spiritpage",
+        "london",
+        "gazette",
+        "watts",
+        "shop",
+        "rodia",
+        "merit",
+        "cadet",
+        "fourbrothers",
+        "quals",
+        "birth",
+        "wallet",
+        "letter",
+        "jimmy",
+        "firstmeeting"
+      ]
+    },
+    {
+      "name": "F.J. CALICURA",
+      "sources": ["crusher", "dogtags"]
+    },
+    {
+      "name": "F.J. Calicura",
+      "sources": ["crusher", "dogtags"]
+    },
+    {
+      "name": "Calicura, Frank J.",
+      "sources": ["form5"]
+    },
+    {
+      "name": "Lieut. Frank Calicura",
+      "sources": ["taylorletter"]
+    }
+  ],
+  "anchors": [
+    "airmanid",
+    "maxwellpair",
+    "carpenter",
+    "cockpit",
+    "calicura",
+    "portrait",
+    "naming",
+    "britishbase",
+    "taylorletter",
+    "nameonplane",
+    "nose",
+    "crusher",
+    "spiritpage",
+    "idcard",
+    "london",
+    "gazette",
+    "watts",
+    "joyce1958",
+    "shop",
+    "rodia",
+    "promotion",
+    "merit",
+    "greenville",
+    "cadet",
+    "woodpecker",
+    "instrument",
+    "commissionclip",
+    "fourbrothers",
+    "quals",
+    "birth",
+    "will",
+    "wallet",
+    "dogtags",
+    "snorter",
+    "tampaorder",
+    "jacket",
+    "ring",
+    "coat",
+    "form5",
+    "letter",
+    "go289",
+    "stuart",
+    "rating",
+    "medical",
+    "jimmy",
+    "firstmeeting"
+  ],
+  "crew": "calicura",
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

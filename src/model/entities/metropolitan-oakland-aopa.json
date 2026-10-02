@@ -1,0 +1,16 @@
+{
+  "id": "04460150",
+  "slug": "metropolitan-oakland-aopa",
+  "kind": "organization",
+  "label": "Metropolitan Oakland AOPA unit",
+  "aliases": [
+    {
+      "name": "Metropolitan Oakland AOPA unit",
+      "sources": ["beatie", "flyingcover"]
+    }
+  ],
+  "anchors": ["beatie", "flyingcover"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

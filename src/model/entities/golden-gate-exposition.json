@@ -1,0 +1,16 @@
+{
+  "id": "2a9ee987",
+  "slug": "golden-gate-exposition",
+  "kind": "organization",
+  "label": "Golden Gate International Exposition",
+  "aliases": [
+    {
+      "name": "Golden Gate International Exposition",
+      "sources": ["merit"]
+    }
+  ],
+  "anchors": ["merit"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

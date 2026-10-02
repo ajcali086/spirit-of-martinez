@@ -1,0 +1,22 @@
+{
+  "id": "74ad27ed",
+  "slug": "horham",
+  "kind": "place",
+  "label": "Horham · Station 119",
+  "aliases": [
+    {
+      "name": "Horham",
+      "sources": ["crew", "nose", "britishbase", "wallet"]
+    }
+  ],
+  "anchors": ["crew", "naming", "nose", "britishbase", "wallet"],
+  "geo": {
+    "lat": 52.30507,
+    "lng": 1.24259,
+    "precision": "city",
+    "layer": "tour"
+  },
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

@@ -1,0 +1,29 @@
+{
+  "id": "78950e33",
+  "slug": "charles-beatie",
+  "kind": "person",
+  "label": "Charles Beatie",
+  "aliases": [
+    {
+      "name": "Charles Beatie",
+      "sources": ["hangar", "beatie", "flyingcover", "snorter"]
+    },
+    {
+      "name": "Charles Beattie",
+      "sources": ["tribune1939"]
+    }
+  ],
+  "anchors": ["hangar", "beatie", "flyingcover", "tribune1939", "snorter"],
+  "framing": null,
+  "identity_assertions": [
+    {
+      "action": "merge",
+      "names": ["Charles Beattie"],
+      "curator": "Draft for Andrew's review",
+      "date": "2026-10-02",
+      "rationale": "The Tribune spells him Beattie; its caption: \"The paper spells Beattie with two t's. This book has used Beatie.\"",
+      "sources": ["tribune1939"]
+    }
+  ],
+  "notes": []
+}

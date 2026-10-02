@@ -1,0 +1,12 @@
+{
+  "id": "66b90f65",
+  "slug": "mission-2",
+  "kind": "event",
+  "label": "Mission 2: Cottbus, 15 February 1945",
+  "aliases": [],
+  "anchors": ["crewrecord", "chart2"],
+  "mission": 2,
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

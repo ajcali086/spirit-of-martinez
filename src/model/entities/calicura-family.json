@@ -1,0 +1,20 @@
+{
+  "id": "6c541536",
+  "slug": "calicura-family",
+  "kind": "family",
+  "label": "The Calicura family",
+  "aliases": [
+    {
+      "name": "the family",
+      "sources": ["spiritpage", "rodia", "biro", "watts"]
+    },
+    {
+      "name": "The family",
+      "sources": ["firstmeeting", "rodia", "maxwell", "shaw"]
+    }
+  ],
+  "anchors": ["spiritpage", "firstmeeting", "rodia", "biro", "watts", "maxwell", "shaw"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

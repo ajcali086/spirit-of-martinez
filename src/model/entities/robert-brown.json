@@ -1,0 +1,29 @@
+{
+  "id": "aff30a8a",
+  "slug": "robert-brown",
+  "kind": "person",
+  "label": "Robert J. Brown",
+  "aliases": [
+    {
+      "name": "Robert J. Brown",
+      "sources": ["brown", "signatures"]
+    },
+    {
+      "name": "Brown, radio",
+      "sources": ["stations"]
+    },
+    {
+      "name": "Brown, Markus",
+      "sources": ["tampaorder", "signatures"]
+    },
+    {
+      "name": "Titus, Brown",
+      "sources": ["go289"]
+    }
+  ],
+  "anchors": ["brown", "tampaorder", "signatures", "go289", "stations"],
+  "crew": "brown",
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

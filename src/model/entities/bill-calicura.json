@@ -1,0 +1,37 @@
+{
+  "id": "2e744f7c",
+  "slug": "bill-calicura",
+  "kind": "person",
+  "label": "Bill Calicura",
+  "aliases": [
+    {
+      "name": "Bill Calicura",
+      "sources": ["rodia"]
+    },
+    {
+      "name": "Bill",
+      "sources": ["fourbrothers", "shop", "rodia"]
+    },
+    {
+      "name": "Billy",
+      "sources": ["biro"]
+    },
+    {
+      "name": "William",
+      "sources": ["fourbrothers"]
+    }
+  ],
+  "anchors": ["fourbrothers", "shop", "biro", "rodia"],
+  "framing": null,
+  "identity_assertions": [
+    {
+      "action": "merge",
+      "names": ["Billy", "William"],
+      "curator": "Draft for Andrew's review",
+      "date": "2026-10-02",
+      "rationale": "The Frank, Rodia, Bill plate calls its three \"the three the August 1955 shop plates put together\", Billy at the Biro among them; the clipping's alt text names the corporal at Camp Davis William, its caption Bill.",
+      "sources": ["rodia", "biro", "fourbrothers"]
+    }
+  ],
+  "notes": []
+}

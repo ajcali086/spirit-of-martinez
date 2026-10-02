@@ -1,0 +1,16 @@
+{
+  "id": "798ca2b8",
+  "slug": "plant-park-tampa",
+  "kind": "place",
+  "label": "Plant Park, Tampa",
+  "aliases": [
+    {
+      "name": "Plant Park, Tampa",
+      "sources": ["tampaorder"]
+    }
+  ],
+  "anchors": ["tampaorder"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

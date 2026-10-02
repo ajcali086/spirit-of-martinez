@@ -1,0 +1,56 @@
+{
+  "id": "3149a845",
+  "slug": "joyce-calicura",
+  "kind": "person",
+  "label": "Joyce B. Calicura",
+  "aliases": [
+    {
+      "name": "Joyce B. Calicura",
+      "sources": ["will"]
+    },
+    {
+      "name": "Joyce Calicura",
+      "sources": ["joyce", "pregnant", "joyce1958"]
+    },
+    {
+      "name": "Joyce",
+      "sources": [
+        "maxwellpair",
+        "joyce",
+        "pregnant",
+        "joyce1958",
+        "cadets",
+        "eastcoast",
+        "birth",
+        "will",
+        "dogtags",
+        "osnabruckclip",
+        "britishbase"
+      ]
+    },
+    {
+      "name": "MRS. J.B. CALICURA",
+      "sources": ["dogtags"]
+    },
+    {
+      "name": "Mrs. J.B. Calicura",
+      "sources": ["dogtags"]
+    }
+  ],
+  "anchors": [
+    "maxwellpair",
+    "joyce",
+    "pregnant",
+    "joyce1958",
+    "cadets",
+    "eastcoast",
+    "birth",
+    "will",
+    "dogtags",
+    "osnabruckclip",
+    "britishbase"
+  ],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

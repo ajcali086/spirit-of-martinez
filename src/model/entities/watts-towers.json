@@ -1,0 +1,22 @@
+{
+  "id": "c5491d31",
+  "slug": "watts-towers",
+  "kind": "place",
+  "label": "Watts Towers",
+  "aliases": [
+    {
+      "name": "Watts Towers",
+      "sources": ["watts"]
+    }
+  ],
+  "anchors": ["watts"],
+  "geo": {
+    "lat": 33.93875,
+    "lng": -118.24103,
+    "precision": "city",
+    "layer": "postwar"
+  },
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}

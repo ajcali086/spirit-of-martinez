@@ -1,0 +1,24 @@
+{
+  "id": "422b8429",
+  "slug": "jimmy-calicura",
+  "kind": "person",
+  "label": "Frank James Calicura Jr. (Jimmy)",
+  "aliases": [
+    {
+      "name": "Frank James Calicura Jr.",
+      "sources": ["pregnant", "birth", "jimmy1"]
+    },
+    {
+      "name": "Jimmy",
+      "sources": ["jimmy", "jimmy1", "firstmeeting"]
+    },
+    {
+      "name": "Frank Jr.",
+      "sources": ["jimmy", "britishbase"]
+    }
+  ],
+  "anchors": ["pregnant", "birth", "jimmy", "jimmy1", "firstmeeting", "britishbase"],
+  "framing": null,
+  "identity_assertions": [],
+  "notes": []
+}
