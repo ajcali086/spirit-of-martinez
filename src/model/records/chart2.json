@@ -2,6 +2,7 @@
   "id": "chart2",
   "kind": "object",
   "title": "Captains' chart, mission 2",
+  "series": "flight",
   "credit": "Family collection",
   "rights_holder": "unknown",
   "held": false,

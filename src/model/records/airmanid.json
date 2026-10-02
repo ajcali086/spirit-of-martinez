@@ -3,6 +3,12 @@
   "kind": "object",
   "plate": "airmanid",
   "title": "Airman identification",
+  "series": "civil",
+  "document": {
+    "type": "identification",
+    "number": "Form ACA 935",
+    "issued_by": "Civil Aeronautics Administration"
+  },
   "credit": "Family collection",
   "rights_holder": "unknown",
   "held": true,

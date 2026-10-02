@@ -3,6 +3,13 @@
   "kind": "object",
   "plate": "promotion",
   "title": "Certificate of Promotion",
+  "series": "family",
+  "document": {
+    "type": "certificate",
+    "issued_by": "Alhambra Union High School District",
+    "issued_at": "Martinez",
+    "issued": "1935-06-21"
+  },
   "credit": "Family collection",
   "rights_holder": "unknown",
   "held": true,

@@ -3,6 +3,11 @@
   "kind": "object",
   "plate": "taylorletter",
   "title": "Letter to a Serviceman",
+  "series": "press",
+  "document": {
+    "type": "letter",
+    "issued_by": "Martinez War Finance Committee"
+  },
   "credit": "Family collection",
   "rights_holder": "unknown",
   "held": true,

@@ -3,6 +3,7 @@
   "kind": "object",
   "plate": "birth",
   "title": "Birth announcement",
+  "series": "family",
   "credit": "Family collection",
   "rights_holder": "unknown",
   "held": true,

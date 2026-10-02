@@ -3,6 +3,13 @@
   "kind": "object",
   "plate": "form5",
   "title": "Individual Flight Record",
+  "series": "flight",
+  "document": {
+    "type": "form",
+    "number": "AAF Form 5",
+    "serials": ["O-828662"],
+    "signed_by": ["Capt. David E. Olsson"]
+  },
   "credit": "Family collection",
   "rights_holder": "unknown",
   "held": true,

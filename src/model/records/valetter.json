@@ -1,8 +1,8 @@
 {
-  "id": "chart5",
+  "id": "valetter",
   "kind": "object",
-  "title": "Captains' chart, mission 5",
-  "series": "flight",
+  "title": "VA letter, 30 October 1959",
+  "series": "legal",
   "credit": "Family collection",
   "rights_holder": "unknown",
   "held": false,
@@ -15,7 +15,7 @@
   "notes": [
     {
       "date": "2026-10-02",
-      "note": "In the locker: the archive gives fourteen captains' charts, missions one through fourteen without a gap. Only mission 7's chart is digitized (plate chart7)."
+      "note": "In the archive (claim C-1,302,621, compensation denied). The archive links it to plate letter, which shows the April 1945 letter to Ray Taylor, so no plate shows it."
     }
   ]
 }

@@ -3,6 +3,10 @@
   "kind": "object",
   "plate": "quals",
   "title": "Qualification record",
+  "series": "personnel",
+  "document": {
+    "type": "form"
+  },
   "credit": "Family collection",
   "rights_holder": "unknown",
   "held": true,

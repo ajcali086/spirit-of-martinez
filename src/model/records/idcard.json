@@ -3,6 +3,11 @@
   "kind": "photograph",
   "plate": "idcard",
   "title": "Identity card",
+  "series": "personnel",
+  "document": {
+    "type": "identification",
+    "issued": "1944-04-15"
+  },
   "credit": "Family collection",
   "rights_holder": "unknown",
   "held": true,

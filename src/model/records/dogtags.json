@@ -3,6 +3,11 @@
   "kind": "object",
   "plate": "dogtags",
   "title": "The tags",
+  "series": "personnel",
+  "document": {
+    "type": "identification",
+    "serials": ["19149763"]
+  },
   "credit": "Family collection",
   "rights_holder": "unknown",
   "held": true,

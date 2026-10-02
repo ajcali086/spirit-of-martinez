@@ -3,6 +3,12 @@
   "kind": "object",
   "plate": "medical",
   "title": "CAA medical certificate",
+  "series": "civil",
+  "document": {
+    "type": "certificate",
+    "number": "CAA Form ACA 1004",
+    "issued": "1948-07-07"
+  },
   "credit": "Family collection",
   "rights_holder": "unknown",
   "held": true,

@@ -3,6 +3,13 @@
   "kind": "object",
   "plate": "will",
   "title": "Last will and testament",
+  "series": "legal",
+  "document": {
+    "type": "will",
+    "issued_at": "Avon Park",
+    "issued": "1944-09-07",
+    "serials": ["O-828662"]
+  },
   "credit": "Family collection",
   "rights_holder": "unknown",
   "held": true,

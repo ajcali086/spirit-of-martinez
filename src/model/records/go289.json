@@ -3,6 +3,12 @@
   "kind": "object",
   "plate": "go289",
   "title": "General Orders 289",
+  "series": "awards",
+  "document": {
+    "type": "general-order",
+    "number": "GO 289",
+    "issued": "1945-02-27"
+  },
   "credit": "Family collection",
   "rights_holder": "unknown",
   "held": true,

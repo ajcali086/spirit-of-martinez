@@ -3,6 +3,13 @@
   "kind": "object",
   "plate": "rating",
   "title": "Airman Rating Record",
+  "series": "civil",
+  "document": {
+    "type": "certificate",
+    "number": "Airman Rating Record no. 107645",
+    "issued_by": "Civil Aeronautics Administration",
+    "issued": "1947-08-04"
+  },
   "credit": "Family collection",
   "rights_holder": "unknown",
   "held": true,

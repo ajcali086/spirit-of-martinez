@@ -3,6 +3,12 @@
   "kind": "object",
   "plate": "letter",
   "title": "If the People at Home Only Knew",
+  "series": "press",
+  "document": {
+    "type": "letter",
+    "issued_at": "England",
+    "issued": "1945-04-21"
+  },
   "credit": "Family collection",
   "rights_holder": "unknown",
   "held": true,

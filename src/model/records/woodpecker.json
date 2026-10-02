@@ -3,6 +3,13 @@
   "kind": "object",
   "plate": "woodpecker",
   "title": "The cartoon",
+  "series": "training",
+  "document": {
+    "type": "certificate",
+    "issued_at": "Canal Field, Ocala",
+    "issued": "1943-10-19",
+    "signed_by": ["Ellis G. Ort"]
+  },
   "credit": "Family collection",
   "rights_holder": "unknown",
   "held": true,

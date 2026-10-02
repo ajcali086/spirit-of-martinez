@@ -7,6 +7,7 @@ import { chapters } from "@/data/chapters";
 import { hasCaptainsChart, missions } from "@/data/missions";
 import { photoList, photos } from "@/data/photos";
 import { folders, records } from "./index";
+import { SERIES } from "./types";
 
 const repo = new URL("../../", import.meta.url);
 const exists = (path: string) => existsSync(new URL(path, repo));
@@ -23,6 +24,18 @@ export const HELD_OUT: Record<string, string> = {
 };
 
 const plateIds = new Set<string>(photoList.map((p) => p.id));
+
+const MONTHS =
+  "January February March April May June July August September October November December".split(
+    " ",
+  );
+/** The ways a plate writes a date: `15 April 1944`, `April 15, 1944`, `April 1944`, `1944`. */
+function dateForms(iso: string): string[] {
+  const [y, m, d] = iso.split("-").map(Number);
+  if (!m) return [String(y)];
+  const month = MONTHS[m - 1];
+  return d ? [`${d} ${month} ${y}`, `${month} ${d}, ${y}`] : [`${month} ${y}`];
+}
 
 export const checks: { name: string; run: () => string[] }[] = [
   {
@@ -156,6 +169,64 @@ export const checks: { name: string; run: () => string[] }[] = [
           `mission ${m.number}: no chart record`,
         ),
       ),
+  },
+  {
+    name: "every record is filed in a series",
+    run: () => {
+      const known = new Set<string>(SERIES.map(([s]) => s));
+      return records.flatMap((r) => fail(known.has(r.series), `${r.id}: series ${r.series}`));
+    },
+  },
+  {
+    name: "a paper's catalog entry quotes its plate, and its date is one the plate gives",
+    run: () =>
+      records.flatMap((r) => {
+        const d = r.document;
+        if (!d) return [];
+        const p = r.plate ? photoList.find((x) => x.id === r.plate) : undefined;
+        if (!p) return [`${r.id}: a catalog entry, but no plate to quote`];
+        const text = [p.title, p.caption, p.alt, p.date ?? ""].join("\n");
+        const quoted = [
+          d.number,
+          d.issued_by,
+          d.issued_at,
+          ...(d.serials ?? []),
+          ...(d.signed_by ?? []),
+        ];
+        return [
+          ...quoted.flatMap((q) =>
+            q === undefined
+              ? []
+              : fail(!!q && text.includes(q), `${r.id}: "${q}" not on the plate`),
+          ),
+          ...(d.issued === undefined
+            ? []
+            : [
+                ...fail(
+                  /^\d{4}(-\d{2}(-\d{2})?)?$/.test(d.issued),
+                  `${r.id}: issued ${d.issued} malformed`,
+                ),
+                ...fail(
+                  dateForms(d.issued).some((f) => text.includes(f)),
+                  `${r.id}: issued ${d.issued} not on the plate`,
+                ),
+              ]),
+        ];
+      }),
+  },
+  {
+    name: "a detail names a whole record of the same series, which isn't itself a detail",
+    run: () =>
+      records.flatMap((r) => {
+        if (!r.detail_of) return [];
+        const whole = records.find((x) => x.id === r.detail_of);
+        return whole
+          ? [
+              ...fail(whole.series === r.series, `${r.id}: series differs from ${whole.id}'s`),
+              ...fail(!whole.detail_of, `${r.id}: ${whole.id} is itself a detail`),
+            ]
+          : [`${r.id}: detail of ${r.detail_of}, no such record`];
+      }),
   },
 ];
 

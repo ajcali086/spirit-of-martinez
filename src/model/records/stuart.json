@@ -3,6 +3,13 @@
   "kind": "object",
   "plate": "stuart",
   "title": "Stuart’s memorandum",
+  "series": "flight",
+  "document": {
+    "type": "memorandum",
+    "issued_by": "Headquarters, 95th Bombardment Group (H)",
+    "issued": "1945-05-08",
+    "signed_by": ["Robert H. Stuart, Lt. Colonel, Air Corps, Commanding"]
+  },
   "credit": "Family collection",
   "rights_holder": "unknown",
   "held": true,
