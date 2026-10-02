@@ -10,7 +10,18 @@ import { crew, crewForPhoto } from "@/data/crew";
 import { discrepancies } from "@/data/discrepancies";
 import { photoList, photos } from "@/data/photos";
 import type { PhotoId } from "@/data/types";
-import { entities, evidence, folders, heldBack, questions, records, settled } from "./index";
+import FROZEN from "./frozen.json" with { type: "json" };
+import {
+  entities,
+  evidence,
+  folders,
+  heldBack,
+  museum,
+  passageGlobalId,
+  questions,
+  records,
+  settled,
+} from "./index";
 import { ENTITY_KINDS, SERIES, type PassageRef } from "./types";
 
 const repo = new URL("../../", import.meta.url);
@@ -657,6 +668,80 @@ export const checks: { name: string; run: () => string[] }[] = [
       ),
   },
 ];
+
+/**
+ * The IDs the model freezes, kind by kind. A passage is `chapter#id`: a
+ * paragraph's or a section's, as the site anchors it.
+ */
+export const FROZEN_KINDS = ["passages", "records", "entities", "questions", "evidence"] as const;
+type FrozenKind = (typeof FROZEN_KINDS)[number];
+type FrozenModel = { frozen_on: string; retired: string[] } & Record<FrozenKind, string[]>;
+const frozen = FROZEN as FrozenModel;
+
+export const inUse: Record<FrozenKind, string[]> = {
+  passages: chapters.flatMap((c) =>
+    c.sections.flatMap((s) => [
+      `${c.slug}#${s.id}`,
+      ...s.blocks.flatMap((b) => (b.type === "p" && b.id ? [`${c.slug}#${b.id}`] : [])),
+    ]),
+  ),
+  records: records.map((r) => r.id),
+  entities: entities.map((e) => e.id),
+  questions: questions.map((q) => q.id),
+  evidence: evidence.map((e) => e.id),
+};
+
+/** IDs in use that aren't frozen yet: new since the last freeze, frozen when it merges. */
+export function provisionalIds(): string[] {
+  return FROZEN_KINDS.flatMap((kind) =>
+    inUse[kind].filter((id) => !frozen[kind].includes(id)).map((id) => `${kind} ${id}`),
+  );
+}
+
+checks.push(
+  {
+    name: "the museum record is complete: text frozen by decision 0, IDs frozen on a date",
+    run: () => [
+      ...fail(museum.slug === "spirit-of-martinez", `slug ${museum.slug}`),
+      ...fail(!!museum.title && !!museum.rights_holder, "title or rights holder"),
+      ...fail(["pilot", "live", "archived"].includes(museum.status), `status ${museum.status}`),
+      ...fail(museum.text_freeze === true, "text_freeze"),
+      ...fail(iso.test(museum.id_freeze_date), "id_freeze_date"),
+      ...fail(
+        frozen.frozen_on === museum.id_freeze_date,
+        "frozen.json and museum.json disagree on the date",
+      ),
+    ],
+  },
+  {
+    name: "the model's IDs are frozen: every frozen ID is in use or retired, none reused, none used twice",
+    run: () =>
+      FROZEN_KINDS.flatMap((kind) => [
+        ...inUse[kind].flatMap((id, i) =>
+          fail(inUse[kind].indexOf(id) === i, `${kind} ${id} is used twice`),
+        ),
+        ...frozen[kind].flatMap((id) =>
+          fail(
+            inUse[kind].includes(id) || frozen.retired.includes(id),
+            `${kind} ${id} was frozen and is gone; retire it instead`,
+          ),
+        ),
+        ...inUse[kind].flatMap((id) =>
+          fail(!frozen.retired.includes(id), `${kind} ${id} is retired`),
+        ),
+      ]),
+  },
+  {
+    name: "every passage has one global ID",
+    run: () => {
+      const ids = inUse.passages.map((p) => {
+        const [chapter, id] = p.split("#");
+        return passageGlobalId(chapter, id);
+      });
+      return ids.flatMap((id, i) => fail(ids.indexOf(id) === i, `${id} is two passages`));
+    },
+  },
+);
 
 /** Every problem the checks find. */
 export function problems(): string[] {

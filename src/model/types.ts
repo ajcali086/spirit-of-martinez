@@ -251,3 +251,18 @@ export type Settled = {
   date: string;
   evidence: string[];
 };
+
+/**
+ * The museum record. `text_freeze` is the author's decision 0 (2026-10-02):
+ * published prose changes only through a correction entry. IDs freeze on
+ * `id_freeze_date` and are never dropped, renumbered or reused after.
+ */
+export type Museum = {
+  slug: string;
+  title: string;
+  rights_holder: string;
+  status: "pilot" | "live" | "archived";
+  text_freeze: boolean;
+  id_freeze_date: string;
+  schema_version: number;
+};

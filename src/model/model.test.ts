@@ -8,6 +8,8 @@ import {
   globalId,
   heldBack,
   missionEntity,
+  museum,
+  passageGlobalId,
   questions,
   recordById,
   recordForPlate,
@@ -15,9 +17,9 @@ import {
   settled,
 } from "./index";
 import { SERVICE_FILE } from "./types";
-import { checks } from "./validate";
+import { checks, inUse, provisionalIds } from "./validate";
 
-describe("model: H1 retrofit stages 1 to 3, records, entities, evidence and questions", () => {
+describe("model: H1 retrofit stages 1 to 4, records, entities, evidence, questions, frozen IDs", () => {
   for (const check of checks) it(check.name, () => assert.deepEqual(check.run(), []));
 
   it("holds 130 records: 101 plates, verified, and 29 not held", () => {
@@ -209,5 +211,25 @@ describe("model: H1 retrofit stages 1 to 3, records, entities, evidence and ques
 
   it("writes global IDs with the museum's prefix", () => {
     assert.equal(globalId("r", "crew"), "spirit-of-martinez/r/crew");
+    assert.equal(globalId("q", "mission-seven-date"), "spirit-of-martinez/q/mission-seven-date");
+  });
+
+  it("froze the text and 726 IDs on 2 October 2026; none is provisional", () => {
+    assert.equal(museum.text_freeze, true);
+    assert.equal(museum.id_freeze_date, "2026-10-02");
+    assert.deepEqual(
+      Object.values(inUse).map((ids) => ids.length),
+      [462, 130, 89, 20, 25],
+    );
+    assert.deepEqual(provisionalIds(), []);
+  });
+
+  it("gives a named anchor its chapter, since m-12 is in two", () => {
+    assert.equal(passageGlobalId("prologue", "1.1-p0"), "spirit-of-martinez/p/1.1-p0");
+    const m12 = inUse.passages.filter((p) => p.endsWith("#m-12"));
+    assert.equal(m12.length, 2);
+    const [a, b] = m12.map((p) => passageGlobalId(...(p.split("#") as [string, string])));
+    assert.notEqual(a, b);
+    assert.match(a, /^spirit-of-martinez\/p\/[a-z-]+\/m-12$/);
   });
 });
