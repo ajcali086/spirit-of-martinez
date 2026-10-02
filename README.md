@@ -31,25 +31,16 @@ GitHub Actions:
 
 | Workflow | When | What |
 |---|---|---|
-| [CI](.github/workflows/ci.yml) | every push and pull request | `npm ci`, typecheck, production build |
-| [Deploy](.github/workflows/deploy.yml) | every push and pull request, if Vercel secrets are set | preview deploy on PRs, production deploy on `main` |
+| [CI](.github/workflows/ci.yml) | every push and pull request | `npm ci`, typecheck, the museum model's checks (`npm run check:model`), production build |
+| [Freeze new IDs](.github/workflows/freeze.yml) | every push to `main` that touches the model, chapters, captions or corrections | freezes new IDs and fingerprints new text, in a pull request for the curator |
 
-### Option A — Vercel Git integration (simplest)
+### Deploys
 
-1. Push this repo to GitHub.
-2. Import it at [vercel.com/new](https://vercel.com/new).
-3. Framework: leave auto / Vite. Build command is `npm run build` (already in `vercel.json`).
-4. Every push to `main` ships production; every PR gets a preview URL.
+Vercel's Git integration deploys: every push to `main` ships production;
+every pull request gets a preview URL.
 
-### Option B — GitHub Actions → Vercel
-
-Create a Vercel token and add these repository secrets:
-
-- `VERCEL_TOKEN`
-- `VERCEL_ORG_ID` (Project Settings → General)
-- `VERCEL_PROJECT_ID`
-
-Then the Deploy workflow runs on its own. CI still runs even if those secrets are missing.
+1. Import the repo at [vercel.com/new](https://vercel.com/new).
+2. Framework: leave auto / Vite. Build command is `npm run build` (already in `vercel.json`).
 
 ## Contents
 
