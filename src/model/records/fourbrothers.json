@@ -1,0 +1,16 @@
+{
+  "id": "fourbrothers",
+  "kind": "object",
+  "plate": "fourbrothers",
+  "title": "Newly Commissioned, Soon to Get Transfer",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/fourbrothers.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

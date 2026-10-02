@@ -1,0 +1,16 @@
+{
+  "id": "merit",
+  "kind": "object",
+  "plate": "merit",
+  "title": "Award of Merit",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/merit.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

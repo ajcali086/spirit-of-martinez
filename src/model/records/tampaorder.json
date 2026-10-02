@@ -1,0 +1,16 @@
+{
+  "id": "tampaorder",
+  "kind": "object",
+  "plate": "tampaorder",
+  "title": "Crew No. 1479",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/tampaorder.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

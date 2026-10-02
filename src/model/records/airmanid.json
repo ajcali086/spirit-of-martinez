@@ -1,0 +1,16 @@
+{
+  "id": "airmanid",
+  "kind": "object",
+  "plate": "airmanid",
+  "title": "Airman identification",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/airmanid.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

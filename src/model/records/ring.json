@@ -1,0 +1,16 @@
+{
+  "id": "ring",
+  "kind": "object",
+  "plate": "ring",
+  "title": "PILOT",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/ring.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

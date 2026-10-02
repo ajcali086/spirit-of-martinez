@@ -1,0 +1,16 @@
+{
+  "id": "taylorletter",
+  "kind": "object",
+  "plate": "taylorletter",
+  "title": "Letter to a Serviceman",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/taylorletter.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

@@ -1,0 +1,16 @@
+{
+  "id": "utrechtapproach",
+  "kind": "photograph",
+  "plate": "utrechtapproach",
+  "title": "Approach to Utrecht",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/utrechtapproach.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

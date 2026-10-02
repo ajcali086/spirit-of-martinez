@@ -1,0 +1,16 @@
+{
+  "id": "stations",
+  "kind": "photograph",
+  "plate": "stations",
+  "title": "At their stations",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/stations.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

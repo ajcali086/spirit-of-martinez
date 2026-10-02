@@ -1,0 +1,16 @@
+{
+  "id": "tribune1939",
+  "kind": "object",
+  "plate": "tribune1939",
+  "title": "Restoring the flying field",
+  "credit": "Beatie family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/tribune1939.jpg"],
+  "capture_provenance": {
+    "unknown": "Beatie family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

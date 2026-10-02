@@ -1,0 +1,16 @@
+{
+  "id": "nuremberg4",
+  "kind": "object",
+  "plate": "nuremberg4",
+  "title": "900 Fortresses Rain Bombs",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/nuremberg4.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

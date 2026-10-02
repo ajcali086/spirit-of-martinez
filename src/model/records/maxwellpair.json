@@ -1,0 +1,16 @@
+{
+  "id": "maxwellpair",
+  "kind": "photograph",
+  "plate": "maxwellpair",
+  "title": "Joyce and Frank, Maxwell Field",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/maxwellpair.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

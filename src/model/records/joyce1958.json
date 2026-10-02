@@ -1,0 +1,16 @@
+{
+  "id": "joyce1958",
+  "kind": "photograph",
+  "plate": "joyce1958",
+  "title": "Frank and Joyce, 1958",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/joyce1958.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

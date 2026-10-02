@@ -1,0 +1,20 @@
+{
+  "id": "chart3",
+  "kind": "object",
+  "title": "Captains' chart, mission 3",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": false,
+  "status": "not-held",
+  "media": [],
+  "capture_provenance": {
+    "unknown": "not held"
+  },
+  "restoration": null,
+  "notes": [
+    {
+      "date": "2026-10-02",
+      "note": "In the locker: the archive gives fourteen captains' charts, missions one through fourteen without a gap. Only mission 7's chart is digitized (plate chart7)."
+    }
+  ]
+}

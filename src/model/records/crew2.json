@@ -1,0 +1,16 @@
+{
+  "id": "crew2",
+  "kind": "photograph",
+  "plate": "crew2",
+  "title": "Seven of the nine",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/crew2.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

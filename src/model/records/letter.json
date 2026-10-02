@@ -1,0 +1,16 @@
+{
+  "id": "letter",
+  "kind": "object",
+  "plate": "letter",
+  "title": "If the People at Home Only Knew",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/letter.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

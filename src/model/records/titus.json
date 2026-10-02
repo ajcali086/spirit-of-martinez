@@ -1,0 +1,16 @@
+{
+  "id": "titus",
+  "kind": "photograph",
+  "plate": "titus",
+  "title": "James A. Titus",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/titus.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

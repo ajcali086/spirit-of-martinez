@@ -1,0 +1,16 @@
+{
+  "id": "nose",
+  "kind": "photograph",
+  "plate": "nose",
+  "title": "Frank at the nose",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/nose.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

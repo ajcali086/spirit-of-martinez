@@ -1,0 +1,20 @@
+{
+  "id": "scrapbook",
+  "kind": "object",
+  "title": "Joyce's scrapbook",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": false,
+  "status": "not-held",
+  "media": [],
+  "capture_provenance": {
+    "unknown": "not held"
+  },
+  "restoration": null,
+  "notes": [
+    {
+      "date": "2026-10-02",
+      "note": "Described in the archive (clippings on black pages in a wooden cover, numbered Mission #1 to Mission #28); the scrapbook itself is not photographed."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "jacket",
+  "kind": "object",
+  "plate": "jacket",
+  "title": "The B-15",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/jacket.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

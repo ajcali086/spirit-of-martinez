@@ -1,0 +1,16 @@
+{
+  "id": "chart7",
+  "kind": "object",
+  "plate": "chart7",
+  "title": "Mission #7 map",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/chart7.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

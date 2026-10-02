@@ -1,0 +1,16 @@
+{
+  "id": "britishbase",
+  "kind": "object",
+  "plate": "britishbase",
+  "title": "Lieut. Calicura At British Base",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/britishbase.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

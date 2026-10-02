@@ -1,0 +1,16 @@
+{
+  "id": "rating",
+  "kind": "object",
+  "plate": "rating",
+  "title": "Airman Rating Record",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/rating.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

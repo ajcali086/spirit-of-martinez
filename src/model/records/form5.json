@@ -1,0 +1,16 @@
+{
+  "id": "form5",
+  "kind": "object",
+  "plate": "form5",
+  "title": "Individual Flight Record",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/form5.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

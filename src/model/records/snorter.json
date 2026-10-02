@@ -1,0 +1,16 @@
+{
+  "id": "snorter",
+  "kind": "object",
+  "plate": "snorter",
+  "title": "The short snorter",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/snorter.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

@@ -1,0 +1,16 @@
+{
+  "id": "nuremberg5",
+  "kind": "object",
+  "plate": "nuremberg5",
+  "title": "P47s Blast Yards Near Hitler’s Den",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/nuremberg5.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

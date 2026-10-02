@@ -1,0 +1,16 @@
+{
+  "id": "go289",
+  "kind": "object",
+  "plate": "go289",
+  "title": "General Orders 289",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/go289.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

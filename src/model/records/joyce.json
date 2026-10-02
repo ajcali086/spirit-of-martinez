@@ -1,0 +1,16 @@
+{
+  "id": "joyce",
+  "kind": "photograph",
+  "plate": "joyce",
+  "title": "Joyce and Marie",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/joyce.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

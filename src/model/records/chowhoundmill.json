@@ -1,0 +1,16 @@
+{
+  "id": "chowhoundmill",
+  "kind": "photograph",
+  "plate": "chowhoundmill",
+  "title": "A mill on the drop",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/chowhoundmill.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

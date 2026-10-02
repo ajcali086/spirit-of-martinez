@@ -1,0 +1,16 @@
+{
+  "id": "pair",
+  "kind": "photograph",
+  "plate": "pair",
+  "title": "Collins and Markus",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/pair.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

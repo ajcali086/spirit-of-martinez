@@ -1,0 +1,16 @@
+{
+  "id": "belligerent",
+  "kind": "photograph",
+  "plate": "belligerent",
+  "title": "Belligerent Beauty",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/belligerent.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}
