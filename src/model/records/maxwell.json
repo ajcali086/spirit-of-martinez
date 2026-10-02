@@ -1,0 +1,17 @@
+{
+  "id": "maxwell",
+  "kind": "photograph",
+  "plate": "maxwell",
+  "title": "Maxwell Field",
+  "series": "photographs",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/maxwell.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

@@ -1,0 +1,23 @@
+{
+  "id": "greenville",
+  "kind": "object",
+  "plate": "greenville",
+  "title": "Greenville Aviation School",
+  "series": "training",
+  "document": {
+    "type": "certificate",
+    "issued_by": "Greenville Aviation School",
+    "issued_at": "Ocala",
+    "signed_by": ["E. G. Cooper", "Frank A. Hanley", "A. L. Cummins"]
+  },
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/greenville.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

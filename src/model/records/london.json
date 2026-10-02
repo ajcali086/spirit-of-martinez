@@ -1,0 +1,17 @@
+{
+  "id": "london",
+  "kind": "photograph",
+  "plate": "london",
+  "title": "Oxford Street",
+  "series": "photographs",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/london.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

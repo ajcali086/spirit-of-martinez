@@ -1,0 +1,18 @@
+{
+  "id": "signatures",
+  "kind": "object",
+  "plate": "signatures",
+  "title": "The enlisted column",
+  "series": "supply",
+  "detail_of": "ticket",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/signatures.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

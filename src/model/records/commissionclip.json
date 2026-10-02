@@ -1,0 +1,17 @@
+{
+  "id": "commissionclip",
+  "kind": "object",
+  "plate": "commissionclip",
+  "title": "Martinez Boy Now Lieut. in Air Corps",
+  "series": "press",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/commissionclip.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

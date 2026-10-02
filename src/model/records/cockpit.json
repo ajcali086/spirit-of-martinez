@@ -1,0 +1,17 @@
+{
+  "id": "cockpit",
+  "kind": "photograph",
+  "plate": "cockpit",
+  "title": "Left seat, right seat",
+  "series": "photographs",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/cockpit.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

@@ -1,0 +1,17 @@
+{
+  "id": "wallet",
+  "kind": "object",
+  "plate": "wallet",
+  "title": "The Kiwanis wallet",
+  "series": "effects",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/wallet.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

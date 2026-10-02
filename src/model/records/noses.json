@@ -1,0 +1,17 @@
+{
+  "id": "noses",
+  "kind": "photograph",
+  "plate": "noses",
+  "title": "Among the others",
+  "series": "photographs",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/noses.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

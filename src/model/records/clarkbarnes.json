@@ -1,0 +1,17 @@
+{
+  "id": "clarkbarnes",
+  "kind": "photograph",
+  "plate": "clarkbarnes",
+  "title": "Clark and Barnes",
+  "series": "photographs",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/clarkbarnes.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

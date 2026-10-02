@@ -1,0 +1,17 @@
+{
+  "id": "crew",
+  "kind": "photograph",
+  "plate": "crew",
+  "title": "The crew of 44-6838",
+  "series": "photographs",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/crew.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

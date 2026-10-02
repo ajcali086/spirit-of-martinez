@@ -1,0 +1,23 @@
+{
+  "id": "ticket",
+  "kind": "object",
+  "plate": "ticket",
+  "title": "Shipping ticket",
+  "series": "supply",
+  "document": {
+    "type": "form",
+    "number": "Shipment FQ-555-CA",
+    "issued_at": "Grenier Field, Manchester, New Hampshire",
+    "issued": "1944-12-13"
+  },
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/ticket.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

@@ -1,0 +1,17 @@
+{
+  "id": "cadet",
+  "kind": "photograph",
+  "plate": "cadet",
+  "title": "Cadet, instructor on the porch",
+  "series": "photographs",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/cadet.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

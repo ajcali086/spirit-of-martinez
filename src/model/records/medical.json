@@ -1,0 +1,22 @@
+{
+  "id": "medical",
+  "kind": "object",
+  "plate": "medical",
+  "title": "CAA medical certificate",
+  "series": "civil",
+  "document": {
+    "type": "certificate",
+    "number": "CAA Form ACA 1004",
+    "issued": "1948-07-07"
+  },
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/medical.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

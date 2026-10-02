@@ -1,0 +1,17 @@
+{
+  "id": "friends",
+  "kind": "object",
+  "plate": "friends",
+  "title": "To My Friends",
+  "series": "press",
+  "credit": "Newspapers.com",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/friends.jpg"],
+  "capture_provenance": {
+    "unknown": "Newspapers.com; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

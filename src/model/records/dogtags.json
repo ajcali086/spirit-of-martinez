@@ -1,0 +1,21 @@
+{
+  "id": "dogtags",
+  "kind": "object",
+  "plate": "dogtags",
+  "title": "The tags",
+  "series": "personnel",
+  "document": {
+    "type": "identification",
+    "serials": ["19149763"]
+  },
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/dogtags.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

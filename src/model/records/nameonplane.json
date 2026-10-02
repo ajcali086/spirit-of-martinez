@@ -1,0 +1,17 @@
+{
+  "id": "nameonplane",
+  "kind": "object",
+  "plate": "nameonplane",
+  "title": "Martinez Puts Name on Plane",
+  "series": "press",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/nameonplane.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

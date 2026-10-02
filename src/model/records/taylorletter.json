@@ -1,0 +1,21 @@
+{
+  "id": "taylorletter",
+  "kind": "object",
+  "plate": "taylorletter",
+  "title": "Letter to a Serviceman",
+  "series": "press",
+  "document": {
+    "type": "letter",
+    "issued_by": "Martinez War Finance Committee"
+  },
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/taylorletter.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

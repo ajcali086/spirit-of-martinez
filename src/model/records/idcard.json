@@ -1,0 +1,21 @@
+{
+  "id": "idcard",
+  "kind": "photograph",
+  "plate": "idcard",
+  "title": "Identity card",
+  "series": "personnel",
+  "document": {
+    "type": "identification",
+    "issued": "1944-04-15"
+  },
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/idcard.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

@@ -1,0 +1,24 @@
+{
+  "id": "merit",
+  "kind": "object",
+  "plate": "merit",
+  "title": "Award of Merit",
+  "series": "family",
+  "document": {
+    "type": "certificate",
+    "issued_by": "Golden Gate International Exposition",
+    "issued_at": "Treasure Island",
+    "issued": "1939",
+    "signed_by": ["Leland W. Cutler"]
+  },
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/merit.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

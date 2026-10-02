@@ -1,0 +1,20 @@
+{
+  "id": "quals",
+  "kind": "object",
+  "plate": "quals",
+  "title": "Qualification record",
+  "series": "personnel",
+  "document": {
+    "type": "form"
+  },
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/quals.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

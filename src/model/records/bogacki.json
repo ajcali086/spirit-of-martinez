@@ -1,0 +1,17 @@
+{
+  "id": "bogacki",
+  "kind": "photograph",
+  "plate": "bogacki",
+  "title": "Earle F. Bogacki",
+  "series": "photographs",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/bogacki.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}

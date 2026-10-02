@@ -1,0 +1,24 @@
+{
+  "id": "instrument",
+  "kind": "object",
+  "plate": "instrument",
+  "title": "Instrument flight test",
+  "series": "training",
+  "document": {
+    "type": "form",
+    "number": "A.A.F. Form No. 8",
+    "issued_at": "Turner Field, Georgia",
+    "issued": "1944-04-15",
+    "signed_by": ["John B. Patrick, Colonel", "Wm. H. Jenkins, Major"]
+  },
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/instrument.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}
