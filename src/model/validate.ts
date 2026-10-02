@@ -2,13 +2,17 @@
  * The model's checks. Each returns the problems it finds, as lines naming
  * the record; an empty list is a pass. model.test.ts runs every one.
  */
-import { existsSync } from "node:fs";
-import { chapters } from "@/data/chapters";
+import { createHash } from "node:crypto";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { chapters, ingestedChapters } from "@/data/chapters";
+import { correctionFiles, corrections, textKeys } from "@/data/corrections.ts";
+import { chapterCues, splitSentences } from "@/data/cues";
 import { hasCaptainsChart, missions } from "@/data/missions";
 import { openQuestions as archiveQuestions } from "@/data/archive";
 import { crew, crewForPhoto } from "@/data/crew";
 import { discrepancies } from "@/data/discrepancies";
-import { photoList, photos } from "@/data/photos";
+import { ingestedPhotos, photoList, photos } from "@/data/photos";
+import PUBLISHED from "@/data/published-text.json" with { type: "json" };
 import type { PhotoId } from "@/data/types";
 import FROZEN from "./frozen.json" with { type: "json" };
 import {
@@ -693,9 +697,12 @@ export const inUse: Record<FrozenKind, string[]> = {
 
 /** IDs in use that aren't frozen yet: new since the last freeze, frozen when it merges. */
 export function provisionalIds(): string[] {
-  return FROZEN_KINDS.flatMap((kind) =>
-    inUse[kind].filter((id) => !frozen[kind].includes(id)).map((id) => `${kind} ${id}`),
-  );
+  return [
+    ...FROZEN_KINDS.flatMap((kind) =>
+      inUse[kind].filter((id) => !frozen[kind].includes(id)).map((id) => `${kind} ${id}`),
+    ),
+    ...[...ingestedText.keys()].filter((k) => !(k in published)).map((k) => `text ${k}`),
+  ];
 }
 
 checks.push(
@@ -740,6 +747,203 @@ checks.push(
       });
       return ids.flatMap((id, i) => fail(ids.indexOf(id) === i, `${id} is two passages`));
     },
+  },
+);
+
+/** The book's text as ingested, by key: what the fingerprints were taken of. */
+export const ingestedText = textKeys(ingestedChapters, ingestedPhotos);
+/** The book's text as published: ingested, with applied corrections in place. */
+const publishedText = textKeys(chapters, photos);
+const published = PUBLISHED as Record<string, string>;
+export const fingerprint = (text: string) =>
+  createHash("sha256").update(text).digest("hex").slice(0, 16);
+
+const chapterOfKey = (key: string) => key.split("#")[0];
+const withReading = new Set(chapters.filter((c) => c.audio).map((c) => c.slug));
+const applied = corrections.filter((c) => c.status === "applied");
+
+/**
+ * Applied corrections whose chapter has a recorded reading that still says
+ * the old words. Not a failure: a list for the curator, who re-records the
+ * reading and sets `audio_rerecorded`.
+ */
+export function audioToRerecord(): string[] {
+  return applied
+    .filter((c) => withReading.has(chapterOfKey(c.target)) && !c.audio_rerecorded)
+    .map((c) => `${c.id}: re-record ${chapterOfKey(c.target)} (${c.target})`);
+}
+
+/** The keys a register entry turns on: its paragraph (or every block of its section), its plate. */
+function entryKeys(d: (typeof discrepancies)[number]): string[] {
+  const keys: string[] = [];
+  if (d.paragraph) {
+    const { slug, anchor } = d.paragraph;
+    const c = ingestedChapters.find((x) => x.slug === slug);
+    const section = c?.sections.find((s) => s.id === anchor);
+    if (section)
+      keys.push(
+        ...[...ingestedText.keys()].filter(
+          (k) =>
+            k.startsWith(`${slug}#${anchor}/`) ||
+            section.blocks.some((b) => b.type === "p" && k === `${slug}#${b.id}`),
+        ),
+      );
+    else keys.push(`${slug}#${anchor}`);
+  }
+  if (d.plate) keys.push(`plate:${d.plate}`);
+  return keys;
+}
+
+/** The key the readings use for a paragraph: its own ID, or by place for a mission anchor (as the site does). */
+function cueKeys(chapter: (typeof chapters)[number]): Map<string, string> {
+  const out = new Map<string, string>();
+  for (const s of chapter.sections) {
+    let i = 0;
+    for (const b of s.blocks) {
+      if (b.type !== "p") continue;
+      const place = `${s.id}-p${i++}`;
+      out.set(b.id?.startsWith("m-") ? place : (b.id ?? place), b.text);
+    }
+  }
+  return out;
+}
+
+/** The paragraphs an applied, not yet re-recorded, correction has changed: their cues wait on the re-recording. */
+const awaitingReading = new Set(
+  applied
+    .filter((c) => !c.audio_rerecorded)
+    .map((c) => {
+      const [slug, id] = c.target.split("#");
+      const ch = chapters.find((x) => x.slug === slug);
+      const s = ch?.sections.find((x) => x.blocks.some((b) => b.type === "p" && b.id === id));
+      let i = -1;
+      for (const b of s?.blocks ?? []) {
+        if (b.type !== "p") continue;
+        i++;
+        if (b.id === id) return `${slug}#${id.startsWith("m-") ? `${s!.id}-p${i}` : id}`;
+      }
+      return "";
+    }),
+);
+
+const momentsDir = new URL("src/generated/moments/cues/", repo);
+
+checks.push(
+  {
+    name: "the published text changes only by correction: every fingerprinted passage and caption still reads as ingested",
+    run: () =>
+      Object.entries(published).flatMap(([key, hash]) => {
+        const text = ingestedText.get(key);
+        if (text === undefined) return [`${key}: gone; retire its ID, or propose a correction`];
+        return fail(
+          fingerprint(text) === hash,
+          `${key}: edited in place; propose a correction instead`,
+        );
+      }),
+  },
+  {
+    name: "each correction is filed under its ID, targets published text, says what, why, who and when, and is decided once it leaves the queue",
+    run: () => [
+      ...Object.entries(correctionFiles).flatMap(([path, c]) =>
+        fail(path === `./corrections/${c.id}.json`, `${path}: named for ${c.id}`),
+      ),
+      ...corrections.flatMap((c) => [
+        ...fail(/^c-[a-z0-9]+$/.test(c.id), `${c.id}: malformed ID`),
+        ...fail(c.target in published, `${c.id}: ${c.target} is no published text`),
+        ...fail(
+          ["proposed", "accepted", "applied", "rejected"].includes(c.status),
+          `${c.id}: status ${c.status}`,
+        ),
+        ...fail(!!c.proposed_text?.trim(), `${c.id}: no proposed text`),
+        ...fail(c.proposed_text !== ingestedText.get(c.target), `${c.id}: changes nothing`),
+        ...fail(!!c.reason?.trim(), `${c.id}: no reason`),
+        ...fail(!!c.proposed_by?.trim(), `${c.id}: no proposer`),
+        ...fail(iso.test(c.date ?? ""), `${c.id}: date ${c.date}`),
+        ...(c.status === "proposed"
+          ? []
+          : [
+              ...fail(!!c.decided_by?.trim(), `${c.id}: ${c.status}, but by nobody`),
+              ...fail(iso.test(c.decided_on ?? ""), `${c.id}: ${c.status}, but undated`),
+            ]),
+      ]),
+    ],
+  },
+  {
+    name: "a correction to words a Both Stand entry turns on names the entry, and one that settles it leaves it answered or settled",
+    run: () =>
+      corrections.flatMap((c) => {
+        const named = discrepancies.find((d) => d.id === c.discrepancy);
+        return [
+          ...(c.discrepancy ? fail(!!named, `${c.id}: no entry ${c.discrepancy}`) : []),
+          ...(c.resolves_discrepancy
+            ? fail(!!c.discrepancy, `${c.id}: resolves an entry it doesn't name`)
+            : []),
+          ...(c.status === "applied"
+            ? [
+                ...discrepancies.flatMap((d) =>
+                  entryKeys(d).includes(c.target)
+                    ? fail(
+                        c.discrepancy === d.id,
+                        `${c.id}: edits ${c.target}, which ${d.id} turns on, without naming it`,
+                      )
+                    : [],
+                ),
+                ...(named && c.resolves_discrepancy
+                  ? fail(
+                      settled.some((s) => s.both_stand === named.id) ||
+                        questions.some((q) => q.both_stand === named.id && q.status === "answered"),
+                      `${c.id}: resolves ${named.id}, whose question is still open`,
+                    )
+                  : []),
+              ]
+            : []),
+        ];
+      }),
+  },
+  {
+    name: "the readings stay in step: every cue lands on a sentence of the published text, except where a correction awaits re-recording",
+    run: () => {
+      const out: string[] = [];
+      for (const c of chapters.filter((x) => x.audio)) {
+        const text = cueKeys(c);
+        const sections = new Set(c.sections.map((s) => s.id));
+        const waits = (pid: string) => awaitingReading.has(`${c.slug}#${pid}`);
+        for (const cue of chapterCues[c.slug] ?? [])
+          if (!text.has(cue.id) && !waits(cue.id)) out.push(`${c.slug}: paragraph cue ${cue.id}`);
+        const file = new URL(`${c.slug}.json`, momentsDir);
+        if (!existsSync(file)) continue;
+        const m = JSON.parse(readFileSync(file, "utf8")) as {
+          cues: { id: string }[];
+          silent?: string[];
+          weak?: string[];
+        };
+        for (const { id } of m.cues) {
+          const sentence = /^(.*)-s(\d+)$/.exec(id);
+          const section = /^sec-(.*)-(id|title|place)$/.exec(id);
+          if (sentence) {
+            const t = text.get(sentence[1]);
+            if (waits(sentence[1])) continue;
+            if (!t || Number(sentence[2]) >= splitSentences(t).length)
+              out.push(`${c.slug}: sentence cue ${id}`);
+          } else if (section) {
+            if (!sections.has(section[1])) out.push(`${c.slug}: section cue ${id}`);
+          } else if (!/^ch-(num|title|kicker)$/.test(id)) out.push(`${c.slug}: cue ${id}`);
+        }
+        for (const id of [...(m.silent ?? []), ...(m.weak ?? [])])
+          if (!text.has(id.replace(/-s\d+$/, ""))) out.push(`${c.slug}: silent or weak ${id}`);
+      }
+      for (const f of readdirSync(momentsDir))
+        if (!withReading.has(f.replace(/\.json$/, "")))
+          out.push(`${f}: cues for a chapter with no reading`);
+      return out;
+    },
+  },
+  {
+    name: "every passage the model quotes reads as published: a correction can't strand a claim",
+    run: () =>
+      [...publishedText.keys()].flatMap((k) =>
+        fail(ingestedText.has(k), `${k}: published text with no ingested original`),
+      ),
   },
 );
 

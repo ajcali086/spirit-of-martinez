@@ -1,5 +1,6 @@
 import type { PhotoId } from "./types";
 import { canonicalUrl } from "@/lib/og/pageMeta";
+import { withCaptionCorrections } from "./corrections.ts";
 
 export type PhotoKind = "photograph" | "object";
 
@@ -39,7 +40,11 @@ export type ArchivePhoto = {
   place?: PhotoPlace;
 };
 
-export const photos: Record<PhotoId, ArchivePhoto> = {
+/**
+ * The plates as ingested. Their captions are frozen with the chapters: they
+ * change only by an applied correction, which `photos` below reads through.
+ */
+export const ingestedPhotos: Record<PhotoId, ArchivePhoto> = {
   crew: {
     id: "crew",
     title: "The crew of 44-6838",
@@ -1520,6 +1525,9 @@ export const photos: Record<PhotoId, ArchivePhoto> = {
     kind: "photograph",
   },
 };
+
+/** The plates as published: as ingested, with every applied caption correction in place. */
+export const photos: Record<PhotoId, ArchivePhoto> = withCaptionCorrections(ingestedPhotos);
 
 export const photoList: ArchivePhoto[] = [
   photos.airfield,

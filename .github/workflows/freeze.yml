@@ -1,6 +1,7 @@
 # IDs freeze at first publish. A push to main (a merged pull request, a CMS
 # publish, or the curator's own commit) is a publish: this adds every new ID
-# to src/model/frozen.json. It doesn't push to main: it puts the frozen IDs on
+# to src/model/frozen.json, and a fingerprint of every new passage or caption
+# to src/data/published-text.json. It doesn't push to main: it puts the frozen IDs on
 # the `freeze-ids` branch and opens a pull request for the curator to merge
 # (or updates the one already open). Until that merges, the new IDs are
 # provisional.
@@ -12,7 +13,7 @@ name: Freeze new IDs
 on:
   push:
     branches: [main]
-    paths: ["src/model/**", "src/data/chapters.ts"]
+    paths: ["src/model/**", "src/data/chapters.ts", "src/data/photos.ts", "src/data/corrections/**"]
 
 permissions:
   contents: write
@@ -40,7 +41,7 @@ jobs:
       - run: npm run freeze:model
       - name: Open or update the freeze pull request
         run: |
-          if git diff --quiet src/model/frozen.json; then
+          if git diff --quiet src/model/frozen.json src/data/published-text.json; then
             echo "Nothing new to freeze."
             exit 0
           fi
@@ -53,7 +54,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c "$HEAD_BRANCH"
-          git add src/model/frozen.json
+          git add src/model/frozen.json src/data/published-text.json
           git commit -m "Freeze IDs published in ${GITHUB_SHA::7}"
           # The branch is the bot's own: rebuilt from the latest publish each time.
           git push --force origin "$HEAD_BRANCH"
