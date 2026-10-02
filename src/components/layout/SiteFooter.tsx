@@ -36,9 +36,19 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-rule/70">
-        <p className="mx-auto max-w-6xl px-4 py-4 text-[0.7rem] tracking-wide text-fog sm:px-6">
-          Martinez, California · 335th Bomb Squadron, 95th Bomb Group · Station 119, Horham
-        </p>
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 px-4 py-4 sm:px-6">
+          <p className="text-[0.7rem] tracking-wide text-fog">
+            Martinez, California · 335th Bomb Squadron, 95th Bomb Group · Station 119, Horham
+          </p>
+          {/* The curator's workbench (public/admin/, Sveltia CMS): the CMS's whole public surface. */}
+          <a
+            href="/admin/index.html"
+            data-admin
+            className="inline-flex min-h-11 items-center text-[0.68rem] tracking-[0.16em] text-fog/70 uppercase hover:text-brass"
+          >
+            Museum sign-in
+          </a>
+        </div>
       </div>
     </footer>
   );

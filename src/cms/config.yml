@@ -1,0 +1,570 @@
+# The curator's workbench for The Spirit of Martinez (Sveltia CMS).
+#
+# No server: Sveltia reads and writes this repository through GitHub, signed
+# in with a personal access token (classic, `repo` scope), kept in that
+# browser. Every save is a git commit; Vercel rebuilds, and CI's model check
+# (npm run check:model) refuses anything the museum's rules don't allow. The
+# CMS collects; the pipeline validates.
+#
+# Corrections go through the editorial workflow: a save is a pull request,
+# merged by the curator ("publish"). The model's own files commit directly.
+# Who may merge or push to main is GitHub's to enforce (a ruleset on main),
+# not this file's.
+#
+# IDs freeze at first publish: an ID field is typed once, and the model
+# check refuses a frozen ID that goes missing (a rename included).
+#
+# Options written "@set" are filled from the model on every dev start and
+# build (scripts/cms-build.ts), so a dropdown shows names and saves IDs.
+
+backend:
+  name: github
+  repo: ajcali086/spirit-of-martinez
+  branch: main
+  auth_methods: [token]
+  commit_messages:
+    create: "Create {{collection}} “{{slug}}”"
+    update: "Update {{collection}} “{{slug}}”"
+    delete: "Delete {{collection}} “{{slug}}”"
+    uploadMedia: "Upload “{{path}}”"
+    deleteMedia: "Delete “{{path}}”"
+
+publish_mode: editorial_workflow
+app_title: The Spirit of Martinez · Curator
+site_url: https://www.spiritofmartinez.com
+
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+output:
+  omit_empty_optional_fields: true
+  json:
+    indent_size: 2
+
+collections:
+  # ── The corrections queue: the only way the published text changes ──
+
+  - name: corrections
+    label: Corrections
+    label_singular: Correction
+    description: >-
+      The book's text is frozen: it changes only by a correction. Propose the passage or caption as
+      it should read, whole; the curator accepts or rejects it, and applies an accepted one. An
+      applied correction in a chapter with a reading lists that reading for re-recording. Nothing
+      is deleted.
+    folder: src/data/corrections
+    format: json
+    extension: json
+    identifier_field: id
+    slug: { template: "{{fields.id}}", editable: false }
+    summary: "{{fields.target}} · {{fields.status}} · {{fields.reason | truncate(60)}}"
+    delete: false
+    fields:
+      - { name: id, label: ID, widget: hidden, default: "c-{{uuid_shorter}}" }
+      - name: target
+        label: Passage or caption
+        widget: select
+        options: "@text"
+        hint: The paragraph, quote, note or plate caption it corrects.
+      - name: proposed_text
+        label: As it should read
+        hint: The whole passage or caption, as it should read.
+        widget: text
+      - { name: reason, label: Why, widget: text }
+      - { name: proposed_by, label: Proposed by, widget: hidden, default: "{{author-login}}" }
+      - {
+          name: date,
+          label: Proposed on,
+          widget: datetime,
+          type: date,
+          format: YYYY-MM-DD,
+          default: "{{now}}",
+        }
+      - name: status
+        label: Status
+        hint: A proposal stays proposed. The curator accepts, applies or rejects.
+        widget: select
+        options: [proposed, accepted, applied, rejected]
+        default: proposed
+      - { name: decided_by, label: Decided by (curator), widget: string, required: false }
+      - {
+          name: decided_on,
+          label: Decided on,
+          widget: datetime,
+          type: date,
+          format: YYYY-MM-DD,
+          required: false,
+        }
+      - name: discrepancy
+        label: Both Stand entry it touches
+        hint: Required if the passage or plate is one a Both Stand entry turns on.
+        widget: select
+        options: "@register"
+        required: false
+      - {
+          name: resolves_discrepancy,
+          label: Settles that entry,
+          hint: "Only once the entry's question is answered, or the entry settled.",
+          widget: boolean,
+          required: false,
+          default: false,
+        }
+      - {
+          name: audio_rerecorded,
+          label: Reading re-recorded,
+          hint: "Set once the chapter's reading says the corrected words.",
+          widget: boolean,
+          required: false,
+          default: false,
+        }
+      - { name: curator_note, label: "Curator's note (never shown)", widget: text, required: false }
+
+  # ── The model: the curator's own files ──
+
+  - name: records
+    label: Records
+    label_singular: Record
+    description: >-
+      The objects: each plate's, and those the museum knows of but holds no copy of. Filed in the
+      sections of an Army personnel file, then the museum's own. Provenance and status live here;
+      a status changes only with a dated note.
+    folder: src/model/records
+    format: json
+    extension: json
+    publish_mode: simple
+    identifier_field: id
+    slug: { template: "{{fields.id}}", editable: false }
+    summary: "{{fields.id}} · {{fields.series}} · {{fields.status}} · {{fields.title | truncate(50)}}"
+    view_groups:
+      - { label: Series, field: series }
+      - { label: Status, field: status }
+    delete: false
+    fields:
+      - name: id
+        label: ID
+        hint: Lowercase letters and digits (chart7, valetter). Frozen at first publish.
+        widget: string
+        pattern: ["^[a-z0-9-]+$", "Lowercase letters, digits and hyphens"]
+      - { name: kind, label: Kind, widget: select, options: [photograph, object] }
+      - name: plate
+        label: Plate it is shown in
+        hint: A plate's record has the plate's ID, title, kind and credit.
+        widget: select
+        options: "@plates"
+        required: false
+      - { name: title, label: Title, widget: string }
+      - { name: series, label: Series, widget: select, options: "@series" }
+      - name: document
+        label: Catalog entry (a paper)
+        hint: Every field quoted from the plate; a date the plate gives. Leave out what it doesn't say.
+        widget: object
+        required: false
+        collapsed: auto
+        fields:
+          - name: type
+            label: Type
+            widget: select
+            options:
+              [
+                general-order,
+                special-order,
+                form,
+                memorandum,
+                certificate,
+                identification,
+                will,
+                letter,
+              ]
+          - { name: number, label: Number, widget: string, required: false }
+          - { name: issued_by, label: Issued by, widget: string, required: false }
+          - { name: issued_at, label: Issued at, widget: string, required: false }
+          - name: issued
+            label: Issued
+            hint: A year, a month or a day (1945, 1945-02 or 1945-02-27), one the plate gives.
+            widget: string
+            required: false
+          - name: serials
+            label: Serial numbers
+            widget: list
+            required: false
+            field: { name: serial, label: Serial, widget: string }
+          - name: signed_by
+            label: Signed by
+            widget: list
+            required: false
+            field: { name: name, label: Name, widget: string }
+      - name: detail_of
+        label: A detail of
+        widget: select
+        options: "@records"
+        required: false
+      - name: cited_at
+        label: Cited at (a record no plate shows)
+        widget: object
+        required: false
+        collapsed: auto
+        fields:
+          - { name: chapter, label: Chapter, widget: select, options: "@chapters" }
+          - { name: passage, label: Paragraph ID, widget: string }
+      - { name: credit, label: Credit, widget: string }
+      - { name: rights_holder, label: Rights holder, widget: string, default: unknown }
+      - { name: held, label: The museum holds a copy, widget: boolean, default: false }
+      - name: status
+        label: Status
+        widget: select
+        options: [verified, unverified, not-held]
+        default: unverified
+      - name: media
+        label: Files held
+        hint: Repository paths of the masters (public/images/archive/crew.jpg). None when not held.
+        widget: list
+        required: false
+        field: { name: path, label: Path, widget: string }
+      - name: capture_provenance
+        label: How the copy was captured
+        hint: Either what is unknown, or all four of device, date, collection and source.
+        widget: object
+        fields:
+          - { name: unknown, label: Unknown (say what), widget: string, required: false }
+          - { name: device, label: Device, widget: string, required: false }
+          - { name: date, label: Date, widget: string, required: false }
+          - { name: collection, label: Collection, widget: string, required: false }
+          - { name: source, label: Source, widget: string, required: false }
+      - &notes
+        name: notes
+        label: Notes
+        hint: Dated lines in its history. A status changes only with one.
+        widget: list
+        required: false
+        summary: "{{fields.date}} · {{fields.note | truncate(60)}}"
+        fields:
+          - {
+              name: date,
+              label: Date,
+              widget: datetime,
+              type: date,
+              format: YYYY-MM-DD,
+              default: "{{now}}",
+            }
+          - { name: note, label: Note, widget: text }
+
+  - name: entities
+    label: Entities
+    label_singular: Entity
+    description: >-
+      People, the family, places, organizations and the missions: each anchored by records that name
+      it in their own words. Unsettled names are held back, never merged.
+    folder: src/model/entities
+    format: json
+    extension: json
+    publish_mode: simple
+    identifier_field: label
+    slug: { template: "{{fields.slug}}", editable: false }
+    summary: "{{fields.label}} · {{fields.kind}}"
+    view_groups:
+      - { label: Kind, field: kind }
+    delete: false
+    fields:
+      - {
+          name: kind,
+          label: Kind,
+          widget: select,
+          options: [person, family, place, organization, event],
+        }
+      - name: id
+        label: ID
+        hint: Eight hex characters, never reused, frozen at first publish. See the [ID key](/admin/key.html).
+        widget: string
+        pattern: ["^[0-9a-f]{8}$", "Eight hex characters, like 74af1d62"]
+      - name: slug
+        label: Slug
+        hint: For the address. Also the file's name.
+        widget: string
+        pattern: ["^[a-z0-9]+(-[a-z0-9]+)*$", "Lowercase words joined by hyphens"]
+      - { name: label, label: Name as shown, widget: string }
+      - name: aliases
+        label: Also named
+        hint: Every other name, written exactly as each source writes it.
+        widget: list
+        required: false
+        summary: "{{fields.name}}"
+        fields:
+          - { name: name, label: Name, widget: string }
+          - {
+              name: sources,
+              label: Written so in,
+              widget: select,
+              options: "@records",
+              multiple: true,
+            }
+      - name: anchors
+        label: Anchored by
+        hint: The records that name it. At least one.
+        widget: select
+        options: "@records"
+        multiple: true
+        min: 1
+      - { name: crew, label: Crew member (crew.ts ID), widget: string, required: false }
+      - { name: mission, label: Mission number, widget: number, value_type: int, required: false }
+      - name: geo
+        label: Where a plate locates it
+        widget: object
+        required: false
+        collapsed: auto
+        fields:
+          - { name: lat, label: Latitude, widget: number, value_type: float }
+          - { name: lng, label: Longitude, widget: number, value_type: float }
+          - {
+              name: precision,
+              label: Precision,
+              widget: select,
+              options: [address, city, approximate],
+            }
+          - {
+              name: layer,
+              label: Layer,
+              widget: select,
+              options: [hometown, training, london, tour, postwar],
+            }
+      - name: framing
+        label: Framing line
+        hint: One line, the curator's, dated. Optional; never a biography.
+        widget: object
+        required: false
+        collapsed: auto
+        fields:
+          - { name: text, label: Line, widget: string, required: false }
+          - { name: curator, label: Curator, widget: string, required: false }
+          - {
+              name: date,
+              label: Date,
+              widget: datetime,
+              type: date,
+              format: YYYY-MM-DD,
+              required: false,
+            }
+      - name: identity_assertions
+        label: Identity assertions
+        hint: Merges (these names are this entity) and splits (not the same as). Dated and sourced.
+        widget: list
+        required: false
+        summary: "{{fields.action}} · {{fields.date}}"
+        fields:
+          - { name: action, label: Action, widget: select, options: [merge, split] }
+          - name: names
+            label: Names (merge)
+            widget: list
+            required: false
+            field: { name: name, label: Name, widget: string }
+          - name: with
+            label: Distinct from (split)
+            widget: select
+            options: "@entities"
+            multiple: true
+            required: false
+          - { name: curator, label: Curator, widget: string, default: "{{author-login}}" }
+          - {
+              name: date,
+              label: Date,
+              widget: datetime,
+              type: date,
+              format: YYYY-MM-DD,
+              default: "{{now}}",
+            }
+          - { name: rationale, label: Why, widget: text }
+          - { name: sources, label: Sources, widget: select, options: "@records", multiple: true }
+      - *notes
+
+  - name: questions
+    label: Open questions
+    label_singular: Open question
+    description: >-
+      Bounded questions: the register's entries, the archive's own, and those the held-back names
+      raise. One closes only on evidence; none is deleted.
+    folder: src/model/questions
+    format: json
+    extension: json
+    publish_mode: simple
+    identifier_field: id
+    slug: { template: "{{fields.id}}", editable: false }
+    summary: "{{fields.title}} · {{fields.origin}} · {{fields.status}}"
+    view_groups:
+      - { label: Raised by, field: origin }
+    delete: false
+    fields:
+      - {
+          name: id,
+          label: ID,
+          hint: Lowercase words joined by hyphens. Frozen at first publish.,
+          widget: string,
+          pattern: ["^[a-z0-9]+(-[a-z0-9]+)*$", "Lowercase words joined by hyphens"],
+        }
+      - { name: title, label: Title, widget: string }
+      - {
+          name: origin,
+          label: Raised by,
+          widget: select,
+          options: [both-stand, archive, records],
+          default: records,
+        }
+      - name: both_stand
+        label: Both Stand entry it carries
+        widget: select
+        options: "@register"
+        required: false
+      - {
+          name: archive,
+          label: "Archive question it carries (its title)",
+          widget: string,
+          required: false,
+        }
+      - { name: what_we_know, label: What we know, widget: text }
+      - { name: what_we_dont, label: "What we don't", widget: text }
+      - { name: what_might_answer_it, label: What might answer it, widget: text }
+      - { name: evidence_needed, label: Evidence needed, widget: text }
+      - {
+          name: last_known_source,
+          label: Rests on,
+          widget: select,
+          options: "@records",
+          multiple: true,
+        }
+      - name: passages
+        label: Passages that state it
+        widget: list
+        required: false
+        summary: "{{fields.chapter}}#{{fields.passage}}"
+        fields:
+          - { name: chapter, label: Chapter, widget: select, options: "@chapters" }
+          - { name: passage, label: Paragraph or section ID, widget: string }
+      - {
+          name: entities,
+          label: Concerns,
+          widget: select,
+          options: "@entities",
+          multiple: true,
+          required: false,
+        }
+      - { name: status, label: Status, widget: select, options: [open, answered], default: open }
+      - name: evidence
+        label: Evidence
+        hint: Every contradiction must be carried here.
+        widget: select
+        options: "@evidence"
+        multiple: true
+        required: false
+      - { name: curator, label: Curator, widget: string, default: "{{author-login}}" }
+      - {
+          name: date,
+          label: Date,
+          widget: datetime,
+          type: date,
+          format: YYYY-MM-DD,
+          default: "{{now}}",
+        }
+
+  - name: evidence
+    label: Evidence
+    label_singular: Evidence link
+    description: >-
+      Claims linked to records: supports, contradicts or qualifies. Append-only: who linked it and
+      when come from the signed-in curator and today. Quotes are verbatim; every contradiction must
+      be carried by an open question.
+    file: src/model/evidence.json
+    publish_mode: simple
+    identifier_field: id
+    summary: "{{fields.id}} · {{fields.type}} · {{fields.record}}"
+    delete: false
+    fields:
+      - {
+          name: id,
+          label: ID,
+          hint: The next free number (ev-026). Frozen.,
+          widget: string,
+          pattern: ["^ev-\\d{3}$", "Like ev-026"],
+        }
+      - name: claim
+        label: Claim
+        hint: A passage (chapter and paragraph ID) or a plate, and its words, verbatim.
+        widget: object
+        fields:
+          - { name: chapter, label: Chapter, widget: select, options: "@chapters", required: false }
+          - { name: passage, label: Paragraph or section ID, widget: string, required: false }
+          - { name: plate, label: Plate, widget: select, options: "@plates", required: false }
+          - { name: quote, label: Quote, widget: text }
+      - { name: record, label: Record, widget: select, options: "@records" }
+      - {
+          name: type,
+          label: Bears on it how,
+          widget: select,
+          options: [supports, contradicts, qualifies],
+        }
+      - {
+          name: says,
+          label: "What it says (from its plate, verbatim)",
+          widget: text,
+          required: false,
+        }
+      - {
+          name: note,
+          label: "What it says (a record no plate shows)",
+          widget: text,
+          required: false,
+        }
+      - { name: curator, widget: hidden, default: "{{author-login}}" }
+      - {
+          name: date,
+          label: Linked on,
+          widget: datetime,
+          type: date,
+          format: YYYY-MM-DD,
+          default: "{{now}}",
+        }
+
+  - name: settled
+    label: Settled entries
+    label_singular: Settled entry
+    description: Both Stand entries the curator judged settled, because the book explains them.
+    file: src/model/settled.json
+    publish_mode: simple
+    identifier_field: both_stand
+    delete: false
+    fields:
+      - { name: both_stand, label: Entry, widget: select, options: "@register" }
+      - { name: rationale, label: Why it is settled, widget: text }
+      - { name: curator, label: Curator, widget: string, default: "{{author-login}}" }
+      - {
+          name: date,
+          label: Date,
+          widget: datetime,
+          type: date,
+          format: YYYY-MM-DD,
+          default: "{{now}}",
+        }
+      - { name: evidence, label: Evidence, widget: select, options: "@evidence", multiple: true }
+
+  - name: held_back
+    label: Held-back names
+    label_singular: Held-back name
+    description: Names the plates use that aren't entities yet, with the reason.
+    file: src/model/held-back.json
+    publish_mode: simple
+    identifier_field: label
+    delete: false
+    fields:
+      - { name: label, label: Name, widget: string }
+      - {
+          name: kind,
+          label: Kind,
+          widget: select,
+          options: [person, family, place, organization, event],
+        }
+      - { name: reason, label: Why it is held back, widget: text }
+      - {
+          name: sources,
+          label: Where it is named,
+          widget: select,
+          options: "@records",
+          multiple: true,
+        }
+      - { name: question, label: The question it raises (its ID), widget: string, required: false }

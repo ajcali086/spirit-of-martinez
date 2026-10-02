@@ -17,3 +17,7 @@ AGENTS.md
 .DS_Store
 
 .project_id
+
+# The CMS config and ID key, generated from the model (scripts/cms-build.ts).
+public/admin/config.yml
+public/admin/key.html

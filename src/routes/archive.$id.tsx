@@ -244,6 +244,17 @@ function ArchiveObjectPage() {
             </section>
           ) : null}
 
+          {/* A quiet door to the corrections queue: the caption is frozen, and changes only by a correction. */}
+          <p className="mt-10 border-t border-paper-deep pt-6">
+            <a
+              href="/admin/index.html#/collections/corrections/new"
+              data-suggest-correction
+              className="inline-flex min-h-11 items-center font-sans text-[0.68rem] tracking-[0.16em] text-feather uppercase hover:text-ink"
+            >
+              Suggest a correction
+            </a>
+          </p>
+
           <CiteThis
             credit={cite.credit}
             title={cite.title}
