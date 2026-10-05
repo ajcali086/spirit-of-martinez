@@ -15,8 +15,6 @@ export default tseslint.config(
       ".nitro/**",
       "node_modules/**",
       "src/routeTree.gen.ts",
-      // The Museumwright starter is its own package, with its own checks.
-      "museumwright/**",
     ],
   },
   js.configs.recommended,
