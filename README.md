@@ -52,6 +52,14 @@ replace or add one, put the MP3 (and its AAC, from
 (`scripts/upload-audio.mjs`); previews never touch the store. Once it is
 live, the file can come out of the repository again.
 
+## Museumwright starter
+
+`mw`, the starter (Starter Spec v2), lives in its own repository,
+[ajcali086/Museumwright-](https://github.com/ajcali086/Museumwright-). It
+generates a clean museum repository from the structure this one's
+workbench established, and writes records, media and proposals into it
+from a URL or a folder.
+
 ## Contents
 
 Fifteen chapters, the crew, the aircraft, the mission board, the archive, and a sources page that states what kind of evidence each claim rests on.
