@@ -100,7 +100,12 @@ export type PhotoId =
   | "tampaorder"
   | "clarkbarnes"
   | "unknownpilot"
-  | "chowhoundmill";
+  | "chowhoundmill"
+  | "flightsuits"
+  | "jacket95"
+  | "gazettesitting"
+  | "strikeaerial"
+  | "counter";
 
 export type Block =
   | { type: "p"; text: string; id?: string }

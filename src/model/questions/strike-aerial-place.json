@@ -1,0 +1,17 @@
+{
+  "id": "strike-aerial-place",
+  "title": "Where the aerial was taken",
+  "origin": "archive",
+  "archive": "Where the aerial was taken",
+  "what_we_know": "The family kept a strike photograph as somewhere in Germany. Strip fields, villages, woods, a rail line, bursts on a town with a rail yard. The print names no place and no date, and no mission has been matched to it.",
+  "what_we_dont": "Which town is under the smoke, and on which of Frank's missions, if any, the picture was made.",
+  "what_might_answer_it": "The back of the print; the 95th's strike photographs for the crew's missions; a match of the rail line and villages against 1945 maps or present-day imagery.",
+  "evidence_needed": "A strike photograph or mission record naming the target, or a terrain match a second reader confirms.",
+  "last_known_source": ["strikeaerial"],
+  "passages": [],
+  "entities": ["5483a6f0"],
+  "status": "open",
+  "evidence": [],
+  "curator": "Draft for Andrew's review",
+  "date": "2026-10-13"
+}

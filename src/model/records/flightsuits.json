@@ -1,0 +1,17 @@
+{
+  "id": "flightsuits",
+  "kind": "photograph",
+  "plate": "flightsuits",
+  "title": "Five in flight suits",
+  "series": "photographs",
+  "credit": "Family collection",
+  "rights_holder": "unknown",
+  "held": true,
+  "status": "verified",
+  "media": ["public/images/archive/flightsuits.jpg"],
+  "capture_provenance": {
+    "unknown": "Family collection; how the copy was captured is not recorded"
+  },
+  "restoration": null,
+  "notes": []
+}
