@@ -1218,7 +1218,7 @@ export const ingestedPhotos: Record<PhotoId, ArchivePhoto> = {
     height: 1800,
     alt: "Five young men in belted flight coveralls with name tapes on the breast pockets, standing in front of a white building with a sliding door",
     caption:
-      "Five in coveralls, name tapes on the pockets, a white building with a sliding door behind them. The family keeps it with the cadet pictures. The print does not name the field or the men.",
+      "Five in coveralls, name tapes on the pockets, a white building with a sliding door behind them. Frank Calicura is among them, the family says; the print does not say which he is. Kept with the cadet pictures. The field and the date are not known.",
     credit: "Family collection",
     kind: "photograph",
     ogImage: "/images/archive/og/flightsuits.jpg",
