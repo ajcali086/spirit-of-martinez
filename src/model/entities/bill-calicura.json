@@ -10,7 +10,7 @@
     },
     {
       "name": "Bill",
-      "sources": ["fourbrothers", "shop", "rodia"]
+      "sources": ["fourbrothers", "shop", "rodia", "counter"]
     },
     {
       "name": "Billy",
@@ -21,7 +21,7 @@
       "sources": ["fourbrothers"]
     }
   ],
-  "anchors": ["fourbrothers", "shop", "biro", "rodia"],
+  "anchors": ["fourbrothers", "shop", "biro", "rodia", "counter"],
   "framing": null,
   "identity_assertions": [
     {

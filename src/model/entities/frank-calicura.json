@@ -50,7 +50,9 @@
         "wallet",
         "letter",
         "jimmy",
-        "firstmeeting"
+        "firstmeeting",
+        "gazettesitting",
+        "flightsuits"
       ]
     },
     {
@@ -116,7 +118,9 @@
     "rating",
     "medical",
     "jimmy",
-    "firstmeeting"
+    "firstmeeting",
+    "gazettesitting",
+    "flightsuits"
   ],
   "crew": "calicura",
   "framing": null,

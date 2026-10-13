@@ -184,6 +184,10 @@ export const openQuestions: OpenQuestion[] = [
     body: "Nothing in the collection addresses what Frank Calicura understood, at the time, about the civilians beneath any of the targets he was sent to. Nothing has been supplied in its place.",
   },
   {
+    title: "Where the aerial was taken",
+    body: "The family kept a strike photograph as somewhere in Germany. Strip fields, villages, woods, a rail line, bursts on a town with a rail yard. The print names no place and no date, and no mission has been matched to it.",
+  },
+  {
     title: "Whether Dale Ernest is the unnamed witness",
     body: "Ernest was at Avon Park in the claim’s window, and in Martinez the year the claim was decided. The connection is offered as likely, not documented.",
   },

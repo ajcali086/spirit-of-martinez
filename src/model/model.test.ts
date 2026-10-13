@@ -24,7 +24,7 @@ import { corrections } from "../data/corrections.ts";
 describe("model: H1 retrofit stages 1 to 5, records to corrections", () => {
   for (const check of checks) it(check.name, () => assert.deepEqual(check.run(), []));
 
-  it("holds 130 records: 101 plates, verified, and 29 not held", () => {
+  it("holds 135 records: 106 plates, verified, and 29 not held", () => {
     const count = (s: string) => records.filter((r) => r.status === s).length;
     assert.deepEqual(
       [
@@ -34,7 +34,7 @@ describe("model: H1 retrofit stages 1 to 5, records to corrections", () => {
         count("unverified"),
         count("not-held"),
       ],
-      [130, 101, 101, 0, 29],
+      [135, 106, 106, 0, 29],
     );
   });
 
@@ -178,13 +178,13 @@ describe("model: H1 retrofit stages 1 to 5, records to corrections", () => {
     );
   });
 
-  it("holds 20 questions: 11 from the register, 6 more from the archive, 3 from held-back names", () => {
+  it("holds 21 questions: 11 from the register, 7 more from the archive, 3 from held-back names", () => {
     const count = (o: string) => questions.filter((q) => q.origin === o).length;
     assert.deepEqual(
       [questions.length, count("both-stand"), count("archive"), count("records")],
-      [20, 11, 6, 3],
+      [21, 11, 7, 3],
     );
-    assert.equal(questions.filter((q) => q.archive).length, 8);
+    assert.equal(questions.filter((q) => q.archive).length, 9);
   });
 
   it("puts both sides of mission seven's date in view", () => {

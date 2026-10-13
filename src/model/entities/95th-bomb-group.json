@@ -18,10 +18,28 @@
     },
     {
       "name": "95th",
-      "sources": ["form5", "go289", "stuart", "britishbase", "pair", "unknownpilot", "noses"]
+      "sources": [
+        "form5",
+        "go289",
+        "stuart",
+        "britishbase",
+        "pair",
+        "unknownpilot",
+        "noses",
+        "jacket95"
+      ]
     }
   ],
-  "anchors": ["form5", "go289", "stuart", "britishbase", "pair", "unknownpilot", "noses"],
+  "anchors": [
+    "form5",
+    "go289",
+    "stuart",
+    "britishbase",
+    "pair",
+    "unknownpilot",
+    "noses",
+    "jacket95"
+  ],
   "framing": null,
   "identity_assertions": [],
   "notes": []

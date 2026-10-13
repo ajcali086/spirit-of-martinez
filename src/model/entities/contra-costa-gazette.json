@@ -18,7 +18,8 @@
         "fourbrothers",
         "eastcoast",
         "taylorletter",
-        "nameonplane"
+        "nameonplane",
+        "gazettesitting"
       ]
     }
   ],
@@ -30,7 +31,8 @@
     "fourbrothers",
     "eastcoast",
     "taylorletter",
-    "nameonplane"
+    "nameonplane",
+    "gazettesitting"
   ],
   "framing": null,
   "identity_assertions": [
