@@ -594,7 +594,12 @@
     "rodiafeature",
     "rodiapublic",
     "scrapbook",
-    "valetter"
+    "valetter",
+    "flightsuits",
+    "jacket95",
+    "gazettesitting",
+    "strikeaerial",
+    "counter"
   ],
   "entities": [
     "e8af3b37",
@@ -707,7 +712,8 @@
     "two-clarks",
     "understood-the-ground",
     "virginia-birth-year",
-    "which-sam"
+    "which-sam",
+    "strike-aerial-place"
   ],
   "evidence": [
     "ev-001",
